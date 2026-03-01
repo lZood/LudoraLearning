@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import ScrollSnake from "@/components/ScrollSnake";
 import LudoraCard from "@/components/LudoraCard";
 import BlockyFinalSection from "@/components/BlockyFinalSection";
+import MinecraftDiorama from "@/components/MinecraftDiorama";
 
 export default function Home() {
   return (
@@ -55,6 +56,7 @@ export default function Home() {
       </section>
 
       <BlockyFinalSection />
+      <MinecraftDiorama />
     </main>
   );
 }
