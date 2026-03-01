@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function MinecraftDiorama() {
     return (
-        <section className="relative w-full h-[150vh] md:h-screen overflow-hidden flex items-center justify-center bg-[#f5f1e4]">
+        <section className="relative w-full h-[150vh] md:h-[120vh] overflow-hidden flex items-center justify-center bg-[#f5f1e4]">
             {/* Capa 1: Fondo (z-0) */}
             <div className="absolute inset-0 z-0">
                 <Image
@@ -18,44 +18,90 @@ export default function MinecraftDiorama() {
                 />
             </div>
 
-            {/* Capa 1.5: Pescador (z-5) - Ahora detrás de la línea y más grande */}
-            <div className="absolute z-[5] pointer-events-none bottom-0 left-1/2 -translate-x-1/2 w-[90%] md:w-[70%] max-w-[900px]">
-                <Image
-                    src="/images/Pescador.png"
-                    alt="Pescador Background"
-                    width={1000}
-                    height={1000}
-                    className="w-full h-auto drop-shadow-2xl"
-                />
-            </div>
-
-            {/* Capa 2: La Culebrita flotante (z-10) */}
-            {/* Animación de flotar (y: [0, -20, 0]) infinita, durando 4 segundos */}
+            {/* Todo el Diorama (Líneas + Personaje + Cita) Flotando juntos */}
             <motion.div
                 className="absolute inset-0 z-10 w-full h-full pointer-events-none flex items-center justify-center"
-                animate={{ y: [0, -20, 0] }}
+                animate={{ y: [0, -15, 0] }} // Contenedor global flotando suavemente
                 transition={{
                     repeat: Infinity,
-                    duration: 4,
+                    duration: 5,
                     ease: "easeInOut",
                 }}
             >
-                {/* SVG serpenteante fijo, cruzando el centro */}
+                {/* 
+                  Un único SVG a pantalla completa (w-full h-full) 
+                  que maneja el orden de renderizado (Sandwich) a través del flujo del DOM.
+                */}
                 <svg
-                    viewBox="0 0 1000 500"
-                    width="100%"
-                    height="100%"
-                    preserveAspectRatio="xMidYMid slice"
-                    className="w-full h-full drop-shadow-xl"
-                    style={{ minWidth: '1200px' }}
+                    viewBox="0 0 1000 1000"
+                    preserveAspectRatio="xMidYMax meet"
+                    className="w-full h-full max-w-[1200px] pointer-events-none overflow-visible"
                 >
+                    <defs>
+                        {/* 
+                          Ruta completa (invisible):
+                          Es la S completa que rodea al personaje por detrás y luego por delante.
+                        */}
+                        <path
+                            id="ruta-completa"
+                            d="M 50 400 C 300 200, 700 300, 800 500 C 900 700, 400 1000, 100 800"
+                        />
+                    </defs>
+
+                    {/* 
+                      CAPA TRASERA (Línea que va por detrás): 
+                      Dibujamos solo la primera mitad de la curvatura.
+                    */}
                     <path
-                        d="M -100 100 C 200 100, 300 400, 500 250 S 800 100, 1100 250"
-                        fill="none"
-                        stroke="#8ed462"
-                        strokeWidth="15"
+                        d="M 50 400 C 300 200, 700 300, 800 500" // Primera mitad de la curva
+                        stroke="#8ed462" /* Color verde brillante original de ScrollSnake */
+                        strokeWidth="100"
                         strokeLinecap="round"
+                        fill="none"
+                        className="drop-shadow-lg"
                     />
+
+                    {/* 
+                      CAPA MEDIA (El Personaje):
+                      Se dibuja DESPUÉS de la capa trasera, por lo tanto, la TAPA visualmente.
+                      Los atributos x,y width,height se manejan en unidades del viewBox (1000x1000).
+                    */}
+                    <image
+                        href="/images/Pescador.png"
+                        x="-400"    // Ajusta X para centrarlo horizontalmente en el viewBox
+                        y="-400"    // Ajusta Y para alinear su cabeza con las curvas
+                        width="1500"
+                        height="1500"
+                        className="drop-shadow-2xl"
+                    />
+
+                    {/* 
+                      CAPA FRONTAL (Línea que va por delante + Texto): 
+                      Se dibuja DESPUÉS de la imagen, pasando por encima de ella.
+                    */}
+                    {/* La línea visible frontal (Segunda mitad de la curva) */}
+                    <path
+                        d="M 800 500 C 900 700, 400 1000, 100 800" // Segunda mitad de la curva
+                        stroke="#8ed462"
+                        strokeWidth="100"
+                        strokeLinecap="round"
+                        fill="none"
+                        className="drop-shadow-lg"
+                    />
+
+                    {/* El texto que fluye a lo largo de la ruta completa invisible */}
+                    <text
+                        className="fill-[#1d1d1b] font-bold text-3xl"
+                        style={{ filter: "drop-shadow(2px 2px 0px rgba(255,255,255,0.8))" }}
+                    >
+                        <textPath
+                            href="#ruta-completa"
+                            startOffset="50%" // Centrado
+                            textAnchor="middle"
+                        >
+                            ¡Todo listo para craftear tu inglés!
+                        </textPath>
+                    </text>
                 </svg>
             </motion.div>
         </section>

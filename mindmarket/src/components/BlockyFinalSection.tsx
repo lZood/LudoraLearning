@@ -99,7 +99,7 @@ export default function BlockyFinalSection() {
                         className="absolute bottom-0 w-full h-full z-0 block overflow-visible"
                         fill="#1a3d12"
                     >
-                        <path d={generateSteppedPath(dim.w, dim.h, 0.3, 0)} />
+                        <path d={generateSteppedPath(dim.w, dim.h, 0.3, 0)} vectorEffect="non-scaling-stroke" />
                         {dim.h > 0 && <rect x="0" y={dim.h - 1} width={dim.w} height="2000" />}
                     </motion.svg>
 
@@ -110,7 +110,7 @@ export default function BlockyFinalSection() {
                         className="absolute bottom-0 w-full h-full z-0 block overflow-visible"
                         fill="#2f6b21"
                     >
-                        <path d={generateSteppedPath(dim.w, dim.h, 0.5, 13)} />
+                        <path d={generateSteppedPath(dim.w, dim.h, 0.5, 13)} vectorEffect="non-scaling-stroke" />
                         {dim.h > 0 && <rect x="0" y={dim.h - 1} width={dim.w} height="2000" />}
                     </motion.svg>
 
@@ -121,7 +121,7 @@ export default function BlockyFinalSection() {
                         className="absolute bottom-0 w-full h-full z-0 block overflow-visible"
                         fill="#56a83b"
                     >
-                        <path d={generateSteppedPath(dim.w, dim.h, 0.65, 27)} />
+                        <path d={generateSteppedPath(dim.w, dim.h, 0.65, 27)} vectorEffect="non-scaling-stroke" />
                         {/* Extensión hacia abajo para cubrir el fondo mientras sube la capa 4 y el CTA */}
                         {dim.h > 0 && <rect x="0" y={dim.h - 1} width={dim.w} height="2000" />}
                     </motion.svg>
@@ -132,7 +132,7 @@ export default function BlockyFinalSection() {
                     {/* Layer 4 SVG is absolutely positioned to sit exactly on top of the 'stage' above */}
                     <div className="absolute bottom-full left-0 w-full h-[300px] md:h-[500px] pointer-events-none">
                         <svg viewBox={`0 0 ${dim.w} ${dim.h}`} className="absolute bottom-0 w-full h-full block translate-y-[1px]" fill="#8ed462">
-                            <path d={generateSteppedPath(dim.w, dim.h, 0.8, 42)} />
+                            <path d={generateSteppedPath(dim.w, dim.h, 0.8, 42)} vectorEffect="non-scaling-stroke" />
                         </svg>
                     </div>
 
