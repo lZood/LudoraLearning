@@ -16,58 +16,47 @@ export default function Hero() {
                 src="/videos/Clip De Minecraft.webp"
             />
 
-            {/* Capa de oscurecimiento */}
-            <div className="absolute inset-0 bg-black/40 z-10" />
-
             {/* Contenido Frontal */}
-            <div className="relative z-20 text-center text-white px-4 flex flex-col items-center">
+            <div className="relative z-20 flex flex-col items-start justify-center h-full w-full max-w-7xl mx-auto px-8 md:px-16 text-left">
 
-                {/* Entrance Animation Wrapper for Title */}
+                {/* Animation Wrapper de Entrada para el Título */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                 >
-                    {/* Floating Animation for Title */}
+                    {/* Efecto Flotante Continuo para el Título */}
                     <motion.h1
                         animate={{ y: [0, -15, 0] }}
                         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                        className="font-neue-machina text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white m-0"
+                        className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white mb-0"
+                        style={{
+                            fontFamily: 'var(--font-neue-machina), sans-serif',
+                            textShadow: '4px 4px 10px rgba(0,0,0,0.8), -2px -2px 6px rgba(255,255,255,0.2)'
+                        }}
                     >
                         Craft your English skills
                     </motion.h1>
                 </motion.div>
 
-                {/* Entrance Animation Wrapper for Subtitle */}
+                {/* Animation Wrapper de Entrada para el Subtítulo */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
                 >
-                    {/* Floating Animation for Subtitle */}
+                    {/* Efecto Flotante Continuo (desfasado) para el Subtítulo */}
                     <motion.p
                         animate={{ y: [0, -8, 0] }}
                         transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                        className="font-roboto text-lg md:text-2xl max-w-2xl mt-6 font-light text-gray-200"
+                        className="text-lg md:text-2xl max-w-2xl mt-6 text-white"
+                        style={{
+                            fontFamily: 'var(--font-roboto), sans-serif',
+                            textShadow: '2px 2px 8px rgba(0,0,0,0.9)'
+                        }}
                     >
-                        Domina el idioma mientras exploras, construyes y colaboras en servidores globales.
+                        Clases de inglés que se desarrollan dentro de Minecraft, <br className="hidden md:block" /> convirtiendo el juego en una experiencia educativa real.
                     </motion.p>
-                </motion.div>
-
-                {/* Entrance Animation Wrapper for CTA Button */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-                    className="mt-10"
-                >
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-8 py-4 bg-[#8ed462] text-[#1d1d1b] font-bold rounded-full text-lg shadow-lg hover:shadow-xl transition-shadow"
-                    >
-                        ¡Agenda tu Clase!
-                    </motion.button>
                 </motion.div>
 
             </div>

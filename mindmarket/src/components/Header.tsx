@@ -89,7 +89,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-4 z-50 w-full px-4 sm:px-6 lg:px-8">
       <div className="mx-auto flex flex-col gap-2 max-w-7xl w-full">
         {/* TOP ROW */}
         <div className="flex items-center gap-4 w-full">
