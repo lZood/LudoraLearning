@@ -3,17 +3,20 @@ import ScrollSnake from "@/components/ScrollSnake";
 import LudoraCard from "@/components/LudoraCard";
 import BlockyFinalSection from "@/components/BlockyFinalSection";
 import MinecraftDiorama from "@/components/MinecraftDiorama";
+import MethodologyStack from "@/components/MethodologyStack";
+import PhotoGallery from "@/components/PhotoGallery";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#f5f1e4] relative">
       <ScrollSnake />
       <Hero />
-
       {/* Section 2 continuation. The sticky animation from Hero ends with a full #f5f1e4 screen,
           so this section naturally flows directly below it, making the transition seamless. */}
       {/* We add z-10 here so the content sits above the ScrollSnake background */}
       <section className="bg-transparent w-full pt-24 pb-48 px-4 sm:px-6 relative z-10 pointer-events-none">
+
         <div className="max-w-[85vw] mx-auto pointer-events-auto flex flex-col space-y-[100vh]">
 
           <LudoraCard
@@ -54,9 +57,11 @@ export default function Home() {
 
         </div>
       </section>
-
       <BlockyFinalSection />
       <MinecraftDiorama />
+      <MethodologyStack />
+      <PhotoGallery />
+      <Footer />
     </main>
   );
 }

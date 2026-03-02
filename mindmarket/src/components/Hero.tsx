@@ -1,63 +1,104 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import localFont from "next/font/local";
+import { Roboto } from "next/font/google";
+
+const neueMachina = localFont({
+    src: "../../public/fonts/NeueMachina-Ultrabold.otf",
+    display: "swap",
+});
+
+const roboto = Roboto({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+    display: "swap",
+});
 
 export default function Hero() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // We track the scroll so that progress goes from 0 to 1 over the sticky period (100vh of scrolling)
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    // Smooth out the progress with a spring for inertia
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 80,
+        damping: 20,
+        restDelta: 0.001
+    });
+
+    // Hero Text Animations: scale down and fade out
+    const textScale = useTransform(smoothProgress, [0, 1], [1, 0.92]);
+    const textOpacity = useTransform(smoothProgress, [0, 1], [1, 0.2]);
+    const textY = useTransform(smoothProgress, [0, 1], [0, 50]);
+
+    // Section 2 (White Sliding Background) Animation
+    const section2Y = useTransform(smoothProgress, [0, 1], ["100%", "0%"]);
+
     return (
-        <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
-            {/* Capa Base: Video de Fondo */}
-            <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover z-0"
-                src="/videos/Clip De Minecraft.webp"
-            />
+        <div ref={containerRef} className="relative h-[200vh] w-full">
+            {/* Sticky Container */}
+            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
 
-            {/* Contenido Frontal */}
-            <div className="relative z-20 flex flex-col items-start justify-center h-full w-full max-w-7xl mx-auto px-8 md:px-16 text-left">
+                {/* Background Video (Layer 0) */}
+                <video
+                    src="/videos/Clip De Minecraft.webp"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover z-0"
+                />
 
-                {/* Animation Wrapper de Entrada para el Título */}
+                {/* Layer 1: Hero Text (z-10) */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="absolute inset-x-0 top-0 pt-32 md:pt-48 px-6 sm:px-12 md:px-24 flex flex-col items-start text-left max-w-[90vw] mx-auto z-10"
+                    style={{
+                        scale: textScale,
+                        opacity: textOpacity,
+                        y: textY,
+                        willChange: "transform, opacity"
+                    }}
                 >
-                    {/* Efecto Flotante Continuo para el Título */}
-                    <motion.h1
-                        animate={{ y: [0, -15, 0] }}
-                        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white mb-0"
+                    <h1
+                        className={`text-[#ffffff] font-bold text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[9rem] tracking-[0.1em] leading-[0.9] mb-8 lg:mb-12 ${neueMachina.className}`}
                         style={{
-                            fontFamily: 'var(--font-neue-machina), sans-serif',
-                            textShadow: '4px 4px 10px rgba(0,0,0,0.8), -2px -2px 6px rgba(255,255,255,0.2)'
+                            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.41)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
                         }}
                     >
-                        Craft your English skills
-                    </motion.h1>
-                </motion.div>
-
-                {/* Animation Wrapper de Entrada para el Subtítulo */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                >
-                    {/* Efecto Flotante Continuo (desfasado) para el Subtítulo */}
-                    <motion.p
-                        animate={{ y: [0, -8, 0] }}
-                        transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                        className="text-lg md:text-2xl max-w-2xl mt-6 text-white"
+                        CRAFT YOUR <br className="hidden md:block" /> ENGLISH SKILLS!
+                    </h1>
+                    <p
+                        className={`text-[#ffffff] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium max-w-2xl leading-relaxed opacity-100 tracking-[0.08em] ${roboto.className}`}
                         style={{
-                            fontFamily: 'var(--font-roboto), sans-serif',
-                            textShadow: '2px 2px 8px rgba(0,0,0,0.9)'
+                            textShadow: "0px 4px 4px rgba(0, 0, 0, 0.50)"
                         }}
                     >
-                        Clases de inglés que se desarrollan dentro de Minecraft, <br className="hidden md:block" /> convirtiendo el juego en una experiencia educativa real.
-                    </motion.p>
+                        Clases de inglés que se desarrollan dentro de Minecraft, convirtiendo el juego en una experiencia educativa real.
+                    </p>
                 </motion.div>
+
+                {/* Layer 2: White Section 2 Sliding Background (z-20) */}
+                <motion.div
+                    className="absolute inset-x-0 bottom-0 h-screen bg-[#f5f1e4] rounded-t-[50px] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-20"
+                    style={{
+                        y: section2Y,
+                        willChange: "transform"
+                    }}
+                >
+                    {/* We can add a subtle top padding here so content naturally flows, but the actual content can also be placed in the next section in page.tsx */}
+                </motion.div>
+
+                {/* Layer 3: Persistent People Graphic (z-30) */}
+                <div className="absolute inset-x-0 bottom-0 z-30 pointer-events-none" style={{ willChange: "transform" }}>
+                    {/* We use translate-y to slightly adjust default position if needed, but it mostly stays at bottom */}
+
+                </div>
 
             </div>
         </div>

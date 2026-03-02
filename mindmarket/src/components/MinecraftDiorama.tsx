@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export default function MinecraftDiorama() {
     return (
-        <section className="relative w-full h-[150vh] md:h-[120vh] overflow-hidden flex items-center justify-center bg-[#f5f1e4]">
+        <section className="relative w-full h-[150vh] md:h-[120vh] overflow-hidden flex items-center justify-center bg-[#f5f1e4] rounded-[50px]">
             {/* Capa 1: Fondo (z-0) */}
             <div className="absolute inset-0 z-0">
                 <Image

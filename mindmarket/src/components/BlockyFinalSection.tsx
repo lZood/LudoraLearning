@@ -82,13 +82,12 @@ export default function BlockyFinalSection() {
     };
 
     return (
-        <div className="w-full flex flex-col relative overflow-hidden bg-[#f5f1e4]">
+        <div className="w-full flex flex-col relative overflow-hidden bg-[#f5f1e4] rounded-b-[50px]">
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }} // Triggers when 10% is visible
-                className="w-full flex flex-col relative"
             >
                 {/* Part 1: Blocky Transition Area (Background Layers) */}
                 <div ref={containerRef} className="relative w-full h-[300px] md:h-[500px]">
@@ -137,7 +136,7 @@ export default function BlockyFinalSection() {
                     </div>
 
                     {/* CTA Section */}
-                    <section className="relative w-full min-h-[70vh] bg-[#8ed462] flex flex-col items-center justify-center px-6 pb-24 text-center">
+                    <section className="relative w-full min-h-[70vh] bg-[#8ed462] flex flex-col items-center justify-center px-6 pt-32 pb-32 text-center">
                         <h2 className="text-6xl md:text-8xl lg:text-9xl font-bold text-[#1d1d1b] tracking-tight mb-8">
                             ¡Todo listo para<br />craftear tu inglés!
                         </h2>
@@ -147,13 +146,31 @@ export default function BlockyFinalSection() {
 
                         <Link
                             href="/contacto"
-                            className="inline-flex items-center gap-4 rounded-xl pl-8 pr-2 py-3 transition-transform hover:scale-105 bg-white shadow-xl"
+                            className="group flex items-center relative rounded-xl bg-white shadow-xl overflow-hidden"
+                            style={{ width: '360px', height: '64px' }}
                         >
-                            <span className="font-semibold text-black text-xl">Comienza tu aventura</span>
-                            <div className="bg-[#1d1d1b] rounded-full w-12 h-12 flex items-center justify-center">
-                                <ChevronRight className="w-6 h-6 text-white" strokeWidth={3} />
+                            {/* Icono a la izquierda (escala 0 por defecto) */}
+                            <div className="absolute left-2 bg-[#8ed462] rounded-full w-12 h-12 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] z-10 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100">
+                                <ChevronRight className="w-6 h-6 text-[#1d1d1b]" strokeWidth={3} />
+                            </div>
+
+                            {/* Texto centrado visualmente hacia la izquierda por defecto */}
+                            <span className="absolute left-8 font-semibold text-[#1d1d1b] text-xl transition-transform duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] group-hover:translate-x-[48px]">
+                                Agenda tu clase!
+                            </span>
+
+                            {/* Icono a la derecha por defecto (escala 100 por defecto) */}
+                            <div className="absolute right-2 bg-[#8ed462] rounded-full w-12 h-12 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] z-10 scale-100 opacity-100 group-hover:scale-0 group-hover:opacity-0">
+                                <ChevronRight className="w-6 h-6 text-[#1d1d1b]" strokeWidth={3} />
                             </div>
                         </Link>
+
+                        {/* 3 Columnas inferiores añadidas */}
+                        <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mt-32 gap-6 text-[#1d1d1b] text-base md:text-lg font-medium opacity-90">
+                            <div className="flex-1 text-center md:text-left">Fast, high-quality insights</div>
+                            <div className="flex-1 text-center">One seamless project lead</div>
+                            <div className="flex-1 text-center md:text-right">Built for multi-market studies</div>
+                        </div>
                     </section>
                 </motion.div>
             </motion.div>
