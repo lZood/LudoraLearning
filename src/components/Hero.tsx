@@ -47,7 +47,7 @@ export default function Hero() {
 
                 {/* Background Video (Layer 0) */}
                 <video
-                    src="/videos/ClipMinecraft3.webp"
+                    src="/videos/clip-minecraft-3.webp"
                     autoPlay
                     loop
                     muted
