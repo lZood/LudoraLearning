@@ -12,9 +12,9 @@ export default function Home() {
       <Hero />
       <LudoraCardsSection />
       <BlockyFinalSection />
-      <MinecraftDiorama />
-      <MethodologyStack />
       <PhotoGallery />
+      <MethodologyStack />
+      <MinecraftDiorama />
       <Footer />
     </main>
   );
