@@ -9,6 +9,18 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "LudoraLearning",
   description: "Aprende inglés construyendo en Minecraft",
+  icons: {
+    icon: [
+      {
+        url: "/favicon-green-new.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon-green-new.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

@@ -54,7 +54,7 @@ export default function MinecraftDiorama() {
                     */}
                     <path
                         d="M 50 400 C 300 200, 700 300, 800 500" // Primera mitad de la curva
-                        stroke="#8ed462" /* Color verde brillante original de ScrollSnake */
+                        stroke="#88e04f" /* Color verde brillante original de ScrollSnake */
                         strokeWidth="100"
                         strokeLinecap="round"
                         fill="none"
@@ -82,7 +82,7 @@ export default function MinecraftDiorama() {
                     {/* La línea visible frontal (Segunda mitad de la curva) */}
                     <path
                         d="M 800 500 C 900 700, 400 1000, 100 800" // Segunda mitad de la curva
-                        stroke="#8ed462"
+                        stroke="#88e04f"
                         strokeWidth="100"
                         strokeLinecap="round"
                         fill="none"

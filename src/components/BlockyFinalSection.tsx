@@ -130,13 +130,13 @@ export default function BlockyFinalSection() {
                 <motion.div variants={layerVariants} className="w-full flex flex-col relative z-20">
                     {/* Layer 4 SVG is absolutely positioned to sit exactly on top of the 'stage' above */}
                     <div className="absolute bottom-full left-0 w-full h-[300px] md:h-[500px] pointer-events-none">
-                        <svg viewBox={`0 0 ${dim.w} ${dim.h}`} className="absolute bottom-0 w-full h-full block translate-y-[1px]" fill="#8ed462">
+                        <svg viewBox={`0 0 ${dim.w} ${dim.h}`} className="absolute bottom-0 w-full h-full block translate-y-[1px]" fill="#88e04f">
                             <path d={generateSteppedPath(dim.w, dim.h, 0.8, 42)} vectorEffect="non-scaling-stroke" />
                         </svg>
                     </div>
 
                     {/* CTA Section */}
-                    <section className="relative w-full min-h-[70vh] bg-[#8ed462] flex flex-col items-center justify-center px-6 pt-32 pb-32 text-center">
+                    <section className="relative w-full min-h-[70vh] bg-[#88e04f] flex flex-col items-center justify-center px-6 pt-32 pb-32 text-center">
                         <h2 className="text-6xl md:text-8xl lg:text-9xl font-bold text-[#1d1d1b] tracking-tight mb-8">
                             ¡Todo listo para<br />craftear tu inglés!
                         </h2>
@@ -160,7 +160,7 @@ export default function BlockyFinalSection() {
                             </span>
 
                             {/* Icono a la derecha por defecto (escala 100 por defecto) */}
-                            <div className="absolute right-2 bg-[#8ed462] rounded-full w-12 h-12 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] z-10 scale-100 opacity-100 group-hover:scale-0 group-hover:opacity-0">
+                            <div className="absolute right-2 bg-[#88e04f] rounded-full w-12 h-12 flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] z-10 scale-100 opacity-100 group-hover:scale-0 group-hover:opacity-0">
                                 <ChevronRight className="w-6 h-6 text-[#1d1d1b]" strokeWidth={3} />
                             </div>
                         </Link>

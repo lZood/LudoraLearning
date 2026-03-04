@@ -33,8 +33,8 @@ export default function MethodologyStack() {
         {
             number: "02",
             description: "Las reglas gramaticales cobran sentido resolviendo acertijos y crafteando.",
-            icon: <MessagesSquare className="w-6 h-6 text-[#8ed462]" />,
-            bgColor: "bg-[#8ed462]",
+            icon: <MessagesSquare className="w-6 h-6 text-[#88e04f]" />,
+            bgColor: "bg-[#88e04f]",
             textColor: "text-white",
             numberColor: "text-white",
             iconBg: "bg-white",

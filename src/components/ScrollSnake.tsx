@@ -47,7 +47,7 @@ export default function ScrollSnake({ containerRef }: ScrollSnakeProps) {
             C 90,800 70,950 50,1100
             V 1600
           "
-                    stroke="#8ed462"
+                    stroke="#88e04f"
                     strokeWidth="15"
                     strokeLinecap="round"
                     strokeLinejoin="round"

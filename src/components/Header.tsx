@@ -35,14 +35,17 @@ function Logo() {
     <Link
       href="/"
       onClick={handleLogoClick}
-      className="flex items-center gap-2 group shrink-0"
+      className="flex items-center gap-2 group shrink-0 min-w-max"
     >
       <span className="sr-only">LudoraLearning Home</span>
       <svg
         viewBox="0 0 184.08 72.96"
-        className="h-9 md:h-11 w-auto fill-[#6500db] transition-colors duration-300 group-hover:fill-#6500db"
+        width="184"
+        height="73"
+        className="h-9 md:h-11 w-auto fill-[#632eaf] transition-colors duration-300 group-hover:fill-[#2EE58D] shrink-0"
         aria-hidden="true"
         focusable="false"
+        preserveAspectRatio="xMidYMid meet"
       >
         <g>
           <path d="M172.51,0H11.57C5.18,0,0,5.18,0,11.57v27.75c0,6.39,5.18,11.57,11.57,11.57l146.64,.96c1.83,.01,3.32-1.47,3.32-3.3h0c0-1.82-1.48-3.3-3.3-3.3l-146.66,.04c-3.29,0-5.96-2.67-5.96-5.96V11.57c0-3.29,2.67-5.96,5.96-5.96H172.51c3.29,0,5.96,2.67,5.96,5.96V45.09c0,5.04-1.93,5.48-4.22,6.28-4.53,1.58-4.99,3.68-5.29,4.22-2.07,3.95-.07,11.69,7.67,17.37-2.88-4.78-3.61-8.74-3.83-11.03-.18-1.95,.01-2.77,.4-3.43,1.47-2.55,5.03-1.66,7.76-3.81,1.33-1.05,2.82-3.09,3.12-7.52V11.57c0-6.39-5.18-11.57-11.57-11.57Z" />
@@ -119,7 +122,7 @@ export default function Header() {
         {/* TOP ROW */}
         <div className="flex items-center gap-4 w-full">
 
-          <div className="flex-1 flex items-center justify-start gap-8 h-[64px] bg-white rounded-xl px-6 lg:px-8 relative min-w-0">
+          <div className="flex-1 flex items-center justify-start gap-8 h-[64px] bg-white rounded-xl pl-4 pr-6 lg:pl-5 lg:pr-8 relative min-w-0">
             <Logo />
 
             {/* DESKTOP NAV */}
@@ -133,10 +136,10 @@ export default function Header() {
 
               {/* Metodología - Dropdown */}
               <div className="group flex items-center py-4 h-full">
-                <button className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
+                <Link href="/metodologia" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
                   Metodología
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
-                </button>
+                </Link>
                 <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
                   <div className="bg-white p-8 rounded-xl">
                     <div className="flex gap-8">
@@ -180,10 +183,10 @@ export default function Header() {
 
               {/* Comunidad y Soporte - Dropdown */}
               <div className="group flex items-center py-4 h-full">
-                <button className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
+                <Link href="/comunidad" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
                   Comunidad y Soporte
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
-                </button>
+                </Link>
                 <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
                   <div className="bg-white p-8 rounded-xl">
                     <div className="flex gap-8">
@@ -240,14 +243,14 @@ export default function Header() {
                 onMouseLeave={handleMoreLeave}
               >
                 <button
-                  className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300 ${isDesktopMoreOpen ? 'bg-gray-200 text-black' : 'bg-[#8ED462] group-hover/burger:bg-gray-200 text-black'}`}
+                  className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300 ${isDesktopMoreOpen ? 'bg-gray-200 text-black' : 'bg-[#632eaf] group-hover/burger:bg-gray-200 text-black'}`}
                 >
                   <div className={`transition-transform duration-300 ${isDesktopMoreOpen ? '-rotate-180' : 'rotate-0'}`}>
                     {isDesktopMoreOpen ? <ChevronUp className="w-5 h-5" /> : (
                       <div className="flex flex-col gap-[3.5px] items-center">
-                        <span className="h-[2px] w-[18px] bg-black rounded-full transition-all duration-300"></span>
-                        <span className="h-[2px] w-[18px] bg-black rounded-full transition-all duration-300"></span>
-                        <span className="h-[2px] w-[18px] bg-black rounded-full transition-all duration-300"></span>
+                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
+                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
+                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
                       </div>
                     )}
                   </div>
@@ -313,7 +316,7 @@ export default function Header() {
             <span className="text-[13px] font-bold text-neutral-900 whitespace-nowrap group-hover:text-black">
               ¡Agenda tu Clase!
             </span>
-            <div className="w-12 h-12 rounded-full bg-[#1e48f6] text-white flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
+            <div className="w-12 h-12 rounded-full bg-[#88e04f] text-white flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
               <MessageCircle className="w-6 h-6 fill-current" />
             </div>
           </Link>
@@ -327,10 +330,14 @@ export default function Header() {
             <div className="bg-white rounded-xl px-6 py-2 flex flex-col">
               <Link href="/servicios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Servicios</Link>
 
-              <button onClick={() => toggleMobileSection('methodology')} className="flex items-center justify-between text-[18px] text-neutral-800 py-4 border-b border-black/5 w-full text-left">
-                Metodología
-                <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'methodology' ? 'scale-y-100 rotate-180' : ''}`} />
-              </button>
+              <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
+                <Link href="/metodologia" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
+                  Metodología
+                </Link>
+                <button onClick={() => toggleMobileSection('methodology')} className="pl-4">
+                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'methodology' ? 'scale-y-100 rotate-180' : ''}`} />
+                </button>
+              </div>
               {expandedMobileSection === 'methodology' && (
                 <div className="flex flex-col gap-3 pl-4 py-3">
                   {methodologyLinks.map(link => (
@@ -339,10 +346,14 @@ export default function Header() {
                 </div>
               )}
 
-              <button onClick={() => toggleMobileSection('sectors')} className="flex items-center justify-between text-[18px] text-neutral-800 py-4 border-b border-black/5 w-full text-left">
-                Comunidad y Soporte
-                <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'sectors' ? 'scale-y-100 rotate-180' : ''}`} />
-              </button>
+              <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
+                <Link href="/comunidad" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
+                  Comunidad y Soporte
+                </Link>
+                <button onClick={() => toggleMobileSection('sectors')} className="pl-4">
+                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'sectors' ? 'scale-y-100 rotate-180' : ''}`} />
+                </button>
+              </div>
               {expandedMobileSection === 'sectors' && (
                 <div className="flex flex-col gap-3 pl-4 py-3">
                   {industrySectorsLinks.map(link => (

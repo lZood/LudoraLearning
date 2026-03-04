@@ -5,7 +5,7 @@ import { WigglyUnderline } from "./WigglyUnderline";
 
 export default function Footer() {
     return (
-        <footer className="relative w-full min-h-screen bg-[#f5e211] flex flex-col px-6 pt-16 pb-12 text-[#1d1d1b] rounded-t-[50px] rounded-b-[50px] overflow-hidden">
+        <footer className="relative w-full min-h-screen bg-[#632eaf] flex flex-col px-6 pt-16 pb-12 text-[#ffffff] rounded-t-[50px] rounded-b-[50px] overflow-hidden">
             <div className="w-full max-w-[85vw] mx-auto flex flex-col flex-grow justify-between">
 
                 {/* Contenedor Principal a 2 Columnas */}
@@ -44,7 +44,7 @@ export default function Footer() {
                         <h2 className="text-[12vw] lg:text-[8vw] xl:text-[7vw] leading-[0.9] font-bold tracking-tighter mt-16 lg:mt-0">
                             Craft your <br />
                             <span className="inline-block pt-4">
-                                <WigglyUnderline color="#8ed462" speed="3s" thickness="20px" scaleX="2.5">
+                                <WigglyUnderline color="#88e04f" speed="3s" thickness="20px" scaleX="2.5">
                                     English
                                 </WigglyUnderline>
                             </span>

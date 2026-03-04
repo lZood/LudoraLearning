@@ -16,7 +16,23 @@ const roboto = Roboto({
     display: "swap",
 });
 
-export default function Hero() {
+export interface HeroProps {
+    title?: React.ReactNode;
+    subtitle?: React.ReactNode;
+    mediaSrc?: string;
+    isVideo?: boolean;
+}
+
+export default function Hero({
+    title = (
+        <>
+            CRAFT YOUR <br className="hidden md:block" /> ENGLISH SKILLS!
+        </>
+    ),
+    subtitle = "Clases de inglés que se desarrollan dentro de Minecraft, convirtiendo el juego en una experiencia educativa real.",
+    mediaSrc = "/videos/clip-minecraft-3.webp",
+    isVideo = true,
+}: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // We track the scroll so that progress goes from 0 to 1 over the sticky period (100vh of scrolling)
@@ -43,17 +59,28 @@ export default function Hero() {
     return (
         <div ref={containerRef} className="relative h-[200vh] w-full">
             {/* Sticky Container */}
-            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between">
+            <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between bg-black">
 
-                {/* Background Video (Layer 0) */}
-                <video
-                    src="/videos/clip-minecraft-3.webp"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+                {/* Background Media (Layer 0) */}
+                {isVideo ? (
+                    <video
+                        src={mediaSrc}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+                    />
+                ) : (
+                    <img
+                        src={mediaSrc}
+                        alt="Hero background"
+                        className="absolute inset-0 w-full h-full object-cover z-0 opacity-80"
+                    />
+                )}
+
+                {/* Dark gradient overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/20 z-0" />
 
                 {/* Layer 1: Hero Text (z-10) */}
                 <motion.div
@@ -68,18 +95,18 @@ export default function Hero() {
                     <h1
                         className={`text-[#ffffff] font-bold text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[9rem] tracking-[0.1em] leading-[0.9] mb-8 lg:mb-12 ${neueMachina.className}`}
                         style={{
-                            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.41)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
+                            filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.05)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
                         }}
                     >
-                        CRAFT YOUR <br className="hidden md:block" /> ENGLISH SKILLS!
+                        {title}
                     </h1>
                     <p
                         className={`text-[#ffffff] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium max-w-2xl leading-relaxed opacity-100 tracking-[0.08em] ${roboto.className}`}
                         style={{
-                            textShadow: "0px 4px 4px rgba(0, 0, 0, 0.50)"
+                            textShadow: "0px 4px 4px rgba(0, 0, 0, 0.10)"
                         }}
                     >
-                        Clases de inglés que se desarrollan dentro de Minecraft, convirtiendo el juego en una experiencia educativa real.
+                        {subtitle}
                     </p>
                 </motion.div>
 

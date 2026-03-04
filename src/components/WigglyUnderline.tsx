@@ -17,7 +17,7 @@ interface WigglyUnderlineProps {
 export function WigglyUnderline({
     children,
     text, // mantenemos el prop aunque no se use en el SVG para evitar errores de tipo si se pasa
-    color = "#ffc823",
+    color = "#88e04f",
     speed = "3s",
     thickness = "6px",
     scaleX = "2.5",
