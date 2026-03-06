@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
+import PageTransition from "@/components/PageTransition";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,11 +13,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon-green-new.png",
+        url: "/cuadradosincirculo.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/favicon-green-new.png",
+        url: "/cuadradosincirculo.png",
         media: "(prefers-color-scheme: dark)",
       },
     ],
@@ -30,10 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} text-[#1a1a1a] antialiased bg-black`}>
+      <body className={`${inter.className} text-[#1a1a1a] antialiased bg-[#fbfbf0]`}>
         <ScrollToTop />
         <Header />
-        {children}
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );

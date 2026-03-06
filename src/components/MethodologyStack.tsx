@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, MessagesSquare, Users } from "lucide-react";
 import localFont from "next/font/local";
@@ -20,15 +20,25 @@ const roboto = Roboto({
 });
 
 export default function MethodologyStack() {
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        const checkSize = () => setIsDesktop(window.innerWidth >= 1024);
+        checkSize();
+        window.addEventListener("resize", checkSize);
+        return () => window.removeEventListener("resize", checkSize);
+    }, []);
+
     const cards = [
         {
             number: "01",
             description: "Aprende el vocabulario mientras lo usas en escenarios de supervivencia real.",
-            icon: <BookOpen className="w-6 h-6 text-white" />,
-            bgColor: "bg-white",
-            textColor: "text-[#2ba0ff]", // Azul para el texto de la primera carta
-            numberColor: "text-[#2ba0ff]",
-            iconBg: "bg-[#2ba0ff]",
+            icon: <BookOpen className="w-6 h-6 text-[#86d2fb]" />,
+            bgColor: "bg-[#86d2fb]",
+            textColor: "text-white",
+            numberColor: "text-white",
+            iconBg: "bg-white",
+            bgImage: "/images/vaquerita.webp",
         },
         {
             number: "02",
@@ -74,7 +84,7 @@ export default function MethodologyStack() {
                 <div className="w-full lg:w-1/2 flex flex-col gap-[75px] relative z-20">
                     {cards.map((card, index) => (
                         <motion.div
-                            key={index}
+                            key={`${isDesktop ? 'desktop' : 'mobile'}-${index}`}
                             className="sticky w-full rounded-[40px] overflow-hidden origin-bottom"
                             style={{
                                 top: `calc(100px + ${index * 75}px)`,
@@ -82,32 +92,41 @@ export default function MethodologyStack() {
                             }}
                             initial={{
                                 y: 350,
+                                x: isDesktop ? (index % 2 === 0 ? -200 : 200) : 0,
                                 rotate: index % 2 === 0 ? 10 : -10
                             }}
-                            whileInView={{ y: 0, rotate: 0 }}
+                            whileInView={{ y: 0, x: 0, rotate: 0 }}
                             viewport={{ once: true, margin: "-10% 0px -20% 0px" }}
                             transition={{ duration: 1.6, type: "spring", bounce: 0.2 }}
                         >
                             {/* Card Content Wrapper */}
-                            <div className={`${card.bgColor} p-8 md:p-12 min-h-[60vh] md:min-h-[70vh] flex flex-col border border-black/5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]`}>
+                            <div
+                                className={`${card.bgColor} p-8 md:p-12 min-h-[60vh] md:min-h-[70vh] flex flex-col border border-black/5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]`}
+                                style={{
+                                    backgroundImage: card.bgImage ? `url(${card.bgImage})` : undefined,
+                                    backgroundPosition: "bottom",
+                                    backgroundRepeat: "no-repeat",
+                                    backgroundSize: "100% auto",
+                                }}
+                            >
 
-                                {/* Fila 1: Icono circular (Arriba a la derecha) */}
-                                <div className="flex justify-end w-full">
+                                {/* Fila Superior: Número gigante e Icono */}
+                                <div className="flex-grow flex justify-between items-start w-full pt-0 pb-8">
+                                    <span
+                                        className={`text-[10rem] md:text-[14rem] lg:text-[16rem] font-medium tracking-tighter leading-none ${card.numberColor} ${roboto.className}`}
+                                        style={{ textShadow: "4px 4px 20px rgba(0,0,0,0.2)" }}
+                                    >
+                                        {card.number}+
+                                    </span>
                                     <div className={`${card.iconBg} w-16 h-16 rounded-full flex items-center justify-center shrink-0`}>
                                         {card.icon}
                                     </div>
                                 </div>
 
-                                {/* Fila 2: Número gigante (Ocupa el mayor espacio en el medio) */}
-                                <div className="flex-grow flex items-center justify-start py-8">
-                                    <span className={`text-[10rem] md:text-[14rem] lg:text-[16rem] font-medium tracking-tighter leading-none ${card.numberColor} ${roboto.className}`}>
-                                        {card.number}+
-                                    </span>
-                                </div>
-
                                 {/* Fila 3: Texto de descripción (Abajo) */}
                                 <div className="w-full pb-4">
                                     <p className={`text-2xl md:text-3xl font-medium ${card.textColor} ${roboto.className}`}>
+
                                         {card.description}
                                     </p>
                                 </div>

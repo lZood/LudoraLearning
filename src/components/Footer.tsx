@@ -58,7 +58,7 @@ export default function Footer() {
                         <div className="grid grid-cols-2 gap-8 text-base md:text-lg font-medium">
                             <div className="flex flex-col gap-3">
                                 <Link href="/servicios" className="hover:opacity-60 transition-opacity">Servicios</Link>
-                                <Link href="/metodologia" className="hover:opacity-60 transition-opacity">Metodología</Link>
+                                <Link href="/Estrategia" className="hover:opacity-60 transition-opacity">Estrategia</Link>
                                 <Link href="/niveles" className="hover:opacity-60 transition-opacity">Niveles Disponibles</Link>
                                 <Link href="/edades" className="hover:opacity-60 transition-opacity">Edades</Link>
                                 <Link href="/nosotros" className="hover:opacity-60 transition-opacity">Sobre Nosotros</Link>

@@ -42,7 +42,7 @@ function Logo() {
         viewBox="0 0 184.08 72.96"
         width="184"
         height="73"
-        className="h-9 md:h-11 w-auto fill-[#632eaf] transition-colors duration-300 group-hover:fill-[#2EE58D] shrink-0"
+        className="h-9 md:h-11 w-auto fill-[#632eaf] transition-colors duration-300 group-hover:fill-[#632eaf] shrink-0"
         aria-hidden="true"
         focusable="false"
         preserveAspectRatio="xMidYMid meet"
@@ -112,7 +112,7 @@ export default function Header() {
     {
       title: "Contáctanos",
       image: "/images/1_3.png",
-      href: "/contactanos"
+      href: "/contacto"
     }
   ];
 
@@ -134,10 +134,10 @@ export default function Header() {
                 Servicios
               </Link>
 
-              {/* Metodología - Dropdown */}
+              {/* Estrategia - Dropdown */}
               <div className="group flex items-center py-4 h-full">
-                <Link href="/metodologia" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
-                  Metodología
+                <Link href="/Estrategia" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
+                  Estrategia
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
                 </Link>
                 <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
@@ -145,17 +145,17 @@ export default function Header() {
                     <div className="flex gap-8">
                       {/* Visual side */}
                       <Link
-                        href="/metodologia"
+                        href="/Estrategia"
                         className="w-1/3 relative h-64 rounded-xl overflow-hidden group/visual block"
                       >
                         <img
                           src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80"
-                          alt="Metodología"
+                          alt="Estrategia"
                           className="object-cover w-full h-full transition-transform duration-500 group-hover/visual:scale-105"
                         />
                         <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between z-10">
                           <span className="text-white font-bold text-xl uppercase tracking-tight">
-                            Metodología
+                            Estrategia
                           </span>
                           <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform group-hover/visual:translate-x-1 shrink-0">
                             <ArrowRight className="w-5 h-5 text-black" />
@@ -291,7 +291,7 @@ export default function Header() {
             {/* MOBILE ACTIONS */}
             <div className="flex lg:hidden items-center gap-3 ml-auto">
               <Link
-                href="/agenda"
+                href="/contacto"
                 className="bg-[#f2f0e9] px-4 py-2 rounded-xl text-[15.5px] font-bold text-neutral-800 transition-colors hover:bg-[#e8e5dc] whitespace-nowrap"
               >
                 ¡hi!
@@ -310,7 +310,7 @@ export default function Header() {
           </div>
 
           <Link
-            href="/agenda"
+            href="/contacto"
             className="hidden lg:flex group relative items-center gap-4 bg-white hover:bg-[#fbd400] transition-colors duration-300 rounded-xl h-[64px] pl-8 pr-2 shrink-0"
           >
             <span className="text-[13px] font-bold text-neutral-900 whitespace-nowrap group-hover:text-black">
@@ -331,8 +331,8 @@ export default function Header() {
               <Link href="/servicios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Servicios</Link>
 
               <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
-                <Link href="/metodologia" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
-                  Metodología
+                <Link href="/Estrategia" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
+                  Estrategia
                 </Link>
                 <button onClick={() => toggleMobileSection('methodology')} className="pl-4">
                   <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'methodology' ? 'scale-y-100 rotate-180' : ''}`} />
@@ -367,7 +367,7 @@ export default function Header() {
               <Link href="/logros" className="text-[18px] text-neutral-800 py-4">Nuestros Jugadores</Link>
             </div>
 
-            <Link href="/contactanos" className="bg-white rounded-2xl p-4 px-6 flex items-center justify-between group hover:bg-[#fbd400] transition-colors duration-300">
+            <Link href="/contacto" className="bg-white rounded-2xl p-4 px-6 flex items-center justify-between group hover:bg-[#fbd400] transition-colors duration-300">
               <span className="text-[20px] text-neutral-800 group-hover:text-black">Contáctanos</span>
               <div className="w-10 h-10 rounded-full bg-[#1e48f6] text-white flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
                 <MessageCircle className="w-5 h-5 fill-current" />
