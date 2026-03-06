@@ -14,9 +14,8 @@ export default function Estrategia() {
             <Hero
                 title={<>ESTRATEGIA <br className="hidden md:block" /> PEDAGÓGICA</>}
                 subtitle="Aprender sin darte cuenta. Sumérgete en entornos interactivos 100% en inglés diseñados para el aprendizaje natural."
-                backgroundColor="#632eaf"
-                titleColor="#ffffff"
-                subtitleColor="#ffffff"
+                mediaSrc="/images/estrategia-page/school.webp"
+                isVideo={false}
                 showTextShadow={false}
                 showOverlay={false}
                 layout={{

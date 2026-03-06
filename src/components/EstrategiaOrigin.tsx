@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 export default function EstrategiaOrigin() {
     const containerVariants: Variants = {
@@ -36,15 +35,12 @@ export default function EstrategiaOrigin() {
                     {/* Background Image Placeholder */}
                     <div
                         className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: "url('/images/1_1.png')" }}
+                        style={{ backgroundImage: "url('/images/estrategia-page/MineCocina.webp')" }}
                     />
                     {/* Overlay for better number readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
-                    {/* Big Number */}
-                    <span className="absolute bottom-6 right-10 text-[10rem] md:text-[14rem] font-black leading-none text-white/20 select-none">
-                        01
-                    </span>
+
                 </motion.div>
 
                 {/* Right — Content */}
@@ -57,8 +53,12 @@ export default function EstrategiaOrigin() {
                 >
                     <motion.div variants={itemVariants} className="flex items-center gap-6">
                         {/* Big Icon */}
-                        <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-[#632eaf]/10 flex items-center justify-center shadow-lg">
-                            <Sparkles className="w-10 h-10 md:w-12 md:h-12 text-[#632eaf]" />
+                        <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-[#632eaf]/10 flex items-center justify-center shadow-lg overflow-hidden">
+                            <img
+                                src="/images/estrategia-page/grassblock.webp"
+                                alt="Icono"
+                                className="w-12 h-12 md:w-16 md:h-16 object-contain"
+                            />
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight leading-[1.1]">
