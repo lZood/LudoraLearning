@@ -82,7 +82,7 @@ export default function BlockyFinalSection() {
     };
 
     return (
-        <div className="w-full flex flex-col relative overflow-hidden bg-transparent rounded-b-[50px]">
+        <div className="w-full flex flex-col relative overflow-hidden bg-transparent rounded-b-[50px] z-10">
             <motion.div
                 variants={containerVariants}
                 initial="hidden"

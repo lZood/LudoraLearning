@@ -1,16 +1,16 @@
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
-import ServicesList from "@/components/ServicesList";
-import ParallaxImage from "@/components/ParallaxImage";
 import HeroTransition from "@/components/HeroTransition";
+import StudentInventory from "../../components/StudentInventory";
+import ServicePricing from "../../components/ServicePricing";
 
 export default function ServiciosPage() {
     return (
         <main className="min-h-screen bg-[#f5f1e4] relative text-[#1a1a1a]">
             <Hero
-                title={<>NUESTROS <br className="hidden md:block" /> SERVICIOS</>}
+                title={<>NUESTRO <br className="hidden md:block" /> SERVICIO</>}
                 subtitle="Descubre todo lo que Ludora Learning tiene preparado para llevar tu nivel de inglés al máximo jugando."
-                mediaSrc="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1920&q=80"
+                mediaSrc="/images/service-page/windmill.png"
                 isVideo={false}
                 layout={{
                     titleStart: { mobile: 1, desktop: 1 },
@@ -20,8 +20,12 @@ export default function ServiciosPage() {
                 }}
                 showGrid={false}
             />
-            <HeroTransition showShadow={false} />
+            <HeroTransition showShadow={false} transitionColor="#86d2fb" />
+            {/* Nueva sección de Información de Inventario */}
+            <StudentInventory />
 
+            {/* Nueva sección de Pricing */}
+            <ServicePricing />
 
             <Footer />
         </main>

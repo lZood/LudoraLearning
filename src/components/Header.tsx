@@ -100,16 +100,6 @@ export default function Header() {
 
   const moreMenuOptions = [
     {
-      title: "Sobre nosotros",
-      image: "/images/1_1.png",
-      href: "/sobre-nosotros"
-    },
-    {
-      title: "Nuestros Jugadores",
-      image: "/images/photogallery/3Cuadrada.png",
-      href: "/logros"
-    },
-    {
       title: "Contáctanos",
       image: "/images/1_3.png",
       href: "/contacto"
@@ -134,57 +124,17 @@ export default function Header() {
                 Servicios
               </Link>
 
-              {/* Estrategia - Dropdown */}
-              <div className="group flex items-center py-4 h-full">
-                <Link href="/Estrategia" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
-                  Estrategia
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
-                </Link>
-                <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
-                  <div className="bg-white p-8 rounded-xl">
-                    <div className="flex gap-8">
-                      {/* Visual side */}
-                      <Link
-                        href="/Estrategia"
-                        className="w-1/3 relative h-64 rounded-xl overflow-hidden group/visual block"
-                      >
-                        <img
-                          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80"
-                          alt="Estrategia"
-                          className="object-cover w-full h-full transition-transform duration-500 group-hover/visual:scale-105"
-                        />
-                        <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between z-10">
-                          <span className="text-white font-bold text-xl uppercase tracking-tight">
-                            Estrategia
-                          </span>
-                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform group-hover/visual:translate-x-1 shrink-0">
-                            <ArrowRight className="w-5 h-5 text-black" />
-                          </div>
-                        </div>
-                        <div className="absolute inset-0 bg-black/40 group-hover/visual:bg-black/30 transition-colors duration-300" />
-                      </Link>
-                      {/* Links side */}
-                      <div className="w-2/3 grid grid-cols-2 gap-y-4 gap-x-8">
-                        {methodologyLinks.map((link, index) => (
-                          <Link
-                            key={link}
-                            href={`/methodology/${link.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="text-[14px] text-neutral-600 hover:text-[#00c97b] transition-all duration-300 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
-                            style={{ transitionDelay: `${index * 30}ms` }}
-                          >
-                            {link}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Link
+                href="/Estrategia"
+                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+              >
+                Estrategia
+              </Link>
 
-              {/* Comunidad y Soporte - Dropdown */}
+              {/* Comunidad - Dropdown */}
               <div className="group flex items-center py-4 h-full">
                 <Link href="/comunidad" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
-                  Comunidad y Soporte
+                  Comunidad
                   <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
                 </Link>
                 <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
@@ -197,7 +147,7 @@ export default function Header() {
                       >
                         <img
                           src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=500&q=80"
-                          alt="Comunidad y Soporte"
+                          alt="Comunidad"
                           className="object-cover w-full h-full transition-transform duration-500 group-hover/visual:scale-105"
                         />
                         <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between z-10">
@@ -228,12 +178,12 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* Precios - No Dropdown */}
+              {/* Sobre nosotros */}
               <Link
-                href="/precios"
+                href="/sobre-nosotros"
                 className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
               >
-                Precios
+                Sobre nosotros
               </Link>
 
               {/* Desktop Burger Toggle */}
@@ -330,25 +280,11 @@ export default function Header() {
             <div className="bg-white rounded-xl px-6 py-2 flex flex-col">
               <Link href="/servicios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Servicios</Link>
 
-              <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
-                <Link href="/Estrategia" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
-                  Estrategia
-                </Link>
-                <button onClick={() => toggleMobileSection('methodology')} className="pl-4">
-                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'methodology' ? 'scale-y-100 rotate-180' : ''}`} />
-                </button>
-              </div>
-              {expandedMobileSection === 'methodology' && (
-                <div className="flex flex-col gap-3 pl-4 py-3">
-                  {methodologyLinks.map(link => (
-                    <Link key={link} href="#" className="text-neutral-500 text-[15px]">{link}</Link>
-                  ))}
-                </div>
-              )}
+              <Link href="/Estrategia" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>Estrategia</Link>
 
               <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
                 <Link href="/comunidad" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
-                  Comunidad y Soporte
+                  Comunidad
                 </Link>
                 <button onClick={() => toggleMobileSection('sectors')} className="pl-4">
                   <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'sectors' ? 'scale-y-100 rotate-180' : ''}`} />
@@ -362,9 +298,7 @@ export default function Header() {
                 </div>
               )}
 
-              <Link href="/precios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Precios</Link>
-              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Sobre nosotros</Link>
-              <Link href="/logros" className="text-[18px] text-neutral-800 py-4">Nuestros Jugadores</Link>
+              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4">Sobre nosotros</Link>
             </div>
 
             <Link href="/contacto" className="bg-white rounded-2xl p-4 px-6 flex items-center justify-between group hover:bg-[#fbd400] transition-colors duration-300">

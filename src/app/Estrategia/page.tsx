@@ -1,9 +1,13 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import MethodologyStack from "@/components/MethodologyStack";
+import EstrategiaOrigin from "@/components/EstrategiaOrigin";
+import EstrategiaPlanning from "@/components/EstrategiaPlanning";
+import EstrategiaMinecraftSection from "@/components/EstrategiaMinecraft";
+import EstrategiaRealUsage from "@/components/EstrategiaRealUsage";
+import EstrategiaResults from "@/components/EstrategiaResults";
+import EstrategiaWhyMinecraft from "@/components/EstrategiaWhyMinecraft";
 import Footer from "@/components/Footer";
-import ServicesList from "@/components/ServicesList";
-import ParallaxImage from "@/components/ParallaxImage";
+
 export default function Estrategia() {
     return (
         <main className="min-h-screen bg-[#f5f1e4] relative text-[#1a1a1a]">
@@ -23,23 +27,13 @@ export default function Estrategia() {
                 }}
                 showGrid={false}
             />
-            <HeroTransition showShadow={false} />
-
-            {/* Añadimos componentes de tu página original que tienen sentido aquí */}
-            <ServicesList />
-
-            <div className="w-full">
-                <ParallaxImage
-                    src="https://images.unsplash.com/photo-1560523160-754a9e25c68f?auto=format&fit=crop&w=1920&q=80"
-                    alt="Servicios Ludora Learning"
-                    height="h-[100vh]"
-                />
-            </div>
-
-            <div className="relative z-20 bg-[#f5f1e4]">
-                <MethodologyStack />
-            </div>
-
+            <HeroTransition showShadow={false} transitionColor="#f0ecff" />
+            <EstrategiaOrigin />
+            <EstrategiaPlanning />
+            <EstrategiaMinecraftSection />
+            <EstrategiaRealUsage />
+            <EstrategiaResults />
+            <EstrategiaWhyMinecraft />
             <Footer />
         </main>
     );

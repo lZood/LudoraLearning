@@ -1,54 +1,45 @@
 "use client";
 
 import React from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 interface ScrollSnakeProps {
     containerRef?: React.RefObject<HTMLElement | null>;
 }
 
 export default function ScrollSnake({ containerRef }: ScrollSnakeProps) {
-    // We track the scroll progress of the container section
+    // Replicamos el comportamiento "top top" y "bottom bottom" del ScrollTrigger del usuario
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start end", "end start"]
+        offset: ["start start", "end end"]
     });
 
-    // MAPEAREMOS EL PROGRESO PARA "ADELANTAR" EL DIBUJO
-    // Optimizamos para que después del 50% (0.5) del scroll real, 
-    // la línea se dispare hacia adelante para no quedarse atrás.
-    const acceleratedProgress = useTransform(
-        scrollYProgress,
-        [0, 0.4, 0.7, 1], // Puntos de control del scroll real
-        [0, 0.4, 0.8, 1]  // Puntos de avance de la línea (acelerón fuerte después del 40%)
-    );
-
-    // Add a spring for extra smooth drawing
-    const smoothProgress = useSpring(acceleratedProgress, {
-        stiffness: 70, // Un poco más de rigidez para que reaccione más rápido
-        damping: 25,
+    // Replicamos el "scrub: 1.5" (pequeñísimo retraso suavizado) usando un Spring
+    const smoothProgress = useSpring(scrollYProgress, {
+        stiffness: 50,
+        damping: 20,
         restDelta: 0.001
     });
 
     return (
-        <div className="absolute inset-0 z-0 pointer-events-none w-full h-full">
+        <div className="absolute inset-0 z-0 pointer-events-none w-full h-full overflow-hidden">
             <svg
-                viewBox="0 0 100 1500"
-                fill="none"
-                preserveAspectRatio="none"
-                className="w-full absolute top-0 left-0"
-                style={{ height: "calc(100% + 1200px)" }}
+                className="w-full absolute top-0 left-0 h-full"
+                viewBox="0 0 1000 3000"
+                preserveAspectRatio="xMidYMid meet"
+                style={{ opacity: 0.8 }}
             >
                 <motion.path
-                    d="
-            M 50,0
-            C 70,100 90,200 50,300
-            C 10,400 10,600 50,700
-            C 90,800 70,950 50,1100
-            V 1600
-          "
+                    d="M 500 100 
+                       C 500 400, 800 600, 800 900 
+                       C 800 1200, 200 1400, 200 1700 
+                       C 200 1900, 600 2000, 600 2200 
+                       C 600 2400, 200 2450, 200 2250 
+                       C 200 2050, 700 2050, 500 2600 
+                       C 400 2800, 500 2900, 500 3000"
                     stroke="#88e04f"
-                    strokeWidth="15"
+                    strokeWidth="120"
+                    fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     style={{
