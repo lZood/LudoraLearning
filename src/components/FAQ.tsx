@@ -59,7 +59,7 @@ function FAQAccordionItem({ item, index, isOpen, onToggle }: {
         >
             <button
                 onClick={onToggle}
-                className={`w-full flex items-center justify-between gap-6 p-6 md:p-8 text-left transition-colors duration-300 ${isOpen ? "bg-white rounded-t-[24px]" : "bg-white rounded-[24px] hover:bg-gray-50"
+                className={`w-full flex items-center justify-between gap-6 p-6 md:p-8 text-left transition-all duration-300 ${isOpen ? "bg-white rounded-t-[24px]" : "bg-white rounded-[24px] hover:bg-[#8ED462]/10 hover:scale-[1.01] hover:shadow-md"
                     }`}
             >
                 <span className="text-lg md:text-xl font-bold text-[#222222] leading-snug flex-grow">

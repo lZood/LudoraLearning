@@ -47,8 +47,8 @@ function GalleryItem({ photo, index }: { photo: typeof photos[0]; index: number 
                 bounce: 0.25,
             }}
             className={`group cursor-pointer ${isLarge
-                    ? "col-span-1 sm:col-span-2 row-span-1 sm:row-span-2"
-                    : "col-span-1 row-span-1"
+                ? "col-span-1 sm:col-span-2 row-span-1 sm:row-span-2"
+                : "col-span-1 row-span-1"
                 }`}
         >
             <div className="relative rounded-[24px] overflow-hidden h-full">
