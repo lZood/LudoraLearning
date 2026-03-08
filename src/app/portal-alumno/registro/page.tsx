@@ -1,7 +1,55 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { createClient } from '@/utils/supabase/client';
 
 export default function PortalAlumnoSignUp() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const supabase = createClient();
+
+    const handleSignUp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setSuccessMessage(null);
+
+        if (password !== confirmPassword) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const { data, error: signUpError } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: name,
+                    },
+                    emailRedirectTo: `${window.location.origin}/portal-alumno`,
+                },
+            });
+
+            if (signUpError) {
+                setError(signUpError.message);
+            } else {
+                setSuccessMessage('¡Cuenta creada! Revisa tu correo electrónico para confirmarla.');
+            }
+        } catch (err: any) {
+            setError(err.message || 'Error al crear la cuenta');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="min-h-[100dvh] w-full relative flex items-center justify-center font-sans overflow-x-hidden overflow-y-auto py-12">
             {/* Nether-inspired Background (Same as Sign In) */}
@@ -26,12 +74,24 @@ export default function PortalAlumnoSignUp() {
                 {/* Sign Up Card */}
                 <div className="bg-white rounded-3xl p-8 shadow-2xl shadow-[#361A27]/50 border-t-4 border-[#0F5451]">
 
-                    <div className="text-center mb-8">
+                    <div className="text-center mb-6">
                         <h1 className="text-2xl font-bold text-gray-900 mb-2">Crear una cuenta</h1>
                         <p className="text-gray-500 text-sm">Únete a la aventura en el Portal de Alumno</p>
                     </div>
 
-                    <form className="flex flex-col gap-4">
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium">
+                            {error}
+                        </div>
+                    )}
+
+                    {successMessage && (
+                        <div className="mb-4 p-3 bg-green-50 border border-green-200 text-[#0F5451] rounded-xl text-sm font-medium">
+                            {successMessage}
+                        </div>
+                    )}
+
+                    <form className="flex flex-col gap-4" onSubmit={handleSignUp}>
 
                         {/* Full Name Input */}
                         <div className="space-y-1.5">
@@ -41,6 +101,8 @@ export default function PortalAlumnoSignUp() {
                             <input
                                 type="text"
                                 id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 placeholder="Juan Pérez"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors"
                                 required
@@ -55,6 +117,8 @@ export default function PortalAlumnoSignUp() {
                             <input
                                 type="email"
                                 id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="juan.perez@ejemplo.com"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors"
                                 required
@@ -69,6 +133,8 @@ export default function PortalAlumnoSignUp() {
                             <input
                                 type="password"
                                 id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••••••"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors tracking-widest"
                                 required
@@ -83,6 +149,8 @@ export default function PortalAlumnoSignUp() {
                             <input
                                 type="password"
                                 id="confirm-password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 placeholder="••••••••••••"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors tracking-widest"
                                 required
@@ -92,9 +160,10 @@ export default function PortalAlumnoSignUp() {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-[#0F5451] to-[#0F7357] hover:from-[#0b403d] hover:to-[#0a523e] text-white font-bold rounded-xl py-3.5 px-4 mt-2 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-[#0F5451]/30 focus:outline-none focus:ring-2 focus:ring-[#0F7357] focus:ring-offset-2"
+                            disabled={isLoading}
+                            className="w-full bg-gradient-to-r from-[#0F5451] to-[#0F7357] hover:from-[#0b403d] hover:to-[#0a523e] text-white font-bold rounded-xl py-3.5 px-4 mt-2 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-[#0F5451]/30 focus:outline-none focus:ring-2 focus:ring-[#0F7357] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            Crear cuenta
+                            {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
                         </button>
 
                         {/* Divider */}

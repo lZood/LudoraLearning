@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -16,8 +16,13 @@ import {
     Settings,
     CreditCard,
     LogOut,
-    ChevronUp
+    ChevronUp,
+    Loader2
 } from "lucide-react";
+
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
 
 const SIDEBAR_LINKS = [
     { name: "Inicio", href: "/portal-alumno/dashboard", icon: Home },
@@ -77,8 +82,95 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     const pathname = usePathname();
-    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const router = useRouter();
+    const supabase = createClient();
 
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [user, setUser] = useState<any>(null);
+    const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const checkAuthAndSubscription = async () => {
+            try {
+                // 1. Check Auth User
+                const { data: { session }, error: authError } = await supabase.auth.getSession();
+
+                if (authError || !session) {
+                    if (isMounted) {
+                        router.replace('/portal-alumno'); // Not logged in, go to login
+                    }
+                    return;
+                }
+
+                if (isMounted) setUser(session.user);
+
+                // 2. Check Subscription
+                const { data: subData, error: subError } = await supabase
+                    .from('subscriptions')
+                    .select('status')
+                    .eq('user_id', session.user.id)
+                    .in('status', ['active', 'trialing'])
+                    .single();
+
+                if (isMounted) {
+                    // True if a record is found, false if no active/trialing sub exists
+                    setHasActiveSubscription(!!subData);
+                }
+
+            } catch (err) {
+                console.error("Error verifying access:", err);
+                if (isMounted) setHasActiveSubscription(false);
+            } finally {
+                if (isMounted) setIsLoading(false);
+            }
+        };
+
+        checkAuthAndSubscription();
+
+        return () => { isMounted = false; };
+    }, [pathname, router, supabase]);
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/portal-alumno');
+        router.refresh();
+    };
+
+    if (isLoading) {
+        return (
+            <div className="flex min-h-screen bg-[#F8F9FA] items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="w-10 h-10 text-[#0F5451] animate-spin" />
+                    <p className="text-gray-500 font-medium">Cargando Ludora Learning...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Default Name Handling
+    const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "Estudiante";
+
+    // If user has NO active subscription, show them the Checkout screen ONLY
+    if (hasActiveSubscription === false) {
+        return (
+            <div className="flex min-h-screen bg-[#F8F9FA] font-sans items-center justify-center relative overflow-hidden">
+                {/* Nether Background for checkout page */}
+                <div className="absolute inset-0 z-0 bg-white/50 backdrop-blur-3xl" />
+
+                <div className="relative z-10 w-full max-w-2xl bg-white shadow-2xl rounded-3xl p-8 border border-gray-100">
+                    <div className="flex justify-center mb-4">
+                        <DashboardLogo />
+                    </div>
+                    <CheckoutPrompt />
+                </div>
+            </div>
+        );
+    }
+
+    // IF Subscribed, show the full Dashboard
     return (
         <div className="flex min-h-screen bg-[#F8F9FA] font-sans">
             {/* Sidebar */}
@@ -151,13 +243,13 @@ export default function DashboardLayout({
                                     Suscripción a Clases
                                 </Link>
                                 <div className="h-px bg-gray-200 mx-4 my-1" />
-                                <Link
-                                    href="/portal-alumno"
-                                    className="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm font-bold text-red-600 transition-colors"
+                                <button
+                                    onClick={handleSignOut}
+                                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm font-bold text-red-600 transition-colors text-left"
                                 >
                                     <LogOut className="w-4 h-4" />
                                     Cerrar sesión
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     )}
@@ -167,7 +259,7 @@ export default function DashboardLayout({
                         onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                         className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE0] focus:ring-offset-2"
                     >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 w-full overflow-hidden text-left">
                             <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-gray-200 bg-gray-100 flex items-center justify-center">
                                 {/* Fallback user icon or image */}
                                 <img
@@ -177,12 +269,14 @@ export default function DashboardLayout({
                                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                                 />
                             </div>
-                            <div className="flex flex-col items-start overflow-hidden text-left">
-                                <span className="text-sm font-bold text-gray-900 truncate w-full">Juan Pérez</span>
-                                <span className="text-xs text-gray-500 truncate w-full">Nivel 1</span>
+                            <div className="flex flex-col flex-1 min-w-0">
+                                <span className="text-sm font-bold text-gray-900 truncate">
+                                    {userName}
+                                </span>
+                                <span className="text-xs text-gray-500 truncate">Suscrito 🎉</span>
                             </div>
                         </div>
-                        <ChevronUp className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
+                        <ChevronUp className={`w-4 h-4 text-gray-500 transition-transform duration-300 shrink-0 ml-1 ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
                     </button>
                 </div>
             </aside>

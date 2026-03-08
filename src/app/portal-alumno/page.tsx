@@ -1,7 +1,53 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
 
 export default function PortalAlumnoSignIn() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const supabase = createClient();
+
+    const handleSignIn = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setIsLoading(true);
+
+        try {
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (signInError) {
+                setError(signInError.message);
+                setIsLoading(false);
+                return;
+            }
+
+            // Redirect to dashboard on successful login
+            router.push('/portal-alumno/dashboard');
+            router.refresh();
+        } catch (err: any) {
+            setError(err.message || 'Error al iniciar sesión');
+            setIsLoading(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/portal-alumno/dashboard`,
+            },
+        });
+        if (error) setError(error.message);
+    };
+
     return (
         <div className="min-h-[100dvh] w-full relative flex items-center justify-center font-sans overflow-x-hidden overflow-y-auto py-12">
             {/* Nether-inspired Background */}
@@ -31,10 +77,17 @@ export default function PortalAlumnoSignIn() {
                         <p className="text-gray-500 text-sm">Ingresa para continuar tu aventura</p>
                     </div>
 
-                    <form className="flex flex-col gap-5" action="/portal-alumno/dashboard">
+                    {error && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium">
+                            {error}
+                        </div>
+                    )}
+
+                    <form className="flex flex-col gap-5" onSubmit={handleSignIn}>
                         {/* Google Sign In Button */}
                         <button
                             type="button"
+                            onClick={handleGoogleSignIn}
                             className="flex items-center justify-center gap-3 w-full border-2 border-gray-200 rounded-xl py-3 px-4 font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all focus:outline-none focus:ring-2 focus:ring-[#0F5451] focus:ring-offset-1"
                         >
                             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -62,6 +115,8 @@ export default function PortalAlumnoSignIn() {
                             <input
                                 type="email"
                                 id="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="juan.perez@ejemplo.com"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors"
                                 required
@@ -76,6 +131,8 @@ export default function PortalAlumnoSignIn() {
                             <input
                                 type="password"
                                 id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••••••"
                                 className="w-full border-2 border-gray-200 rounded-xl py-3 px-4 text-gray-900 placeholder:text-gray-400 focus:border-[#0F5451] focus:ring-0 outline-none transition-colors tracking-widest"
                                 required
@@ -85,9 +142,10 @@ export default function PortalAlumnoSignIn() {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-[#0F5451] to-[#0F7357] hover:from-[#0b403d] hover:to-[#0a523e] text-white font-bold rounded-xl py-3.5 px-4 mt-2 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-[#0F5451]/30 focus:outline-none focus:ring-2 focus:ring-[#0F7357] focus:ring-offset-2"
+                            disabled={isLoading}
+                            className="w-full bg-gradient-to-r from-[#0F5451] to-[#0F7357] hover:from-[#0b403d] hover:to-[#0a523e] text-white font-bold rounded-xl py-3.5 px-4 mt-2 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-[#0F5451]/30 focus:outline-none focus:ring-2 focus:ring-[#0F7357] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            Iniciar sesión
+                            {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
                         </button>
                     </form>
 
