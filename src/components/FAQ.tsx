@@ -12,34 +12,34 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
     {
         question: "¿Cómo funcionan las clases dentro de Minecraft?",
-        answer: "Cada sesión se lleva a cabo en un servidor privado de Minecraft diseñado específicamente para el aprendizaje. Los alumnos completan misiones, construyen proyectos y participan en actividades que refuerzan vocabulario, gramática y conversación, todo en inglés y con la guía en tiempo real de la maestra.",
+        answer: "Cada sesión se lleva a cabo en un servidor privado de Minecraft diseñado específicamente para el aprendizaje. Los alumnos completan misiones, construyen proyectos y participan en actividades que refuerzan vocabulario, gramática y conversación, todo en inglés y con la guía en tiempo real de los maestros.",
     },
     {
-        question: "¿Qué edades aceptan?",
-        answer: "Nuestro programa está diseñado para niños y adolescentes de 7 a 15 años. Agrupamos a los alumnos por edad y nivel de inglés para garantizar la mejor experiencia de aprendizaje posible.",
+        question: "¿Qué edades pueden participar en las clases?",
+        answer: "Nuestro programa está diseñado para todo publico mayor de 9 años. Agrupamos a los alumnos por edad y nivel de inglés para garantizar la mejor experiencia de aprendizaje posible.",
     },
     {
-        question: "¿Necesito tener Minecraft para tomar las clases?",
-        answer: "Sí, necesitas tener Minecraft (Java Edition o Bedrock Edition). Te proporcionamos acceso a nuestro servidor privado y todo el material digital necesario. Si no estás seguro de qué versión necesitas, te ayudamos a configurarlo.",
+        question: "¿Necesito tener Minecraft Bedrock Edition para tomar las clases?",
+        answer: "Sí, necesitas tener Minecraft Bedrock Edition. Te proporcionamos acceso a nuestro servidor privado y todo el material digital necesario. Si no estás seguro de qué versión necesitas, te ayudamos a configurarlo.",
     },
     {
-        question: "¿Cuántas clases son al mes?",
-        answer: "El plan incluye 4 sesiones de 1 hora al mes (una por semana). Cada sesión está diseñada para construir sobre lo aprendido la semana anterior, manteniendo un progreso constante y medible.",
+        question: "¿Qué incluye mi inscripción?",
+        answer: "El plan incluye 4 sesiones de 1 hora al mes (una por semana). Cada sesión está diseñada para construir sobre lo aprendido la semana anterior, manteniendo un progreso constante y medible. Añadiendo tareas mínimas asignadas durante la semana, siendo todo esto reforzado con más herramientas y material digital que se encuentra en el portal de alumnos, de esta modo retienen la información de la manera más entretenida posible. ",
     },
     {
-        question: "¿Mi hijo ya habla algo de inglés, pueden adaptar el nivel?",
+        question: "Si ya tengo conocimientos de inglés, ¿se puede adaptar el nivel?",
         answer: "¡Por supuesto! Antes de comenzar, hacemos una evaluación inicial para determinar el nivel del alumno. Tenemos grupos desde principiante absoluto hasta intermedio-avanzado. Así nos aseguramos de que cada alumno esté en el grupo correcto.",
     },
     {
-        question: "¿Cómo puedo ver el progreso de mi hijo?",
+        question: "¿Cómo puedo dar seguimiento al progreso dentro del curso?",
         answer: "Tienes acceso al Portal de Alumnos donde puedes ver reportes detallados del progreso, logros desbloqueados, vocabulario aprendido y evaluaciones. Además, enviamos un resumen mensual por email.",
     },
     {
-        question: "¿Qué pasa si mi hijo falta a una clase?",
-        answer: "Entendemos que a veces surgen imprevistos. Si nos avisas con al menos 24 horas de anticipación, podemos reagendar la clase dentro del mismo mes. También proporcionamos el material de la clase para que no pierda el hilo.",
+        question: "¿Qué sucede si no puedo asistir a una clase?",
+        answer: "Entendemos que a veces surgen imprevistos, es por eso que todas nuestras sesiones son grabadas y se encuentran disponibles en el portal de alumnos. Si un estudiante no puede asistir a una clase, podrá acceder posteriormente al gameplay de la sesión para retomar el contenido visto.",
     },
     {
-        question: "¿Puedo agendar una clase de prueba gratuita?",
+        question: "¿Es posible agendar una clase de prueba gratuita?",
         answer: "¡Sí! Ofrecemos una sesión de prueba gratuita de 30 minutos para que tu hijo pueda experimentar la metodología. Puedes agendarla directamente desde nuestra página de contacto o por WhatsApp.",
     },
 ];

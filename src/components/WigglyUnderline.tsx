@@ -19,7 +19,7 @@ export function WigglyUnderline({
     text, // mantenemos el prop aunque no se use en el SVG para evitar errores de tipo si se pasa
     color = "#88e04f",
     speed = "3s",
-    thickness = "6px",
+    thickness = "4px",
     scaleX = "2.5",
     hoverOnly = false,
     className = "",

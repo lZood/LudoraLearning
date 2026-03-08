@@ -18,7 +18,7 @@ const montserrat = Montserrat({
 
 export default function AboutHeroNew() {
     return (
-        <section className="relative w-full bg-white rounded-b-[50px] overflow-hidden pt-32 pb-24 px-4 sm:px-6 md:px-12 z-10 flex flex-col items-center justify-center min-h-[80vh]">
+        <section className="relative w-full bg-white rounded-b-[50px] overflow-hidden pt-32 pb-24 px-4 sm:px-6 md:px-12 z-10 flex flex-col items-center justify-center min-h-screen">
             <div className="max-w-5xl mx-auto text-center w-full">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
@@ -26,8 +26,7 @@ export default function AboutHeroNew() {
                     transition={{ duration: 0.6 }}
                     className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#1a1a1a] mb-6 tracking-tight ${neueMachina.className}`}
                 >
-                    Haciendo el aprendizaje<br className="hidden sm:block" />
-                    más simple para <span className="inline-block bg-[#8B5CF6] text-white px-6 py-2 rounded-full mt-2 sm:mt-0">estudiantes</span>
+                    HACIENDO EL APRENDIZAJE <br className="hidden sm:block" />MÁS SIMPLE PARA <span className="inline-block bg-[#8B5CF6] text-white px-6 py-2 rounded-full mt-2 sm:mt-0">ESTUDIANTES</span>
                 </motion.h1>
 
                 <motion.p

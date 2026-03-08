@@ -24,13 +24,13 @@ export default function EstrategiaResults() {
         <section className="relative w-full min-h-screen bg-[#fff0f0] rounded-[50px] overflow-hidden flex items-center px-6 py-24 md:py-32">
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-                {/* Left — Visual Card */}
+                {/* Right — Visual Card */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, type: "spring", bounce: 0.25 }}
-                    className="relative aspect-square w-full rounded-[40px] overflow-hidden shadow-2xl order-1"
+                    transition={{ duration: 0.8, type: "spring", bounce: 0.25, delay: 0.1 }}
+                    className="relative aspect-square w-full rounded-[40px] overflow-hidden shadow-2xl order-1 lg:order-2"
                 >
                     {/* Background Image Placeholder */}
                     <div
@@ -42,13 +42,13 @@ export default function EstrategiaResults() {
 
                 </motion.div>
 
-                {/* Right — Content */}
+                {/* Left — Content */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
-                    className="flex flex-col gap-8 order-2"
+                    className="flex flex-col gap-8 order-2 lg:order-1"
                 >
                     <motion.div variants={itemVariants} className="flex items-center gap-6">
                         {/* Big Icon */}

@@ -92,28 +92,28 @@ export default function Header() {
             <nav className="hidden lg:flex items-center gap-2 h-full ml-auto">
               <Link
                 href="/servicios"
-                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+                className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/servicios" ? "bg-[#f2f0e9]" : ""}`}
               >
                 Servicios
               </Link>
 
               <Link
                 href="/Estrategia"
-                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+                className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/Estrategia" ? "bg-[#f2f0e9]" : ""}`}
               >
                 Estrategia
               </Link>
 
               <Link
                 href="/comunidad"
-                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+                className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/comunidad" ? "bg-[#f2f0e9]" : ""}`}
               >
                 Comunidad
               </Link>
 
               <Link
                 href="/sobre-nosotros"
-                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+                className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/sobre-nosotros" ? "bg-[#f2f0e9]" : ""}`}
               >
                 Sobre nosotros
               </Link>
@@ -133,7 +133,7 @@ export default function Header() {
                 href="/contacto"
                 className="bg-[#f2f0e9] px-4 py-2 rounded-xl text-[15.5px] font-bold text-neutral-800 transition-colors hover:bg-[#e8e5dc] whitespace-nowrap"
               >
-                ¡hi!
+                ¡Agenda tu Clase!
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -167,15 +167,21 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden flex flex-col gap-2 relative z-[100]">
             <div className="bg-white rounded-xl px-6 py-2 flex flex-col">
-              <Link href="/servicios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5">Servicios</Link>
+              <Link href="/servicios" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
+                Servicios
+              </Link>
 
-              <Link href="/Estrategia" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>Estrategia</Link>
+              <Link href="/Estrategia" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
+                Estrategia
+              </Link>
 
               <Link href="/comunidad" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
                 Comunidad
               </Link>
 
-              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>Sobre nosotros</Link>
+              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
+                Sobre nosotros
+              </Link>
 
               <Link href="/portal-alumno" className="text-[18px] text-[#632eaf] font-bold py-4" onClick={() => setIsMobileMenuOpen(false)}>Portal de Alumno</Link>
             </div>

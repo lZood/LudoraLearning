@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import HeroTransition from "@/components/HeroTransition";
 import StudentInventory from "../../components/StudentInventory";
 import ServicePricing from "../../components/ServicePricing";
+import FAQ from "@/components/FAQ";
 
 export default function ServiciosPage() {
     return (
@@ -23,10 +24,9 @@ export default function ServiciosPage() {
             <HeroTransition showShadow={false} transitionColor="#86d2fb" />
             {/* Nueva sección de Información de Inventario */}
             <StudentInventory />
-
             {/* Nueva sección de Pricing */}
             <ServicePricing />
-
+            <FAQ />
             <Footer />
         </main>
     );

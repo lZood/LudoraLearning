@@ -27,11 +27,9 @@ export default function ComunidadPage() {
                 showGrid={false}
             />
             <HeroTransition showShadow={false} transitionColor="#e7e3d7" />
-            <CommunityStats />
             <CommunityMasonryGallery />
             <StudentTestimonials />
             <DiscordCTA />
-            <FAQ />
             <Footer />
         </main>
     );

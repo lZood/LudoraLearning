@@ -3,6 +3,7 @@ import HeroTransition from "@/components/HeroTransition";
 import EstrategiaOrigin from "@/components/EstrategiaOrigin";
 import EstrategiaPlanning from "@/components/EstrategiaPlanning";
 import EstrategiaMinecraftSection from "@/components/EstrategiaMinecraft";
+import EstrategiaPronunciation from "@/components/EstrategiaPronunciation";
 import EstrategiaRealUsage from "@/components/EstrategiaRealUsage";
 import EstrategiaResults from "@/components/EstrategiaResults";
 import EstrategiaWhyMinecraft from "@/components/EstrategiaWhyMinecraft";
@@ -30,6 +31,7 @@ export default function Estrategia() {
             <EstrategiaOrigin />
             <EstrategiaPlanning />
             <EstrategiaMinecraftSection />
+            <EstrategiaPronunciation />
             <EstrategiaRealUsage />
             <EstrategiaResults />
             <EstrategiaWhyMinecraft />
