@@ -69,7 +69,7 @@ export default function EstrategiaPlanning() {
                     {/* Background Image Placeholder */}
                     <div
                         className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: "url('/images/estrategia-page/Planeacion.webp')" }}
+                        style={{ backgroundImage: "url('/images/estrategia-page/planeacion.webp')" }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 

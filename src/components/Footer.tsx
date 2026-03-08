@@ -61,7 +61,7 @@ export default function Footer() {
                                 <Link href="/Estrategia" className="hover:opacity-60 transition-opacity">Estrategia</Link>
                                 <Link href="/niveles" className="hover:opacity-60 transition-opacity">Niveles Disponibles</Link>
                                 <Link href="/edades" className="hover:opacity-60 transition-opacity">Edades</Link>
-                                <Link href="/nosotros" className="hover:opacity-60 transition-opacity">Sobre Nosotros</Link>
+                                <Link href="/sobre-nosotros" className="hover:opacity-60 transition-opacity">Sobre Nosotros</Link>
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Link href="/logros" className="hover:opacity-60 transition-opacity">Logros</Link>

@@ -167,7 +167,7 @@ export default function StudentTestimonials() {
     return (
         <section className="relative w-full min-h-screen py-24 md:py-32 bg-[#88e04f] rounded-[50px] overflow-hidden flex flex-col justify-center">
             {/* Background elements */}
-            <div className="absolute inset-0 bg-[url('/images/pattern-dots.svg')] opacity-10" />
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]" />
             <div className="absolute top-10 left-10 w-96 h-96 bg-white/20 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="relative z-10 w-full mb-16 md:mb-24 px-6 md:px-12 text-center">
