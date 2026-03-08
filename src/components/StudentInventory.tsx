@@ -85,7 +85,7 @@ export default function StudentInventory() {
         <section
             // min-h-screen para todo el alto, fondo que solo abarca el ancho (100% auto) y no se repite
             // Usamos clases de Tailwind para alternar la imagen según el breakpoint
-            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center bg-no-repeat bg-[length:100%_auto] bg-bottom bg-[url('/images/service-page/fondoTierrosoMovil.png')] md:bg-[url('/images/service-page/fondotierrosoPC.png')] rounded-b-[48px] md:rounded-b-[80px]"
+            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center bg-no-repeat bg-[length:100%_auto] bg-bottom bg-[url('/images/service-page/fondoTierrosoMovil.webp')] md:bg-[url('/images/service-page/fondotierrosoPC.webp')] rounded-b-[48px] md:rounded-b-[80px]"
         >
 
             <div className="max-w-4xl mx-auto px-6 relative z-10 flex flex-col items-center justify-between w-full h-full gap-12">

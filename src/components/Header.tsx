@@ -1,22 +1,11 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, ChevronUp, MessageCircle, X, ArrowRight } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
-const methodologyLinks = [
-  "Aprender Jugando",
-  "Niveles Disponibles",
-  "Edades",
-  "Herramientas"
-];
 
-const industrySectorsLinks = [
-  "Sobre Valeria",
-  "Formas de Pago",
-  "FAQ Completo"
-];
 
 function Logo() {
   const pathname = usePathname();
@@ -79,32 +68,16 @@ function Logo() {
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDesktopMoreOpen, setIsDesktopMoreOpen] = useState(false);
-  const [expandedMobileSection, setExpandedMobileSection] = useState<string | null>(null);
-  const moreTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
 
-  const handleMoreEnter = () => {
-    if (moreTimeoutRef.current) clearTimeout(moreTimeoutRef.current);
-    setIsDesktopMoreOpen(true);
-  };
-
-  const handleMoreLeave = () => {
-    moreTimeoutRef.current = setTimeout(() => {
-      setIsDesktopMoreOpen(false);
-    }, 200);
-  };
-
-  const toggleMobileSection = (section: string) => {
-    setExpandedMobileSection(expandedMobileSection === section ? null : section);
-  };
-
-  const moreMenuOptions = [
-    {
-      title: "Contáctanos",
-      image: "/images/1_3.png",
-      href: "/contacto"
-    }
-  ];
+  // Hide header for dashboard and inner portal-alumno pages, but KEEP it for login and register
+  if (
+    pathname.startsWith("/portal-alumno") &&
+    pathname !== "/portal-alumno" &&
+    pathname !== "/portal-alumno/registro"
+  ) {
+    return null;
+  }
 
   return (
     <header className="fixed top-4 z-50 w-full px-4 sm:px-6 lg:px-8">
@@ -131,54 +104,13 @@ export default function Header() {
                 Estrategia
               </Link>
 
-              {/* Comunidad - Dropdown */}
-              <div className="group flex items-center py-4 h-full">
-                <Link href="/comunidad" className="text-[13px] font-bold text-neutral-800 group-hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center gap-1.5">
-                  Comunidad
-                  <ChevronDown className="w-4 h-4 transition-transform group-hover:-scale-y-100 text-neutral-400 group-hover:text-neutral-800" />
-                </Link>
-                <div className="absolute top-[calc(100%+8px)] left-0 right-0 w-full opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100 z-[100]">
-                  <div className="bg-white p-8 rounded-xl">
-                    <div className="flex gap-8">
-                      {/* Visual side */}
-                      <Link
-                        href="/comunidad"
-                        className="w-1/3 relative h-64 rounded-xl overflow-hidden group/visual block"
-                      >
-                        <img
-                          src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=500&q=80"
-                          alt="Comunidad"
-                          className="object-cover w-full h-full transition-transform duration-500 group-hover/visual:scale-105"
-                        />
-                        <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between z-10">
-                          <span className="text-white font-bold text-xl uppercase tracking-tight">
-                            Comunidad
-                          </span>
-                          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform group-hover/visual:translate-x-1 shrink-0">
-                            <ArrowRight className="w-5 h-5 text-black" />
-                          </div>
-                        </div>
-                        <div className="absolute inset-0 bg-black/40 group-hover/visual:bg-black/30 transition-colors duration-300" />
-                      </Link>
-                      {/* Links side */}
-                      <div className="w-2/3 grid grid-cols-2 gap-y-4 gap-x-8">
-                        {industrySectorsLinks.map((link, index) => (
-                          <Link
-                            key={link}
-                            href={`/sectors/${link.toLowerCase().replace(/\s+/g, "-")}`}
-                            className="text-[14px] text-neutral-600 hover:text-[#00c97b] transition-all duration-300 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
-                            style={{ transitionDelay: `${index * 30}ms` }}
-                          >
-                            {link}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Link
+                href="/comunidad"
+                className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
+              >
+                Comunidad
+              </Link>
 
-              {/* Sobre nosotros */}
               <Link
                 href="/sobre-nosotros"
                 className="text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center"
@@ -186,56 +118,13 @@ export default function Header() {
                 Sobre nosotros
               </Link>
 
-              {/* Desktop Burger Toggle */}
-              <div
-                className="flex items-center ml-2 h-full py-4 group/burger"
-                onMouseEnter={handleMoreEnter}
-                onMouseLeave={handleMoreLeave}
+              <Link
+                href="/portal-alumno"
+                className="text-[13px] font-bold text-white bg-[#632eaf] hover:bg-[#522591] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ml-1"
               >
-                <button
-                  className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-300 ${isDesktopMoreOpen ? 'bg-gray-200 text-black' : 'bg-[#632eaf] group-hover/burger:bg-gray-200 text-black'}`}
-                >
-                  <div className={`transition-transform duration-300 ${isDesktopMoreOpen ? '-rotate-180' : 'rotate-0'}`}>
-                    {isDesktopMoreOpen ? <ChevronUp className="w-5 h-5" /> : (
-                      <div className="flex flex-col gap-[3.5px] items-center">
-                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
-                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
-                        <span className="h-[2px] w-[18px] bg-white rounded-full transition-all duration-300"></span>
-                      </div>
-                    )}
-                  </div>
-                </button>
+                Portal de Alumno
+              </Link>
 
-                {/* DESKTOP MORE MENU DROPDOWN */}
-                <div className={`absolute top-[calc(100%+8px)] left-0 w-full z-[110] transition-all duration-300 transform origin-top ${isDesktopMoreOpen ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95'}`}>
-                  <div className="w-full bg-white rounded-xl p-6 border border-black/5">
-                    <div className="grid grid-cols-3 gap-6">
-                      {moreMenuOptions.map((opt, index) => (
-                        <Link
-                          key={opt.title}
-                          href={opt.href}
-                          className="group relative aspect-[14/16] rounded-xl overflow-hidden block"
-                        >
-                          <img
-                            src={opt.image}
-                            alt={opt.title}
-                            className={`object-cover w-full h-full transition-all duration-700 ease-out ${isDesktopMoreOpen ? 'scale-100' : 'scale-110'} group-hover:scale-110`}
-                          />
-                          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors duration-300" />
-                          <div className="absolute inset-x-0 bottom-0 p-6 flex items-center justify-between z-10">
-                            <span className="text-white text-xl font-bold uppercase tracking-tight">
-                              {opt.title}
-                            </span>
-                            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform group-hover:translate-x-1 shrink-0">
-                              <ArrowRight className="w-5 h-5 text-black" />
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </nav>
 
             {/* MOBILE ACTIONS */}
@@ -282,23 +171,13 @@ export default function Header() {
 
               <Link href="/Estrategia" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>Estrategia</Link>
 
-              <div className="flex items-center justify-between border-b border-black/5 w-full py-4 relative z-10">
-                <Link href="/comunidad" className="text-[18px] text-neutral-800 flex-1 text-left" onClick={() => setIsMobileMenuOpen(false)}>
-                  Comunidad
-                </Link>
-                <button onClick={() => toggleMobileSection('sectors')} className="pl-4">
-                  <ChevronDown className={`w-5 h-5 transition-transform ${expandedMobileSection === 'sectors' ? 'scale-y-100 rotate-180' : ''}`} />
-                </button>
-              </div>
-              {expandedMobileSection === 'sectors' && (
-                <div className="flex flex-col gap-3 pl-4 py-3">
-                  {industrySectorsLinks.map(link => (
-                    <Link key={link} href="#" className="text-neutral-500 text-[15px]">{link}</Link>
-                  ))}
-                </div>
-              )}
+              <Link href="/comunidad" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
+                Comunidad
+              </Link>
 
-              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4">Sobre nosotros</Link>
+              <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>Sobre nosotros</Link>
+
+              <Link href="/portal-alumno" className="text-[18px] text-[#632eaf] font-bold py-4" onClick={() => setIsMobileMenuOpen(false)}>Portal de Alumno</Link>
             </div>
 
             <Link href="/contacto" className="bg-white rounded-2xl p-4 px-6 flex items-center justify-between group hover:bg-[#fbd400] transition-colors duration-300">
