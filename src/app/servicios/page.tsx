@@ -1,8 +1,11 @@
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import HeroTransition from "@/components/HeroTransition";
-import StudentInventory from "../../components/StudentInventory";
-import ServicePricing from "../../components/ServicePricing";
+import StudentInventory from "@/components/servicios/StudentInventory";
+import ServicePricing from "@/components/servicios/ServicePricing";
+import ServicesOnboarding from "@/components/servicios/ServicesOnboarding";
+import ServicesDifference from "@/components/servicios/ServicesDifference";
+import ServicesPortalBenefits from "@/components/servicios/ServicesPortalBenefits";
 import FAQ from "@/components/FAQ";
 
 export default function ServiciosPage() {
@@ -24,8 +27,15 @@ export default function ServiciosPage() {
             <HeroTransition showShadow={false} transitionColor="#86d2fb" />
             {/* Nueva sección de Información de Inventario */}
             <StudentInventory />
+            <ServicesOnboarding />
+            <ServicesDifference />
+            <ServicesPortalBenefits />
+
+
+
             {/* Nueva sección de Pricing */}
             <ServicePricing />
+
             <FAQ />
             <Footer />
         </main>

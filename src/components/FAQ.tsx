@@ -111,7 +111,7 @@ export default function FAQ() {
                     className="text-center mb-16 md:mb-20"
                 >
                     <span className="inline-block bg-[#86d2fb]/15 text-[#2a8ebd] px-6 py-2.5 rounded-full text-sm font-bold uppercase tracking-[0.15em] mb-6">
-                        🧩 Preguntas Frecuentes
+                        Preguntas Frecuentes
                     </span>
                     <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-[#222222] tracking-tight leading-[1.05]">
                         ¿Algo más que{" "}

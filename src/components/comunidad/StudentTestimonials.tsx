@@ -118,54 +118,69 @@ const MarqueeItem = ({ t }: { t: Testimonial }) => {
 }
 
 export default function StudentTestimonials() {
-    const baseVelocity = -1; // Negative for left movement
     const baseX = useMotionValue(0);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [containerWidth, setContainerWidth] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
+    const [singleSetWidth, setSingleSetWidth] = useState(0);
 
-    // Duplicate the array to ensure seamless looping
+    // 4 sets de testimonios: asegura que siempre haya suficiente contenido a 
+    // ambos lados (izq/der) cuando el usuario arrastra manualmente el componente.
     const displayTestimonials = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
 
     useEffect(() => {
-        if (containerRef.current) {
-            setContainerWidth(containerRef.current.scrollWidth / 2); // Assuming we duplicated array 4 times, half is enough to loop smoothly if we reset at proper point, actually scrollWidth is for the whole thing.
-        }
-    }, [containerRef.current]); // Added missing dependency for useEffect, containerRef.current should trigger a re-render. Actually useRef doesn't, but works fine for initial load here.
-
-    // Re-calculate on resize
-    useEffect(() => {
-        const handleResize = () => {
+        const calculateWidth = () => {
             if (containerRef.current) {
-                setContainerWidth(containerRef.current.scrollWidth / 2);
+                // Al tener 4 sets duplicados, el ancho de un set es 1/4 del total scrollWidth
+                const width = containerRef.current.scrollWidth / 4;
+                setSingleSetWidth(width);
+
+                // Inicializamos en -width (que equivale a iniciar en el segundo set)
+                // de este modo permitimos al usuario arrastrar hacia la derecha libremente
+                if (baseX.get() === 0) {
+                    baseX.set(-width);
+                }
             }
         };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+
+        // Timeout para asegurar el ancho real despues de pintarse la fuente e imágenes
+        const timeoutId = setTimeout(calculateWidth, 100);
+
+        window.addEventListener('resize', calculateWidth);
+        return () => {
+            clearTimeout(timeoutId);
+            window.removeEventListener('resize', calculateWidth);
+        };
     }, []);
 
     useAnimationFrame((t, delta) => {
-        if (isPaused || isDragging) return;
+        if (singleSetWidth === 0) return;
 
-        let moveBy = baseVelocity * (delta / 16);
+        // Dejamos de interferir si el usuario esta arrastrando, permitiendo arrastre natural libre.
+        if (isDragging) return;
 
         let currentX = baseX.get();
-        currentX += moveBy;
 
-        // Reset X to loop seamlessly
-        // We have 4 sets of testimonials. When we've scrolled past 2 sets (half the total width), reset to 0.
-        if (containerWidth > 0 && Math.abs(currentX) >= containerWidth / 2) {
-            currentX = 0;
+        // Mover automáticamente si no se tiene el mouse encima
+        if (!isHovered) {
+            currentX -= 1 * (delta / 16);
+        }
+
+        // --- LÓGICA DE BUCLE INFINITO INVISIBLE ---
+        // Mantenemos "currentX" confinado constantemente entre 1 Set (-singleSetWidth) 
+        // y 2 Sets (-singleSetWidth * 2). Si cruza cualquier límite, lo ajustamos de 
+        // forma transparente (la imagen que verá el usuario es idéntica) dando la ilusión de infinitud.
+        if (currentX <= -(singleSetWidth * 2)) {
+            currentX += singleSetWidth;
+        } else if (currentX > -singleSetWidth) {
+            currentX -= singleSetWidth;
         }
 
         baseX.set(currentX);
     });
 
-    const x = useTransform(baseX, (v) => `${v}px`);
-
     return (
-        <section className="relative w-full min-h-screen py-24 md:py-32 bg-[#88e04f] rounded-[50px] overflow-hidden flex flex-col justify-center">
+        <section className="relative w-full min-h-screen py-24 md:py-32 bg-[#88e04f] rounded-[50px] overflow-hidden flex flex-col justify-center select-none">
             {/* Background elements */}
             <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]" />
             <div className="absolute top-10 left-10 w-96 h-96 bg-white/20 rounded-full blur-[100px] pointer-events-none" />
@@ -180,17 +195,19 @@ export default function StudentTestimonials() {
             </div>
 
             {/* Marquee Container */}
-            <div className="relative w-full overflow-hidden py-10">
+            <div
+                className="relative w-full overflow-hidden py-10"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
                 <motion.div
                     ref={containerRef}
                     className="flex w-max cursor-grab active:cursor-grabbing"
-                    style={{ x }}
+                    style={{ x: baseX }}
                     drag="x"
-                    dragConstraints={{ left: -containerWidth, right: 0 }}
+                    dragMomentum={false} // Evitar el desplazamiento de inercia para control más preciso al soltar
                     onDragStart={() => setIsDragging(true)}
                     onDragEnd={() => setIsDragging(false)}
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
                 >
                     {displayTestimonials.map((t, idx) => (
                         <MarqueeItem key={idx} t={t} />
@@ -199,7 +216,6 @@ export default function StudentTestimonials() {
             </div>
 
             <style jsx global>{`
-                /* Hide scrollbar for the marquee container just in case */
                 ::-webkit-scrollbar {
                     display: none;
                 }

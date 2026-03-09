@@ -2,19 +2,20 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Gamepad2, Key, MonitorPlay, Shapes, Star, CheckCircle2 } from "lucide-react";
 
 export default function ServicePricing() {
     const features = [
-        { text: "4 sesiones de 1 hora al mes", icon: Star, color: "text-[#f59e0b]", bg: "bg-amber-100" },
-        { text: "Acceso al Servidor Privado de Minecraft", icon: Gamepad2, color: "text-[#10b981]", bg: "bg-emerald-100" },
-        { text: "Acceso Inmediato al Portal de Alumnos", icon: Key, color: "text-[#a855f7]", bg: "bg-purple-100" },
-        { text: "Videos Gameplay Exclusivos", icon: MonitorPlay, color: "text-[#3b82f6]", bg: "bg-blue-100" },
-        { text: "Material Interactivo (Flashcards, Quizzes)", icon: Shapes, color: "text-[#ef4444]", bg: "bg-red-100" },
+        { text: "4 sesiones de 1 hora al mes", iconSrc: "/images/service-page/diamond.webp", color: "text-[#f59e0b]", bg: "bg-amber-50" },
+        { text: "Acceso al Servidor Privado de Minecraft", iconSrc: "/images/estrategia-page/grassblock.webp", color: "text-[#10b981]", bg: "bg-emerald-50" },
+        { text: "Acceso Inmediato al Portal de Alumnos", iconSrc: "/images/service-page/netherportal.gif", color: "text-[#a855f7]", bg: "bg-purple-70" },
+        { text: "Videos Gameplay Exclusivos", iconSrc: "/images/service-page/enderchest.gif", color: "text-[#3b82f6]", bg: "bg-blue-50" },
+        { text: "Material Interactivo (Flashcards, Quizzes)", iconSrc: "/images/estrategia-page/bookshelf.webp", color: "text-[#ef4444]", bg: "bg-red-50" },
     ];
 
     return (
-        <section className="w-full py-32 bg-[#f5f1e4] relative overflow-hidden flex items-center justify-center px-6">
+        <section className="w-full min-h-screen py-32 bg-white rounded-[50px] relative overflow-hidden flex items-center justify-center px-6">
 
             {/* Elementos Decorativos de Fondo */}
             <div className="absolute top-10 left-10 w-32 h-32 bg-[#86d2fb]/30 rounded-full blur-[40px] pointer-events-none" />
@@ -38,20 +39,20 @@ export default function ServicePricing() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.2 }}
-                                className="inline-block bg-[#86d2fb]/20 text-[#2a8ebd] px-6 py-2 rounded-full text-base font-bold uppercase tracking-widest"
+                                className="inline-flex items-center gap-2 bg-[#632EB0]/10 text-[#632EB0] px-6 py-2 rounded-full text-base font-bold uppercase tracking-widest border border-[#632EB0]/20"
                             >
-                                Plan Exclusivo
+                                <img src="/images/service-page/diamond.webp" alt="Diamond" className="w-5 h-5" /> Plan Exclusivo
                             </motion.span>
                             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight leading-[1.1]">
                                 Módulo <br className="hidden lg:block" />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8ED462] to-[#4caf2e]">Ludora</span>
+                                <span className="text-[#632EB0]">Ludora Learning</span>
                             </h2>
                             <p className="text-[#666666] text-lg md:text-xl font-medium leading-relaxed max-w-md mx-auto lg:mx-0">
-                                Aprende inglés jugando. Descubre todo lo que necesitas para llevar tu nivel al máximo en una experiencia inmersiva.
+                                Únete a la comunidad de aprendizaje más divertida. Todo lo que necesitas en una <strong className="text-[#632EB0]">experiencia premium</strong> dentro de Minecraft.
                             </p>
                         </div>
 
-                        <div className="w-full p-8 rounded-[32px] bg-[#f9fafb] border-2 border-gray-100 flex flex-col items-center lg:items-start">
+                        <div className="w-full p-8 rounded-[32px] bg-[#fdfaf5] border-2 border-gray-100 flex flex-col items-center lg:items-start shadow-inner">
                             <div className="flex items-baseline gap-2 mb-2">
                                 <span className="text-[#222222] text-3xl font-bold align-top">$</span>
                                 <span className="text-6xl md:text-7xl font-black text-[#222222] tracking-tighter">
@@ -63,16 +64,20 @@ export default function ServicePricing() {
                             </div>
                             <span className="text-[#888888] font-medium tracking-wide">Facturado mensualmente</span>
 
-                            <button className="w-full mt-8 py-5 bg-[#8ED462] hover:bg-[#7bc052] text-white rounded-[20px] text-xl font-black tracking-wide transition-all duration-300 shadow-[0_8px_25px_0_rgba(142,212,98,0.4)] hover:shadow-[0_12px_35px_rgba(142,212,98,0.3)] hover:-translate-y-1 active:translate-y-1">
-                                ¡Inscribirme Ahora!
-                            </button>
+                            <Link
+                                href="/portal-alumno/registro"
+                                className="w-full mt-8 py-5 bg-[#8ED462] hover:bg-[#7bc052] text-white rounded-[15px] text-xl font-black tracking-wide transition-all duration-300 shadow-[0_8px_0_0_#598a3b] hover:shadow-[0_6px_0_0_#4a7331] active:shadow-none active:translate-y-[4px] flex items-center justify-center"
+                            >
+                                <span>¡INSCRÍBETE AHORA!</span>
+                            </Link>
                         </div>
                     </div>
 
                     {/* Columna Derecha: Beneficios */}
                     <div className="flex flex-col h-full justify-center">
-                        <h3 className="text-2xl font-bold text-[#222222] mb-8 text-center lg:text-left">
-                            Todo lo que incluye tu inscripción:
+                        <h3 className="text-2xl font-black text-[#222222] mb-8 text-center lg:text-left flex items-center justify-center lg:justify-start gap-3">
+                            <img src="/images/service-page/logoludoraredondo.webp" className="w-10 h-10" alt="" />
+                            ¿Qué incluye tu aventura?
                         </h3>
 
                         <div className="space-y-4 md:space-y-6">
@@ -83,18 +88,18 @@ export default function ServicePricing() {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: 0.1 * i, duration: 0.5, type: "spring" }}
-                                    className="flex items-center gap-5 p-4 md:p-5 rounded-2xl md:rounded-[24px] bg-white border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow duration-300 group"
+                                    className="flex items-center gap-5 p-4 md:p-5 rounded-2xl md:rounded-[24px] bg-white border-2 border-gray-50 shadow-sm hover:border-[#632EB0]/20 hover:shadow-md transition-all duration-300 group"
                                 >
-                                    <div className={`flex-shrink-0 w-14 h-14 rounded-2xl ${feature.bg} flex items-center justify-center ${feature.color} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                                        <feature.icon size={26} strokeWidth={2.5} />
+                                    <div className={`flex-shrink-0 w-14 h-14 rounded-xl ${feature.bg} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
+                                        <img src={feature.iconSrc} alt="" className="w-9 h-9 object-contain drop-shadow-sm" />
                                     </div>
                                     <div className="flex-grow">
                                         <p className="text-[#333333] font-bold text-lg leading-snug">
                                             {feature.text}
                                         </p>
                                     </div>
-                                    <div className="hidden sm:flex flex-shrink-0 w-8 h-8 rounded-full bg-gray-50 items-center justify-center text-gray-300">
-                                        <CheckCircle2 size={18} strokeWidth={3} />
+                                    <div className="hidden sm:flex flex-shrink-0 w-10 h-10 items-center justify-center">
+                                        <img src="/images/service-page/greenparticle.webp" className="w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity" alt="" />
                                     </div>
                                 </motion.div>
                             ))}

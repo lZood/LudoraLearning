@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
+import LandingIntro from "@/components/LandingIntro";
 import LudoraCardsSection from "@/components/LudoraCardsSection";
 import BlockyFinalSection from "@/components/BlockyFinalSection";
 import MinecraftDiorama from "@/components/MinecraftDiorama";
@@ -20,7 +21,8 @@ export default function Home() {
           subtitleSpan: { mobile: 4, desktop: 10 }
         }}
       />
-      <HeroTransition />
+      <HeroTransition showShadow={false} transitionColor="#88e04f" />
+      <LandingIntro />
       <LudoraCardsSection />
       <BlockyFinalSection />
       <PhotoGallery />

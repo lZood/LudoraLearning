@@ -30,7 +30,7 @@ export default function ScrollSnake({ containerRef }: ScrollSnakeProps) {
                 style={{ opacity: 0.8 }}
             >
                 <motion.path
-                    d="M 500 100 
+                    d="M 500 050 
                        C 500 400, 800 600, 800 900 
                        C 800 1200, 200 1400, 200 1700 
                        C 200 1900, 600 2000, 600 2200 

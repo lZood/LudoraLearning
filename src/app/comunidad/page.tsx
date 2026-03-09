@@ -1,10 +1,8 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import CommunityMasonryGallery from "@/components/CommunityMasonryGallery";
-import StudentTestimonials from "@/components/StudentTestimonials";
-import CommunityStats from "@/components/CommunityStats";
-import DiscordCTA from "@/components/DiscordCTA";
-import FAQ from "@/components/FAQ";
+import CommunityMasonryGallery from "@/components/comunidad/CommunityMasonryGallery";
+import StudentTestimonials from "@/components/comunidad/StudentTestimonials";
+import DiscordCTA from "@/components/comunidad/DiscordCTA";
 import Footer from "@/components/Footer";
 
 export default function ComunidadPage() {
@@ -13,9 +11,10 @@ export default function ComunidadPage() {
             <Hero
                 title={<>COMUNIDAD <br className="hidden md:block" /> LUDORA</>}
                 subtitle="Forma parte de una red de estudiantes apasionados. Juega, aprende, resuelve dudas y comparte tus logros con nuestra tribu."
-                backgroundColor="#f9d314"
-                titleColor="#1a1a1a"
-                subtitleColor="#1a1a1a"
+                titleColor="#ffffffff"
+                subtitleColor="#ffffffff"
+                mediaSrc="/images/comunidad/comunidad.webp"
+                isVideo={false}
                 showTextShadow={false}
                 showOverlay={false}
                 layout={{
