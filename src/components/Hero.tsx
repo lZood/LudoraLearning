@@ -49,6 +49,8 @@ export interface HeroProps {
     titleColor?: string;
     subtitleColor?: string;
     showTextShadow?: boolean;
+    titleSize?: string;
+    subtitleSize?: string;
 }
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'ultrawide';
@@ -93,7 +95,9 @@ export default function Hero({
     showOverlay = true,
     titleColor = "#ffffff",
     subtitleColor = "#ffffff",
-    showTextShadow = true
+    showTextShadow = true,
+    titleSize,
+    subtitleSize
 }: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const bp = useBreakpoint();
@@ -211,7 +215,7 @@ export default function Hero({
                             <h1
                                 className={`font-bold tracking-[0.1em] leading-[0.9] mb-8 lg:mb-12 ${neueMachina.className}`}
                                 style={{
-                                    fontSize: "clamp(2rem, 9.8cqw, 9rem)",
+                                    fontSize: titleSize || "clamp(3.5rem, 10.5cqw, 9rem)",
                                     filter: showTextShadow
                                         ? "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.05)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
                                         : "none",
@@ -237,7 +241,7 @@ export default function Hero({
                             <p
                                 className={`font-medium leading-relaxed tracking-[0.08em] break-words ${montserrat.className}`}
                                 style={{
-                                    fontSize: "clamp(1.1rem, 2vw + 0.5rem, 2.5rem)",
+                                    fontSize: subtitleSize || "clamp(1.2rem, 3vw + 0.5rem, 2.5rem)",
                                     textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
                                     maxWidth: "100%",
                                     color: subtitleColor

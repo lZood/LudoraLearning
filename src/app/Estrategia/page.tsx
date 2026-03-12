@@ -1,12 +1,12 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import EstrategiaOrigin from "@/components/EstrategiaOrigin";
-import EstrategiaPlanning from "@/components/EstrategiaPlanning";
-import EstrategiaMinecraftSection from "@/components/EstrategiaMinecraft";
-import EstrategiaPronunciation from "@/components/EstrategiaPronunciation";
-import EstrategiaRealUsage from "@/components/EstrategiaRealUsage";
-import EstrategiaResults from "@/components/EstrategiaResults";
-import EstrategiaWhyMinecraft from "@/components/EstrategiaWhyMinecraft";
+import EstrategiaOrigin from "@/components/estrategia/EstrategiaOrigin";
+import EstrategiaPlanning from "@/components/estrategia/EstrategiaPlanning";
+import EstrategiaMinecraftSection from "@/components/estrategia/EstrategiaMinecraft";
+import EstrategiaPronunciation from "@/components/estrategia/EstrategiaPronunciation";
+import EstrategiaRealUsage from "@/components/estrategia/EstrategiaRealUsage";
+import EstrategiaResults from "@/components/estrategia/EstrategiaResults";
+import EstrategiaWhyMinecraft from "@/components/estrategia/EstrategiaWhyMinecraft";
 import Footer from "@/components/Footer";
 
 export default function Estrategia() {
@@ -21,10 +21,11 @@ export default function Estrategia() {
                 showOverlay={false}
                 layout={{
                     titleStart: { mobile: 1, desktop: 1 },
-                    titleSpan: { mobile: 4, desktop: 13 },
+                    titleSpan: { mobile: 3, desktop: 13 },
                     subtitleStart: { mobile: 1, desktop: 1 },
                     subtitleSpan: { mobile: 4, desktop: 11 }
                 }}
+                titleSize="clamp(2.8rem, 10.5cqw, 9rem)"
                 showGrid={false}
             />
             <HeroTransition showShadow={false} transitionColor="#f0ecff" />

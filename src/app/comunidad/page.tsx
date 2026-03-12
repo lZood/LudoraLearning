@@ -1,7 +1,10 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import CommunityMasonryGallery from "@/components/comunidad/CommunityMasonryGallery";
-import StudentTestimonials from "@/components/comunidad/StudentTestimonials";
+import ClassroomWindow from "@/components/comunidad/ClassroomWindow";
+import ProjectGallery from "@/components/comunidad/ProjectGallery";
+import SkillTree from "@/components/comunidad/SkillTree";
+import HeroStories from "@/components/comunidad/HeroStories";
+import EventsCalendar from "@/components/comunidad/EventsCalendar";
 import DiscordCTA from "@/components/comunidad/DiscordCTA";
 import Footer from "@/components/Footer";
 
@@ -10,7 +13,7 @@ export default function ComunidadPage() {
         <main className="min-h-screen bg-[#f5f1e4] relative text-[#1a1a1a]">
             <Hero
                 title={<>COMUNIDAD <br className="hidden md:block" /> LUDORA</>}
-                subtitle="Forma parte de una red de estudiantes apasionados. Juega, aprende, resuelve dudas y comparte tus logros con nuestra tribu."
+                subtitle="Descubre la transformación de nuestros alumnos. Aprende programación e inglés mientras construyes proyectos increíbles en Minecraft."
                 titleColor="#ffffffff"
                 subtitleColor="#ffffffff"
                 mediaSrc="/images/comunidad/comunidad.webp"
@@ -25,10 +28,16 @@ export default function ComunidadPage() {
                 }}
                 showGrid={false}
             />
-            <HeroTransition showShadow={false} transitionColor="#e7e3d7" />
-            <CommunityMasonryGallery />
-            <StudentTestimonials />
+            {/* The first component is ClassroomWindow which has a #222222 background, so we transition to that color */}
+            <HeroTransition showShadow={false} transitionColor="#222222" />
+
+            <ClassroomWindow />
+            <ProjectGallery />
+            <SkillTree />
+            <HeroStories />
+            <EventsCalendar />
             <DiscordCTA />
+
             <Footer />
         </main>
     );

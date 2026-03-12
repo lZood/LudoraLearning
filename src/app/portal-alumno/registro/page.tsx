@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 
 export default function PortalAlumnoSignUp() {
@@ -11,6 +12,7 @@ export default function PortalAlumnoSignUp() {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const supabase = createClient();
 
@@ -41,7 +43,8 @@ export default function PortalAlumnoSignUp() {
             if (signUpError) {
                 setError(signUpError.message);
             } else {
-                setSuccessMessage('¡Cuenta creada! Revisa tu correo electrónico para confirmarla.');
+                setSuccessMessage('¡Cuenta creada! Redirigiendo a evaluación...');
+                router.push('/portal-alumno/evaluacion');
             }
         } catch (err: any) {
             setError(err.message || 'Error al crear la cuenta');

@@ -3,11 +3,10 @@ import HeroTransition from "@/components/HeroTransition";
 import LandingIntro from "@/components/LandingIntro";
 import LudoraCardsSection from "@/components/LudoraCardsSection";
 import BlockyFinalSection from "@/components/BlockyFinalSection";
-import MinecraftDiorama from "@/components/MinecraftDiorama";
 import MethodologyStack from "@/components/MethodologyStack";
 import PhotoGallery from "@/components/PhotoGallery";
 import Footer from "@/components/Footer";
-import ParallaxImage from "@/components/ParallaxImage";
+import DiscordCTA from "@/components/comunidad/DiscordCTA";
 
 export default function Home() {
   return (
@@ -27,7 +26,7 @@ export default function Home() {
       <BlockyFinalSection />
       <PhotoGallery />
       <MethodologyStack />
-      <MinecraftDiorama />
+      <DiscordCTA />
       <Footer />
     </main>
   );

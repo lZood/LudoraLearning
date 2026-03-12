@@ -77,7 +77,7 @@ export default function ContactoPage() {
 
                     {/* Calendly Card */}
                     <motion.a
-                        href="https://calendly.com/yourlink"
+                        href="https://calendly.com/ludoralearning/inglesenminecraft"
                         target="_blank"
                         rel="noopener noreferrer"
                         initial={{ opacity: 0, y: 30 }}
@@ -108,20 +108,7 @@ export default function ContactoPage() {
                     transition={{ duration: 0.7, type: "spring", bounce: 0.3 }}
                     className="bg-white/60 backdrop-blur-md rounded-[40px] md:rounded-[50px] p-10 md:p-14 shadow-[0_20px_60px_rgb(0,0,0,0.04)] border border-white/80"
                 >
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0 md:divide-x md:divide-gray-200/60">
-
-                        {/* Ubicación */}
-                        <div className="md:px-10 first:md:pl-0 last:md:pr-0 flex flex-col items-center md:items-start text-center md:text-left">
-                            <div className="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-[#632eaf] mb-5 transition-transform duration-300 hover:scale-110 hover:rotate-3">
-                                <MapPin size={26} strokeWidth={2.5} />
-                            </div>
-                            <h4 className="text-xl font-black text-[#222222] mb-3">Ubicación</h4>
-                            <div className="text-[#666666] space-y-1 font-medium">
-                                <p className="font-bold text-[#222222]">Ciudad de México</p>
-                                <p>Avenida Reforma 222,</p>
-                                <p>Juárez, 06600 CDMX, México</p>
-                            </div>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-0 md:divide-x md:divide-gray-200/60">
 
                         {/* Email */}
                         <div className="md:px-10 first:md:pl-0 last:md:pr-0 flex flex-col items-center md:items-start text-center md:text-left">
@@ -130,8 +117,8 @@ export default function ContactoPage() {
                             </div>
                             <h4 className="text-xl font-black text-[#222222] mb-3">Email</h4>
                             <div className="text-[#666666] font-medium">
-                                <a href="mailto:hola@ludoralearning.com" className="hover:text-[#632eaf] transition-colors font-bold">
-                                    hola@ludoralearning.com
+                                <a href="mailto:ludoralearning@gmail.com" className="hover:text-[#632eaf] transition-colors font-bold">
+                                    ludoralearning@gmail.com
                                 </a>
                                 <p className="mt-2 text-sm opacity-70">Respondemos en menos de 24 horas.</p>
                             </div>

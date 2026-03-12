@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { WigglyUnderline } from "./WigglyUnderline";
+import { WigglyUnderline } from "../WigglyUnderline";
 
 // Helper component for a pixelated cloud/cluster
 const PixelCloud = ({ className, delay = 0, opacity = 0.1 }: { className: string, delay?: number, opacity?: number }) => (

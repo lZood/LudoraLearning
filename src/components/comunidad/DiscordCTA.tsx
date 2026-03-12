@@ -59,7 +59,7 @@ export default function DiscordCTA() {
 
                     <motion.div variants={itemVariants}>
                         <a
-                            href="https://discord.gg/yourlink"
+                            href="https://discord.gg/WKF3mch4Q8"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group inline-flex items-center gap-4 bg-[#5865F2] text-white px-10 py-6 rounded-[25px] font-black text-xl md:text-2xl tracking-wide shadow-[0_10px_30px_0_rgba(88,101,242,0.4)] hover:shadow-[0_15px_40px_rgba(88,101,242,0.5)] hover:-translate-y-1 hover:scale-105 active:translate-y-1 transition-all duration-300 w-fit"

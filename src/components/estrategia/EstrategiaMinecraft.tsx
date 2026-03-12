@@ -3,7 +3,7 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 
-export default function EstrategiaOrigin() {
+export default function EstrategiaMinecraft() {
     const containerVariants: Variants = {
         hidden: {},
         visible: {
@@ -21,58 +21,55 @@ export default function EstrategiaOrigin() {
     };
 
     return (
-        <section className="relative w-full min-h-screen bg-[#f0ecff] rounded-b-[50px] overflow-hidden flex items-center px-6 py-24 md:py-32">
+        <section className="relative w-full min-h-screen bg-[#edfade] rounded-[50px] overflow-hidden flex items-center px-6 py-24 md:py-32">
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-                {/* Left — Visual Card */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, type: "spring", bounce: 0.25 }}
-                    className="relative aspect-square w-full rounded-[40px] overflow-hidden shadow-2xl order-1"
+                    className="relative aspect-square w-full rounded-[40px] overflow-hidden shadow-2xl order-3 lg:order-1"
                 >
                     {/* Background Image Placeholder */}
                     <div
                         className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: "url('/images/estrategia-page/MineCocina.webp')" }}
+                        style={{ backgroundImage: "url('/images/estrategia-page/pescando.webp')" }}
                     />
-                    {/* Overlay for better number readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
 
                 </motion.div>
 
-                {/* Right — Content */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
-                    className="flex flex-col gap-8 order-2"
+                    className="flex flex-col gap-8 order-1 lg:order-2"
                 >
                     <motion.div variants={itemVariants} className="flex items-center gap-6">
                         {/* Big Icon */}
-                        <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-[#632eaf]/10 flex items-center justify-center shadow-lg overflow-hidden">
+                        <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-[#3d7a1c]/10 flex items-center justify-center shadow-lg overflow-hidden">
                             <img
-                                src="/images/estrategia-page/grassblock.webp"
+                                src="/images/estrategia-page/fishing.webp"
                                 alt="Icono"
                                 className="w-12 h-12 md:w-16 md:h-16 object-contain"
                             />
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight leading-[1.1]">
-                            El Origen <br />
-                            <span className="text-[#632eaf]">de Ludora</span>
+                            Aprender Jugando <br />
+                            <span className="text-[#3d7a1c]">en Minecraft</span>
                         </h2>
                     </motion.div>
 
                     <div className="flex flex-col gap-6 max-w-xl">
                         <motion.p variants={itemVariants} className="text-xl md:text-2xl text-[#444444] font-medium leading-relaxed">
-                            Ludora nace de lo <strong className="text-[#632eaf]">"lúdico"</strong>: aprender jugando. Creemos que el inglés no debe ser una obligación escolar, sino una herramienta para explorar y crear.
+                            Aquí la teoría cobra vida. Un equipo especializado traduce nuestras planeaciones en <strong className="text-[#3d7a1c]">misiones y mini-juegos únicos</strong>.
                         </motion.p>
                         <motion.p variants={itemVariants} className="text-lg md:text-xl text-[#666666] font-medium leading-relaxed">
-                            Aquí, la curiosidad es el motor del aprendizaje y los errores son solo parte de la aventura. Nuestro objetivo es que los alumnos adquieran el idioma de una forma natural.
+                            No solo enseñamos vocabulario; creamos experiencias donde los alumnos deben usar el inglés para avanzar, integrando la gramática de forma orgánica.
                         </motion.p>
                     </div>
                 </motion.div>
