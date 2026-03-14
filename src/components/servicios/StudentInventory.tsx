@@ -12,7 +12,7 @@ const INVENTORY_ITEMS = [
         iconSrc: "/images/estrategia-page/grassblock.webp",
         color: "text-[#8ED462]",
         bgColor: "#8ED462",
-        description: "Al inscribirte en tu primer módulo de aprendizaje con Ludora, obtienes acceso a nuestro servidor privado de Minecraft, donde aprenderemos inglés juntos dentro del juego. Las sesiones se realizan una vez por semana, tienen una duración de una hora, y cada módulo está compuesto por 4 sesiones."
+        description: "Al inscribirte en tu primer módulo de aprendizaje con Ludora, obtienes acceso a nuestro servidor privado de Minecraft, donde aprenderemos inglés juntos dentro del juego. Las sesiones se realizan una vez por semana, tienen una duración de una hora, y cada módulo está compuesto por 8 sesiones."
     },
     {
         id: "portal",

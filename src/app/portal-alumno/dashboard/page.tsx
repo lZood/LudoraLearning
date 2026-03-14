@@ -2,6 +2,7 @@ import React from "react";
 import { CheckCircle2, Lock, PlayCircle, BookOpen } from "lucide-react";
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
+import AdventureMap from "@/components/dashboard/AdventureMap";
 
 export default async function DashboardIndex() {
     const supabase = await createClient();
@@ -62,8 +63,17 @@ export default async function DashboardIndex() {
             {/* Main Content Area */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                {/* Course List */}
+                {/* Course List & Map */}
                 <div className="lg:col-span-2 flex flex-col gap-4">
+
+                    {/* Adventure Map */}
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Mi Mapa de Aventuras</h2>
+                        <AdventureMap 
+                            englishLevel={userData.english_level} 
+                            subscriptionStatus={subsData[0]?.status || 'incomplete'} 
+                        />
+                    </div>
 
                     {/* Completed Lesson */}
                     <div className="flex items-center justify-between p-5 bg-white border border-gray-200 rounded-2xl shadow-sm">

@@ -1,8 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Settings } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
-    import { questionBank, Question, QuestionLevel, QuestionCategory } from './questions';
+import { questionBank, Question, QuestionLevel, QuestionCategory } from './questions';
+import AdventureMap from '@/components/dashboard/AdventureMap';
 
     const CATEGORIES: QuestionCategory[] = [ // 5 domains
         'Gramática y Vocabulario', 
@@ -105,6 +107,8 @@ import { createClient } from '@/utils/supabase/client';
             level: QuestionLevel;
         }>>([]);
 
+        const [showDevMode, setShowDevMode] = useState(false);
+
     // Initial check for session
     useEffect(() => {
         const checkAuth = async () => {
@@ -146,7 +150,19 @@ import { createClient } from '@/utils/supabase/client';
 
         if (availableQuestions.length > 0) {
             const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-            setCurrentQuestion(availableQuestions[randomIndex]);
+            const questionToSet = { ...availableQuestions[randomIndex] };
+            
+            if (questionToSet.options) {
+                const shuffledOptions = [...questionToSet.options];
+                // Fisher-Yates shuffle
+                for (let i = shuffledOptions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+                }
+                questionToSet.options = shuffledOptions;
+            }
+
+            setCurrentQuestion(questionToSet);
             setActiveCategoryIndex(categoryIndex);
         } else {
             // Si literalmente no hay MÁS preguntas de esta categoría en TODA la base de datos, márcala como completada y salta a la siguiente.
@@ -541,6 +557,46 @@ import { createClient } from '@/utils/supabase/client';
                                 ></div>
                             </div>
 
+                            <div className="flex justify-end">
+                                <button 
+                                    onClick={() => setShowDevMode(!showDevMode)}
+                                    className="text-[10px] uppercase tracking-tighter text-gray-400 hover:text-orange-500 transition-colors font-bold"
+                                >
+                                    {showDevMode ? 'Ocultar Dev Mode' : 'Abrir Dev Mode'}
+                                </button>
+                            </div>
+
+                            {showDevMode && (
+                                <div className="p-5 bg-orange-50 border-2 border-orange-200 rounded-2xl animate-in slide-in-from-top-2 duration-200">
+                                    <h3 className="font-bold text-orange-800 mb-4 flex items-center gap-2 text-sm">
+                                        <Settings className="w-4 h-4" /> MODO DESARROLLADOR Ludora
+                                    </h3>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                                        {CATEGORIES.map(cat => (
+                                            <div key={cat} className="flex flex-col gap-1">
+                                                <label className="text-[10px] font-bold text-gray-500 uppercase">{cat}</label>
+                                                <select 
+                                                    value={categoryLevels[cat]}
+                                                    onChange={(e) => setCategoryLevels({...categoryLevels, [cat]: e.target.value as QuestionLevel})}
+                                                    className="p-2 border rounded-lg bg-white text-xs font-medium text-gray-700 outline-none focus:ring-1 focus:ring-orange-500"
+                                                >
+                                                    {LEVEL_PROGRESSION.map(lvl => (
+                                                        <option key={lvl} value={lvl}>{lvl}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button 
+                                        onClick={finishQuiz}
+                                        disabled={isSaving}
+                                        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50"
+                                    >
+                                        {isSaving ? 'Guardando...' : '⏩ Finalizar Simulación y Ver Resultado'}
+                                    </button>
+                                </div>
+                            )}
+
                             {error && <p className="text-red-500 text-center text-sm font-semibold">{error}</p>}
 
                             {/* Question Card */}
@@ -663,10 +719,18 @@ import { createClient } from '@/utils/supabase/client';
 
                         /* CHECKOUT & ACTIVATION SECTION */
                         <div className="flex flex-col items-center text-center gap-6 animate-fade-in">
-                            <div className="w-20 h-20 bg-teal-100 text-[#0F5451] rounded-full flex items-center justify-center mb-2">
+                            <div className="w-20 h-20 bg-teal-100 text-[#0F5451] rounded-full flex items-center justify-center mb-2 animate-bounce">
                                 <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                                 </svg>
+                            </div>
+
+                            <div className="w-full mb-6">
+                                <h3 className="font-bold text-gray-800 text-xl mb-4">Tu Mapa y Progreso</h3>
+                                <AdventureMap 
+                                    englishLevel={`Banda ${calculatedBanda}`} 
+                                    subscriptionStatus="incomplete" 
+                                />
                             </div>
 
                             <div className="w-full text-left bg-white border border-gray-200 rounded-2xl p-6 shadow-sm mb-4">

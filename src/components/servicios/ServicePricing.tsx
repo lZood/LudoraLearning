@@ -7,7 +7,7 @@ import { Gamepad2, Key, MonitorPlay, Shapes, Star, CheckCircle2 } from "lucide-r
 
 export default function ServicePricing() {
     const features = [
-        { text: "4 sesiones de 1 hora al mes", iconSrc: "/images/service-page/diamond.webp", color: "text-[#f59e0b]", bg: "bg-amber-50" },
+        { text: "8 sesiones de 1 hora al mes", iconSrc: "/images/service-page/diamond.webp", color: "text-[#f59e0b]", bg: "bg-amber-50" },
         { text: "Acceso al Servidor Privado de Minecraft", iconSrc: "/images/estrategia-page/grassblock.webp", color: "text-[#10b981]", bg: "bg-emerald-50" },
         { text: "Acceso Inmediato al Portal de Alumnos", iconSrc: "/images/service-page/netherportal.gif", color: "text-[#a855f7]", bg: "bg-purple-70" },
         { text: "Videos Gameplay Exclusivos", iconSrc: "/images/service-page/enderchest.gif", color: "text-[#3b82f6]", bg: "bg-blue-50" },

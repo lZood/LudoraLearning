@@ -59,7 +59,7 @@ export default function ServicesOnboarding() {
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight leading-[1.05] mb-8">
                         Proceso de <br />
                         <span className="text-[#2a8ebd]">
-                            Onboarding
+                            Incorporación
                         </span>
                     </h2>
                     <p className="text-xl md:text-2xl text-[#444444] font-medium leading-relaxed max-w-lg">

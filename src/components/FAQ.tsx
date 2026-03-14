@@ -24,7 +24,7 @@ const faqItems: FAQItem[] = [
     },
     {
         question: "¿Qué incluye mi inscripción?",
-        answer: "El plan incluye 4 sesiones de 1 hora al mes (una por semana). Cada sesión está diseñada para construir sobre lo aprendido la semana anterior, manteniendo un progreso constante y medible. Añadiendo tareas mínimas asignadas durante la semana, siendo todo esto reforzado con más herramientas y material digital que se encuentra en el portal de alumnos, de esta modo retienen la información de la manera más entretenida posible. ",
+        answer: "El plan incluye 8 sesiones de 1 hora al mes (una por semana). Cada sesión está diseñada para construir sobre lo aprendido la semana anterior, manteniendo un progreso constante y medible. Añadiendo tareas mínimas asignadas durante la semana, siendo todo esto reforzado con más herramientas y material digital que se encuentra en el portal de alumnos, de esta modo retienen la información de la manera más entretenida posible. ",
     },
     {
         question: "Si ya tengo conocimientos de inglés, ¿se puede adaptar el nivel?",
