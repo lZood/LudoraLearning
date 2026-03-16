@@ -39,6 +39,8 @@ import AdventureMap from '@/components/dashboard/AdventureMap';
         const supabase = createClient();
         
         const [userId, setUserId] = useState<string | null>(null);
+        const [userMetadata, setUserMetadata] = useState<{name: string, email: string} | null>(null);
+        const [hasStarted, setHasStarted] = useState(false);
         
         // CAT States - Multidimensional
         const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
@@ -117,6 +119,12 @@ import AdventureMap from '@/components/dashboard/AdventureMap';
                 router.push('/portal-alumno'); // Not logged in
             } else {
                 setUserId(user.id);
+                const name = user.user_metadata?.first_name 
+                    ? `${user.user_metadata.first_name} ${user.user_metadata.last_name || ''}`.trim()
+                    : user.email?.split('@')[0] || 'Aventurero';
+                const email = user.email || '';
+                setUserMetadata({ name, email });
+
                 // Check if already has a level (optional, assuming new user flow)
                 const { data: userData } = await supabase
                     .from('users')
@@ -518,42 +526,138 @@ import AdventureMap from '@/components/dashboard/AdventureMap';
     };
 
     return (
-        <div className="min-h-[100dvh] w-full relative flex items-center justify-center font-sans overflow-x-hidden overflow-y-auto py-12">
-            {/* Nether-inspired Background */}
+        <div className="relative min-h-screen w-full flex items-center justify-center font-sans overflow-x-hidden bg-[#8bc34a]">
+            {/* Minecraft Overworld Background */}
             <div
-                className="absolute inset-0 z-0 bg-[#361A27]"
+                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                    backgroundImage: `
-            radial-gradient(circle at 40% 30%, rgba(55, 36, 73, 0.9) 0%, transparent 60%),
-            radial-gradient(circle at 80% 80%, rgba(55, 36, 73, 0.8) 0%, transparent 50%),
-            radial-gradient(circle at 10% 90%, rgba(15, 115, 87, 0.15) 0%, transparent 40%)
-          `,
-                    filter: 'contrast(1.2) brightness(0.9)',
+                    backgroundImage: "url('/images/evaluacion/fondo_quiz.webp')",
                 }}
             >
-                <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] animate-[pulse_8s_ease-in-out_infinite]" />
+                <div className="absolute inset-0 bg-black/40" />
             </div>
 
             {/* Main Container */}
-            <div className="relative z-10 w-full max-w-2xl px-6">
-                <div className="bg-white rounded-3xl p-8 shadow-2xl shadow-[#361A27]/50 border-t-4 border-[#0F5451] flex flex-col transition-all">
+            <div className="relative z-10 w-full max-w-4xl px-4 md:px-8 py-10 md:py-16 min-h-screen flex flex-col justify-center">
+                <div className="bg-white rounded-xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-t-8 border-[#3b8526] flex flex-col transition-all">
                     
                     {!isQuizFinished ? (
+                        !hasStarted ? (
+                            /* INTRO SCREEN */
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in text-gray-800 h-full">
+                                {/* Left Column: Intro & Scale */}
+                                <div className="space-y-6 flex flex-col justify-start">
+                                    {/* Icon / Title area */}
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 bg-white border-4 border-[#3b8526] shadow-md flex items-center justify-center rounded-none flex-shrink-0">
+                                            <span className="text-3xl">🌍</span>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-[#3b8526] uppercase tracking-widest leading-none mb-1">Test de Inglés</p>
+                                            <h1 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight">Ludora Academy</h1>
+                                        </div>
+                                    </div>
+                                    
+                                    <p className="text-gray-600 font-medium text-lg leading-relaxed">
+                                        Esta prueba medirá tu nivel de inglés utilizando el estándar MCER (Marco Común Europeo de Referencia).
+                                    </p>
+
+                                    <div className="bg-[#f0f0f0] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#9e9e9e] border-r-[#9e9e9e] border-t-white border-l-white p-6 space-y-4">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-4 h-4 rounded-none bg-blue-500"></div>
+                                            <div>
+                                                <p className="font-bold text-gray-900 leading-none mb-1">Niveles Pre-A1 / A1</p>
+                                                <p className="text-sm text-gray-600">Principiante</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-4 h-4 rounded-none bg-green-500"></div>
+                                            <div>
+                                                <p className="font-bold text-gray-900 leading-none mb-1">Nivel A2</p>
+                                                <p className="text-sm text-gray-600">Elemental</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-4 h-4 rounded-none bg-yellow-500"></div>
+                                            <div>
+                                                <p className="font-bold text-gray-900 leading-none mb-1">Nivel B1</p>
+                                                <p className="text-sm text-gray-600">Intermedio</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4 opacity-50">
+                                            <div className="w-4 h-4 rounded-none bg-orange-500"></div>
+                                            <div>
+                                                <p className="font-bold text-gray-900 leading-none mb-1">Niveles B2 / C1 / C2</p>
+                                                <p className="text-sm text-gray-600">Avanzado (Desbloqueado post-prueba)</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Right Column: Info & Start Button */}
+                                <div className="space-y-6 bg-white p-6 md:p-8 rounded-none border-b-4 border-r-4 border-t-2 border-l-2 border-[#1e4413] flex flex-col justify-between h-full bg-opacity-90">
+                                    <div className="space-y-6">
+                                        <div>
+                                            <h3 className="font-bold text-gray-900 mb-4 pb-2 border-b-2 border-dashed border-gray-300">Completa los siguientes campos:</h3>
+                                            <div className="space-y-4">
+                                                <div className="bg-[#e0e0e0] border-2 border-[#9e9e9e] p-3">
+                                                    <p className="text-xs text-gray-600 font-bold mb-1 uppercase tracking-wide">Nombre</p>
+                                                    <p className="text-gray-900 font-bold text-lg truncate">{userMetadata?.name || 'Cargando...'}</p>
+                                                </div>
+                                                <div className="bg-[#e0e0e0] border-2 border-[#9e9e9e] p-3">
+                                                    <p className="text-xs text-gray-600 font-bold mb-1 uppercase tracking-wide">Correo Electrónico</p>
+                                                    <p className="text-gray-900 font-bold text-lg truncate">{userMetadata?.email || 'Cargando...'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-4 pt-2">
+                                            <h3 className="font-bold text-gray-900">Ten en cuenta que:</h3>
+                                            <ul className="space-y-4">
+                                                <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
+                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <span>La prueba es dinámica y se adapta a tu nivel. Puede tomarte entre 10 y 30 minutos aproximadamente.</span>
+                                                </li>
+                                                <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
+                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <span>El test incluye ejercicios de pronunciación y para eso te pediremos que actives el micrófono.</span>
+                                                </li>
+                                                <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
+                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <span>Al finalizar, recibirás una ruta de aprendizaje para empezar a construir y mejorar tu inglés.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <button 
+                                        onClick={() => setHasStarted(true)}
+                                        className="w-full bg-[#3b8526] hover:bg-[#2e681d] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#1e4413] border-r-[#1e4413] border-t-[#67c449] border-l-[#67c449] text-white font-black py-4 px-6 text-xl md:text-2xl mt-8 flex justify-between items-center transition-all hover:-translate-y-1 focus:outline-none uppercase tracking-wide"
+                                    >
+                                        <span>Iniciar test</span>
+                                        <span>➜</span>
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
                         /* QUIZ SECTION */
                         <div className="flex flex-col gap-6 animate-fade-in">
-                            <div className="text-center">
-                                <h1 className="text-3xl font-bold text-gray-900 mb-2">Evaluación de Nivel</h1>
-                                <p className="text-gray-500">
-                                    Responde estas rápidas preguntas para ajustar el contenido a tus habilidades.
-                                    Pregunta {questionsAnsweredCount + 1} de hasta 15
-                                </p>
+                            {/* Quiz Header & Progress */}
+                            <div className="flex items-center justify-between mb-4 border-b-2 border-[#8bc34a] pb-4">
+                                <div className="font-black text-gray-500 uppercase tracking-widest text-sm flex gap-4">
+                                    <span>Ronda {activeCategoryIndex + 1}/5</span>
+                                    <span className="text-[#3b8526]">{currentQuestion?.category}</span>
+                                </div>
+                                <div className="text-[#3b8526] font-bold text-xs bg-green-100 px-3 py-1 rounded-sm border-2 border-green-300">
+                                    Nivel: {currentQuestion?.level}
+                                </div>
                             </div>
 
-                            {/* Progress Indicator (Estimated) */}
-                            <div className="w-full bg-gray-200 rounded-full h-2">
+                            {/* Progress bar (Minecraft EXP style) */}
+                            <div className="w-full bg-gray-200 h-4 rounded-sm border-2 border-gray-400 overflow-hidden relative">
                                 <div 
-                                    className="bg-gradient-to-r from-[#0F5451] to-[#0F7357] h-2 rounded-full transition-all duration-300"
-                                    style={{ width: `${Math.min(((questionsAnsweredCount) / 15) * 100, 100)}%` }}
+                                    className="h-full bg-[#3b8526] transition-all duration-700 ease-out"
+                                    style={{ width: `${(questionsAnsweredCount / (CATEGORIES.length * 3)) * 100}%` }}
                                 ></div>
                             </div>
 
@@ -714,7 +818,7 @@ import AdventureMap from '@/components/dashboard/AdventureMap';
                                 </div>
                             )}
                         </div>
-
+                        )
                     ) : (
 
                         /* CHECKOUT & ACTIVATION SECTION */

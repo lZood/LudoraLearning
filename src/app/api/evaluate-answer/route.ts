@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Falta userAnswerText' }, { status: 400 });
         }
 
-        // Configurar modelo. Usamos gemini-1.5-flash-latest por su velocidad y soporte multimedia
+        // Configurar modelo. Usamos gemini-1.5-flash por su velocidad y soporte multimedia
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         let prompt = `Eres un evaluador de nivel de inglés usando el marco MCER (CEFR).
