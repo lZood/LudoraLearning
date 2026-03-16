@@ -118,22 +118,21 @@ export default function Header() {
                 Sobre nosotros
               </Link>
 
-              <Link
-                href="/portal-alumno"
-                className="text-[13px] font-bold text-white bg-[#632eaf] hover:bg-[#522591] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ml-1"
-              >
-                Portal de Alumno
-              </Link>
 
             </nav>
 
             {/* MOBILE ACTIONS */}
             <div className="flex lg:hidden items-center gap-3 ml-auto">
               <Link
-                href="/contacto"
-                className="bg-[#f2f0e9] px-4 py-2 rounded-xl text-[15.5px] font-bold text-neutral-800 transition-colors hover:bg-[#e8e5dc] whitespace-nowrap"
+                href="/portal-alumno"
+                className="bg-[#f2f0e9] px-4 py-2 rounded-xl text-[15.5px] font-bold text-[#632eaf] transition-colors hover:bg-[#e8e5dc] whitespace-nowrap flex items-center gap-2"
               >
-                ¡Agenda tu Clase!
+                <img 
+                  src="/images/service-page/netherportal.gif" 
+                  alt="" 
+                  className="w-6 h-6 rounded-md object-cover"
+                />
+                Portal de Alumno
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -149,14 +148,18 @@ export default function Header() {
           </div>
 
           <Link
-            href="/contacto"
-            className="hidden lg:flex group relative items-center gap-4 bg-white hover:bg-[#fbd400] transition-colors duration-300 rounded-xl h-[64px] pl-8 pr-2 shrink-0"
+            href="/portal-alumno"
+            className="hidden lg:flex group relative items-center gap-4 bg-white hover:bg-[#f3f0ff] transition-colors duration-300 rounded-xl h-[64px] pl-8 pr-2 shrink-0 border border-neutral-100"
           >
-            <span className="text-[13px] font-bold text-neutral-900 whitespace-nowrap group-hover:text-black">
-              ¡Agenda tu Clase!
+            <span className="text-[13px] font-bold text-[#632eaf] whitespace-nowrap">
+              Portal de Alumno
             </span>
-            <div className="w-12 h-12 rounded-full bg-[#88e04f] text-white flex items-center justify-center transition-transform group-hover:scale-105 shrink-0">
-              <MessageCircle className="w-6 h-6 fill-current" />
+            <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center transition-transform group-hover:scale-105 shrink-0 bg-black">
+              <img 
+                src="/images/service-page/netherportal.gif" 
+                alt="" 
+                className="w-full h-full object-cover scale-150"
+              />
             </div>
           </Link>
         </div>
