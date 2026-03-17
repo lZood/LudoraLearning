@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation';
 import { Settings } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { questionBank, Question, QuestionLevel, QuestionCategory } from './questions';
-import AdventureMap from '@/components/dashboard/AdventureMap';
+
 import LevelModal from '@/components/evaluation/LevelUpModal';
+import AdventurerReport from '@/components/evaluation/AdventurerReport';
 
 const CATEGORIES: QuestionCategory[] = [ // 5 domains
     'Gramática y Vocabulario',
@@ -133,6 +134,7 @@ export default function EvaluacionYBanda() {
     }>>([]);
 
     const [showDevMode, setShowDevMode] = useState(false);
+    const [showResults, setShowResults] = useState(false);
 
     // Initial check for session
     useEffect(() => {
@@ -550,6 +552,7 @@ export default function EvaluacionYBanda() {
 
             // Save to Supabase
             if (userId) {
+                // Update user's general english level
                 const { error: updateError } = await supabase
                     .from('users')
                     .update({ english_level: `Banda ${bandaResult}` })
@@ -558,11 +561,31 @@ export default function EvaluacionYBanda() {
                 if (updateError) {
                     throw updateError;
                 }
+
+                // Veredicto del Oráculo (narrativa estática/dinámica)
+                const aiOracleVerdict = "¡Gran trabajo, aventurero! He analizado tu desempeño a lo largo de las pruebas. Posees una base sólida que promete mucho potencial. Tu próxima meta será afianzar ese conocimiento para comunicarte de manera más fluida con los aldeanos y sortear obstáculos de nivel intermedio con total seguridad.";
+
+                // Guardar la evaluación detallada en la nueva tabla 'evaluations'
+                const { error: insertError } = await supabase
+                    .from('evaluations')
+                    .insert({
+                        user_id: userId,
+                        calculated_band: bandaResult,
+                        category_levels: categoryLevels, // Final category levels
+                        evaluation_history: evaluationHistory, // Historial completo con QA y Feedback
+                        ai_oracle_verdict: aiOracleVerdict
+                    });
+
+                if (insertError) {
+                    console.error("Error saving detailed evaluation:", insertError);
+                    // It's up to you if you want to throw here or just log it. Let's throw so the user knows.
+                    throw new Error("Error guardando el historial de evaluación.");
+                }
             }
 
             setIsQuizFinished(true);
         } catch (err: any) {
-            setError('Error al guardar el nivel. Intenta de nuevo.');
+            setError(err.message || 'Error al guardar el nivel y resultados. Intenta de nuevo.');
             console.error(err);
         } finally {
             setIsSaving(false);
@@ -606,20 +629,18 @@ export default function EvaluacionYBanda() {
     xpPercentage = Math.min(100, Math.max(0, xpPercentage));
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center font-sans overflow-x-hidden bg-[#8bc34a]">
-            {/* Minecraft Overworld Background */}
-            <div
-                className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                    backgroundImage: "url('/images/evaluacion/fondo_quiz.webp')",
-                }}
-            >
-                <div className="absolute inset-0 bg-black/40" />
-            </div>
+        <div 
+            className="relative min-h-screen w-full font-sans overflow-x-hidden bg-cover bg-center bg-fixed bg-no-repeat"
+            style={{ backgroundImage: "url('/images/evaluacion/fondo_quiz.webp')" }}
+        >
+            {/* Overlay para la imagen de fondo */}
+            <div className="fixed inset-0 bg-black/40 z-0 pointer-events-none" />
 
-            {/* Main Container */}
-            <div className="relative z-10 w-full max-w-4xl px-4 md:px-8 py-10 md:py-16 min-h-screen flex flex-col justify-center">
-                <div className="bg-white rounded-xl p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-t-8 border-[#3b8526] flex flex-col transition-all">
+            {/* Main Scrollable Container */}
+            <div className={`relative z-10 w-full min-h-screen flex flex-col items-center px-4 md:px-8 ${isQuizFinished ? 'py-8 md:py-12' : 'py-10 md:py-16'}`}>
+                
+                {/* Form Card */}
+                <div className={`my-auto bg-white rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-t-8 border-[#815a9b] flex flex-col transition-all w-full ${isQuizFinished ? 'max-w-[90rem] p-4 md:p-8' : 'max-w-4xl p-6 md:p-10'}`}>
 
                     {!isQuizFinished ? (
                         !hasStarted ? (
@@ -634,7 +655,7 @@ export default function EvaluacionYBanda() {
                                                 viewBox="0 0 184.08 72.96"
                                                 width="184"
                                                 height="73"
-                                                className="h-12 md:h-16 w-auto fill-[#3b8526]"
+                                                className="h-12 md:h-16 w-auto fill-[#815a9b]"
                                                 aria-hidden="true"
                                                 focusable="false"
                                                 preserveAspectRatio="xMidYMid meet"
@@ -672,8 +693,8 @@ export default function EvaluacionYBanda() {
                                         Esta prueba medirá tu nivel actual para ubicarte en una de nuestras <strong>Bandas de Aventura</strong>.
                                     </p>
 
-                                    <div className="bg-[#f0f0f0] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#9e9e9e] border-r-[#9e9e9e] border-t-white border-l-white p-6 space-y-4">
-                                        <h4 className="font-black text-[#3b8526] uppercase text-xs tracking-tighter mb-2">Sistema de Bandas de Aventura</h4>
+                                    <div className="bg-[#fdfaff] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#815a9b] border-r-[#815a9b] border-t-purple-100 border-l-purple-100 p-6 space-y-4 shadow-sm">
+                                        <h4 className="font-black text-[#815a9b] uppercase text-xs tracking-tighter mb-2">Sistema de Bandas de Aventura</h4>
 
                                         <div className="flex items-start gap-4">
                                             <div className="w-4 h-4 rounded-none bg-blue-500 mt-1 flex-shrink-0"></div>
@@ -710,22 +731,22 @@ export default function EvaluacionYBanda() {
                                 </div>
 
                                 {/* Right Column: Info & Start Button */}
-                                <div className="space-y-6 bg-white p-6 md:p-8 rounded-none border-b-4 border-r-4 border-t-2 border-l-2 border-[#1e4413] flex flex-col justify-between h-full bg-opacity-90">
+                                <div className="space-y-6 bg-white p-6 md:p-8 rounded-none border-b-4 border-r-4 border-t-2 border-l-2 border-[#5e4171] flex flex-col justify-between h-full bg-opacity-90 transition-all">
                                     <div className="space-y-8">
 
                                         <div className="space-y-4 pt-2">
                                             <h3 className="font-bold text-gray-900">Ten en cuenta que:</h3>
                                             <ul className="space-y-4">
                                                 <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
-                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <div className="w-2 h-2 rounded-none bg-[#815a9b] mt-1.5 flex-shrink-0"></div>
                                                     <span>La prueba es dinámica y se adapta a tu nivel. Puede tomarte entre 10 y 30 minutos aproximadamente.</span>
                                                 </li>
                                                 <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
-                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <div className="w-2 h-2 rounded-none bg-[#815a9b] mt-1.5 flex-shrink-0"></div>
                                                     <span>El test incluye ejercicios de pronunciación y para eso te pediremos que actives el micrófono.</span>
                                                 </li>
                                                 <li className="flex items-start gap-3 text-sm text-gray-800 font-medium">
-                                                    <div className="w-2 h-2 rounded-none bg-[#3b8526] mt-1.5 flex-shrink-0"></div>
+                                                    <div className="w-2 h-2 rounded-none bg-[#815a9b] mt-1.5 flex-shrink-0"></div>
                                                     <span>Al finalizar, recibirás una ruta de aprendizaje para empezar a construir y mejorar tu inglés.</span>
                                                 </li>
                                             </ul>
@@ -734,9 +755,9 @@ export default function EvaluacionYBanda() {
 
                                     <button
                                         onClick={() => setHasStarted(true)}
-                                        className="w-full bg-[#3b8526] hover:bg-[#2e681d] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#1e4413] border-r-[#1e4413] border-t-[#67c449] border-l-[#67c449] text-white font-black py-4 px-6 text-xl md:text-2xl mt-8 flex justify-between items-center transition-all hover:-translate-y-1 focus:outline-none uppercase tracking-wide"
+                                        className="w-full bg-[#815a9b] hover:bg-[#6a4a7f] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#5e4171] border-r-[#5e4171] border-t-[#a78bbf] border-l-[#a78bbf] text-white font-black py-5 px-6 text-xl md:text-2xl mt-8 flex justify-between items-center transition-all hover:-translate-y-1 focus:outline-none uppercase tracking-widest shadow-xl group"
                                     >
-                                        <span>Iniciar test</span>
+                                        <span className="group-hover:translate-x-1 transition-transform">Iniciar aventura</span>
                                         <span>➜</span>
                                     </button>
                                 </div>
@@ -760,22 +781,21 @@ export default function EvaluacionYBanda() {
                                     />
                                 )}
 
-                                {/* Quiz Header & Progress */}
-                                <div className="flex flex-col gap-2 mb-4 border-b-2 border-[#8bc34a] pb-4">
-                                    <div className="flex items-center justify-between font-black uppercase text-sm">
-                                        <span className="text-gray-500 tracking-widest flex items-center gap-2">
-                                            <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                            EXPERIENCIA
-                                        </span>
-                                        <span className="text-[#3b8526]">Banda {currentGlobalBanda}</span>
-                                    </div>
+                                       <div className="flex flex-col gap-2 mb-4 border-b-2 border-purple-100 pb-4">
+                                        <div className="flex items-center justify-between font-black uppercase text-sm">
+                                            <span className="text-gray-500 tracking-widest flex items-center gap-2">
+                                                <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                                EXPERIENCIA
+                                            </span>
+                                            <span className="text-[#815a9b]">Banda {currentGlobalBanda}</span>
+                                        </div>
 
-                                    {/* Progress bar (Minecraft EXP style) */}
-                                    <div className="w-full bg-gray-200 h-4 rounded-sm border-2 border-gray-400 overflow-hidden relative">
-                                        <div 
-                                            className={`h-full transition-all duration-700 ease-out flex items-center justify-end ${xpPercentage < 20 && xpPercentage > 0 ? 'bg-orange-500' : 'bg-[#3b8526]'}`}
-                                            style={{ width: `${xpPercentage}%` }}
-                                        >
+                                        {/* Progress bar (Minecraft EXP style) */}
+                                        <div className="w-full bg-gray-200 h-4 rounded-sm border-2 border-gray-400 overflow-hidden relative">
+                                            <div 
+                                                className={`h-full transition-all duration-700 ease-out flex items-center justify-end ${xpPercentage < 20 && xpPercentage > 0 ? 'bg-purple-300' : 'bg-[#815a9b]'}`}
+                                                style={{ width: `${xpPercentage}%` }}
+                                            >
                                             <div className="h-full w-full bg-gradient-to-r from-transparent to-white/30 hidden md:block"></div>
                                         </div>
                                     </div>
@@ -857,7 +877,7 @@ export default function EvaluacionYBanda() {
                                                         key={idx}
                                                         onClick={() => handleAnswerSubmission(!!option.isCorrect, option.text)}
                                                         disabled={isSaving}
-                                                        className={`w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-[#0F5451] hover:bg-teal-50 transition-all font-medium text-gray-700 disabled:opacity-50 ${currentQuestion.type === 'image-choice' ? 'flex flex-col items-center justify-center text-center' : ''}`}
+                                                        className={`w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-[#815a9b] hover:bg-purple-50 transition-all font-medium text-gray-700 disabled:opacity-50 ${currentQuestion.type === 'image-choice' ? 'flex flex-col items-center justify-center text-center' : ''}`}
                                                     >
                                                         {option.imageUrl && (
                                                             <img src={option.imageUrl} alt={option.text} className="w-24 h-24 object-contain mb-3" />
@@ -872,7 +892,7 @@ export default function EvaluacionYBanda() {
                                         {currentQuestion.type === 'text-input' && (
                                             <div className="space-y-4">
                                                 <textarea
-                                                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-[#0F5451] outline-none min-h-[120px] resize-none"
+                                                    className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-[#815a9b] outline-none min-h-[120px] resize-none transition-all focus:bg-purple-50"
                                                     placeholder="Escribe tu respuesta en inglés aquí..."
                                                     value={textInputValue}
                                                     onChange={(e) => setTextInputValue(e.target.value)}
@@ -880,7 +900,7 @@ export default function EvaluacionYBanda() {
                                                 <button
                                                     onClick={() => handleAnswerSubmission(false, textInputValue, undefined, true)}
                                                     disabled={textInputValue.trim().length === 0}
-                                                    className="w-full bg-[#0F5451] hover:bg-[#0a3f3d] text-white font-bold py-3 rounded-xl transition-all disabled:opacity-50"
+                                                    className="w-full bg-[#815a9b] hover:bg-[#6a4a7f] text-white font-black py-4 rounded-xl shadow-[0_4px_0_#5e4171] border-b-4 border-r-4 border-t-2 border-l-2 border-[#5e4171] transition-all active:translate-y-1 active:shadow-none disabled:opacity-50 uppercase tracking-widest"
                                                 >Enviar Respuesta</button>
                                             </div>
                                         )}
@@ -893,7 +913,7 @@ export default function EvaluacionYBanda() {
                                                         <button
                                                             onClick={isRecording ? stopRecording : startRecording}
                                                             disabled={isEvaluatingAI}
-                                                            className={`w-20 h-20 rounded-full flex items-center justify-center text-white mx-auto shadow-lg mb-4 transition-all focus:outline-none ${isRecording ? 'bg-red-500 animate-pulse scale-110 shadow-red-500/50' : 'bg-[#0F5451] hover:scale-105 hover:bg-[#0a403d] shadow-[#0F5451]/30 disabled:opacity-50'}`}
+                                                            className={`w-20 h-20 rounded-full flex items-center justify-center text-white mx-auto shadow-lg mb-4 transition-all focus:outline-none ${isRecording ? 'bg-red-500 animate-pulse scale-110 shadow-red-500/50' : 'bg-[#815a9b] hover:scale-105 hover:bg-[#6a4a7f] shadow-[#815a9b]/30 disabled:opacity-50'}`}
                                                         >
                                                             {isRecording ? (
                                                                 <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm6 4a1 1 0 10-2 0v2a1 1 0 102 0V9zm4 0a1 1 0 10-2 0v2a1 1 0 102 0V9z" clipRule="evenodd" /></svg>
@@ -911,7 +931,7 @@ export default function EvaluacionYBanda() {
                                                         <div className="grid grid-cols-2 gap-3">
                                                             <button
                                                                 onClick={handleConfirmAudio}
-                                                                className="bg-[#0F5451] text-white py-3 rounded-xl font-bold hover:bg-[#0a3f3d] transition-all"
+                                                                className="bg-[#815a9b] text-white py-3 rounded-xl font-bold hover:bg-[#6a4a7f] transition-all shadow-[0_4px_0_#5e4171]"
                                                             >Enviar</button>
                                                             <button
                                                                 onClick={handleCancelAudio}
@@ -937,119 +957,41 @@ export default function EvaluacionYBanda() {
 
                                 {isEvaluatingAI && (
                                     <div className="py-12 flex flex-col items-center justify-center space-y-4 animate-fade-in">
-                                        <div className="w-12 h-12 border-4 border-[#0F5451] border-t-transparent rounded-full animate-spin"></div>
-                                        <p className="font-bold text-[#0F5451] animate-pulse">La Inteligencia Artificial está evaluando tu respuesta...</p>
+                                        <div className="w-12 h-12 border-4 border-[#815a9b] border-t-transparent rounded-full animate-spin"></div>
+                                        <p className="font-bold text-[#815a9b] animate-pulse">La Inteligencia Artificial está evaluando tu respuesta...</p>
                                     </div>
                                 )}
                             </div>
                         )
                     ) : (
 
-                        /* CHECKOUT & ACTIVATION SECTION */
-                        <div className="flex flex-col items-center text-center gap-6 animate-fade-in">
-                            <div className="w-20 h-20 bg-teal-100 text-[#0F5451] rounded-full flex items-center justify-center mb-2 animate-bounce">
-                                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-
-                            <div className="w-full mb-6">
-                                <h3 className="font-bold text-gray-800 text-xl mb-4">Tu Mapa y Progreso</h3>
-                                <AdventureMap
-                                    englishLevel={`Banda ${calculatedBanda}`}
-                                    subscriptionStatus="incomplete"
-                                />
-                            </div>
-
-                            <div className="w-full text-left bg-white border border-gray-200 rounded-2xl p-6 shadow-sm mb-4">
-                                <h3 className="font-bold text-gray-800 text-lg mb-3">Tu Perfil Lingüístico:</h3>
-                                {finalCategoryLevels && (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                                        {Object.entries(finalCategoryLevels).map(([category, level]) => (
-                                            <div key={category} className="flex flex-col bg-gray-50 p-3 rounded-lg border border-gray-100">
-                                                <div className="flex justify-between items-center mb-1">
-                                                    <span className="text-gray-600 font-medium text-xs">{category}</span>
-                                                    <span className="font-bold text-[#0F5451] text-sm">Banda {getBandaFromLevel(level as QuestionLevel)}</span>
-                                                </div>
-                                                <p className="text-[10px] text-gray-400 italic leading-tight">
-                                                    {getBandaTitle(getBandaFromLevel(level as QuestionLevel))}
-                                                </p>
-                                            </div>
-                                        ))}
+                        <div className="flex flex-col items-center gap-6 animate-fade-in w-full max-w-7xl mx-auto">
+                            {!showResults ? (
+                                <div className="flex flex-col items-center justify-center p-8 bg-white/95 rounded-sm shadow-[8px_8px_0_rgba(129,90,155,0.3)] border-4 border-[#815a9b] text-center w-full max-w-2xl mx-auto my-12 animate-fade-in-up">
+                                    <div className="w-24 h-24 bg-purple-100 rounded-full border-4 border-[#815a9b] flex items-center justify-center shadow-md mb-6 animate-bounce">
+                                        <span className="text-5xl">🏆</span>
                                     </div>
-                                )}
-                                <div className="border-t border-gray-200 pt-4 flex justify-between items-center">
-                                    <p className="text-lg text-gray-600 font-medium">Banda Global Sugerida:</p>
-                                    <p className="text-2xl font-black text-[#0F5451]">Banda {calculatedBanda}</p>
+                                    <h2 className="text-3xl md:text-5xl font-black text-gray-900 drop-shadow-sm mb-4">¡Completaste la Evaluación!</h2>
+                                    <p className="text-gray-700 text-lg md:text-xl font-medium mb-8">
+                                        ¡Excelente trabajo! Has demostrado tus habilidades y ahora tu perfil de aventurero está listo para ser revelado.
+                                    </p>
+                                    <button
+                                        onClick={() => setShowResults(true)}
+                                        className="bg-[#815a9b] hover:bg-[#6a4a7f] text-white font-black py-4 px-8 text-xl rounded-sm transition-all hover:-translate-y-1 shadow-[0_4px_10px_rgba(129,90,155,0.4)] border-b-4 border-r-4 border-t-2 border-l-2 border-[#5e4171] border-t-[#a78bbf] border-l-[#a78bbf] uppercase tracking-widest focus:outline-none"
+                                    >
+                                        Ver Resultados ➜
+                                    </button>
                                 </div>
-                            </div>
-
-                            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 w-full text-left space-y-4">
-                                <h3 className="font-bold text-gray-800 text-lg text-center mb-4">Activa tu Suscripción</h3>
-                                <ul className="space-y-3">
-                                    <li className="flex items-start gap-3">
-                                        <div className="mt-1 text-green-500"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg></div>
-                                        <span className="text-gray-700">Acceso a clases híbridas grupales.</span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="mt-1 text-green-500"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg></div>
-                                        <span className="text-gray-700">
-                                            Contenido exclusivo y personalizado para asegurar tu progreso desde la <strong>Banda {calculatedBanda}</strong>.
-                                        </span>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="mt-1 text-green-500"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg></div>
-                                        <span className="text-gray-700">Certificados de nivel con validez.</span>
-                                    </li>
-                                </ul>
-                                <div className="mt-6 pt-6 border-t border-gray-200 flex justify-between items-center px-4">
-                                    <span className="text-gray-500 font-medium">Inversión mensual</span>
-                                    <span className="text-2xl font-black text-gray-900">$1,400 <span className="text-sm font-medium text-gray-500">MXN</span></span>
-                                </div>
-                            </div>
-
-                            {error && <p className="text-red-500 text-sm font-semibold">{error}</p>}
-
-                            <button
-                                onClick={handleCheckout}
-                                disabled={isCheckingOut}
-                                className="w-full bg-gradient-to-r from-[#0F5451] to-[#0F7357] hover:from-[#0b403d] hover:to-[#0a523e] text-white font-bold rounded-xl py-4 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-[#0F5451]/30 focus:outline-none focus:ring-2 focus:ring-[#0F7357] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed text-lg"
-                            >
-                                {isCheckingOut ? 'Procesando pago...' : 'Continuar y Pagar'}
-                            </button>
-
-                            {/* DETAILED RESULTS SECTION */}
-                            <div className="w-full mt-8 border-t border-gray-100 pt-8">
-                                <h3 className="font-bold text-gray-900 text-xl mb-6 text-center">Detalle de tu Desempeño</h3>
-                                <div className="space-y-6">
-                                    {evaluationHistory.map((item, idx) => (
-                                        <div key={idx} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col gap-3">
-                                            <div className="flex justify-between items-start">
-                                                <span className="bg-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-400 border border-gray-100">
-                                                    {item.category} • Banda {getBandaFromLevel(item.level)}
-                                                </span>
-                                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${item.isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                                    {item.isCorrect ? 'Correcto' : 'Incorrecto'}
-                                                </span>
-                                            </div>
-                                            <p className="text-gray-800 font-semibold leading-snug">{item.question}</p>
-                                            <div className="bg-white/50 rounded-xl p-3 border border-gray-100">
-                                                <p className="text-xs text-gray-400 uppercase font-bold mb-1">Tu Respuesta:</p>
-                                                <p className="text-gray-600 text-sm italic">"{item.userAnswer}"</p>
-                                            </div>
-                                            {item.feedback && (
-                                                <div className="flex gap-2 items-start mt-1">
-                                                    <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                                                        <span className="text-[10px] text-white font-bold">IA</span>
-                                                    </div>
-                                                    <p className="text-gray-600 text-sm leading-relaxed">{item.feedback}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
+                            ) : (
+                                <AdventurerReport 
+                                    calculatedBanda={calculatedBanda}
+                                    finalCategoryLevels={finalCategoryLevels}
+                                    evaluationHistory={evaluationHistory}
+                                    isCheckingOut={isCheckingOut}
+                                    handleCheckout={handleCheckout}
+                                    error={error}
+                                />
+                            )}
                         </div>
                     )}
                 </div>
