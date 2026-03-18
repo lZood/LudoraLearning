@@ -31,18 +31,84 @@ export interface Question {
 export const questionBank: Question[] = [
     // --- Pre-A1 ---
     {
-        id: 'pre-a1-1',
-        skillId: 'PREA1-VOCAB-CHEST',
+        id: 'pre-a1-gv-1',
+        skillId: 'PREA1-VOCAB-PICKAXE',
         level: 'Pre-A1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Ves un cofre (chest). ¿Qué palabra describe la acción de abrirlo?',
+        text: '¿Cuál es "pico" en Minecraft?',
         options: [
-            { text: 'Open the chest.', isCorrect: true },
-            { text: 'Running to the chest.', isCorrect: false },
-            { text: 'I am a chest.', isCorrect: false },
-            { text: 'Close the door.', isCorrect: false },
-        ]
+            { text: 'Pickaxe', isCorrect: true },
+            { text: 'Sword', isCorrect: false },
+            { text: 'Apple', isCorrect: false },
+            { text: 'Door', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce vocabulario básico de objetos. \'Pickaxe\' es la respuesta correcta.',
+        expectedKeywords: ['pickaxe']
+    },
+    {
+        id: 'pre-a1-gv-2',
+        skillId: 'PREA1-VOCAB-COW',
+        level: 'Pre-A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "This is a " (imagen de una vaca).',
+        options: [
+            { text: 'Cow', isCorrect: true },
+            { text: 'Zombie', isCorrect: false },
+            { text: 'Tree', isCorrect: false },
+            { text: 'Stone', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica vocabulario básico de animales. \'Cow\' es correcto.',
+        expectedKeywords: ['cow']
+    },
+    {
+        id: 'pre-a1-gv-3',
+        skillId: 'PREA1-VOCAB-WOOD',
+        level: 'Pre-A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: '¿Cuál es "madera" en Minecraft?',
+        options: [
+            { text: 'Wood', isCorrect: true },
+            { text: 'Water', isCorrect: false },
+            { text: 'Iron', isCorrect: false },
+            { text: 'Sand', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce materiales básicos. \'Wood\' es la respuesta correcta.',
+        expectedKeywords: ['wood']
+    },
+    {
+        id: 'pre-a1-gv-4',
+        skillId: 'PREA1-VOCAB-ZOMBIE-G',
+        level: 'Pre-A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "I see a " (imagen de un zombie).',
+        options: [
+            { text: 'Zombie', isCorrect: true },
+            { text: 'Sheep', isCorrect: false },
+            { text: 'Pig', isCorrect: false },
+            { text: 'Villager', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica vocabulario básico de enemigos. \'Zombie\' es correcto.',
+        expectedKeywords: ['zombie']
+    },
+    {
+        id: 'pre-a1-gv-5',
+        skillId: 'PREA1-VOCAB-DOOR',
+        level: 'Pre-A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: '¿Cuál es "puerta" en Minecraft?',
+        options: [
+            { text: 'Door', isCorrect: true },
+            { text: 'Chest', isCorrect: false },
+            { text: 'Table', isCorrect: false },
+            { text: 'Torch', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce objetos básicos del entorno. \'Door\' es la respuesta correcta.',
+        expectedKeywords: ['door']
     },
     {
         id: 'pre-a1-2',
@@ -58,20 +124,7 @@ export const questionBank: Question[] = [
             { text: 'Shovel', isCorrect: false, imageUrl: '/images/placeholders/shovel.png' },
         ]
     },
-    {
-        id: 'pre-a1-3',
-        skillId: 'PREA1-GRAMMAR-VERBTOBE',
-        level: 'Pre-A1',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Elige la frase correcta para decir "Yo soy Steve":',
-        options: [
-            { text: 'I am Steve.', isCorrect: true },
-            { text: 'I is Steve.', isCorrect: false },
-            { text: 'Me Steve.', isCorrect: false },
-            { text: 'You are Steve.', isCorrect: false },
-        ]
-    },
+
     {
         id: 'pre-a1-4',
         skillId: 'PREA1-ORAL-GREETING',
@@ -112,18 +165,84 @@ export const questionBank: Question[] = [
         expectedKeywords: ['mining', 'iron', 'cave']
     },
     {
-        id: 'a1-2',
-        skillId: 'A1-GRAMMAR-POSSESSION',
+        id: 'a1-gv-1',
+        skillId: 'A1-GRAMMAR-BE-AM',
         level: 'A1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Quieres decir que "Tú tienes un pico de diamante". ¿Cuál es correcta?',
+        text: 'Completa la oración: "I  mining in a cave."',
         options: [
-            { text: 'You have a diamond pickaxe.', isCorrect: true },
-            { text: 'You has a diamond pickaxe.', isCorrect: false },
-            { text: 'You are a diamond pickaxe.', isCorrect: false },
-            { text: 'You having diamond pickaxe.', isCorrect: false },
-        ]
+            { text: 'am', isCorrect: true },
+            { text: 'is', isCorrect: false },
+            { text: 'are', isCorrect: false },
+            { text: 'be', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la forma correcta del verbo \'to be\' con \'I\' en presente continuo. \'am\' es la respuesta correcta.',
+        expectedKeywords: ['I am', 'mining']
+    },
+    {
+        id: 'a1-gv-2',
+        skillId: 'A1-GRAMMAR-BE-IS',
+        level: 'A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "The creeper  next to the tree."',
+        options: [
+            { text: 'is', isCorrect: true },
+            { text: 'are', isCorrect: false },
+            { text: 'am', isCorrect: false },
+            { text: 'be', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe usar correctamente \'is\' para tercera persona singular.',
+        expectedKeywords: ['creeper', 'is', 'tree']
+    },
+    {
+        id: 'a1-gv-3',
+        skillId: 'A1-VOCAB-PLURAL-SHEEP',
+        level: 'A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: '¿Cuál es el plural correcto? "One sheep → Two "',
+        options: [
+            { text: 'sheep', isCorrect: true },
+            { text: 'sheeps', isCorrect: false },
+            { text: 'sheepes', isCorrect: false },
+            { text: 'sheepen', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce plurales irregulares básicos. \'sheep\' no cambia en plural.',
+        expectedKeywords: ['sheep', 'plural']
+    },
+    {
+        id: 'a1-gv-4',
+        skillId: 'A1-GRAMMAR-THERE-ARE',
+        level: 'A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "There  three zombies near the village."',
+        options: [
+            { text: 'are', isCorrect: true },
+            { text: 'is', isCorrect: false },
+            { text: 'am', isCorrect: false },
+            { text: 'be', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe usar \'there are\' para plural.',
+        expectedKeywords: ['there are', 'zombies', 'three']
+    },
+    {
+        id: 'a1-gv-5',
+        skillId: 'A1-GRAMMAR-NOUN-ADJECTIVE',
+        level: 'A1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "I have a ___ sword."',
+        options: [
+            { text: 'diamond', isCorrect: true },
+            { text: 'diamonds', isCorrect: false },
+            { text: 'diamondes', isCorrect: false },
+            { text: 'diamonding', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe usar correctamente el sustantivo como adjetivo. \'diamond sword\' es correcto.',
+        expectedKeywords: ['diamond', 'sword']
     },
     {
         id: 'a1-3',
@@ -161,18 +280,84 @@ export const questionBank: Question[] = [
 
     // --- A1-alto ---
     {
-        id: 'a1-alto-1',
-        skillId: 'A1ALTO-GRAMMAR-PAST',
+        id: 'a1-alto-gv-1',
+        skillId: 'A1ALTO-GRAMMAR-HAVE',
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Quieres decirle a tu equipo que encontraste una cueva ayer.',
+        text: 'Completa: "I  a house near the river."',
         options: [
-            { text: 'I found a cave yesterday.', isCorrect: true },
-            { text: 'I find a cave yesterday.', isCorrect: false },
-            { text: 'I will find a cave yesterday.', isCorrect: false },
-            { text: 'I finding a cave yesterday.', isCorrect: false },
-        ]
+            { text: 'have', isCorrect: true },
+            { text: 'has', isCorrect: false },
+            { text: 'having', isCorrect: false },
+            { text: 'haves', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa correctamente \'have\' con \'I\'.',
+        expectedKeywords: ['have', 'house', 'river']
+    },
+    {
+        id: 'a1-alto-gv-2',
+        skillId: 'A1ALTO-GRAMMAR-BE-HE',
+        level: 'A1-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "He  mining diamonds."',
+        options: [
+            { text: 'is', isCorrect: true },
+            { text: 'are', isCorrect: false },
+            { text: 'am', isCorrect: false },
+            { text: 'be', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica la forma correcta de \'to be\' con tercera persona singular en presente continuo.',
+        expectedKeywords: ['he is', 'mining', 'diamonds']
+    },
+    {
+        id: 'a1-alto-gv-3',
+        skillId: 'A1ALTO-GRAMMAR-PREP-IN',
+        level: 'A1-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "There is a chest  the house."',
+        options: [
+            { text: 'in', isCorrect: true },
+            { text: 'on', isCorrect: false },
+            { text: 'at', isCorrect: false },
+            { text: 'to', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce preposiciones básicas de lugar. \'in the house\' es correcto.',
+        expectedKeywords: ['in', 'chest', 'house']
+    },
+    {
+        id: 'a1-alto-gv-4',
+        skillId: 'A1ALTO-GRAMMAR-CAN',
+        level: 'A1-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "We  build a farm."',
+        options: [
+            { text: 'can', isCorrect: true },
+            { text: 'is', isCorrect: false },
+            { text: 'are', isCorrect: false },
+            { text: 'has', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica el uso básico del modal \'can\' para habilidad o posibilidad.',
+        expectedKeywords: ['can', 'build', 'farm']
+    },
+    {
+        id: 'a1-alto-gv-5',
+        skillId: 'A1ALTO-GRAMMAR-COMPARATIVE-BIGGER',
+        level: 'A1-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "The zombie is ___ than the sheep."',
+        options: [
+            { text: 'bigger', isCorrect: true },
+            { text: 'big', isCorrect: false },
+            { text: 'biggest', isCorrect: false },
+            { text: 'more big', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa comparativos básicos correctamente (\'bigger than\').',
+        expectedKeywords: ['bigger', 'than', 'zombie', 'sheep']
     },
     {
         id: 'a1-alto-2',
@@ -268,20 +453,7 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno debe identificar que el problema es que el cofre está cerrado/bloqueado. Frases como \'locked chest\', \'can\'t open\', \'it\'s locked\' o su traducción en español son correctas. Respuestas que indiquen un estado distinto (lleno, contenido) deben recibir puntuación parcial o ninguna.',
         expectedKeywords: ['chest', 'locked', 'can\'t open', 'locked chest']
     },
-    {
-        id: 'a1-alto-4',
-        skillId: 'A1ALTO-GRAMMAR-SHOULD',
-        level: 'A1-alto',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Tu amigo está minando pero no usa antorchas. ¿Qué le dices?',
-        options: [
-            { text: 'You should place torches.', isCorrect: true },
-            { text: 'You placed torches.', isCorrect: false },
-            { text: 'You placing torches.', isCorrect: false },
-            { text: 'You torches.', isCorrect: false },
-        ]
-    },
+
     {
         id: 'a1-alto-5',
         skillId: 'A1ALTO-ORAL-DESCRIBE',
@@ -294,18 +466,84 @@ export const questionBank: Question[] = [
 
     // --- A2 ---
     {
-        id: 'a2-1',
-        skillId: 'A2-GRAMMAR-COMPARATIVE',
+        id: 'a2-gv-1',
+        skillId: 'A2-GRAMMAR-PAST-FOUND',
         level: 'A2',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Comparas dos picos. ¿Cuál es la forma correcta?',
+        text: 'Completa: "Yesterday, I  diamonds in a cave."',
         options: [
-            { text: 'This pickaxe is better than that one.', isCorrect: true },
-            { text: 'This pickaxe is more better than that one.', isCorrect: false },
-            { text: 'This pickaxe is gooder than that one.', isCorrect: false },
-            { text: 'This pickaxe is the best than that one.', isCorrect: false },
-        ]
+            { text: 'found', isCorrect: true },
+            { text: 'find', isCorrect: false },
+            { text: 'finding', isCorrect: false },
+            { text: 'finded', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce pasado simple de verbos irregulares. \'found\' es correcto.',
+        expectedKeywords: ['yesterday', 'found', 'diamonds']
+    },
+    {
+        id: 'a2-gv-2',
+        skillId: 'A2-GRAMMAR-CONDITION-GETS',
+        level: 'A2',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "If it  dark, monsters spawn."',
+        options: [
+            { text: 'gets', isCorrect: true },
+            { text: 'get', isCorrect: false },
+            { text: 'got', isCorrect: false },
+            { text: 'getting', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa correctamente presente simple en condicional tipo 1.',
+        expectedKeywords: ['if', 'gets', 'dark', 'monsters']
+    },
+    {
+        id: 'a2-gv-3',
+        skillId: 'A2-GRAMMAR-PURPOSE-TO',
+        level: 'A2',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "I went to the village  buy food."',
+        options: [
+            { text: 'to', isCorrect: true },
+            { text: 'for', isCorrect: false },
+            { text: 'at', isCorrect: false },
+            { text: 'with', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el uso de \'to\' para expresar propósito.',
+        expectedKeywords: ['to', 'buy', 'food', 'village']
+    },
+    {
+        id: 'a2-gv-4',
+        skillId: 'A2-GRAMMAR-COMPARATIVE-STRONGER',
+        level: 'A2',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "This sword is  than the wooden one."',
+        options: [
+            { text: 'stronger', isCorrect: true },
+            { text: 'strong', isCorrect: false },
+            { text: 'strongest', isCorrect: false },
+            { text: 'more strong', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa comparativos correctamente.',
+        expectedKeywords: ['stronger', 'than', 'sword']
+    },
+    {
+        id: 'a2-gv-5',
+        skillId: 'A2-GRAMMAR-MODAL-MUST',
+        level: 'A2',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "We ___ build a wall to protect the village."',
+        options: [
+            { text: 'must', isCorrect: true },
+            { text: 'am', isCorrect: false },
+            { text: 'is', isCorrect: false },
+            { text: 'has', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el uso de \'must\' para obligación.',
+        expectedKeywords: ['must', 'build', 'wall', 'protect']
     },
     {
         id: 'a2-list-1',
@@ -367,7 +605,7 @@ export const questionBank: Question[] = [
         audioUrl: '/audios/evaluacion/A2/A2_Nether.wav',
         text: 'Escucha el audio. ¿Por qué fue al Nether?',
         options: [
-            { text: 'Para conseguir blaze rods', isCorrect: true },
+            { text: 'Para conseguir varas de blaze', isCorrect: true },
             { text: 'Para construir una casa', isCorrect: false },
             { text: 'Para encontrar aldeanos', isCorrect: false },
             { text: 'Para pescar', isCorrect: false }
@@ -401,20 +639,7 @@ export const questionBank: Question[] = [
         text: 'Tu amigo acaba de perder sus diamantes por la lava. Escríbele un mensaje consolándolo y ofreciéndole ayuda.',
         gradingRubric: 'El mensaje debe mostrar empatía (ej. I am sorry, that is sad) y ofrecer ayuda o regalarle ítems.',
     },
-    {
-        id: 'a2-4',
-        skillId: 'A2-GRAMMAR-CONDITIONAL',
-        level: 'A2',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Completa: "If I find diamonds, I ___ a diamond sword."',
-        options: [
-            { text: 'will make', isCorrect: true },
-            { text: 'made', isCorrect: false },
-            { text: 'making', isCorrect: false },
-            { text: 'makes', isCorrect: false },
-        ]
-    },
+
     {
         id: 'a2-5',
         skillId: 'A2-ORAL-DIRECTIONS',
@@ -427,18 +652,84 @@ export const questionBank: Question[] = [
 
     // --- A2-alto ---
     {
-        id: 'a2-alto-1',
-        skillId: 'A2ALTO-GRAMMAR-PRES-PERF',
+        id: 'a2-alto-gv-1',
+        skillId: 'A2ALTO-GRAMMAR-PAST-CONT',
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Quieres saber si alguien ya ha visitado El Nether alguna vez en su vida.',
+        text: 'Completa: "While I  mining, I found diamonds."',
         options: [
-            { text: 'Have you ever been to The Nether?', isCorrect: true },
-            { text: 'Did you went to The Nether?', isCorrect: false },
-            { text: 'Are you being to The Nether?', isCorrect: false },
-            { text: 'Have you go The Nether?', isCorrect: false },
-        ]
+            { text: 'was', isCorrect: true },
+            { text: 'am', isCorrect: false },
+            { text: 'were', isCorrect: false },
+            { text: 'be', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce pasado continuo con \'while\'. \'was mining\' es correcto.',
+        expectedKeywords: ['while', 'was', 'mining', 'found']
+    },
+    {
+        id: 'a2-alto-gv-2',
+        skillId: 'A2ALTO-GRAMMAR-SHOULD-REC',
+        level: 'A2-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "You  bring food before exploring the cave."',
+        options: [
+            { text: 'should', isCorrect: true },
+            { text: 'are', isCorrect: false },
+            { text: 'have', isCorrect: false },
+            { text: 'do', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica el uso de \'should\' para dar recomendaciones.',
+        expectedKeywords: ['should', 'bring', 'food', 'cave']
+    },
+    {
+        id: 'a2-alto-gv-3',
+        skillId: 'A2ALTO-GRAMMAR-COMPARATIVE-COLDER',
+        level: 'A2-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "This biome is  than the desert."',
+        options: [
+            { text: 'colder', isCorrect: true },
+            { text: 'cold', isCorrect: false },
+            { text: 'coldest', isCorrect: false },
+            { text: 'more cold', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa comparativos correctamente.',
+        expectedKeywords: ['colder', 'biome', 'desert']
+    },
+    {
+        id: 'a2-alto-gv-4',
+        skillId: 'A2ALTO-GRAMMAR-CONDITION-FIND',
+        level: 'A2-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "If we  a village, we can trade."',
+        options: [
+            { text: 'find', isCorrect: true },
+            { text: 'found', isCorrect: false },
+            { text: 'finding', isCorrect: false },
+            { text: 'finds', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa correctamente presente simple en condicional tipo 1.',
+        expectedKeywords: ['if', 'find', 'village', 'trade']
+    },
+    {
+        id: 'a2-alto-gv-5',
+        skillId: 'A2ALTO-GRAMMAR-GERUND-PREFER',
+        level: 'A2-alto',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "I prefer ___ with a bow."',
+        options: [
+            { text: 'fighting', isCorrect: true },
+            { text: 'fight', isCorrect: false },
+            { text: 'fought', isCorrect: false },
+            { text: 'to fighted', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el uso de gerundio después de \'prefer\'.',
+        expectedKeywords: ['prefer', 'fighting', 'bow']
     },
     {
         id: 'a2-alto-2',
@@ -560,18 +851,84 @@ export const questionBank: Question[] = [
 
     // --- B1 ---
     {
-        id: 'b1-1',
-        skillId: 'B1-SITUATIONAL-COMPLEX',
+        id: 'b1-gv-1',
+        skillId: 'B1-GRAMMAR-SECOND-COND',
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: '"Even though we secured the stronghold, we ran out of supplies, which forced us to retreat." ¿Por qué retrocedieron?',
+        text: 'Completa: "If I  more diamonds, I would craft better armor."',
         options: [
-            { text: 'Porque se quedaron sin provisiones, a pesar de haber asegurado el lugar.', isCorrect: true },
-            { text: 'Porque no pudieron asegurar la fortaleza.', isCorrect: false },
-            { text: 'Porque no querían seguir avanzando más allá de la fortaleza.', isCorrect: false },
-            { text: 'Porque se perdieron buscando la fortaleza.', isCorrect: false },
-        ]
+            { text: 'had', isCorrect: true },
+            { text: 'have', isCorrect: false },
+            { text: 'will have', isCorrect: false },
+            { text: 'having', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el segundo condicional (if + past simple, would). \'had\' es correcto.',
+        expectedKeywords: ['if', 'had', 'diamonds', 'would']
+    },
+    {
+        id: 'b1-gv-2',
+        skillId: 'B1-GRAMMAR-PRES-PERF-NEVER',
+        level: 'B1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "I have never  the Ender Dragon."',
+        options: [
+            { text: 'defeated', isCorrect: true },
+            { text: 'defeat', isCorrect: false },
+            { text: 'defeating', isCorrect: false },
+            { text: 'defeats', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno usa correctamente el present perfect con \'have never\'.',
+        expectedKeywords: ['have never', 'defeated', 'dragon']
+    },
+    {
+        id: 'b1-gv-3',
+        skillId: 'B1-GRAMMAR-PASSIVE-BUILT',
+        level: 'B1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "The house  by the team yesterday."',
+        options: [
+            { text: 'was built', isCorrect: true },
+            { text: 'built', isCorrect: false },
+            { text: 'was build', isCorrect: false },
+            { text: 'is built', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce la voz pasiva en pasado simple. \'was built\' es correcto.',
+        expectedKeywords: ['was built', 'house', 'yesterday']
+    },
+    {
+        id: 'b1-gv-4',
+        skillId: 'B1-GRAMMAR-GERUND-STOP',
+        level: 'B1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Elige la opción correcta: "We stopped  because it was getting dark."',
+        options: [
+            { text: 'exploring', isCorrect: true },
+            { text: 'explore', isCorrect: false },
+            { text: 'explored', isCorrect: false },
+            { text: 'to explore', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el uso de gerundio después de \'stop\' cuando indica interrupción de una actividad.',
+        expectedKeywords: ['stopped', 'exploring', 'dark']
+    },
+    {
+        id: 'b1-gv-5',
+        skillId: 'B1-GRAMMAR-SHOULD-HAVE',
+        level: 'B1',
+        category: 'Gramática y Vocabulario',
+        type: 'multiple-choice',
+        text: 'Completa: "You got hurt. You ___ have used a shield to protect yourself."',
+        options: [
+            { text: 'should', isCorrect: true },
+            { text: 'can', isCorrect: false },
+            { text: 'must', isCorrect: false },
+            { text: 'will', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce el uso de \'should have\' para dar recomendaciones en el pasado.',
+        expectedKeywords: ['should have', 'shield', 'protect']
     },
     {
         id: 'b1-list-1',
@@ -667,20 +1024,7 @@ export const questionBank: Question[] = [
         text: 'Escribe una breve guía de un párrafo explicando cómo funciona un Observer de Redstone.',
         gradingRubric: 'Debe contener oraciones subordinadas, vocabulario técnico básico de MC y explicar causa y efecto.',
     },
-    {
-        id: 'b1-3',
-        skillId: 'B1-VOCAB-DECEPTIVE',
-        level: 'B1',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Para describir a un jugador que confunde a otros intencionalmente en un servidor PvP:',
-        options: [
-            { text: 'Deceptive', isCorrect: true },
-            { text: 'Trustworthy', isCorrect: false },
-            { text: 'Honest', isCorrect: false },
-            { text: 'Clumsy', isCorrect: false },
-        ]
-    },
+
     {
         id: 'b1-4',
         skillId: 'B1-ORAL-NEGOTIATE',
@@ -690,20 +1034,7 @@ export const questionBank: Question[] = [
         text: 'Graba un audio negociando pacíficamente una disputa de territorio con otro jugador.',
         gradingRubric: 'El lenguaje debe ser respetuoso, ofrecer compromisos o condicionales asertivos.',
     },
-    {
-        id: 'b1-5',
-        skillId: 'B1-GRAMMAR-3RD-COND',
-        level: 'B1',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Hablando de una situación hipotética en el pasado que no ocurrió (ej. no trajiste pociones y moriste):',
-        options: [
-            { text: 'If we had brought fire resistance potions, we wouldn\'t have died in the lava.', isCorrect: true },
-            { text: 'If we bring potions, we not died.', isCorrect: false },
-            { text: 'If we brought potions, we will not die.', isCorrect: false },
-            { text: 'If we had bring potions, we don\'t die.', isCorrect: false },
-        ]
-    },
+
 
     // --- NUEVAS PREGUNTAS (Para asegurar 2-3 de cada tipo y evaluar más profundamente el habla) ---
 
@@ -768,10 +1099,10 @@ export const questionBank: Question[] = [
         audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_House.wav',
         text: '¿Qué palabra escuchas en el audio?',
         options: [
-            { text: 'Casa', isCorrect: true },
-            { text: 'Cueva', isCorrect: false },
-            { text: 'Bosque', isCorrect: false },
-            { text: 'Río', isCorrect: false }
+            { text: 'Ve a la casa', isCorrect: true },
+            { text: 'Ve a la cueva', isCorrect: false },
+            { text: 'Ve al bosque', isCorrect: false },
+            { text: 'Ve al río', isCorrect: false }
         ],
         gradingRubric: 'El alumno identifica una instrucción simple con destino. Debe reconocer \'house\'.',
         expectedKeywords: ['house', 'go']
@@ -798,7 +1129,7 @@ export const questionBank: Question[] = [
     { id: 'pre-a1-ext-5', skillId: 'PREA1-WRITTEN-RUN', level: 'Pre-A1', category: 'Producción Escrita', type: 'text-input', text: 'Escribe la palabra para "Correr" en inglés.', gradingRubric: 'Debe escribir run', expectedKeywords: ['run'] },
 
     // A1 Nuevas
-    { id: 'a1-ext-1', skillId: 'A1-GRAMMAR-LIKE', level: 'A1', category: 'Gramática y Vocabulario', type: 'multiple-choice', text: 'Quieres decir "Me gustan las manzanas".', options: [{ text: 'I like apples.', isCorrect: true }, { text: 'I likes apples.', isCorrect: false }] },
+
     {
         id: 'a1-list-2',
         skillId: 'A1-LIST-CREEPER',
@@ -823,7 +1154,7 @@ export const questionBank: Question[] = [
         category: 'Comprensión Auditiva',
         type: 'audio-listening',
         audioUrl: '/audios/evaluacion/A1/A1_Chest.wav',
-        text: 'Escucha el audio. ¿Qué debes tomar?',
+        text: 'Escucha el audio. ¿Qué debes tomar del cofre?',
         options: [
             { text: 'La espada', isCorrect: true },
             { text: 'El pico', isCorrect: false },
