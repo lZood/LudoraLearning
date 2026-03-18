@@ -95,19 +95,21 @@ export const questionBank: Question[] = [
 
     // --- A1 ---
     {
-        id: 'a1-1',
-        skillId: 'A1-LISTENING-TRADE',
+        id: 'a1-list-1',
+        skillId: 'A1-LIST-IRON',
         level: 'A1',
         category: 'Comprensión Auditiva',
         type: 'audio-listening',
-        audioUrl: '/audios/a1_listening_1.mp3', // Placeholder
-        text: 'Escucha el audio. ¿Qué mineral está pidiendo el aldeano?',
+        audioUrl: '/audios/evaluacion/A1/A1_MiningIron.wav',
+        text: 'Escucha el audio. ¿Qué está haciendo el jugador?',
         options: [
-            { text: 'Iron (Hierro)', isCorrect: true },
-            { text: 'Emerald (Esmeralda)', isCorrect: false },
-            { text: 'Diamond (Diamante)', isCorrect: false },
-            { text: 'Gold (Oro)', isCorrect: false },
-        ]
+            { text: 'Minando hierro en una cueva', isCorrect: true },
+            { text: 'Construyendo una casa', isCorrect: false },
+            { text: 'Peleando con un zombie', isCorrect: false },
+            { text: 'Nadando en agua', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la acción principal en presente continuo: \'mining iron in a cave\'. Se aceptan respuestas que incluyan \'mining\', \'iron\' o \'cave\'.',
+        expectedKeywords: ['mining', 'iron', 'cave']
     },
     {
         id: 'a1-2',
@@ -182,19 +184,89 @@ export const questionBank: Question[] = [
         gradingRubric: 'Debe usar alguna forma de tiempo futuro para expresar un plan de construcción.',
     },
     {
-        id: 'a1-alto-3',
-        skillId: 'A1ALTO-LISTENING-URGENT',
+        id: 'a1-alto-list-1',
+        skillId: 'A1ALTO-LIST-LAVA',
         level: 'A1-alto',
         category: 'Comprensión Auditiva',
         type: 'audio-listening',
-        audioUrl: '/audios/a1_alto_listening.mp3',
-        text: 'Escucha el audio de tu compañero. ¿Por qué está asustado?',
+        audioUrl: '/audios/evaluacion/A1_Alto/A1_Alto_Diamongs.wav',
+        text: 'Escucha el audio. ¿Qué pasó?',
         options: [
-            { text: 'Hizo un agujero y cayó a la lava.', isCorrect: true },
-            { text: 'Lo está persiguiendo un Enderman.', isCorrect: false },
-            { text: 'Se perdió en el bosque.', isCorrect: false },
-            { text: 'Se rompió su armadura.', isCorrect: false },
-        ]
+            { text: 'Cayó en lava y perdió diamantes', isCorrect: true },
+            { text: 'Encontró un cofre de diamantes', isCorrect: false },
+            { text: 'Construyó una base nueva', isCorrect: false },
+            { text: 'Intercambió con un aldeano', isCorrect: false }
+        ],
+        gradingRubric: 'La IA evaluadora espera que el alumno identifique que el jugador cayó a la lava y perdió diamantes. Aceptar frases cortas como \'fell into lava\', \'lost my diamonds\' o su versión en español equivalente. Respuestas parciales que mencionen solo \'lava\' o solo \'diamonds\' obtienen puntuación parcial.',
+        expectedKeywords: ['lava', 'diamonds', 'fell', 'lost']
+    },
+    {
+        id: 'a1-alto-list-2',
+        skillId: 'A1ALTO-LIST-ZOMBIE',
+        level: 'A1-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1_Alto/A1_Alto_Zombie.wav',
+        text: 'Escucha el audio. ¿Qué debe hacer el equipo?',
+        options: [
+            { text: 'Poner antorchas alrededor del granero', isCorrect: true },
+            { text: 'Construir un puente al granero', isCorrect: false },
+            { text: 'Vender en el mercado', isCorrect: false },
+            { text: 'Ir al Nether', isCorrect: false }
+        ],
+        gradingRubric: 'Se espera que el alumno entienda la instrucción de iluminar/poner antorchas porque hay un zombie cerca. Respuestas que indiquen \'light up\', \'place torches\' o sinónimos claros obtienen máxima puntuación. Menciones vagas como \'do something with the barn\' reciben puntuación parcial.',
+        expectedKeywords: ['zombie', 'barn', 'light', 'torches', 'behind']
+    },
+    {
+        id: 'a1-alto-list-3',
+        skillId: 'A1ALTO-LIST-BREAD',
+        level: 'A1-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1_Alto/A1_Alto_Bread.wav',
+        text: 'Escucha el audio. ¿Qué ofrece a cambio del pan?',
+        options: [
+            { text: 'Dos esmeraldas', isCorrect: true },
+            { text: 'Un diamante', isCorrect: false },
+            { text: 'Una espada de madera', isCorrect: false },
+            { text: 'Diez lingotes de hierro', isCorrect: false }
+        ],
+        gradingRubric: 'El evaluador debe comprobar que el alumno identifica la oferta: \'two emeralds\' o su traducción. Aceptar \'dos esmeraldas\' o \'2 emeralds\'. Cualquier respuesta que no indique la cantidad correcta o el ítem exacto debe recibir menor puntuación.',
+        expectedKeywords: ['villager', 'bread', 'two', 'emeralds', 'give']
+    },
+    {
+        id: 'a1-alto-list-4',
+        skillId: 'A1ALTO-LIST-COORDS',
+        level: 'A1-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1_Alto/A1_Alto_Coords.wav',
+        text: 'Escucha el audio. ¿Cuál es la instrucción principal?',
+        options: [
+            { text: 'Reunirse en las coordenadas', isCorrect: true },
+            { text: 'Empezar a minar ahora', isCorrect: false },
+            { text: 'Intercambiar con el aldeano', isCorrect: false },
+            { text: 'Ir al portal del Nether', isCorrect: false }
+        ],
+        gradingRubric: 'Se espera que el alumno entienda la instrucción de reunirse en las coordenadas dadas. Respuestas como \'meet at the coordinates\' reciben máxima puntuación. Respuestas que confundan la secuencia (por ejemplo, identificar \'go to the stronghold\' como instrucción inmediata en lugar de paso posterior) reciben puntuación parcial.',
+        expectedKeywords: ['meet', 'coordinates', '123', '64', '-45', 'stronghold']
+    },
+    {
+        id: 'a1-alto-list-5',
+        skillId: 'A1ALTO-LIST-CHEST',
+        level: 'A1-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1_Alto/A1_Alto_Chest.wav',
+        text: 'Escucha el audio. ¿Cuál es el problema?',
+        options: [
+            { text: 'El cofre está cerrado / no pueden abrirlo', isCorrect: true },
+            { text: 'El cofre está lleno', isCorrect: false },
+            { text: 'Encontraron diamantes en el cofre', isCorrect: false },
+            { text: 'El cofre está en el Nether', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar que el problema es que el cofre está cerrado/bloqueado. Frases como \'locked chest\', \'can\'t open\', \'it\'s locked\' o su traducción en español son correctas. Respuestas que indiquen un estado distinto (lleno, contenido) deben recibir puntuación parcial o ninguna.',
+        expectedKeywords: ['chest', 'locked', 'can\'t open', 'locked chest']
     },
     {
         id: 'a1-alto-4',
@@ -236,18 +308,89 @@ export const questionBank: Question[] = [
         ]
     },
     {
-        id: 'a2-2',
-        skillId: 'A2-SITUATIONAL-PLAN',
+        id: 'a2-list-1',
+        skillId: 'A2-LIST-SPAWNER',
         level: 'A2',
-        category: 'Comprensión Auditiva', // Asignando a auditiva en lugar de situacional, o lectura.
-        type: 'multiple-choice',
-        text: 'El líder del grupo dice: "Let\'s split up. Alex, you gather wood. Sarah, you mine for coal. I\'ll stay and defend the base." ¿Qué debe hacer Sarah?',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2/A2_spawner.wav',
+        text: 'Escucha el audio. ¿Qué encontró el jugador?',
         options: [
-            { text: 'Sarah debe minar carbón.', isCorrect: true },
-            { text: 'Sarah debe juntar madera.', isCorrect: false },
-            { text: 'Sarah debe proteger la base.', isCorrect: false },
-            { text: 'Sarah debe huir dividiéndose.', isCorrect: false },
-        ]
+            { text: 'Un generador de mobs', isCorrect: true },
+            { text: 'Una aldea', isCorrect: false },
+            { text: 'Una espada de diamante', isCorrect: false },
+            { text: 'Una granja', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar el objeto encontrado en una oración en pasado. \'Spawner\' es la palabra clave.',
+        expectedKeywords: ['found', 'spawner', 'cave']
+    },
+    {
+        id: 'a2-list-2',
+        skillId: 'A2-LIST-POTIONS',
+        level: 'A2',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2/A2_Dragon.wav',
+        text: 'Escucha el audio. ¿Qué necesitas hacer primero?',
+        options: [
+            { text: 'Preparar pociones', isCorrect: true },
+            { text: 'Construir una casa', isCorrect: false },
+            { text: 'Minar diamantes', isCorrect: false },
+            { text: 'Intercambiar con aldeanos', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la acción previa en una instrucción con \'before\'. \'Prepare potions\' es la respuesta correcta.',
+        expectedKeywords: ['before', 'prepare', 'potions', 'dragon']
+    },
+    {
+        id: 'a2-list-3',
+        skillId: 'A2-LIST-DARK',
+        level: 'A2',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2/A2_monsters.wav',
+        text: 'Escucha el audio. ¿Qué pasará si oscurece?',
+        options: [
+            { text: 'Aparecerán monstruos cerca de la aldea', isCorrect: true },
+            { text: 'Los aldeanos dormirán', isCorrect: false },
+            { text: 'Saldrá el sol', isCorrect: false },
+            { text: 'Empezará a llover', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe comprender una oración condicional básica con \'if\'. La consecuencia correcta es que aparecerán monstruos.',
+        expectedKeywords: ['if', 'dark', 'monsters', 'spawn', 'village']
+    },
+    {
+        id: 'a2-list-4',
+        skillId: 'A2-LIST-BLAZE',
+        level: 'A2',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2/A2_Nether.wav',
+        text: 'Escucha el audio. ¿Por qué fue al Nether?',
+        options: [
+            { text: 'Para conseguir blaze rods', isCorrect: true },
+            { text: 'Para construir una casa', isCorrect: false },
+            { text: 'Para encontrar aldeanos', isCorrect: false },
+            { text: 'Para pescar', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar propósito usando \'to\'. \'To get blaze rods\' es la respuesta esperada.',
+        expectedKeywords: ['went', 'nether', 'get', 'blaze rods']
+    },
+    {
+        id: 'a2-list-5',
+        skillId: 'A2-LIST-HOUSE',
+        level: 'A2',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2/A2_House.wav',
+        text: 'Escucha el audio. ¿Por qué terminaron rápido?',
+        options: [
+            { text: 'Porque trabajaron juntos', isCorrect: true },
+            { text: 'Porque tenían diamantes', isCorrect: false },
+            { text: 'Porque era de noche', isCorrect: false },
+            { text: 'Porque usaron comandos', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la causa usando \'because\'. La razón correcta es que trabajaron juntos.',
+        expectedKeywords: ['because', 'worked', 'together', 'built']
     },
     {
         id: 'a2-3',
@@ -307,19 +450,89 @@ export const questionBank: Question[] = [
         gradingRubric: 'Debe mostrar desacuerdo cortés (I think we should..., Maybe it is better if...)',
     },
     {
-        id: 'a2-alto-3',
-        skillId: 'A2ALTO-LISTENING-STORY',
+        id: 'a2-alto-list-1',
+        skillId: 'A2ALTO-LIST-BRIDGE',
         level: 'A2-alto',
         category: 'Comprensión Auditiva',
         type: 'audio-listening',
-        audioUrl: '/audios/a2_alto_listening.mp3',
-        text: '"Before we enter the woodland mansion, we must ensure everyone has enough potions." ¿Qué significa esto?',
+        audioUrl: '/audios/evaluacion/A2_Alto/A2_Alto_bridge.wav',
+        text: 'Escucha el audio. ¿Qué pasó mientras construían el puente?',
         options: [
-            { text: 'Hacer preparativos vitales (pociones) es obligatorio antes de entrar.', isCorrect: true },
-            { text: 'Las pociones se encuentran adentro.', isCorrect: false },
-            { text: 'La mansión evita las pociones.', isCorrect: false },
-            { text: 'Nadie tiene pociones.', isCorrect: false },
-        ]
+            { text: 'Un esqueleto los atacó', isCorrect: true },
+            { text: 'Encontraron diamantes', isCorrect: false },
+            { text: 'Terminaron el puente', isCorrect: false },
+            { text: 'Empezó a llover', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar una acción interrumpida en pasado continuo + pasado simple. La idea clave es que un esqueleto comenzó a atacar.',
+        expectedKeywords: ['building', 'bridge', 'skeleton', 'shooting', 'attacked']
+    },
+    {
+        id: 'a2-alto-list-2',
+        skillId: 'A2ALTO-LIST-ARMOR',
+        level: 'A2-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2_Alto/A2_Alto_armor.wav',
+        text: 'Escucha el audio. ¿Qué recomienda el jugador?',
+        options: [
+            { text: 'Usar armadura de hierro', isCorrect: true },
+            { text: 'Solo llevar comida', isCorrect: false },
+            { text: 'Construir una casa primero', isCorrect: false },
+            { text: 'Ir al Nether', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe reconocer una recomendación con \'should\'. La respuesta correcta es usar armadura de hierro.',
+        expectedKeywords: ['should', 'wear', 'iron armor', 'cave']
+    },
+    {
+        id: 'a2-alto-list-3',
+        skillId: 'A2ALTO-LIST-BIOME',
+        level: 'A2-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2_Alto/A2_Alto_biome.wav',
+        text: 'Escucha el audio. ¿Por qué necesitan ropa abrigadora?',
+        options: [
+            { text: 'Porque el bioma es más frío', isCorrect: true },
+            { text: 'Porque está lloviendo', isCorrect: false },
+            { text: 'Porque hay monstruos', isCorrect: false },
+            { text: 'Porque están minando', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar causa usando comparativos y \'so\'. La razón es que el bioma es más frío.',
+        expectedKeywords: ['colder', 'biome', 'forest', 'warm', 'clothes']
+    },
+    {
+        id: 'a2-alto-list-4',
+        skillId: 'A2ALTO-LIST-VILLAGE',
+        level: 'A2-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2_Alto/A2_Alto_trade.wav',
+        text: 'Escucha el audio. ¿Qué pueden hacer si encuentran una aldea?',
+        options: [
+            { text: 'Intercambiar por comida', isCorrect: true },
+            { text: 'Pelear con aldeanos', isCorrect: false },
+            { text: 'Construir un portal', isCorrect: false },
+            { text: 'Minar diamantes', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe comprender una oración condicional con \'if\' y \'can\'. La acción correcta es intercambiar por comida.',
+        expectedKeywords: ['if', 'find', 'village', 'trade', 'food']
+    },
+    {
+        id: 'a2-alto-list-5',
+        skillId: 'A2ALTO-LIST-BOW',
+        level: 'A2-alto',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A2_Alto/A2_Alto_Bow.wav',
+        text: 'Escucha el audio. ¿Por qué prefiere el arco?',
+        options: [
+            { text: 'Porque es más seguro', isCorrect: true },
+            { text: 'Porque es más barato', isCorrect: false },
+            { text: 'Porque es más rápido', isCorrect: false },
+            { text: 'Porque es más fuerte', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar una preferencia con justificación. La razón correcta es que el arco es más seguro.',
+        expectedKeywords: ['prefer', 'bow', 'safer', 'sword', 'because']
     },
     {
         id: 'a2-alto-4',
@@ -359,6 +572,91 @@ export const questionBank: Question[] = [
             { text: 'Porque no querían seguir avanzando más allá de la fortaleza.', isCorrect: false },
             { text: 'Porque se perdieron buscando la fortaleza.', isCorrect: false },
         ]
+    },
+    {
+        id: 'b1-list-1',
+        skillId: 'B1-LIST-FOOD',
+        level: 'B1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/B1/B1_food.wav',
+        text: 'Escucha el audio. ¿Por qué tuvieron que cazar animales?',
+        options: [
+            { text: 'Porque se quedaron sin comida', isCorrect: true },
+            { text: 'Porque querían recursos', isCorrect: false },
+            { text: 'Porque los animales los atacaron', isCorrect: false },
+            { text: 'Porque era de día', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar causa y consecuencia en una oración más compleja. La razón correcta es que se quedaron sin comida.',
+        expectedKeywords: ['ran out', 'food', 'hunt', 'animals', 'night']
+    },
+    {
+        id: 'b1-list-2',
+        skillId: 'B1-LIST-TORCHES',
+        level: 'B1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/B1/B1_torches.wav',
+        text: 'Escucha el audio. ¿Qué problema tuvieron?',
+        options: [
+            { text: 'Se perdieron en la cueva', isCorrect: true },
+            { text: 'Se quedaron sin herramientas', isCorrect: false },
+            { text: 'Encontraron diamantes', isCorrect: false },
+            { text: 'Construyeron una casa', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe comprender una condicional en pasado (third conditional básica). El problema fue perderse en la cueva.',
+        expectedKeywords: ['torches', 'lost', 'cave', 'brought']
+    },
+    {
+        id: 'b1-list-3',
+        skillId: 'B1-LIST-PLAN-CHANGE',
+        level: 'B1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/B1/B1_plan.wav',
+        text: 'Escucha el audio. ¿Por qué cambiaron el plan?',
+        options: [
+            { text: 'Porque estaba tomando demasiado tiempo', isCorrect: true },
+            { text: 'Porque no tenían materiales', isCorrect: false },
+            { text: 'Porque los aldeanos se fueron', isCorrect: false },
+            { text: 'Porque los monstruos atacaron', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la razón del cambio de plan en un discurso más largo. La clave es \'taking too long\'.',
+        expectedKeywords: ['plan', 'build', 'wall', 'changed', 'too long']
+    },
+    {
+        id: 'b1-list-4',
+        skillId: 'B1-LIST-OPTIONS',
+        level: 'B1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/B1/B1_explore.wav',
+        text: 'Escucha el audio. ¿Qué opciones tienen?',
+        options: [
+            { text: 'Explorar la cueva o proteger la base', isCorrect: true },
+            { text: 'Construir una casa o intercambiar', isCorrect: false },
+            { text: 'Pelear o huir', isCorrect: false },
+            { text: 'Minar o cultivar', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar opciones dadas con \'either...or\'. La respuesta correcta incluye ambas opciones mencionadas.',
+        expectedKeywords: ['either', 'explore', 'cave', 'protect', 'base']
+    },
+    {
+        id: 'b1-list-5',
+        skillId: 'B1-LIST-LOOT',
+        level: 'B1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/B1/B1_boss.wav',
+        text: 'Escucha el audio. ¿Qué hicieron después de derrotar al jefe?',
+        options: [
+            { text: 'Recogieron el botín y regresaron a la base', isCorrect: true },
+            { text: 'Empezaron una nueva misión', isCorrect: false },
+            { text: 'Construyeron una granja', isCorrect: false },
+            { text: 'Exploraron el Nether', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar secuencia de acciones en pasado. La respuesta correcta incluye recolectar botín y regresar.',
+        expectedKeywords: ['after', 'defeated', 'boss', 'loot', 'returned']
     },
     {
         id: 'b1-2',
@@ -410,15 +708,165 @@ export const questionBank: Question[] = [
     // --- NUEVAS PREGUNTAS (Para asegurar 2-3 de cada tipo y evaluar más profundamente el habla) ---
 
     // Pre-A1 Nuevas
-    { id: 'pre-a1-ext-1', skillId: 'PREA1-LIST-PIG', level: 'Pre-A1', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/pre_a1_pig.mp3', text: 'Escucha. ¿Qué animal es (Pig = Cerdo)?', options: [{ text: 'Pig (Cerdo)', isCorrect: true }, { text: 'Cow (Vaca)', isCorrect: false }] },
-    { id: 'pre-a1-ext-2', skillId: 'PREA1-LIST-ZOMBIE', level: 'Pre-A1', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/pre_a1_zombie.mp3', text: 'Escucha este sonido. ¿A qué criatura pertenece?', options: [{ text: 'Zombie', isCorrect: true }, { text: 'Creeper', isCorrect: false }] },
+    {
+        id: 'pre-a1-list-1',
+        skillId: 'PREA1-LIST-COW',
+        level: 'Pre-A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_Cow.wav',
+        text: '¿Qué palabra escuchas en el audio?',
+        options: [
+            { text: 'Vaca', isCorrect: true },
+            { text: 'Zombie', isCorrect: false },
+            { text: 'Árbol', isCorrect: false },
+            { text: 'Piedra', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la palabra básica \'cow\'. Se acepta selección directa. No se espera producción de lenguaje.',
+        expectedKeywords: ['cow']
+    },
+    {
+        id: 'pre-a1-list-2',
+        skillId: 'PREA1-LIST-JUMP',
+        level: 'Pre-A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_Jump.wav',
+        text: '¿Qué palabra escuchas en el audio?',
+        options: [
+            { text: 'Saltar', isCorrect: true },
+            { text: 'Dormir', isCorrect: false },
+            { text: 'Comer', isCorrect: false },
+            { text: 'Minar', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce una instrucción básica (verbo de acción). Respuesta correcta si identifica \'jump\' como acción.',
+        expectedKeywords: ['jump']
+    },
+    {
+        id: 'pre-a1-list-3',
+        skillId: 'PREA1-LIST-DIAMOND',
+        level: 'Pre-A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_Diamond.wav',
+        text: '¿Qué palabra escuchas en el audio?',
+        options: [
+            { text: 'Diamante', isCorrect: true },
+            { text: 'Madera', isCorrect: false },
+            { text: 'Agua', isCorrect: false },
+            { text: 'Arena', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe reconocer vocabulario básico de objetos en Minecraft. \'Diamond\' es la respuesta esperada.',
+        expectedKeywords: ['diamond']
+    },
+    {
+        id: 'pre-a1-list-4',
+        skillId: 'PREA1-LIST-HOUSE',
+        level: 'Pre-A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_House.wav',
+        text: '¿Qué palabra escuchas en el audio?',
+        options: [
+            { text: 'Casa', isCorrect: true },
+            { text: 'Cueva', isCorrect: false },
+            { text: 'Bosque', isCorrect: false },
+            { text: 'Río', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno identifica una instrucción simple con destino. Debe reconocer \'house\'.',
+        expectedKeywords: ['house', 'go']
+    },
+    {
+        id: 'pre-a1-list-5',
+        skillId: 'PREA1-LIST-ZOMBIE',
+        level: 'Pre-A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/Pre_A1/Pre_A1_Zombie.wav',
+        text: '¿Qué palabra escuchas en el audio?',
+        options: [
+            { text: 'Zombie', isCorrect: true },
+            { text: 'Oveja', isCorrect: false },
+            { text: 'Cerdo', isCorrect: false },
+            { text: 'Aldeano', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno reconoce una palabra clave de enemigo en Minecraft. \'Zombie\' es la respuesta correcta.',
+        expectedKeywords: ['zombie']
+    },
     { id: 'pre-a1-ext-3', skillId: 'PREA1-VISUAL-DIRT', level: 'Pre-A1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el bloque de tierra (Dirt):', options: [{ text: 'Dirt', isCorrect: true, imageUrl: '/images/placeholders/dirt.png' }, { text: 'Stone', isCorrect: false, imageUrl: '/images/placeholders/stone.png' }] },
     { id: 'pre-a1-ext-4', skillId: 'PREA1-ORAL-JUMP', level: 'Pre-A1', category: 'Producción Oral', type: 'audio-record', text: 'Di en voz alta la acción de "Saltar" en inglés ("Jump").', gradingRubric: 'El alumno pronuncia claramente la palabra jump o algo similar.', expectedKeywords: ['jump'] },
     { id: 'pre-a1-ext-5', skillId: 'PREA1-WRITTEN-RUN', level: 'Pre-A1', category: 'Producción Escrita', type: 'text-input', text: 'Escribe la palabra para "Correr" en inglés.', gradingRubric: 'Debe escribir run', expectedKeywords: ['run'] },
 
     // A1 Nuevas
     { id: 'a1-ext-1', skillId: 'A1-GRAMMAR-LIKE', level: 'A1', category: 'Gramática y Vocabulario', type: 'multiple-choice', text: 'Quieres decir "Me gustan las manzanas".', options: [{ text: 'I like apples.', isCorrect: true }, { text: 'I likes apples.', isCorrect: false }] },
-    { id: 'a1-ext-2', skillId: 'A1-LIST-BUILD', level: 'A1', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/a1_build.mp3', text: '¿Qué quiere hacer el jugador con esa madera?', options: [{ text: 'Construir una casa (Build a house)', isCorrect: true }, { text: 'Quemar la madera', isCorrect: false }] },
+    {
+        id: 'a1-list-2',
+        skillId: 'A1-LIST-CREEPER',
+        level: 'A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1/A1_Creeper.wav',
+        text: 'Escucha el audio. ¿Dónde está el creeper?',
+        options: [
+            { text: 'Junto al árbol', isCorrect: true },
+            { text: 'Dentro de la casa', isCorrect: false },
+            { text: 'Debajo del agua', isCorrect: false },
+            { text: 'En la montaña', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar la ubicación usando preposiciones básicas. \'Next to the tree\' es la respuesta esperada.',
+        expectedKeywords: ['creeper', 'next to', 'tree']
+    },
+    {
+        id: 'a1-list-3',
+        skillId: 'A1-LIST-SWORD',
+        level: 'A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1/A1_Chest.wav',
+        text: 'Escucha el audio. ¿Qué debes tomar?',
+        options: [
+            { text: 'La espada', isCorrect: true },
+            { text: 'El pico', isCorrect: false },
+            { text: 'La manzana', isCorrect: false },
+            { text: 'El mapa', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar el objeto indicado en una instrucción simple. \'Sword\' es la palabra clave.',
+        expectedKeywords: ['open', 'chest', 'sword', 'take']
+    },
+    {
+        id: 'a1-list-4',
+        skillId: 'A1-LIST-SHEEP',
+        level: 'A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1/A1_Sheep.wav',
+        text: 'Escucha el audio. ¿Cuántas ovejas hay?',
+        options: [
+            { text: 'Tres', isCorrect: true },
+            { text: 'Uno', isCorrect: false },
+            { text: 'Cinco', isCorrect: false },
+            { text: 'Diez', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe identificar números básicos dentro de una oración. \'Three\' es la respuesta correcta.',
+        expectedKeywords: ['three', 'sheep', 'river']
+    },
+    {
+        id: 'a1-list-5',
+        skillId: 'A1-LIST-FARM',
+        level: 'A1',
+        category: 'Comprensión Auditiva',
+        type: 'audio-listening',
+        audioUrl: '/audios/evaluacion/A1/A1_Farm.wav',
+        text: 'Escucha el audio. ¿Qué están haciendo?',
+        options: [
+            { text: 'Construyendo una granja', isCorrect: true },
+            { text: 'Explorando una cueva', isCorrect: false },
+            { text: 'Peleando con monstruos', isCorrect: false },
+            { text: 'Intercambiando con aldeanos', isCorrect: false }
+        ],
+        gradingRubric: 'El alumno debe reconocer una acción en presente continuo. \'Building a farm\' es la respuesta esperada.',
+        expectedKeywords: ['building', 'farm', 'we']
+    },
     { id: 'a1-ext-3', skillId: 'A1-WRITTEN-GREET', level: 'A1', category: 'Producción Escrita', type: 'text-input', text: 'Entras al servidor. Escribe un saludo básico a todos.', gradingRubric: 'Mensaje de saludo como "Hi everyone" o "Hello guys".' },
     { id: 'a1-ext-4', skillId: 'A1-VISUAL-COW', level: 'A1', category: 'Identificación Visual', type: 'image-choice', text: 'Encuentra a la vaca (Cow):', options: [{ text: 'Cow', isCorrect: true, imageUrl: '/images/placeholders/cow.png' }, { text: 'Pig', isCorrect: false, imageUrl: '/images/placeholders/pig.png' }] },
     { id: 'a1-ext-5', skillId: 'A1-ORAL-NUMBERS', level: 'A1', category: 'Producción Oral', type: 'audio-record', text: 'Tienes 5 bloques. Di en inglés "Tengo cinco bloques".', gradingRubric: 'Pronunciación de "I have five blocks".' },
@@ -427,26 +875,24 @@ export const questionBank: Question[] = [
     { id: 'a1-alto-ext-1', skillId: 'A1ALTO-VISUAL-BED', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: '¿Qué objeto usas para dormir y saltarte la noche?', options: [{ text: 'Bed', isCorrect: true, imageUrl: '/images/placeholders/bed.png' }, { text: 'Slab', isCorrect: false, imageUrl: '/images/placeholders/slab.png' }] },
     { id: 'a1-alto-ext-2', skillId: 'A1ALTO-VISUAL-APPLE', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Selecciona una Manzana Dorada (Golden Apple):', options: [{ text: 'Golden Apple', isCorrect: true, imageUrl: '/images/placeholders/gapple.png' }, { text: 'Carrot', isCorrect: false, imageUrl: '/images/placeholders/carrot.png' }] },
     { id: 'a1-alto-ext-3', skillId: 'A1ALTO-WRITTEN-NEED', level: 'A1-alto', category: 'Producción Escrita', type: 'text-input', text: 'Escribe en el chat que "necesitas comida".', gradingRubric: 'El alumno pide comida usando "need food" o "I am hungry".' },
-    { id: 'a1-alto-ext-4', skillId: 'A1ALTO-LIST-FIGHT', level: 'A1-alto', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/a1_alto_fight.mp3', text: '"They are attacking the village!" ¿Qué pasa?', options: [{ text: 'La aldea está siendo atacada.', isCorrect: true }, { text: 'La aldea está vacía.', isCorrect: false }] },
     { id: 'a1-alto-ext-5', skillId: 'A1ALTO-ORAL-WHERE', level: 'A1-alto', category: 'Producción Oral', type: 'audio-record', text: 'Pregúntale en voz alta a un amigo "¿Dónde estás?".', gradingRubric: 'Hacer la pregunta de ubicación en inglés simple.' },
 
     // A2 Nuevas
     { id: 'a2-ext-1', skillId: 'A2-VISUAL-NETHER', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un portal al Nether.', options: [{ text: 'Nether Portal', isCorrect: true, imageUrl: '/images/placeholders/portal.png' }, { text: 'End Portal', isCorrect: false, imageUrl: '/images/placeholders/endportal.png' }] },
     { id: 'a2-ext-2', skillId: 'A2-VISUAL-BOAT', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el Bote (Boat).', options: [{ text: 'Boat', isCorrect: true, imageUrl: '/images/placeholders/boat.png' }, { text: 'Minecart', isCorrect: false, imageUrl: '/images/placeholders/minecart.png' }] },
-    { id: 'a2-ext-3', skillId: 'A2-LIST-DIRECTIONS', level: 'A2', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/a2_directions.mp3', text: '"Go straight past the mountain, it\'s on the left." ¿Hacia dónde debes ir?', options: [{ text: 'Pasar la montaña y a la izquierda.', isCorrect: true }, { text: 'Atrás de la montaña a la derecha.', isCorrect: false }] },
+
     { id: 'a2-ext-4', skillId: 'A2-WRITTEN-INVITE', level: 'A2', category: 'Producción Escrita', type: 'text-input', text: 'Invita textualmente a un jugador a unirse a tu facción/equipo.', gradingRubric: 'Debe contener una oferta o invitación ("Join my team", "Do you want to play with us?").' },
     { id: 'a2-ext-5', skillId: 'A2-ORAL-WARN2', level: 'A2', category: 'Producción Oral', type: 'audio-record', text: 'Graba en voz alta aconsejando a tu amigo: "No deberías cavar directamente hacia abajo" ("You shouldn\'t dig straight down").', gradingRubric: 'El alumno debe dar el famoso consejo de Minecraft usando un modal o imperativo de no hacerlo.' },
 
     // A2-alto Nuevas
     { id: 'a2-alto-ext-1', skillId: 'A2ALTO-GRAMMAR-SINCE', level: 'A2-alto', category: 'Gramática y Vocabulario', type: 'multiple-choice', text: 'Quiero decir que he jugado este servidor desde 2021.', options: [{ text: 'I have played on this server since 2021.', isCorrect: true }, { text: 'I have played on this server for 2021.', isCorrect: false }] },
-    { id: 'a2-alto-ext-2', skillId: 'A2ALTO-LIST-TRADE', level: 'A2-alto', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/a2_alto_trade.mp3', text: '"I\'ll give you 10 iron ingots if you can enchant my sword with Sharpness." ¿Qué ofrece a cambio del encantamiento?', options: [{ text: '10 lingotes de hierro.', isCorrect: true }, { text: 'Una espada afilada.', isCorrect: false }] },
+
     { id: 'a2-alto-ext-3', skillId: 'A2ALTO-WRITTEN-APOLOGY', level: 'A2-alto', category: 'Producción Escrita', type: 'text-input', text: 'Mataste a un compañero de equipo por accidente y tomó tu flecha. Escribe disculpándote y explicando que fue un accidente.', gradingRubric: 'Debe disculparse ("I am sorry", "My fault") y excusarse ("It was an accident", "I didn\'t mean to").' },
     { id: 'a2-alto-ext-4', skillId: 'A2ALTO-VISUAL-TRIPWIRE', level: 'A2-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el mecanismo o la trampa de "Tripwire Hook".', options: [{ text: 'Tripwire', isCorrect: true, imageUrl: '/images/placeholders/tripwire.png' }, { text: 'Lever', isCorrect: false, imageUrl: '/images/placeholders/lever.png' }] },
     { id: 'a2-alto-ext-5', skillId: 'A2ALTO-ORAL-EXCUSE', level: 'A2-alto', category: 'Producción Oral', type: 'audio-record', text: 'Explica en voz alta por qué no pudiste defender la base: "Había demasiados zombies y no tenía espada".', gradingRubric: 'Usar "there were too many" o similar para explicar la desventaja.' },
 
     // B1 Nuevas
-    { id: 'b1-ext-1', skillId: 'B1-LIST-PLAN', level: 'B1', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/b1_plan.mp3', text: '"First we kill the shulkers guarding the entrance, then we bridge to the ship before grabbing the elytra." ¿Cuál es el último paso?', options: [{ text: 'Agarrar las elitras (grabbing the elytra).', isCorrect: true }, { text: 'Hacer puentes (bridge to the ship).', isCorrect: false }] },
-    { id: 'b1-ext-2', skillId: 'B1-LIST-REASON', level: 'B1', category: 'Comprensión Auditiva', type: 'audio-listening', audioUrl: '/audios/b1_reason.mp3', text: '"He was banned because he was exploiting a duplication glitch." ¿Qué hizo el jugador baneado?', options: [{ text: 'Estaba abusando de un fallo del juego para multiplicar ítems.', isCorrect: true }, { text: 'Insultó a un administrador.', isCorrect: false }] },
+
     { id: 'b1-ext-3', skillId: 'B1-VISUAL-BEACON', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un Beacon (Faro mágico) activado.', options: [{ text: 'Beacon', isCorrect: true, imageUrl: '/images/placeholders/beacon.png' }, { text: 'Conduit', isCorrect: false, imageUrl: '/images/placeholders/conduit.png' }] },
     { id: 'b1-ext-4', skillId: 'B1-VISUAL-REDSTONE', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un circuito de reloj (Redstone Clock).', options: [{ text: 'Redstone Clock', isCorrect: true, imageUrl: '/images/placeholders/redstone_clock.png' }, { text: 'Piston Door', isCorrect: false, imageUrl: '/images/placeholders/piston_door.png' }] },
     { id: 'b1-ext-5', skillId: 'B1-WRITTEN-APPEAL', level: 'B1', category: 'Producción Escrita', type: 'text-input', text: 'Te banearon injustamente. Redacta un mensaje para apelar justificando que fue un lag (retraso en tu conexión).', gradingRubric: 'Debe formular una queja o apelación educada usando conector causal (because, due to) justificándose con lag/connection.' },

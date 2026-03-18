@@ -835,13 +835,21 @@ export default function EvaluacionYBanda() {
                                                 </div>
                                             ))}
                                         </div>
-                                        <button
-                                            onClick={finishQuiz}
-                                            disabled={isSaving}
-                                            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50"
-                                        >
-                                            {isSaving ? 'Guardando...' : '⏩ Finalizar Simulación y Ver Resultado'}
-                                        </button>
+                                        <div className="flex flex-col sm:flex-row gap-3">
+                                            <button
+                                                onClick={finishQuiz}
+                                                disabled={isSaving}
+                                                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50"
+                                            >
+                                                {isSaving ? 'Guardando...' : '⏩ Finalizar y Ver Reporte'}
+                                            </button>
+                                            <button
+                                                onClick={() => router.push('/portal-alumno/evaluacion/tester')}
+                                                className="flex-1 bg-white border-2 border-orange-200 hover:border-orange-400 text-orange-600 font-bold py-3 px-4 rounded-xl transition-all"
+                                            >
+                                                🔍 Probador de Preguntas
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
 
