@@ -136,14 +136,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['hello', 'name', 'is', 'alex']
     },
     {
-        id: 'pre-a1-5',
-        skillId: 'PREA1-WRITTEN-COLORS',
+        id: 'pre-a1-pe-1',
+        skillId: 'PREA1-WRITTEN-COW',
         level: 'Pre-A1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: "Los zombies son de color verde. ¿Cómo se escribe 'verde' en inglés?",
-        gradingRubric: 'El usuario debe escribir la palabra green de forma correcta o casi correcta.',
-        expectedKeywords: ['green']
+        text: 'Escribe la palabra en inglés: "vaca"',
+        gradingRubric: 'El alumno debe escribir la palabra básica \'cow\'. Se acepta mayúscula o minúscula. Errores menores de ortografía no son aceptables en este nivel.',
+        expectedKeywords: ['cow']
+    },
+    {
+        id: 'pre-a1-pe-2',
+        skillId: 'PREA1-WRITTEN-RED',
+        level: 'Pre-A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Escribe en inglés: "rojo"',
+        gradingRubric: 'El alumno debe escribir \'red\'. Se acepta mayúscula o minúscula; no se aceptan traducciones alternativas.',
+        expectedKeywords: ['red']
+    },
+    {
+        id: 'pre-a1-pe-3',
+        skillId: 'PREA1-WRITTEN-WATER',
+        level: 'Pre-A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Escribe en inglés: "agua"',
+        gradingRubric: 'El alumno debe escribir \'water\'. Se acepta mayúscula o minúscula, pero no errores ortográficos.',
+        expectedKeywords: ['water']
+    },
+    {
+        id: 'pre-a1-pe-4',
+        skillId: 'PREA1-WRITTEN-SHEEP',
+        level: 'Pre-A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Completa: "This is a ___" (imagen de una oveja)',
+        gradingRubric: 'El alumno debe escribir \'sheep\'. Se acepta mayúscula o minúscula.',
+        expectedKeywords: ['sheep']
+    },
+    {
+        id: 'pre-a1-pe-5',
+        skillId: 'PREA1-WRITTEN-THREE',
+        level: 'Pre-A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Escribe en inglés: "tres"',
+        gradingRubric: 'El alumno debe escribir \'three\'. Se acepta la palabra \'three\' o el número \'3\'.',
+        expectedKeywords: ['three', '3']
     },
 
     // --- A1 ---
@@ -170,7 +210,7 @@ export const questionBank: Question[] = [
         level: 'A1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa la oración: "I  mining in a cave."',
+        text: 'Completa la oración: "I ___ mining in a cave."',
         options: [
             { text: 'am', isCorrect: true },
             { text: 'is', isCorrect: false },
@@ -186,7 +226,7 @@ export const questionBank: Question[] = [
         level: 'A1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "The creeper  next to the tree."',
+        text: 'Elige la opción correcta: "The creeper ___ next to the tree."',
         options: [
             { text: 'is', isCorrect: true },
             { text: 'are', isCorrect: false },
@@ -218,7 +258,7 @@ export const questionBank: Question[] = [
         level: 'A1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "There  three zombies near the village."',
+        text: 'Completa: "There ___ three zombies near the village."',
         options: [
             { text: 'are', isCorrect: true },
             { text: 'is', isCorrect: false },
@@ -245,14 +285,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['diamond', 'sword']
     },
     {
-        id: 'a1-3',
-        skillId: 'A1-WRITTEN-HELP',
+        id: 'a1-pe-1',
+        skillId: 'A1-WRITTEN-HELP-CAVE',
         level: 'A1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Estás perdido en la cueva. Escribe en el chat pidiendo ayuda brevemente (ej. "Ayúdame por favor" en inglés).',
-        gradingRubric: 'El texto debe comunicar una petición de ayuda simple y estructurada.',
-        expectedKeywords: ['help', 'please', 'me', 'need']
+        text: 'Estás en una cueva y no sabes dónde estás. Escribe un mensaje corto pidiendo ayuda.',
+        gradingRubric: 'El mensaje debe ser corto (1 frase) y mostrar que el alumno pide ayuda. La IA debe verificar que la intención es clara aunque la gramática sea básica.',
+        expectedKeywords: ['help', 'please', 'lost', 'me']
+    },
+    {
+        id: 'a1-pe-2',
+        skillId: 'A1-WRITTEN-GREET-CHAT',
+        level: 'A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Entras al servidor. Escribe un saludo corto en el chat.',
+        gradingRubric: 'El mensaje debe ser un saludo simple y claro. La IA debe reconocer intención de saludar aunque la estructura sea básica.',
+        expectedKeywords: ['hi', 'hello', 'hey']
+    },
+    {
+        id: 'a1-pe-3',
+        skillId: 'A1-WRITTEN-NEED-FOOD',
+        level: 'A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Tienes hambre. Escribe un mensaje corto pidiendo comida.',
+        gradingRubric: 'El mensaje debe expresar necesidad de comida de forma simple. La IA debe validar intención y vocabulario básico relacionado con comida.',
+        expectedKeywords: ['food', 'please', 'hungry', 'bread']
+    },
+    {
+        id: 'a1-pe-4',
+        skillId: 'A1-WRITTEN-WHERE-FRIENDS',
+        level: 'A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'No sabes dónde están tus amigos. Escribe un mensaje preguntando dónde están.',
+        gradingRubric: 'El mensaje debe ser una pregunta simple sobre ubicación. La IA debe verificar intención de preguntar y uso básico de palabras clave.',
+        expectedKeywords: ['where', 'you', 'are', 'friends']
+    },
+    {
+        id: 'a1-pe-5',
+        skillId: 'A1-WRITTEN-START-BUILD',
+        level: 'A1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Escribe un mensaje corto para decir a tus amigos que hay que empezar a construir.',
+        gradingRubric: 'El mensaje debe indicar inicio de una acción (construir). La IA debe verificar intención clara y vocabulario básico.',
+        expectedKeywords: ['start', 'build', 'go', 'let\'s']
     },
     {
         id: 'a1-4',
@@ -285,7 +365,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "I  a house near the river."',
+        text: 'Completa: "I ____ a house near the river."',
         options: [
             { text: 'have', isCorrect: true },
             { text: 'has', isCorrect: false },
@@ -301,7 +381,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "He  mining diamonds."',
+        text: 'Elige la opción correcta: "He ____ mining diamonds."',
         options: [
             { text: 'is', isCorrect: true },
             { text: 'are', isCorrect: false },
@@ -317,7 +397,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "There is a chest  the house."',
+        text: 'Completa: "There are diamonds ___ the chest."',
         options: [
             { text: 'in', isCorrect: true },
             { text: 'on', isCorrect: false },
@@ -333,7 +413,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "We  build a farm."',
+        text: 'Elige la opción correcta: "We ___ build a farm."',
         options: [
             { text: 'can', isCorrect: true },
             { text: 'is', isCorrect: false },
@@ -349,7 +429,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "The zombie is ___ than the sheep."',
+        text: 'Completa: "The zombie is ____ than the sheep."',
         options: [
             { text: 'bigger', isCorrect: true },
             { text: 'big', isCorrect: false },
@@ -360,13 +440,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['bigger', 'than', 'zombie', 'sheep']
     },
     {
-        id: 'a1-alto-2',
-        skillId: 'A1ALTO-WRITTEN-PLANS',
+        id: 'a1-alto-pe-1',
+        skillId: 'A1ALTO-WRITTEN-ATTACK',
         level: 'A1-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Alguien te pregunta qué vas a construir mañana. Escribe tu respuesta en una oración completa usando el futuro (going to / will).',
-        gradingRubric: 'Debe usar alguna forma de tiempo futuro para expresar un plan de construcción.',
+        text: 'Te atacó un zombie. Escribe un mensaje corto diciendo qué pasó y pidiendo ayuda.',
+        gradingRubric: 'El mensaje debe comunicar una situación (ataque) y una petición de ayuda. La IA debe evaluar que haya una idea clara de lo que pasó y que se pida ayuda de forma comprensible.',
+        expectedKeywords: ['zombie', 'attack', 'help', 'please', 'me']
+    },
+    {
+        id: 'a1-alto-pe-2',
+        skillId: 'A1ALTO-WRITTEN-DIAMONDS',
+        level: 'A1-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Encontraste diamantes. Escribe un mensaje corto contándole a tu equipo.',
+        gradingRubric: 'El mensaje debe comunicar un hallazgo (diamantes). La IA debe evaluar claridad del mensaje y uso de vocabulario básico del juego.',
+        expectedKeywords: ['diamonds', 'found', 'I', 'we']
+    },
+    {
+        id: 'a1-alto-pe-3',
+        skillId: 'A1ALTO-WRITTEN-LOST-FRIEND',
+        level: 'A1-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Tu amigo está perdido. Escribe un mensaje corto dándole una instrucción para encontrar la base.',
+        gradingRubric: 'El mensaje debe incluir una instrucción simple (ir, seguir, venir, etc.). La IA debe evaluar intención de dar dirección o guía.',
+        expectedKeywords: ['go', 'come', 'base', 'here', 'follow']
+    },
+    {
+        id: 'a1-alto-pe-4',
+        skillId: 'A1ALTO-WRITTEN-ASK-FOOD',
+        level: 'A1-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Quieres comida. Escribe un mensaje corto para pedir comida a otro jugador.',
+        gradingRubric: 'El mensaje debe expresar una petición clara de comida. La IA debe evaluar intención y claridad, no perfección gramatical.',
+        expectedKeywords: ['food', 'please', 'give', 'me', 'need']
+    },
+    {
+        id: 'a1-alto-pe-5',
+        skillId: 'A1ALTO-WRITTEN-BUILD-ACTION',
+        level: 'A1-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Van a construir una casa. Escribe un mensaje corto diciendo qué vas a hacer tú.',
+        gradingRubric: 'El mensaje debe indicar una acción personal dentro de la construcción. La IA debe evaluar uso de \'I\' y una acción clara.',
+        expectedKeywords: ['I', 'build', 'bring', 'make', 'house']
     },
     {
         id: 'a1-alto-list-1',
@@ -471,7 +592,7 @@ export const questionBank: Question[] = [
         level: 'A2',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "Yesterday, I  diamonds in a cave."',
+        text: 'Completa: "Yesterday, I ____ diamonds in a cave."',
         options: [
             { text: 'found', isCorrect: true },
             { text: 'find', isCorrect: false },
@@ -487,7 +608,7 @@ export const questionBank: Question[] = [
         level: 'A2',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "If it  dark, monsters spawn."',
+        text: 'Elige la opción correcta: "If it ____ dark, monsters spawn."',
         options: [
             { text: 'gets', isCorrect: true },
             { text: 'get', isCorrect: false },
@@ -503,7 +624,7 @@ export const questionBank: Question[] = [
         level: 'A2',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "I went to the village  buy food."',
+        text: 'Completa: "I went to the village ___ buy food."',
         options: [
             { text: 'to', isCorrect: true },
             { text: 'for', isCorrect: false },
@@ -519,7 +640,7 @@ export const questionBank: Question[] = [
         level: 'A2',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "This sword is  than the wooden one."',
+        text: 'Elige la opción correcta: "This sword is ____ than the wooden one."',
         options: [
             { text: 'stronger', isCorrect: true },
             { text: 'strong', isCorrect: false },
@@ -631,13 +752,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['because', 'worked', 'together', 'built']
     },
     {
-        id: 'a2-3',
-        skillId: 'A2-WRITTEN-EMPATHY',
+        id: 'a2-pe-1',
+        skillId: 'A2-WRITTEN-NIGHT-MONSTERS',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu amigo acaba de perder sus diamantes por la lava. Escríbele un mensaje consolándolo y ofreciéndole ayuda.',
-        gradingRubric: 'El mensaje debe mostrar empatía (ej. I am sorry, that is sad) y ofrecer ayuda o regalarle ítems.',
+        text: 'Se está haciendo de noche y hay monstruos. Escribe un mensaje corto explicando el problema y qué deben hacer.',
+        gradingRubric: 'El mensaje debe describir una situación y sugerir una acción. La IA debe evaluar si el alumno comunica ambas ideas de forma clara y comprensible.',
+        expectedKeywords: ['night', 'monsters', 'go', 'run', 'base', 'sleep', 'come']
+    },
+    {
+        id: 'a2-pe-2',
+        skillId: 'A2-WRITTEN-LOST-ITEMS',
+        level: 'A2',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Perdiste tus cosas en una cueva. Escribe un mensaje explicando lo que pasó.',
+        gradingRubric: 'El mensaje debe describir un evento pasado de forma simple. La IA debe evaluar claridad, coherencia y vocabulario relacionado con el contexto.',
+        expectedKeywords: ['lost', 'items', 'stuff', 'cave', 'my']
+    },
+    {
+        id: 'a2-pe-3',
+        skillId: 'A2-WRITTEN-TRADE-OFFER',
+        level: 'A2',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Quieres intercambiar objetos. Escribe un mensaje diciendo qué tienes y qué quieres.',
+        gradingRubric: 'El mensaje debe incluir una oferta y una petición. La IA debe evaluar si el alumno comunica ambas partes del intercambio.',
+        expectedKeywords: ['have', 'want', 'trade', 'give', 'need']
+    },
+    {
+        id: 'a2-pe-4',
+        skillId: 'A2-WRITTEN-LOCATION-EXPLAIN',
+        level: 'A2',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Un amigo no sabe dónde estás. Escribe un mensaje explicando tu ubicación.',
+        gradingRubric: 'El mensaje debe describir ubicación con al menos una referencia (biome, lugar, objeto). La IA debe evaluar claridad y uso de vocabulario básico de ubicación.',
+        expectedKeywords: ['I am', 'near', 'in', 'forest', 'cave', 'village']
+    },
+    {
+        id: 'a2-pe-5',
+        skillId: 'A2-WRITTEN-BUILD-PLAN',
+        level: 'A2',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Van a hacer un plan para construir. Escribe un mensaje diciendo qué harán primero y después.',
+        gradingRubric: 'El mensaje debe mostrar secuencia de acciones (primero/después). La IA debe evaluar organización básica de ideas y claridad.',
+        expectedKeywords: ['first', 'then', 'build', 'start', 'after']
     },
 
     {
@@ -657,7 +819,7 @@ export const questionBank: Question[] = [
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "While I  mining, I found diamonds."',
+        text: 'Completa: "While I ___ mining, I found diamonds."',
         options: [
             { text: 'was', isCorrect: true },
             { text: 'am', isCorrect: false },
@@ -673,7 +835,7 @@ export const questionBank: Question[] = [
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "You  bring food before exploring the cave."',
+        text: 'Elige la opción correcta: "You ____ bring food before exploring the cave."',
         options: [
             { text: 'should', isCorrect: true },
             { text: 'are', isCorrect: false },
@@ -689,7 +851,7 @@ export const questionBank: Question[] = [
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "This biome is  than the desert."',
+        text: 'Completa: "A snowy mountain is ____ than the desert."',
         options: [
             { text: 'colder', isCorrect: true },
             { text: 'cold', isCorrect: false },
@@ -705,7 +867,7 @@ export const questionBank: Question[] = [
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "If we  a village, we can trade."',
+        text: 'Completa: "If we ____ a village, we can trade."',
         options: [
             { text: 'find', isCorrect: true },
             { text: 'found', isCorrect: false },
@@ -721,7 +883,7 @@ export const questionBank: Question[] = [
         level: 'A2-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "I prefer ___ with a bow."',
+        text: 'Elige la opción correcta: "I prefer ____ with a bow."',
         options: [
             { text: 'fighting', isCorrect: true },
             { text: 'fight', isCorrect: false },
@@ -732,13 +894,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['prefer', 'fighting', 'bow']
     },
     {
-        id: 'a2-alto-2',
-        skillId: 'A2ALTO-WRITTEN-DISAGREE',
+        id: 'a2-alto-pe-1',
+        skillId: 'A2ALTO-WRITTEN-CREEPER-EXPLOSION',
         level: 'A2-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Estás en desacuerdo con la estrategia del equipo. Redacta de forma educada tu objeción y presenta una alternativa.',
-        gradingRubric: 'Debe mostrar desacuerdo cortés (I think we should..., Maybe it is better if...)',
+        text: 'Un creeper explotó cerca de la base. Escribe un mensaje explicando qué pasó y qué deberían hacer ahora.',
+        gradingRubric: 'El mensaje debe describir un evento pasado y sugerir una acción o solución. La IA debe evaluar claridad, secuencia básica y propuesta de acción.',
+        expectedKeywords: ['creeper', 'exploded', 'base', 'fix', 'repair', 'build', 'again']
+    },
+    {
+        id: 'a2-alto-pe-2',
+        skillId: 'A2ALTO-WRITTEN-RECS-TEAM',
+        level: 'A2-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Quieres prepararte para una pelea. Escribe un mensaje dando dos recomendaciones a tu equipo.',
+        gradingRubric: 'El mensaje debe incluir al menos dos sugerencias o recomendaciones claras. La IA debe evaluar que el alumno comunica acciones útiles para prepararse.',
+        expectedKeywords: ['should', 'bring', 'armor', 'food', 'we', 'use']
+    },
+    {
+        id: 'a2-alto-pe-3',
+        skillId: 'A2ALTO-WRITTEN-LOST-MISSION',
+        level: 'A2-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Tu equipo se perdió en una misión. Escribe un mensaje explicando qué pasó y proponiendo un plan.',
+        gradingRubric: 'El mensaje debe explicar una situación y proponer una solución o plan. La IA debe evaluar coherencia, conexión de ideas y claridad.',
+        expectedKeywords: ['lost', 'we', 'go', 'back', 'find', 'plan', 'base']
+    },
+    {
+        id: 'a2-alto-pe-4',
+        skillId: 'A2ALTO-WRITTEN-DESCRIBE-PLACE',
+        level: 'A2-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Encontraste un nuevo lugar. Escribe un mensaje describiéndolo y diciendo por qué es bueno.',
+        gradingRubric: 'El mensaje debe incluir descripción simple y una razón (because/so). La IA debe evaluar si el alumno conecta ideas y describe el lugar.',
+        expectedKeywords: ['place', 'is', 'good', 'because', 'there is', 'many']
+    },
+    {
+        id: 'a2-alto-pe-5',
+        skillId: 'A2ALTO-WRITTEN-ASSIGN-TASKS',
+        level: 'A2-alto',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Van a dividir tareas. Escribe un mensaje asignando roles a tu equipo.',
+        gradingRubric: 'El mensaje debe asignar al menos dos tareas a diferentes personas o roles. La IA debe evaluar claridad y organización.',
+        expectedKeywords: ['you', 'I', 'we', 'build', 'get', 'bring', 'collect']
     },
     {
         id: 'a2-alto-list-1',
@@ -856,7 +1059,7 @@ export const questionBank: Question[] = [
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "If I  more diamonds, I would craft better armor."',
+        text: 'Completa: "If I ____ more diamonds, I would craft better armor."',
         options: [
             { text: 'had', isCorrect: true },
             { text: 'have', isCorrect: false },
@@ -872,7 +1075,7 @@ export const questionBank: Question[] = [
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "I have never  the Ender Dragon."',
+        text: 'Elige la opción correcta: "I have never ____ the Ender Dragon."',
         options: [
             { text: 'defeated', isCorrect: true },
             { text: 'defeat', isCorrect: false },
@@ -888,7 +1091,7 @@ export const questionBank: Question[] = [
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "The house  by the team yesterday."',
+        text: 'Completa: "The house _____ by the team yesterday."',
         options: [
             { text: 'was built', isCorrect: true },
             { text: 'built', isCorrect: false },
@@ -904,12 +1107,12 @@ export const questionBank: Question[] = [
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Elige la opción correcta: "We stopped  because it was getting dark."',
+        text: 'Elige la opción correcta: "We stopped _____ because it was getting dark."',
         options: [
             { text: 'exploring', isCorrect: true },
             { text: 'explore', isCorrect: false },
             { text: 'explored', isCorrect: false },
-            { text: 'to explore', isCorrect: false }
+            { text: 'to explored', isCorrect: false }
         ],
         gradingRubric: 'El alumno reconoce el uso de gerundio después de \'stop\' cuando indica interrupción de una actividad.',
         expectedKeywords: ['stopped', 'exploring', 'dark']
@@ -920,7 +1123,7 @@ export const questionBank: Question[] = [
         level: 'B1',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "You got hurt. You ___ have used a shield to protect yourself."',
+        text: 'Completa: "You got hurt. You ____ have used a shield to protect yourself."',
         options: [
             { text: 'should', isCorrect: true },
             { text: 'can', isCorrect: false },
@@ -1016,13 +1219,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['after', 'defeated', 'boss', 'loot', 'returned']
     },
     {
-        id: 'b1-2',
-        skillId: 'B1-WRITTEN-EXPLAIN',
+        id: 'b1-pe-1',
+        skillId: 'B1-WRITTEN-MISSION-REFLECTION',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Escribe una breve guía de un párrafo explicando cómo funciona un Observer de Redstone.',
-        gradingRubric: 'Debe contener oraciones subordinadas, vocabulario técnico básico de MC y explicar causa y efecto.',
+        text: 'Tu equipo perdió muchos recursos en una misión. Escribe un mensaje explicando qué pasó y qué harían diferente la próxima vez.',
+        gradingRubric: 'El mensaje debe explicar un evento pasado y añadir una reflexión o mejora para el futuro. La IA debe evaluar claridad, conexión de ideas y presencia de una propuesta o aprendizaje.',
+        expectedKeywords: ['lost', 'resources', 'we', 'next', 'time', 'should', 'better']
+    },
+    {
+        id: 'b1-pe-2',
+        skillId: 'B1-WRITTEN-CAVE-PLAN',
+        level: 'B1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Van a explorar una cueva peligrosa. Escribe un mensaje explicando el plan antes de entrar.',
+        gradingRubric: 'El mensaje debe describir un plan con varios pasos o acciones. La IA debe evaluar organización, claridad y secuencia lógica.',
+        expectedKeywords: ['first', 'then', 'we', 'bring', 'torches', 'food', 'armor']
+    },
+    {
+        id: 'b1-pe-3',
+        skillId: 'B1-WRITTEN-BASE-DEFENSE',
+        level: 'B1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Tu base fue atacada. Escribe un mensaje explicando lo que pasó y cómo pueden protegerla mejor.',
+        gradingRubric: 'El mensaje debe incluir descripción del evento y una solución o mejora. La IA debe evaluar uso de ideas conectadas y propuestas claras.',
+        expectedKeywords: ['attacked', 'base', 'we', 'build', 'wall', 'protect', 'defend']
+    },
+    {
+        id: 'b1-pe-4',
+        skillId: 'B1-WRITTEN-NEW-PLAYER-GUIDE',
+        level: 'B1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Un jugador nuevo llegó al servidor. Escribe un mensaje dándole instrucciones básicas para empezar.',
+        gradingRubric: 'El mensaje debe incluir instrucciones claras y útiles. La IA debe evaluar claridad, orden y utilidad del contenido.',
+        expectedKeywords: ['start', 'get', 'wood', 'make', 'tools', 'then', 'build']
+    },
+    {
+        id: 'b1-pe-5',
+        skillId: 'B1-WRITTEN-OPINION-EXPLAIN',
+        level: 'B1',
+        category: 'Producción Escrita',
+        type: 'text-input',
+        text: 'Tu equipo no está de acuerdo con una idea. Escribe un mensaje dando tu opinión y explicando por qué.',
+        gradingRubric: 'El mensaje debe expresar una opinión y una razón. La IA debe evaluar claridad, coherencia y uso de conectores básicos.',
+        expectedKeywords: ['I think', 'because', 'better', 'we', 'should']
     },
 
     {
@@ -1126,7 +1370,7 @@ export const questionBank: Question[] = [
     },
     { id: 'pre-a1-ext-3', skillId: 'PREA1-VISUAL-DIRT', level: 'Pre-A1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el bloque de tierra (Dirt):', options: [{ text: 'Dirt', isCorrect: true, imageUrl: '/images/placeholders/dirt.png' }, { text: 'Stone', isCorrect: false, imageUrl: '/images/placeholders/stone.png' }] },
     { id: 'pre-a1-ext-4', skillId: 'PREA1-ORAL-JUMP', level: 'Pre-A1', category: 'Producción Oral', type: 'audio-record', text: 'Di en voz alta la acción de "Saltar" en inglés ("Jump").', gradingRubric: 'El alumno pronuncia claramente la palabra jump o algo similar.', expectedKeywords: ['jump'] },
-    { id: 'pre-a1-ext-5', skillId: 'PREA1-WRITTEN-RUN', level: 'Pre-A1', category: 'Producción Escrita', type: 'text-input', text: 'Escribe la palabra para "Correr" en inglés.', gradingRubric: 'Debe escribir run', expectedKeywords: ['run'] },
+
 
     // A1 Nuevas
 
@@ -1198,27 +1442,25 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno debe reconocer una acción en presente continuo. \'Building a farm\' es la respuesta esperada.',
         expectedKeywords: ['building', 'farm', 'we']
     },
-    { id: 'a1-ext-3', skillId: 'A1-WRITTEN-GREET', level: 'A1', category: 'Producción Escrita', type: 'text-input', text: 'Entras al servidor. Escribe un saludo básico a todos.', gradingRubric: 'Mensaje de saludo como "Hi everyone" o "Hello guys".' },
+
     { id: 'a1-ext-4', skillId: 'A1-VISUAL-COW', level: 'A1', category: 'Identificación Visual', type: 'image-choice', text: 'Encuentra a la vaca (Cow):', options: [{ text: 'Cow', isCorrect: true, imageUrl: '/images/placeholders/cow.png' }, { text: 'Pig', isCorrect: false, imageUrl: '/images/placeholders/pig.png' }] },
     { id: 'a1-ext-5', skillId: 'A1-ORAL-NUMBERS', level: 'A1', category: 'Producción Oral', type: 'audio-record', text: 'Tienes 5 bloques. Di en inglés "Tengo cinco bloques".', gradingRubric: 'Pronunciación de "I have five blocks".' },
 
     // A1-alto Nuevas
     { id: 'a1-alto-ext-1', skillId: 'A1ALTO-VISUAL-BED', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: '¿Qué objeto usas para dormir y saltarte la noche?', options: [{ text: 'Bed', isCorrect: true, imageUrl: '/images/placeholders/bed.png' }, { text: 'Slab', isCorrect: false, imageUrl: '/images/placeholders/slab.png' }] },
     { id: 'a1-alto-ext-2', skillId: 'A1ALTO-VISUAL-APPLE', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Selecciona una Manzana Dorada (Golden Apple):', options: [{ text: 'Golden Apple', isCorrect: true, imageUrl: '/images/placeholders/gapple.png' }, { text: 'Carrot', isCorrect: false, imageUrl: '/images/placeholders/carrot.png' }] },
-    { id: 'a1-alto-ext-3', skillId: 'A1ALTO-WRITTEN-NEED', level: 'A1-alto', category: 'Producción Escrita', type: 'text-input', text: 'Escribe en el chat que "necesitas comida".', gradingRubric: 'El alumno pide comida usando "need food" o "I am hungry".' },
+
     { id: 'a1-alto-ext-5', skillId: 'A1ALTO-ORAL-WHERE', level: 'A1-alto', category: 'Producción Oral', type: 'audio-record', text: 'Pregúntale en voz alta a un amigo "¿Dónde estás?".', gradingRubric: 'Hacer la pregunta de ubicación en inglés simple.' },
 
     // A2 Nuevas
     { id: 'a2-ext-1', skillId: 'A2-VISUAL-NETHER', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un portal al Nether.', options: [{ text: 'Nether Portal', isCorrect: true, imageUrl: '/images/placeholders/portal.png' }, { text: 'End Portal', isCorrect: false, imageUrl: '/images/placeholders/endportal.png' }] },
     { id: 'a2-ext-2', skillId: 'A2-VISUAL-BOAT', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el Bote (Boat).', options: [{ text: 'Boat', isCorrect: true, imageUrl: '/images/placeholders/boat.png' }, { text: 'Minecart', isCorrect: false, imageUrl: '/images/placeholders/minecart.png' }] },
 
-    { id: 'a2-ext-4', skillId: 'A2-WRITTEN-INVITE', level: 'A2', category: 'Producción Escrita', type: 'text-input', text: 'Invita textualmente a un jugador a unirse a tu facción/equipo.', gradingRubric: 'Debe contener una oferta o invitación ("Join my team", "Do you want to play with us?").' },
+
     { id: 'a2-ext-5', skillId: 'A2-ORAL-WARN2', level: 'A2', category: 'Producción Oral', type: 'audio-record', text: 'Graba en voz alta aconsejando a tu amigo: "No deberías cavar directamente hacia abajo" ("You shouldn\'t dig straight down").', gradingRubric: 'El alumno debe dar el famoso consejo de Minecraft usando un modal o imperativo de no hacerlo.' },
 
     // A2-alto Nuevas
-    { id: 'a2-alto-ext-1', skillId: 'A2ALTO-GRAMMAR-SINCE', level: 'A2-alto', category: 'Gramática y Vocabulario', type: 'multiple-choice', text: 'Quiero decir que he jugado este servidor desde 2021.', options: [{ text: 'I have played on this server since 2021.', isCorrect: true }, { text: 'I have played on this server for 2021.', isCorrect: false }] },
 
-    { id: 'a2-alto-ext-3', skillId: 'A2ALTO-WRITTEN-APOLOGY', level: 'A2-alto', category: 'Producción Escrita', type: 'text-input', text: 'Mataste a un compañero de equipo por accidente y tomó tu flecha. Escribe disculpándote y explicando que fue un accidente.', gradingRubric: 'Debe disculparse ("I am sorry", "My fault") y excusarse ("It was an accident", "I didn\'t mean to").' },
     { id: 'a2-alto-ext-4', skillId: 'A2ALTO-VISUAL-TRIPWIRE', level: 'A2-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el mecanismo o la trampa de "Tripwire Hook".', options: [{ text: 'Tripwire', isCorrect: true, imageUrl: '/images/placeholders/tripwire.png' }, { text: 'Lever', isCorrect: false, imageUrl: '/images/placeholders/lever.png' }] },
     { id: 'a2-alto-ext-5', skillId: 'A2ALTO-ORAL-EXCUSE', level: 'A2-alto', category: 'Producción Oral', type: 'audio-record', text: 'Explica en voz alta por qué no pudiste defender la base: "Había demasiados zombies y no tenía espada".', gradingRubric: 'Usar "there were too many" o similar para explicar la desventaja.' },
 
@@ -1226,6 +1468,6 @@ export const questionBank: Question[] = [
 
     { id: 'b1-ext-3', skillId: 'B1-VISUAL-BEACON', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un Beacon (Faro mágico) activado.', options: [{ text: 'Beacon', isCorrect: true, imageUrl: '/images/placeholders/beacon.png' }, { text: 'Conduit', isCorrect: false, imageUrl: '/images/placeholders/conduit.png' }] },
     { id: 'b1-ext-4', skillId: 'B1-VISUAL-REDSTONE', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un circuito de reloj (Redstone Clock).', options: [{ text: 'Redstone Clock', isCorrect: true, imageUrl: '/images/placeholders/redstone_clock.png' }, { text: 'Piston Door', isCorrect: false, imageUrl: '/images/placeholders/piston_door.png' }] },
-    { id: 'b1-ext-5', skillId: 'B1-WRITTEN-APPEAL', level: 'B1', category: 'Producción Escrita', type: 'text-input', text: 'Te banearon injustamente. Redacta un mensaje para apelar justificando que fue un lag (retraso en tu conexión).', gradingRubric: 'Debe formular una queja o apelación educada usando conector causal (because, due to) justificándose con lag/connection.' },
+
     { id: 'b1-ext-6', skillId: 'B1-ORAL-PERSUADE', level: 'B1', category: 'Producción Oral', type: 'audio-record', text: 'Convence verbalmente a tu clan de ir a asaltar un Templo Oceánico esta noche argumentando que dará buenos materiales.', gradingRubric: 'Debe contener expresiones persuasivas (We should, Let\'s go, It will be worth it) y prometer beneficios.' }
 ];
