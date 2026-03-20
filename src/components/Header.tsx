@@ -70,12 +70,8 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  // Hide header for dashboard and inner portal-alumno pages, but KEEP it for login and register
-  if (
-    pathname.startsWith("/portal-alumno") &&
-    pathname !== "/portal-alumno" &&
-    pathname !== "/portal-alumno/registro"
-  ) {
+  // Hide header for ALL portal-alumno pages to maximize screen space
+  if (pathname.startsWith("/portal-alumno")) {
     return null;
   }
 

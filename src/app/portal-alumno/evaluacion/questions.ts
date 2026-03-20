@@ -46,22 +46,7 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno reconoce vocabulario básico de objetos. \'Pickaxe\' es la respuesta correcta.',
         expectedKeywords: ['pickaxe']
     },
-    {
-        id: 'pre-a1-gv-2',
-        skillId: 'PREA1-VOCAB-COW',
-        level: 'Pre-A1',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Completa: "This is a " (imagen de una vaca).',
-        options: [
-            { text: 'Cow', isCorrect: true },
-            { text: 'Zombie', isCorrect: false },
-            { text: 'Tree', isCorrect: false },
-            { text: 'Stone', isCorrect: false }
-        ],
-        gradingRubric: 'El alumno identifica vocabulario básico de animales. \'Cow\' es correcto.',
-        expectedKeywords: ['cow']
-    },
+
     {
         id: 'pre-a1-gv-3',
         skillId: 'PREA1-VOCAB-WOOD',
@@ -79,22 +64,6 @@ export const questionBank: Question[] = [
         expectedKeywords: ['wood']
     },
     {
-        id: 'pre-a1-gv-4',
-        skillId: 'PREA1-VOCAB-ZOMBIE-G',
-        level: 'Pre-A1',
-        category: 'Gramática y Vocabulario',
-        type: 'multiple-choice',
-        text: 'Completa: "I see a " (imagen de un zombie).',
-        options: [
-            { text: 'Zombie', isCorrect: true },
-            { text: 'Sheep', isCorrect: false },
-            { text: 'Pig', isCorrect: false },
-            { text: 'Villager', isCorrect: false }
-        ],
-        gradingRubric: 'El alumno identifica vocabulario básico de enemigos. \'Zombie\' es correcto.',
-        expectedKeywords: ['zombie']
-    },
-    {
         id: 'pre-a1-gv-5',
         skillId: 'PREA1-VOCAB-DOOR',
         level: 'Pre-A1',
@@ -110,30 +79,57 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno reconoce objetos básicos del entorno. \'Door\' es la respuesta correcta.',
         expectedKeywords: ['door']
     },
-    {
-        id: 'pre-a1-2',
-        skillId: 'PREA1-VISUAL-PICKAXE',
-        level: 'Pre-A1',
-        category: 'Identificación Visual',
-        type: 'image-choice',
-        text: '¿Cuál de las siguientes imágenes corresponde a un "Pickaxe"?',
-        options: [
-            { text: 'Pickaxe', isCorrect: true, imageUrl: '/images/placeholders/pickaxe.png' }, // Placeholder URL
-            { text: 'Sword', isCorrect: false, imageUrl: '/images/placeholders/sword.png' },
-            { text: 'Axe', isCorrect: false, imageUrl: '/images/placeholders/axe.png' },
-            { text: 'Shovel', isCorrect: false, imageUrl: '/images/placeholders/shovel.png' },
-        ]
-    },
+
 
     {
-        id: 'pre-a1-4',
-        skillId: 'PREA1-ORAL-GREETING',
+        id: 'pre-a1-po-1',
+        skillId: 'PREA1-ORAL-FIVE-BLOCKS',
         level: 'Pre-A1',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Graba un audio diciendo: "Hello, my name is Alex".',
-        gradingRubric: 'El usuario debe pronunciar una variación entendible de "Hello my name is Alex" o similar.',
-        expectedKeywords: ['hello', 'name', 'is', 'alex']
+        text: 'Di en inglés “cinco bloques”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie claramente \'five blocks\'. Se valora claridad y pronunciación básica.',
+        expectedKeywords: ['five', 'blocks']
+    },
+    {
+        id: 'pre-a1-po-2',
+        skillId: 'PREA1-ORAL-COW',
+        level: 'Pre-A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “vaca”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie correctamente \'cow\'. Se valora claridad.',
+        expectedKeywords: ['cow']
+    },
+    {
+        id: 'pre-a1-po-3',
+        skillId: 'PREA1-ORAL-RED',
+        level: 'Pre-A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés el color “rojo”.',
+        gradingRubric: 'La IA debe evaluar que el alumno diga correctamente un color básico en inglés. Se espera \'red\' con pronunciación clara.',
+        expectedKeywords: ['red']
+    },
+    {
+        id: 'pre-a1-po-4',
+        skillId: 'PREA1-ORAL-HUNGRY',
+        level: 'Pre-A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “hambre”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie correctamente \'hungry\'.',
+        expectedKeywords: ['hungry']
+    },
+    {
+        id: 'pre-a1-po-5',
+        skillId: 'PREA1-ORAL-JUMP',
+        level: 'Pre-A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “saltar”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie correctamente \'jump\'.',
+        expectedKeywords: ['jump']
     },
     {
         id: 'pre-a1-pe-1',
@@ -335,27 +331,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['start', 'build', 'go', 'let\'s']
     },
     {
-        id: 'a1-4',
-        skillId: 'A1-VISUAL-GLASS',
-        level: 'A1',
-        category: 'Identificación Visual',
-        type: 'image-choice',
-        text: 'Selecciona la imagen que muestra "Glass":',
-        options: [
-            { text: 'Glass', isCorrect: true, imageUrl: '/images/placeholders/glass.png' },
-            { text: 'Dirt', isCorrect: false, imageUrl: '/images/placeholders/dirt.png' },
-            { text: 'Stone', isCorrect: false, imageUrl: '/images/placeholders/stone.png' },
-            { text: 'Lava', isCorrect: false, imageUrl: '/images/placeholders/lava.gif' },
-        ]
-    },
-    {
-        id: 'a1-5',
-        skillId: 'A1-ORAL-WARN',
+        id: 'a1-po-1',
+        skillId: 'A1-ORAL-WOOD',
         level: 'A1',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Hay un Creeper detrás de un amigo. Graba un audio avisándole rápidamente (ej. "Look behind you!" o "Watch out!").',
-        gradingRubric: 'El audio debe ser una advertencia de peligro en inglés.',
+        text: 'Di en inglés “tengo madera”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie “I have wood”. Se valora claridad básica.',
+        expectedKeywords: ['I', 'have', 'wood']
+    },
+    {
+        id: 'a1-po-2',
+        skillId: 'A1-ORAL-LOOK',
+        level: 'A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “mira el creeper”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie “look at the creeper”.',
+        expectedKeywords: ['look', 'at', 'the', 'creeper']
+    },
+    {
+        id: 'a1-po-3',
+        skillId: 'A1-ORAL-HELP',
+        level: 'A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “ayúdame por favor”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie “help me please”.',
+        expectedKeywords: ['help', 'me', 'please']
+    },
+    {
+        id: 'a1-po-4',
+        skillId: 'A1-ORAL-SLEEP',
+        level: 'A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “vamos a dormir”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie “let\'s sleep” o “let\'s go to sleep”.',
+        expectedKeywords: ['let\'s', 'sleep', 'go']
+    },
+    {
+        id: 'a1-po-5',
+        skillId: 'A1-ORAL-WHERE-SWORD',
+        level: 'A1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “¿dónde está mi espada?”.',
+        gradingRubric: 'La IA debe evaluar que el alumno pronuncie “where is my sword”.',
+        expectedKeywords: ['where', 'is', 'my', 'sword']
     },
 
     // --- A1-alto ---
@@ -365,7 +388,7 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "I ____ a house near the river."',
+        text: 'Completa: "I ____ a wood house."',
         options: [
             { text: 'have', isCorrect: true },
             { text: 'has', isCorrect: false },
@@ -373,7 +396,7 @@ export const questionBank: Question[] = [
             { text: 'haves', isCorrect: false }
         ],
         gradingRubric: 'El alumno usa correctamente \'have\' con \'I\'.',
-        expectedKeywords: ['have', 'house', 'river']
+        expectedKeywords: ['have', 'house']
     },
     {
         id: 'a1-alto-gv-2',
@@ -397,15 +420,15 @@ export const questionBank: Question[] = [
         level: 'A1-alto',
         category: 'Gramática y Vocabulario',
         type: 'multiple-choice',
-        text: 'Completa: "There are diamonds ___ the chest."',
+        text: 'Completa: "The apple is ___ the boat."',
         options: [
             { text: 'in', isCorrect: true },
             { text: 'on', isCorrect: false },
             { text: 'at', isCorrect: false },
             { text: 'to', isCorrect: false }
         ],
-        gradingRubric: 'El alumno reconoce preposiciones básicas de lugar. \'in the house\' es correcto.',
-        expectedKeywords: ['in', 'chest', 'house']
+        gradingRubric: 'El alumno reconoce la preposición de lugar para estar dentro de algo.',
+        expectedKeywords: ['in', 'boat']
     },
     {
         id: 'a1-alto-gv-4',
@@ -441,13 +464,13 @@ export const questionBank: Question[] = [
     },
     {
         id: 'a1-alto-pe-1',
-        skillId: 'A1ALTO-WRITTEN-ATTACK',
+        skillId: 'A1ALTO-WRITTEN-HELP',
         level: 'A1-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Te atacó un zombie. Escribe un mensaje corto diciendo qué pasó y pidiendo ayuda.',
-        gradingRubric: 'El mensaje debe comunicar una situación (ataque) y una petición de ayuda. La IA debe evaluar que haya una idea clara de lo que pasó y que se pida ayuda de forma comprensible.',
-        expectedKeywords: ['zombie', 'attack', 'help', 'please', 'me']
+        text: 'Un zombie te ataca. Escribe un mensaje pidiendo ayuda.',
+        gradingRubric: 'El mensaje debe indicar un ataque o peligro y pedir ayuda de forma sencilla.',
+        expectedKeywords: ['help', 'zombie', 'me', 'please']
     },
     {
         id: 'a1-alto-pe-2',
@@ -461,13 +484,13 @@ export const questionBank: Question[] = [
     },
     {
         id: 'a1-alto-pe-3',
-        skillId: 'A1ALTO-WRITTEN-LOST-FRIEND',
+        skillId: 'A1ALTO-WRITTEN-COME-HERE',
         level: 'A1-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu amigo está perdido. Escribe un mensaje corto dándole una instrucción para encontrar la base.',
-        gradingRubric: 'El mensaje debe incluir una instrucción simple (ir, seguir, venir, etc.). La IA debe evaluar intención de dar dirección o guía.',
-        expectedKeywords: ['go', 'come', 'base', 'here', 'follow']
+        text: 'Tu amigo está lejos. Escribe un mensaje diciendo "ven aquí, tengo diamantes".',
+        gradingRubric: 'El mensaje debe incluir la invitación a venir y el motivo (diamantes).',
+        expectedKeywords: ['come', 'here', 'I', 'have', 'diamonds']
     },
     {
         id: 'a1-alto-pe-4',
@@ -576,13 +599,54 @@ export const questionBank: Question[] = [
     },
 
     {
-        id: 'a1-alto-5',
-        skillId: 'A1ALTO-ORAL-DESCRIBE',
+        id: 'a1-alto-po-1',
+        skillId: 'A1ALTO-ORAL-HUNGRY',
         level: 'A1-alto',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Describe brevemente en voz alta un bloque de arena ("Sand is block, it falls...").',
-        gradingRubric: 'Debe describir la arena o cualquier propiedad de la arena en inglés básico.',
+        text: 'Di en inglés “tengo hambre”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “I am hungry”.',
+        expectedKeywords: ['I', 'am', 'hungry']
+    },
+    {
+        id: 'a1-alto-po-2',
+        skillId: 'A1ALTO-ORAL-ZOMBIE-HERE',
+        level: 'A1-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “el zombie está aquí”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “the zombie is here”.',
+        expectedKeywords: ['the', 'zombie', 'is', 'here']
+    },
+    {
+        id: 'a1-alto-po-3',
+        skillId: 'A1ALTO-ORAL-GIVE-TORCH',
+        level: 'A1-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “dame una antorcha”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “give me a torch”.',
+        expectedKeywords: ['give', 'me', 'a', 'torch']
+    },
+    {
+        id: 'a1-alto-po-4',
+        skillId: 'A1ALTO-ORAL-NO-IRON',
+        level: 'A1-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “no tengo hierro”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “I don\'t have iron” o “I have no iron”.',
+        expectedKeywords: ['have', 'no', 'iron', 'don\'t']
+    },
+    {
+        id: 'a1-alto-po-5',
+        skillId: 'A1ALTO-ORAL-HOUSE-NEAR',
+        level: 'A1-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “mi casa está cerca”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “my house is near”.',
+        expectedKeywords: ['my', 'house', 'is', 'near']
     },
 
     // --- A2 ---
@@ -753,63 +817,104 @@ export const questionBank: Question[] = [
     },
     {
         id: 'a2-pe-1',
-        skillId: 'A2-WRITTEN-NIGHT-MONSTERS',
+        skillId: 'A2-WRITTEN-NIGHT-HOME',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Se está haciendo de noche y hay monstruos. Escribe un mensaje corto explicando el problema y qué deben hacer.',
-        gradingRubric: 'El mensaje debe describir una situación y sugerir una acción. La IA debe evaluar si el alumno comunica ambas ideas de forma clara y comprensible.',
-        expectedKeywords: ['night', 'monsters', 'go', 'run', 'base', 'sleep', 'come']
+        text: 'Es de noche. Dile a tus amigos que hay que ir a casa.',
+        gradingRubric: 'El mensaje debe indicar que es de noche y sugerir ir a casa. La IA evalúa claridad en la instrucción.',
+        expectedKeywords: ['night', 'go', 'home', 'house', 'run']
     },
     {
         id: 'a2-pe-2',
-        skillId: 'A2-WRITTEN-LOST-ITEMS',
+        skillId: 'A2-WRITTEN-LOST-SWORD',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Perdiste tus cosas en una cueva. Escribe un mensaje explicando lo que pasó.',
-        gradingRubric: 'El mensaje debe describir un evento pasado de forma simple. La IA debe evaluar claridad, coherencia y vocabulario relacionado con el contexto.',
-        expectedKeywords: ['lost', 'items', 'stuff', 'cave', 'my']
+        text: 'Perdiste tu espada en una cueva. Escribe un mensaje diciendo qué pasó.',
+        gradingRubric: 'El mensaje debe describir la pérdida de la espada en pasado. La IA evalúa uso de pasado simple y vocabulario.',
+        expectedKeywords: ['lost', 'sword', 'cave', 'in']
     },
     {
         id: 'a2-pe-3',
-        skillId: 'A2-WRITTEN-TRADE-OFFER',
+        skillId: 'A2-WRITTEN-TRADE-WOOD',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Quieres intercambiar objetos. Escribe un mensaje diciendo qué tienes y qué quieres.',
-        gradingRubric: 'El mensaje debe incluir una oferta y una petición. La IA debe evaluar si el alumno comunica ambas partes del intercambio.',
-        expectedKeywords: ['have', 'want', 'trade', 'give', 'need']
+        text: 'Quieres madera. Escribe a tu amigo: "Tengo hierro, quiero madera".',
+        gradingRubric: 'El mensaje debe expresar la oferta y el deseo de intercambio de forma clara.',
+        expectedKeywords: ['have', 'iron', 'want', 'wood', 'trade']
     },
     {
         id: 'a2-pe-4',
-        skillId: 'A2-WRITTEN-LOCATION-EXPLAIN',
+        skillId: 'A2-WRITTEN-LOCATION-NEAR',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Un amigo no sabe dónde estás. Escribe un mensaje explicando tu ubicación.',
-        gradingRubric: 'El mensaje debe describir ubicación con al menos una referencia (biome, lugar, objeto). La IA debe evaluar claridad y uso de vocabulario básico de ubicación.',
-        expectedKeywords: ['I am', 'near', 'in', 'forest', 'cave', 'village']
+        text: 'Dile a tu amigo: "Estoy en la cueva cerca del río".',
+        gradingRubric: 'El mensaje debe usar preposiciones de lugar y puntos de referencia básicos.',
+        expectedKeywords: ['I am', 'in', 'cave', 'near', 'river']
     },
     {
         id: 'a2-pe-5',
-        skillId: 'A2-WRITTEN-BUILD-PLAN',
+        skillId: 'A2-WRITTEN-BUILD-ORDER',
         level: 'A2',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Van a hacer un plan para construir. Escribe un mensaje diciendo qué harán primero y después.',
-        gradingRubric: 'El mensaje debe mostrar secuencia de acciones (primero/después). La IA debe evaluar organización básica de ideas y claridad.',
-        expectedKeywords: ['first', 'then', 'build', 'start', 'after']
+        text: 'Dile a tu equipo: "Primero hacemos la casa, después buscamos comida".',
+        gradingRubric: 'El mensaje debe usar conectores de secuencia (first, then/after).',
+        expectedKeywords: ['first', 'house', 'then', 'after', 'food']
     },
 
     {
-        id: 'a2-5',
-        skillId: 'A2-ORAL-DIRECTIONS',
+        id: 'a2-po-1',
+        skillId: 'A2-ORAL-GO-HOME',
         level: 'A2',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Graba en audio dando instrucciones a otro jugador para que vaya hacia la montaña detrás del río.',
-        gradingRubric: 'Debe usar preposiciones de lugar o instrucciones direccionales (go, look, behind, river, mountain).',
+        text: 'Di en inglés “debemos ir a casa ahora”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “we must go home now”.',
+        expectedKeywords: ['we', 'must', 'go', 'home', 'now']
+    },
+    {
+        id: 'a2-po-2',
+        skillId: 'A2-ORAL-FOUND-VAL',
+        level: 'A2',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “encontré hierro en la cueva”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “I found iron in the cave”.',
+        expectedKeywords: ['I', 'found', 'iron', 'in', 'the', 'cave']
+    },
+    {
+        id: 'a2-po-3',
+        skillId: 'A2-ORAL-DONT-DIG',
+        level: 'A2',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “no caves hacia abajo”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “don\'t dig down”.',
+        expectedKeywords: ['don\'t', 'dig', 'down']
+    },
+    {
+        id: 'a2-po-4',
+        skillId: 'A2-ORAL-TRADE-WANT',
+        level: 'A2',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “quiero esmeraldas por mi trigo”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “I want emeralds for my wheat”.',
+        expectedKeywords: ['I', 'want', 'emeralds', 'for', 'my', 'wheat']
+    },
+    {
+        id: 'a2-po-5',
+        skillId: 'A2-ORAL-BETTER-SWORD',
+        level: 'A2',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “la espada es mejor que el pico”.',
+        gradingRubric: 'La IA evalúa si el alumno pronuncia “the sword is better than the pickaxe”.',
+        expectedKeywords: ['sword', 'is', 'better', 'than', 'pickaxe']
     },
 
     // --- A2-alto ---
@@ -895,33 +1000,33 @@ export const questionBank: Question[] = [
     },
     {
         id: 'a2-alto-pe-1',
-        skillId: 'A2ALTO-WRITTEN-CREEPER-EXPLOSION',
+        skillId: 'A2ALTO-WRITTEN-CREEPER-FIX',
         level: 'A2-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Un creeper explotó cerca de la base. Escribe un mensaje explicando qué pasó y qué deberían hacer ahora.',
-        gradingRubric: 'El mensaje debe describir un evento pasado y sugerir una acción o solución. La IA debe evaluar claridad, secuencia básica y propuesta de acción.',
-        expectedKeywords: ['creeper', 'exploded', 'base', 'fix', 'repair', 'build', 'again']
+        text: 'Un creeper explotó. Dile a tu equipo que hay que reparar la base.',
+        gradingRubric: 'El mensaje debe explicar el evento (explosión) y sugerir la reparación.',
+        expectedKeywords: ['creeper', 'exploded', 'repair', 'fix', 'base']
     },
     {
         id: 'a2-alto-pe-2',
-        skillId: 'A2ALTO-WRITTEN-RECS-TEAM',
+        skillId: 'A2ALTO-WRITTEN-RECS-EASY',
         level: 'A2-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Quieres prepararte para una pelea. Escribe un mensaje dando dos recomendaciones a tu equipo.',
-        gradingRubric: 'El mensaje debe incluir al menos dos sugerencias o recomendaciones claras. La IA debe evaluar que el alumno comunica acciones útiles para prepararse.',
-        expectedKeywords: ['should', 'bring', 'armor', 'food', 'we', 'use']
+        text: 'Mañana hay una pelea. Dile a tu equipo: "Traigan comida y armadura".',
+        gradingRubric: 'El mensaje debe ser una instrucción clara para prepararse.',
+        expectedKeywords: ['bring', 'food', 'armor', 'fight', 'tomorrow']
     },
     {
         id: 'a2-alto-pe-3',
-        skillId: 'A2ALTO-WRITTEN-LOST-MISSION',
+        skillId: 'A2ALTO-WRITTEN-LOST-BACK',
         level: 'A2-alto',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu equipo se perdió en una misión. Escribe un mensaje explicando qué pasó y proponiendo un plan.',
-        gradingRubric: 'El mensaje debe explicar una situación y proponer una solución o plan. La IA debe evaluar coherencia, conexión de ideas y claridad.',
-        expectedKeywords: ['lost', 'we', 'go', 'back', 'find', 'plan', 'base']
+        text: 'Estamos perdidos. Dile a tu equipo: "Vamos a volver a la base".',
+        gradingRubric: 'El mensaje debe expresar que están perdidos y proponer volver.',
+        expectedKeywords: ['lost', 'we', 'go', 'back', 'base']
     },
     {
         id: 'a2-alto-pe-4',
@@ -1029,27 +1134,54 @@ export const questionBank: Question[] = [
         expectedKeywords: ['prefer', 'bow', 'safer', 'sword', 'because']
     },
     {
-        id: 'a2-alto-4',
-        skillId: 'A2ALTO-VISUAL-ENCHANT',
-        level: 'A2-alto',
-        category: 'Identificación Visual',
-        type: 'image-choice',
-        text: '¿Cuál es la Enchanting Table?',
-        options: [
-            { text: 'Enchanting Table', isCorrect: true, imageUrl: '/images/placeholders/enchanting.png' },
-            { text: 'Crafting Table', isCorrect: false, imageUrl: '/images/placeholders/crafting.png' },
-            { text: 'Furnace', isCorrect: false, imageUrl: '/images/placeholders/furnace.png' },
-            { text: 'Anvil', isCorrect: false, imageUrl: '/images/placeholders/anvil.png' },
-        ]
-    },
-    {
-        id: 'a2-alto-5',
-        skillId: 'A2ALTO-ORAL-PROHIBIT',
+        id: 'a2-alto-po-1',
+        skillId: 'A2ALTO-ORAL-MINING-SAW',
         level: 'A2-alto',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Graba en audio explicando a un usuario nuevo una regla importante de tu servidor (ej. prohibido robar o destruir bases).',
-        gradingRubric: 'Debe usar lenguaje de obligación o prohibición (must not, have to, don\'t, forbidden).',
+        text: 'Di en inglés “estaba minando y vi un Enderman”.',
+        gradingRubric: 'La IA evalúa si pronuncia “I was mining and I saw an Enderman”.',
+        expectedKeywords: ['I', 'was', 'mining', 'and', 'saw', 'enderman']
+    },
+    {
+        id: 'a2-alto-po-2',
+        skillId: 'A2ALTO-ORAL-IF-TRADE',
+        level: 'A2-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “si encontramos una aldea, podemos intercambiar”.',
+        gradingRubric: 'La IA evalúa si pronuncia “if we find a village, we can trade”.',
+        expectedKeywords: ['if', 'we', 'find', 'village', 'can', 'trade']
+    },
+    {
+        id: 'a2-alto-po-3',
+        skillId: 'A2ALTO-ORAL-NETHER-TOMORROW',
+        level: 'A2-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “Nosotros vamos a explorar el Nether mañana”.',
+        gradingRubric: 'La IA evalúa si pronuncia “we are going to explore the Nether tomorrow”.',
+        expectedKeywords: ['we', 'are', 'going', 'to', 'explore', 'the', 'Nether', 'tomorrow']
+    },
+    {
+        id: 'a2-alto-po-4',
+        skillId: 'A2ALTO-ORAL-PREFER-BETTER',
+        level: 'A2-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “prefiero el arco porque es mejor que la espada”.',
+        gradingRubric: 'La IA evalúa si pronuncia “I prefer the bow because it is better than the sword”.',
+        expectedKeywords: ['I', 'prefer', 'the', 'bow', 'because', 'it', 'is', 'better', 'than', 'the', 'sword']
+    },
+    {
+        id: 'a2-alto-po-5',
+        skillId: 'A2ALTO-ORAL-APOLOGY',
+        level: 'A2-alto',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “deberíamos ir al templo por los materiales”.',
+        gradingRubric: 'La IA evalúa si pronuncia “we should go to the temple for the materials”.',
+        expectedKeywords: ['we', 'should', 'go', 'to', 'the', 'temple', 'for', 'the', 'materials']
     },
 
     // --- B1 ---
@@ -1220,63 +1352,103 @@ export const questionBank: Question[] = [
     },
     {
         id: 'b1-pe-1',
-        skillId: 'B1-WRITTEN-MISSION-REFLECTION',
+        skillId: 'B1-WRITTEN-MISSION-FAIL',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu equipo perdió muchos recursos en una misión. Escribe un mensaje explicando qué pasó y qué harían diferente la próxima vez.',
-        gradingRubric: 'El mensaje debe explicar un evento pasado y añadir una reflexión o mejora para el futuro. La IA debe evaluar claridad, conexión de ideas y presencia de una propuesta o aprendizaje.',
-        expectedKeywords: ['lost', 'resources', 'we', 'next', 'time', 'should', 'better']
+        text: 'Perdieron recursos en la mina. Explica qué pasó y qué harán mejor la próxima vez.',
+        gradingRubric: 'El alumno debe usar pasado para describir el evento y futuro/modales para la mejora.',
+        expectedKeywords: ['lost', 'resources', 'mine', 'next', 'time', 'should', 'will']
     },
     {
         id: 'b1-pe-2',
-        skillId: 'B1-WRITTEN-CAVE-PLAN',
+        skillId: 'B1-WRITTEN-CAVE-STEPS',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Van a explorar una cueva peligrosa. Escribe un mensaje explicando el plan antes de entrar.',
-        gradingRubric: 'El mensaje debe describir un plan con varios pasos o acciones. La IA debe evaluar organización, claridad y secuencia lógica.',
-        expectedKeywords: ['first', 'then', 'we', 'bring', 'torches', 'food', 'armor']
+        text: 'Van a una cueva peligrosa. Escribe un plan de 3 pasos antes de entrar.',
+        gradingRubric: 'El mensaje debe mostrar una secuencia organizada de acciones preparatorias.',
+        expectedKeywords: ['plan', 'first', 'then', 'finally', 'bring', 'armor', 'food']
     },
     {
         id: 'b1-pe-3',
-        skillId: 'B1-WRITTEN-BASE-DEFENSE',
+        skillId: 'B1-WRITTEN-BASE-ATTACK',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu base fue atacada. Escribe un mensaje explicando lo que pasó y cómo pueden protegerla mejor.',
-        gradingRubric: 'El mensaje debe incluir descripción del evento y una solución o mejora. La IA debe evaluar uso de ideas conectadas y propuestas claras.',
-        expectedKeywords: ['attacked', 'base', 'we', 'build', 'wall', 'protect', 'defend']
+        text: 'Atacaron la base. Explica el ataque y cómo mejorar la defensa.',
+        gradingRubric: 'El mensaje debe conectar el problema (ataque) con una solución constructiva.',
+        expectedKeywords: ['attacked', 'base', 'build', 'wall', 'protect', 'better']
     },
     {
         id: 'b1-pe-4',
-        skillId: 'B1-WRITTEN-NEW-PLAYER-GUIDE',
+        skillId: 'B1-WRITTEN-NEWBIE-TIPS',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Un jugador nuevo llegó al servidor. Escribe un mensaje dándole instrucciones básicas para empezar.',
-        gradingRubric: 'El mensaje debe incluir instrucciones claras y útiles. La IA debe evaluar claridad, orden y utilidad del contenido.',
-        expectedKeywords: ['start', 'get', 'wood', 'make', 'tools', 'then', 'build']
+        text: 'Un jugador nuevo llegó. Escribe 3 consejos para sobrevivir su primera noche.',
+        gradingRubric: 'El mensaje debe dar consejos claros usando imperativos o modales.',
+        expectedKeywords: ['survive', 'build', 'house', 'food', 'night', 'zombies']
     },
     {
         id: 'b1-pe-5',
-        skillId: 'B1-WRITTEN-OPINION-EXPLAIN',
+        skillId: 'B1-WRITTEN-OPINION-SIMPLE',
         level: 'B1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Tu equipo no está de acuerdo con una idea. Escribe un mensaje dando tu opinión y explicando por qué.',
-        gradingRubric: 'El mensaje debe expresar una opinión y una razón. La IA debe evaluar claridad, coherencia y uso de conectores básicos.',
-        expectedKeywords: ['I think', 'because', 'better', 'we', 'should']
+        text: 'Tu equipo tiene una idea que no te gusta. Escribe tu opinión y el porqué.',
+        gradingRubric: 'El alumno debe expresar desacuerdo y dar una razón clara.',
+        expectedKeywords: ['I don\'t', 'agree', 'think', 'because', 'better']
     },
-
     {
-        id: 'b1-4',
-        skillId: 'B1-ORAL-NEGOTIATE',
+        id: 'b1-po-1',
+        skillId: 'B1-ORAL-SHIELD-ALIVE',
         level: 'B1',
         category: 'Producción Oral',
         type: 'audio-record',
-        text: 'Graba un audio negociando pacíficamente una disputa de territorio con otro jugador.',
-        gradingRubric: 'El lenguaje debe ser respetuoso, ofrecer compromisos o condicionales asertivos.',
+        text: 'Di en inglés “si hubiese traído un escudo, estaría vivo”.',
+        gradingRubric: 'La IA evalúa si pronuncia “if I had brought a shield, I would be alive”.',
+        expectedKeywords: ['if', 'had', 'brought', 'shield', 'would', 'be', 'alive']
+    },
+    {
+        id: 'b1-po-2',
+        skillId: 'B1-ORAL-HADNT-FOUND',
+        level: 'B1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “Llamaré a mi madre en cuanto llegue a casa”.',
+        gradingRubric: 'La IA evalúa si pronuncia “I\'ll call my mother as soon as I get home”.',
+        expectedKeywords: ['I', 'call', 'mother', 'as', 'soon', 'as', 'get', 'home']
+    },
+    {
+        id: 'b1-po-3',
+        skillId: 'B1-ORAL-FINISHED-ARRIVED',
+        level: 'B1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “la casa ya estaba terminada cuando llegamos”.',
+        gradingRubric: 'La IA evalúa si pronuncia “the house was already finished when we arrived”.',
+        expectedKeywords: ['house', 'was', 'already', 'finished', 'when', 'we', 'arrived']
+    },
+    {
+        id: 'b1-po-4',
+        skillId: 'B1-ORAL-KILLED-DRAGON',
+        level: 'B1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “nunca he matado al dragón, pero quiero intentarlo”.',
+        gradingRubric: 'La IA evalúa si pronuncia “I have never killed the dragon, but I want to try it”.',
+        expectedKeywords: ['I', 'have', 'never', 'killed', 'dragon', 'but', 'want', 'try']
+    },
+    {
+        id: 'b1-po-5',
+        skillId: 'B1-ORAL-NO-FOOD',
+        level: 'B1',
+        category: 'Producción Oral',
+        type: 'audio-record',
+        text: 'Di en inglés “cambiamos el plan porque no había comida”.',
+        gradingRubric: 'La IA evalúa si pronuncia “we changed the plan because there was no food”.',
+        expectedKeywords: ['we', 'changed', 'the', 'plan', 'because', 'there', 'was', 'no', 'food']
     },
 
 
@@ -1368,11 +1540,77 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno reconoce una palabra clave de enemigo en Minecraft. \'Zombie\' es la respuesta correcta.',
         expectedKeywords: ['zombie']
     },
-    { id: 'pre-a1-ext-3', skillId: 'PREA1-VISUAL-DIRT', level: 'Pre-A1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el bloque de tierra (Dirt):', options: [{ text: 'Dirt', isCorrect: true, imageUrl: '/images/placeholders/dirt.png' }, { text: 'Stone', isCorrect: false, imageUrl: '/images/placeholders/stone.png' }] },
-    { id: 'pre-a1-ext-4', skillId: 'PREA1-ORAL-JUMP', level: 'Pre-A1', category: 'Producción Oral', type: 'audio-record', text: 'Di en voz alta la acción de "Saltar" en inglés ("Jump").', gradingRubric: 'El alumno pronuncia claramente la palabra jump o algo similar.', expectedKeywords: ['jump'] },
-
-
-    // A1 Nuevas
+    // --- Pre-A1 Identificación Visual ---
+    {
+        id: 'pre-a1-vi-1',
+        skillId: 'PREA1-VISUAL-COW',
+        level: 'Pre-A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Cow":',
+        options: [
+            { text: 'Cow', isCorrect: true, imageUrl: '/images/evaluacion/cow.png' },
+            { text: 'Pig', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
+            { text: 'Sheep', isCorrect: false, imageUrl: '/images/evaluacion/sheep.png' },
+            { text: 'Chicken', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' }
+        ]
+    },
+    {
+        id: 'pre-a1-vi-2',
+        skillId: 'PREA1-VISUAL-PIG',
+        level: 'Pre-A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Pig":',
+        options: [
+            { text: 'Pig', isCorrect: true, imageUrl: '/images/evaluacion/pig.png' },
+            { text: 'Cow', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' },
+            { text: 'Chicken', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' },
+            { text: 'Steve', isCorrect: false, imageUrl: '/images/evaluacion/steve.png' }
+        ]
+    },
+    {
+        id: 'pre-a1-vi-3',
+        skillId: 'PREA1-VISUAL-DIRT',
+        level: 'Pre-A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Dirt":',
+        options: [
+            { text: 'Dirt', isCorrect: true, imageUrl: '/images/evaluacion/dirt.png' },
+            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: 'Wood', isCorrect: false, imageUrl: '/images/evaluacion/wood.png' },
+            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
+        ]
+    },
+    {
+        id: 'pre-a1-vi-4',
+        skillId: 'PREA1-VISUAL-TREE',
+        level: 'Pre-A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Tree":',
+        options: [
+            { text: 'Tree', isCorrect: true, imageUrl: '/images/evaluacion/tree.png' },
+            { text: 'Flower', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
+            { text: 'Grass', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' },
+            { text: 'Sun', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
+        ]
+    },
+    {
+        id: 'pre-a1-vi-5',
+        skillId: 'PREA1-VISUAL-FLOWER',
+        level: 'Pre-A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Flower":',
+        options: [
+            { text: 'Flower', isCorrect: true, imageUrl: '/images/evaluacion/flower.png' },
+            { text: 'Skeleton', isCorrect: false, imageUrl: '/images/evaluacion/skeleton.png' },
+            { text: 'Pig', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
+            { text: 'Cow', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' }
+        ]
+    },    // A1 Nuevas
 
     {
         id: 'a1-list-2',
@@ -1443,31 +1681,368 @@ export const questionBank: Question[] = [
         expectedKeywords: ['building', 'farm', 'we']
     },
 
-    { id: 'a1-ext-4', skillId: 'A1-VISUAL-COW', level: 'A1', category: 'Identificación Visual', type: 'image-choice', text: 'Encuentra a la vaca (Cow):', options: [{ text: 'Cow', isCorrect: true, imageUrl: '/images/placeholders/cow.png' }, { text: 'Pig', isCorrect: false, imageUrl: '/images/placeholders/pig.png' }] },
-    { id: 'a1-ext-5', skillId: 'A1-ORAL-NUMBERS', level: 'A1', category: 'Producción Oral', type: 'audio-record', text: 'Tienes 5 bloques. Di en inglés "Tengo cinco bloques".', gradingRubric: 'Pronunciación de "I have five blocks".' },
+    // --- A1 Identificación Visual ---
+    {
+        id: 'a1-vi-1',
+        skillId: 'A1-VISUAL-SWORD',
+        level: 'A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Sword":',
+        options: [
+            { text: 'Sword', isCorrect: true, imageUrl: '/images/evaluacion/sword.png' },
+            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: 'Cloud', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
+            { text: 'Grass', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' }
+        ]
+    },
+    {
+        id: 'a1-vi-2',
+        skillId: 'A1-VISUAL-PICKAXE',
+        level: 'A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Grass":',
+        options: [
+            { text: 'Axe', isCorrect: false, imageUrl: '/images/evaluacion/pickaxe.png' },
+            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: 'Cloud', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
+            { text: 'Grass', isCorrect: true, imageUrl: '/images/evaluacion/grass.png' }
+        ]
+    },
+    {
+        id: 'a1-vi-3',
+        skillId: 'A1-VISUAL-AXE',
+        level: 'A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Bed":',
+        options: [
+            { text: 'Bed', isCorrect: true, imageUrl: '/images/evaluacion/bed.png' },
+            { text: 'Furnace', isCorrect: false, imageUrl: '/images/evaluacion/furnace.png' },
+            { text: 'Book', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
+            { text: 'Log', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
+        ]
+    },
+    {
+        id: 'a1-vi-4',
+        skillId: 'A1-VISUAL-CHEST',
+        level: 'A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Book":',
+        options: [
+            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: 'Flower', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
+            { text: 'Book', isCorrect: true, imageUrl: '/images/evaluacion/book.png' },
+            { text: 'Sand', isCorrect: false, imageUrl: '/images/evaluacion/sand.png' }
+        ]
+    },
+    {
+        id: 'a1-vi-5',
+        skillId: 'A1-VISUAL-BREAD',
+        level: 'A1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Bread":',
+        options: [
+            { text: 'Bread', isCorrect: true, imageUrl: '/images/evaluacion/bread.png' },
+            { text: 'Apple', isCorrect: false, imageUrl: '/images/evaluacion/apple.png' },
+            { text: 'Carrot', isCorrect: false, imageUrl: '/images/evaluacion/carrot.png' },
+            { text: 'Cookie', isCorrect: false, imageUrl: '/images/evaluacion/Cookie_JE2_BE2.png' }
+        ]
+    },
 
-    // A1-alto Nuevas
-    { id: 'a1-alto-ext-1', skillId: 'A1ALTO-VISUAL-BED', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: '¿Qué objeto usas para dormir y saltarte la noche?', options: [{ text: 'Bed', isCorrect: true, imageUrl: '/images/placeholders/bed.png' }, { text: 'Slab', isCorrect: false, imageUrl: '/images/placeholders/slab.png' }] },
-    { id: 'a1-alto-ext-2', skillId: 'A1ALTO-VISUAL-APPLE', level: 'A1-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Selecciona una Manzana Dorada (Golden Apple):', options: [{ text: 'Golden Apple', isCorrect: true, imageUrl: '/images/placeholders/gapple.png' }, { text: 'Carrot', isCorrect: false, imageUrl: '/images/placeholders/carrot.png' }] },
+    // --- A1-alto Identificación Visual ---
+    {
+        id: 'a1-alto-vi-1',
+        skillId: 'A1ALTO-VISUAL-CLOCK',
+        level: 'A1-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Clock":',
+        options: [
+            { text: 'Clock', isCorrect: true, imageUrl: '/images/evaluacion/clock.gif' },
+            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: 'Map', isCorrect: false, imageUrl: '/images/evaluacion/map.png' }
+        ]
+    },
+    {
+        id: 'a1-alto-vi-2',
+        skillId: 'A1ALTO-VISUAL-COMPASS',
+        level: 'A1-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Compass":',
+        options: [
+            { text: 'Compass', isCorrect: true, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: 'Clock', isCorrect: false, imageUrl: '/images/evaluacion/clock.gif' },
+            { text: 'Map', isCorrect: false, imageUrl: '/images/evaluacion/map.png' },
+            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
+        ]
+    },
+    {
+        id: 'a1-alto-vi-3',
+        skillId: 'A1ALTO-VISUAL-MAP',
+        level: 'A1-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Map":',
+        options: [
+            { text: 'Map', isCorrect: true, imageUrl: '/images/evaluacion/map.png' },
+            { text: 'Paper', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' },
+            { text: 'Book', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
+            { text: 'Picture', isCorrect: false, imageUrl: '/images/evaluacion/picture.png' }
+        ]
+    },
+    {
+        id: 'a1-alto-vi-4',
+        skillId: 'A1ALTO-VISUAL-BUCKET',
+        level: 'A1-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Bucket":',
+        options: [
+            { text: 'Bucket', isCorrect: true, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' },
+            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: 'Pot', isCorrect: false, imageUrl: '/images/evaluacion/pot.png' }
+        ]
+    },
+    {
+        id: 'a1-alto-vi-5',
+        skillId: 'A1ALTO-VISUAL-FISHING-ROD',
+        level: 'A1-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Fishing Rod":',
+        options: [
+            { text: 'Fishing Rod', isCorrect: true, imageUrl: '/images/evaluacion/fishing_rod.png' },
+            { text: 'Stick', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
+            { text: 'Sword', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' },
+            { text: 'Bow', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' }
+        ]
+    },
 
-    { id: 'a1-alto-ext-5', skillId: 'A1ALTO-ORAL-WHERE', level: 'A1-alto', category: 'Producción Oral', type: 'audio-record', text: 'Pregúntale en voz alta a un amigo "¿Dónde estás?".', gradingRubric: 'Hacer la pregunta de ubicación en inglés simple.' },
-
-    // A2 Nuevas
-    { id: 'a2-ext-1', skillId: 'A2-VISUAL-NETHER', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un portal al Nether.', options: [{ text: 'Nether Portal', isCorrect: true, imageUrl: '/images/placeholders/portal.png' }, { text: 'End Portal', isCorrect: false, imageUrl: '/images/placeholders/endportal.png' }] },
-    { id: 'a2-ext-2', skillId: 'A2-VISUAL-BOAT', level: 'A2', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el Bote (Boat).', options: [{ text: 'Boat', isCorrect: true, imageUrl: '/images/placeholders/boat.png' }, { text: 'Minecart', isCorrect: false, imageUrl: '/images/placeholders/minecart.png' }] },
 
 
-    { id: 'a2-ext-5', skillId: 'A2-ORAL-WARN2', level: 'A2', category: 'Producción Oral', type: 'audio-record', text: 'Graba en voz alta aconsejando a tu amigo: "No deberías cavar directamente hacia abajo" ("You shouldn\'t dig straight down").', gradingRubric: 'El alumno debe dar el famoso consejo de Minecraft usando un modal o imperativo de no hacerlo.' },
+    // --- A2 Identificación Visual ---
+    {
+        id: 'a2-vi-1',
+        skillId: 'A2-VISUAL-CAMPFIRE',
+        level: 'A2',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Campfire":',
+        options: [
+            { text: 'Campfire', isCorrect: true, imageUrl: '/images/evaluacion/campfire.gif' },
+            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' }
+        ]
+    },
+    {
+        id: 'a2-vi-2',
+        skillId: 'A2-VISUAL-BOAT',
+        level: 'A2',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Boat":',
+        options: [
+            { text: 'Boat', isCorrect: true, imageUrl: '/images/evaluacion/boat.png' },
+            { text: 'Minecart', isCorrect: false, imageUrl: '/images/evaluacion/minecart.png' },
+            { text: 'Horse', isCorrect: false, imageUrl: '/images/evaluacion/horse.png' },
+            { text: 'Saddle', isCorrect: false, imageUrl: '/images/evaluacion/saddle.png' }
+        ]
+    },
+    {
+        id: 'a2-vi-3',
+        skillId: 'A2-VISUAL-LANTERN',
+        level: 'A2',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Lantern":',
+        options: [
+            { text: 'Lantern', isCorrect: true, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: 'Glowstone', isCorrect: false, imageUrl: '/images/evaluacion/glowstone.png' },
+            { text: 'Sun', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
+        ]
+    },
+    {
+        id: 'a2-vi-4',
+        skillId: 'A2-VISUAL-SCISSORS',
+        level: 'A2',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Scissors":',
+        options: [
+            { text: 'Scissors', isCorrect: true, imageUrl: '/images/evaluacion/shears.png' },
+            { text: 'Cake', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' },
+            { text: 'Axe', isCorrect: false, imageUrl: '/images/evaluacion/axe.png' },
+            { text: 'Paper', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' }
+        ]
+    },
+    {
+        id: 'a2-vi-5',
+        skillId: 'A2-VISUAL-SPYGLASS',
+        level: 'A2',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Spyglass":',
+        options: [
+            { text: 'Spyglass', isCorrect: true, imageUrl: '/images/evaluacion/spyglass.png' },
+            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: 'Bottle', isCorrect: false, imageUrl: '/images/evaluacion/bottle.png' }
+        ]
+    },
 
-    // A2-alto Nuevas
+    // --- A2-alto Identificación Visual ---
+    {
+        id: 'a2-alto-vi-1',
+        skillId: 'A2ALTO-VISUAL-FLOWER-POT',
+        level: 'A2-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Flower Pot":',
+        options: [
+            { text: 'Flower Pot', isCorrect: true, imageUrl: '/images/evaluacion/flower_pot.png' },
+            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' }
+        ]
+    },
+    {
+        id: 'a2-alto-vi-2',
+        skillId: 'A2ALTO-VISUAL-BELL',
+        level: 'A2-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Bell":',
+        options: [
+            { text: 'Bell', isCorrect: true, imageUrl: '/images/evaluacion/bell.png' },
+            { text: 'Candle', isCorrect: false, imageUrl: '/images/evaluacion/candle.png' },
+            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' }
+        ]
+    },
+    {
+        id: 'a2-alto-vi-3',
+        skillId: 'A2ALTO-VISUAL-CANDLE',
+        level: 'A2-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Candle":',
+        options: [
+            { text: 'Candle', isCorrect: true, imageUrl: '/images/evaluacion/candle.png' },
+            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: 'Cake', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' }
+        ]
+    },
+    {
+        id: 'a2-alto-vi-4',
+        skillId: 'A2ALTO-VISUAL-BRUSH',
+        level: 'A2-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Brush":',
+        options: [
+            { text: 'Brush', isCorrect: true, imageUrl: '/images/evaluacion/brush.png' },
+            { text: 'Pickaxe', isCorrect: false, imageUrl: '/images/evaluacion/pickaxe.png' },
+            { text: 'Stick', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
+            { text: 'Shovel', isCorrect: false, imageUrl: '/images/evaluacion/shovel.png' }
+        ]
+    },
+    {
+        id: 'a2-alto-vi-5',
+        skillId: 'A2ALTO-VISUAL-LIGHTNING-ROD',
+        level: 'A2-alto',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Ladder":',
+        options: [
+            { text: 'Ladder', isCorrect: true, imageUrl: '/images/evaluacion/ladder.png' },
+            { text: 'Iron Bars', isCorrect: false, imageUrl: '/images/evaluacion/iron_bars.png' },
+            { text: 'Fence', isCorrect: false, imageUrl: '/images/evaluacion/Fence.webp' },
+            { text: 'Chain', isCorrect: false, imageUrl: '/images/evaluacion/chain.png' }
+        ]
+    },
 
-    { id: 'a2-alto-ext-4', skillId: 'A2ALTO-VISUAL-TRIPWIRE', level: 'A2-alto', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica el mecanismo o la trampa de "Tripwire Hook".', options: [{ text: 'Tripwire', isCorrect: true, imageUrl: '/images/placeholders/tripwire.png' }, { text: 'Lever', isCorrect: false, imageUrl: '/images/placeholders/lever.png' }] },
-    { id: 'a2-alto-ext-5', skillId: 'A2ALTO-ORAL-EXCUSE', level: 'A2-alto', category: 'Producción Oral', type: 'audio-record', text: 'Explica en voz alta por qué no pudiste defender la base: "Había demasiados zombies y no tenía espada".', gradingRubric: 'Usar "there were too many" o similar para explicar la desventaja.' },
 
-    // B1 Nuevas
+    // --- B1 Identificación Visual ---
+    {
+        id: 'b1-vi-1',
+        skillId: 'B1-VISUAL-ANVIL',
+        level: 'B1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Anvil":',
+        options: [
+            { text: 'Anvil', isCorrect: true, imageUrl: '/images/evaluacion/anvil.png' },
+            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: 'Iron Block', isCorrect: false, imageUrl: '/images/evaluacion/iron_block.png' }
+        ]
+    },
+    {
+        id: 'b1-vi-2',
+        skillId: 'B1-VISUAL-CAULDRON',
+        level: 'B1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Cauldron":',
+        options: [
+            { text: 'Cauldron', isCorrect: true, imageUrl: '/images/evaluacion/cauldron.png' },
+            { text: 'Pot', isCorrect: false, imageUrl: '/images/evaluacion/flower_pot.png' },
+            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/flower_pot.png' }
+        ]
+    },
+    {
+        id: 'b1-vi-3',
+        skillId: 'B1-VISUAL-BOOKSHELF',
+        level: 'B1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Bookshelf":',
+        options: [
+            { text: 'Bookshelf', isCorrect: true, imageUrl: '/images/evaluacion/bookshelf.png' },
+            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: 'Barrel', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
+            { text: 'Log', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
+        ]
+    },
+    {
+        id: 'b1-vi-4',
+        skillId: 'B1-VISUAL-LECTERN',
+        level: 'B1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Lectern":',
+        options: [
+            { text: 'Lectern', isCorrect: true, imageUrl: '/images/evaluacion/lectern.png' },
+            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: 'Barrel', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
+            { text: 'Bookshelf', isCorrect: false, imageUrl: '/images/evaluacion/bookshelf.png' }
+        ]
+    },
+    {
+        id: 'b1-vi-5',
+        skillId: 'B1-VISUAL-CROSSBOW',
+        level: 'B1',
+        category: 'Identificación Visual',
+        type: 'image-choice',
+        text: 'Cual de estas imagenes corresponde a "Crossbow":',
+        options: [
+            { text: 'Crossbow', isCorrect: true, imageUrl: '/images/evaluacion/crossbow.png' },
+            { text: 'Bow', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' },
+            { text: 'Arrow', isCorrect: false, imageUrl: '/images/evaluacion/arrow.png' },
+            { text: 'Sword', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' }
+        ]
+    },
 
-    { id: 'b1-ext-3', skillId: 'B1-VISUAL-BEACON', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un Beacon (Faro mágico) activado.', options: [{ text: 'Beacon', isCorrect: true, imageUrl: '/images/placeholders/beacon.png' }, { text: 'Conduit', isCorrect: false, imageUrl: '/images/placeholders/conduit.png' }] },
-    { id: 'b1-ext-4', skillId: 'B1-VISUAL-REDSTONE', level: 'B1', category: 'Identificación Visual', type: 'image-choice', text: 'Identifica un circuito de reloj (Redstone Clock).', options: [{ text: 'Redstone Clock', isCorrect: true, imageUrl: '/images/placeholders/redstone_clock.png' }, { text: 'Piston Door', isCorrect: false, imageUrl: '/images/placeholders/piston_door.png' }] },
 
-    { id: 'b1-ext-6', skillId: 'B1-ORAL-PERSUADE', level: 'B1', category: 'Producción Oral', type: 'audio-record', text: 'Convence verbalmente a tu clan de ir a asaltar un Templo Oceánico esta noche argumentando que dará buenos materiales.', gradingRubric: 'Debe contener expresiones persuasivas (We should, Let\'s go, It will be worth it) y prometer beneficios.' }
 ];
