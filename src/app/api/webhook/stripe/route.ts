@@ -2,14 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/utils/stripe/client';
 import { createClient } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 // We must use the Service Role Key here because webhooks run outside of a user's session,
 // and we need to bypass Row Level Security to update the subscriptions table.
 const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321', // Use placeholder for build
+    process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder'
 );
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(req: NextRequest) {
     try {
