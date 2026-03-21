@@ -7,6 +7,7 @@ import { questionBank, Question, QuestionLevel, QuestionCategory } from './quest
 
 import LevelModal from '@/components/evaluation/LevelUpModal';
 import AdventurerReport from '@/components/evaluation/AdventurerReport';
+import { getTopAchievements, Achievement } from './achievements';
 
 const CATEGORIES: QuestionCategory[] = [ // 5 domains
     'Gramática y Vocabulario',
@@ -133,6 +134,9 @@ export default function EvaluacionYBanda() {
         level: QuestionLevel;
     }>>([]);
 
+    const [aiOracleVerdict, setAiOracleVerdict] = useState<string>("");
+    const [earnedAchievements, setEarnedAchievements] = useState<Achievement[]>([]);
+
     const [showDevMode, setShowDevMode] = useState(false);
     const [showResults, setShowResults] = useState(false);
 
@@ -150,15 +154,33 @@ export default function EvaluacionYBanda() {
                 const email = user.email || '';
                 setUserMetadata({ name, email });
 
-                // Check if already has a level (optional, assuming new user flow)
+                // Check if already has a level
                 const { data: userData } = await supabase
                     .from('users')
                     .select('english_level')
                     .eq('id', user.id)
                     .single();
+
                 if (userData?.english_level) {
                     setIsQuizFinished(true);
                     setCalculatedBanda(parseInt(userData.english_level.replace('Banda ', '')));
+
+                    // Fetch detailed evaluation
+                    const { data: evalData } = await supabase
+                        .from('evaluations')
+                        .select('*')
+                        .eq('user_id', user.id)
+                        .order('created_at', { ascending: false })
+                        .limit(1)
+                        .single();
+
+                    if (evalData) {
+                        setFinalCategoryLevels(evalData.category_levels);
+                        setEvaluationHistory(evalData.evaluation_history || []);
+                        setAiOracleVerdict(evalData.ai_oracle_verdict);
+                        setEarnedAchievements(evalData.achievements || []);
+                        setShowResults(true); // Direct to report
+                    }
                 } else {
                     // Cargar primera pregunta Round Robin
                     loadNextQuestion(CATEGORIES[0], categoryLevels['Gramática y Vocabulario'], new Set(), 0);
@@ -271,9 +293,8 @@ export default function EvaluacionYBanda() {
     };
 
     const playFeedbackSound = (isCorrect: boolean) => {
-        const type = isCorrect ? 'accept' : 'deny';
-        const num = Math.floor(Math.random() * 3) + 1; // 1 to 3
-        const audio = new Audio(`/audios/sounds-effect/Villager_${type}${num}.ogg`);
+        const type = isCorrect ? 'accept1' : 'deny1';
+        const audio = new Audio(`/audios/sounds-effect/Villager_${type}.ogg`);
         audio.volume = 0.5;
         audio.play().catch(e => console.error("Error playing sound", e));
     };
@@ -553,17 +574,33 @@ export default function EvaluacionYBanda() {
             // Save to Supabase
             if (userId) {
                 // Update user's general english level
-                const { error: updateError } = await supabase
+                await supabase
                     .from('users')
                     .update({ english_level: `Banda ${bandaResult}` })
                     .eq('id', userId);
 
-                if (updateError) {
-                    throw updateError;
-                }
+                // 1. Generar logros dinámicos
+                const topAchievements = getTopAchievements(categoryLevels);
+                setEarnedAchievements(topAchievements);
 
-                // Veredicto del Oráculo (narrativa estática/dinámica)
-                const aiOracleVerdict = "¡Gran trabajo, aventurero! He analizado tu desempeño a lo largo de las pruebas. Posees una base sólida que promete mucho potencial. Tu próxima meta será afianzar ese conocimiento para comunicarte de manera más fluida con los aldeanos y sortear obstáculos de nivel intermedio con total seguridad.";
+                // 2. Generar Visión de Ludora con IA
+                let finalOracleVerdict = "¡Gran trabajo, aventurero! He analizado tu desempeño a lo largo de las pruebas. Posees una base sólida que promete mucho potencial. Tu próxima meta será afianzar ese conocimiento para comunicarte de manera más fluida con los aldeanos y sortear obstáculos de nivel intermedio con total seguridad.";
+                
+                try {
+                    const visionResponse = await fetch('/api/generate-vision', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ categoryLevels, calculatedBanda: bandaResult })
+                    });
+                    const visionData = await visionResponse.json();
+                    if (visionResponse.ok && visionData.vision) {
+                        finalOracleVerdict = visionData.vision;
+                    }
+                } catch (vErr) {
+                    console.error("Error generating AI vision:", vErr);
+                }
+                
+                setAiOracleVerdict(finalOracleVerdict);
 
                 // Guardar la evaluación detallada en la nueva tabla 'evaluations'
                 const { error: insertError } = await supabase
@@ -573,13 +610,12 @@ export default function EvaluacionYBanda() {
                         calculated_band: bandaResult,
                         category_levels: categoryLevels, // Final category levels
                         evaluation_history: evaluationHistory, // Historial completo con QA y Feedback
-                        ai_oracle_verdict: aiOracleVerdict
+                        ai_oracle_verdict: finalOracleVerdict,
+                        achievements: topAchievements // Se asume que la columna existe o se agregará
                     });
 
                 if (insertError) {
                     console.error("Error saving detailed evaluation:", insertError);
-                    // It's up to you if you want to throw here or just log it. Let's throw so the user knows.
-                    throw new Error("Error guardando el historial de evaluación.");
                 }
             }
 
@@ -964,9 +1000,22 @@ export default function EvaluacionYBanda() {
                                 )}
 
                                 {isEvaluatingAI && (
-                                    <div className="py-12 flex flex-col items-center justify-center space-y-4 animate-fade-in">
+                                    <div className="py-12 flex flex-col items-center justify-center space-y-4 animate-fade-in text-center">
                                         <div className="w-12 h-12 border-4 border-[#815a9b] border-t-transparent rounded-full animate-spin"></div>
-                                        <p className="font-bold text-[#815a9b] animate-pulse">La Inteligencia Artificial está evaluando tu respuesta...</p>
+                                        <p className="font-bold text-[#815a9b] animate-pulse uppercase tracking-widest text-sm">La Inteligencia Artificial está evaluando tu respuesta...</p>
+                                    </div>
+                                )}
+                                
+                                {isSaving && (
+                                    <div className="py-20 flex flex-col items-center justify-center space-y-6 animate-fade-in text-center">
+                                        <div className="relative">
+                                            <div className="w-20 h-20 border-8 border-purple-100 rounded-full"></div>
+                                            <div className="w-20 h-20 border-8 border-[#815a9b] border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <h3 className="text-2xl font-black text-[#815a9b] uppercase tracking-tighter">¡Evaluación completada!</h3>
+                                            <p className="font-bold text-gray-500 animate-pulse uppercase tracking-widest text-xs">Analizando tus respuestas y preparando tu reporte de aventurero...</p>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -998,6 +1047,8 @@ export default function EvaluacionYBanda() {
                                     isCheckingOut={isCheckingOut}
                                     handleCheckout={handleCheckout}
                                     error={error}
+                                    aiOracleVerdict={aiOracleVerdict}
+                                    achievements={earnedAchievements}
                                 />
                             )}
                         </div>

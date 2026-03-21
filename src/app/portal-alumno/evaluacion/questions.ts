@@ -46,7 +46,6 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno reconoce vocabulario básico de objetos. \'Pickaxe\' es la respuesta correcta.',
         expectedKeywords: ['pickaxe']
     },
-
     {
         id: 'pre-a1-gv-3',
         skillId: 'PREA1-VOCAB-WOOD',
@@ -79,8 +78,6 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno reconoce objetos básicos del entorno. \'Door\' es la respuesta correcta.',
         expectedKeywords: ['door']
     },
-
-
     {
         id: 'pre-a1-po-1',
         skillId: 'PREA1-ORAL-FIVE-BLOCKS',
@@ -167,7 +164,7 @@ export const questionBank: Question[] = [
         level: 'Pre-A1',
         category: 'Producción Escrita',
         type: 'text-input',
-        text: 'Completa: "This is a ___" (imagen de una oveja)',
+        text: 'Escribe en inglés: "oveja"',
         gradingRubric: 'El alumno debe escribir \'sheep\'. Se acepta mayúscula o minúscula.',
         expectedKeywords: ['sheep']
     },
@@ -597,7 +594,6 @@ export const questionBank: Question[] = [
         gradingRubric: 'El alumno debe identificar que el problema es que el cofre está cerrado/bloqueado. Frases como \'locked chest\', \'can\'t open\', \'it\'s locked\' o su traducción en español son correctas. Respuestas que indiquen un estado distinto (lleno, contenido) deben recibir puntuación parcial o ninguna.',
         expectedKeywords: ['chest', 'locked', 'can\'t open', 'locked chest']
     },
-
     {
         id: 'a1-alto-po-1',
         skillId: 'A1ALTO-ORAL-HUNGRY',
@@ -865,7 +861,6 @@ export const questionBank: Question[] = [
         gradingRubric: 'El mensaje debe usar conectores de secuencia (first, then/after).',
         expectedKeywords: ['first', 'house', 'then', 'after', 'food']
     },
-
     {
         id: 'a2-po-1',
         skillId: 'A2-ORAL-GO-HOME',
@@ -1549,10 +1544,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Cow":',
         options: [
-            { text: 'Cow', isCorrect: true, imageUrl: '/images/evaluacion/cow.png' },
-            { text: 'Pig', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
-            { text: 'Sheep', isCorrect: false, imageUrl: '/images/evaluacion/sheep.png' },
-            { text: 'Chicken', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/cow.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sheep.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' }
         ]
     },
     {
@@ -1563,10 +1558,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Pig":',
         options: [
-            { text: 'Pig', isCorrect: true, imageUrl: '/images/evaluacion/pig.png' },
-            { text: 'Cow', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' },
-            { text: 'Chicken', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' },
-            { text: 'Steve', isCorrect: false, imageUrl: '/images/evaluacion/steve.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/pig.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chicken.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' }
         ]
     },
     {
@@ -1577,10 +1572,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Dirt":',
         options: [
-            { text: 'Dirt', isCorrect: true, imageUrl: '/images/evaluacion/dirt.png' },
-            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
-            { text: 'Wood', isCorrect: false, imageUrl: '/images/evaluacion/wood.png' },
-            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/dirt.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/wood.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
         ]
     },
     {
@@ -1591,10 +1586,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Tree":',
         options: [
-            { text: 'Tree', isCorrect: true, imageUrl: '/images/evaluacion/tree.png' },
-            { text: 'Flower', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
-            { text: 'Grass', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' },
-            { text: 'Sun', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/tree.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
         ]
     },
     {
@@ -1605,10 +1600,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Flower":',
         options: [
-            { text: 'Flower', isCorrect: true, imageUrl: '/images/evaluacion/flower.png' },
-            { text: 'Skeleton', isCorrect: false, imageUrl: '/images/evaluacion/skeleton.png' },
-            { text: 'Pig', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
-            { text: 'Cow', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/flower.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/wood.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/pig.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cow.png' }
         ]
     },    // A1 Nuevas
 
@@ -1690,24 +1685,24 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Sword":',
         options: [
-            { text: 'Sword', isCorrect: true, imageUrl: '/images/evaluacion/sword.png' },
-            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
-            { text: 'Cloud', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
-            { text: 'Grass', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/sword.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/grass.png' }
         ]
     },
     {
         id: 'a1-vi-2',
-        skillId: 'A1-VISUAL-PICKAXE',
+        skillId: 'A1-VISUAL-GRASS',
         level: 'A1',
         category: 'Identificación Visual',
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Grass":',
         options: [
-            { text: 'Axe', isCorrect: false, imageUrl: '/images/evaluacion/pickaxe.png' },
-            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
-            { text: 'Cloud', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
-            { text: 'Grass', isCorrect: true, imageUrl: '/images/evaluacion/grass.png' }
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/axe.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cloud.png' },
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/grass.png' }
         ]
     },
     {
@@ -1718,10 +1713,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Bed":',
         options: [
-            { text: 'Bed', isCorrect: true, imageUrl: '/images/evaluacion/bed.png' },
-            { text: 'Furnace', isCorrect: false, imageUrl: '/images/evaluacion/furnace.png' },
-            { text: 'Book', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
-            { text: 'Log', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/bed.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/furnace.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
         ]
     },
     {
@@ -1732,10 +1727,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Book":',
         options: [
-            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
-            { text: 'Flower', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
-            { text: 'Book', isCorrect: true, imageUrl: '/images/evaluacion/book.png' },
-            { text: 'Sand', isCorrect: false, imageUrl: '/images/evaluacion/sand.png' }
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/flower.png' },
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/book.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sand.png' }
         ]
     },
     {
@@ -1746,10 +1741,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Bread":',
         options: [
-            { text: 'Bread', isCorrect: true, imageUrl: '/images/evaluacion/bread.png' },
-            { text: 'Apple', isCorrect: false, imageUrl: '/images/evaluacion/apple.png' },
-            { text: 'Carrot', isCorrect: false, imageUrl: '/images/evaluacion/carrot.png' },
-            { text: 'Cookie', isCorrect: false, imageUrl: '/images/evaluacion/Cookie_JE2_BE2.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/bread.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/apple.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/carrot.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/Cookie_JE2_BE2.png' }
         ]
     },
 
@@ -1762,10 +1757,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Clock":',
         options: [
-            { text: 'Clock', isCorrect: true, imageUrl: '/images/evaluacion/clock.gif' },
-            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
-            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
-            { text: 'Map', isCorrect: false, imageUrl: '/images/evaluacion/map.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/clock.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/map.png' }
         ]
     },
     {
@@ -1776,10 +1771,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Compass":',
         options: [
-            { text: 'Compass', isCorrect: true, imageUrl: '/images/evaluacion/compass.gif' },
-            { text: 'Clock', isCorrect: false, imageUrl: '/images/evaluacion/clock.gif' },
-            { text: 'Map', isCorrect: false, imageUrl: '/images/evaluacion/map.png' },
-            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/clock.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/map.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
         ]
     },
     {
@@ -1790,10 +1785,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Map":',
         options: [
-            { text: 'Map', isCorrect: true, imageUrl: '/images/evaluacion/map.png' },
-            { text: 'Paper', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' },
-            { text: 'Book', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
-            { text: 'Picture', isCorrect: false, imageUrl: '/images/evaluacion/picture.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/map.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/book.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' }
         ]
     },
     {
@@ -1804,10 +1799,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Bucket":',
         options: [
-            { text: 'Bucket', isCorrect: true, imageUrl: '/images/evaluacion/bucket.png' },
-            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' },
-            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
-            { text: 'Pot', isCorrect: false, imageUrl: '/images/evaluacion/pot.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/book.png' }
         ]
     },
     {
@@ -1818,10 +1813,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Fishing Rod":',
         options: [
-            { text: 'Fishing Rod', isCorrect: true, imageUrl: '/images/evaluacion/fishing_rod.png' },
-            { text: 'Stick', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
-            { text: 'Sword', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' },
-            { text: 'Bow', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/fishing_rod.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' }
         ]
     },
 
@@ -1836,10 +1831,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Campfire":',
         options: [
-            { text: 'Campfire', isCorrect: true, imageUrl: '/images/evaluacion/campfire.gif' },
-            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
-            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
-            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/campfire.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' }
         ]
     },
     {
@@ -1850,10 +1845,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Boat":',
         options: [
-            { text: 'Boat', isCorrect: true, imageUrl: '/images/evaluacion/boat.png' },
-            { text: 'Minecart', isCorrect: false, imageUrl: '/images/evaluacion/minecart.png' },
-            { text: 'Horse', isCorrect: false, imageUrl: '/images/evaluacion/horse.png' },
-            { text: 'Saddle', isCorrect: false, imageUrl: '/images/evaluacion/saddle.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/boat.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/minecart.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/horse.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/saddle.png' }
         ]
     },
     {
@@ -1864,10 +1859,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Lantern":',
         options: [
-            { text: 'Lantern', isCorrect: true, imageUrl: '/images/evaluacion/lantern.gif' },
-            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
-            { text: 'Glowstone', isCorrect: false, imageUrl: '/images/evaluacion/glowstone.png' },
-            { text: 'Sun', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glowstone.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sun.png' }
         ]
     },
     {
@@ -1878,10 +1873,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Scissors":',
         options: [
-            { text: 'Scissors', isCorrect: true, imageUrl: '/images/evaluacion/shears.png' },
-            { text: 'Cake', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' },
-            { text: 'Axe', isCorrect: false, imageUrl: '/images/evaluacion/axe.png' },
-            { text: 'Paper', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/shears.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/axe.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/paper.png' }
         ]
     },
     {
@@ -1892,10 +1887,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Spyglass":',
         options: [
-            { text: 'Spyglass', isCorrect: true, imageUrl: '/images/evaluacion/spyglass.png' },
-            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
-            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
-            { text: 'Bottle', isCorrect: false, imageUrl: '/images/evaluacion/bottle.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/spyglass.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bottle.png' }
         ]
     },
 
@@ -1908,10 +1903,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Flower Pot":',
         options: [
-            { text: 'Flower Pot', isCorrect: true, imageUrl: '/images/evaluacion/flower_pot.png' },
-            { text: 'Glass', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
-            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
-            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/flower_pot.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/glass.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' }
         ]
     },
     {
@@ -1922,10 +1917,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Bell":',
         options: [
-            { text: 'Bell', isCorrect: true, imageUrl: '/images/evaluacion/bell.png' },
-            { text: 'Candle', isCorrect: false, imageUrl: '/images/evaluacion/candle.png' },
-            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
-            { text: 'Compass', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/bell.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/candle.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/compass.gif' }
         ]
     },
     {
@@ -1936,10 +1931,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Candle":',
         options: [
-            { text: 'Candle', isCorrect: true, imageUrl: '/images/evaluacion/candle.png' },
-            { text: 'Lantern', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
-            { text: 'Torch', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
-            { text: 'Cake', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/candle.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/lantern.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/torch.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/cake.png' }
         ]
     },
     {
@@ -1950,10 +1945,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Brush":',
         options: [
-            { text: 'Brush', isCorrect: true, imageUrl: '/images/evaluacion/brush.png' },
-            { text: 'Pickaxe', isCorrect: false, imageUrl: '/images/evaluacion/pickaxe.png' },
-            { text: 'Stick', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
-            { text: 'Shovel', isCorrect: false, imageUrl: '/images/evaluacion/shovel.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/brush.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/pickaxe.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stick.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/shovel.png' }
         ]
     },
     {
@@ -1964,10 +1959,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Ladder":',
         options: [
-            { text: 'Ladder', isCorrect: true, imageUrl: '/images/evaluacion/ladder.png' },
-            { text: 'Iron Bars', isCorrect: false, imageUrl: '/images/evaluacion/iron_bars.png' },
-            { text: 'Fence', isCorrect: false, imageUrl: '/images/evaluacion/Fence.webp' },
-            { text: 'Chain', isCorrect: false, imageUrl: '/images/evaluacion/chain.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/ladder.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/iron_bars.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/Fence.webp' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chain.png' }
         ]
     },
 
@@ -1981,10 +1976,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Anvil":',
         options: [
-            { text: 'Anvil', isCorrect: true, imageUrl: '/images/evaluacion/anvil.png' },
-            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
-            { text: 'Stone', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
-            { text: 'Iron Block', isCorrect: false, imageUrl: '/images/evaluacion/iron_block.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/anvil.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/stone.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' }
         ]
     },
     {
@@ -1995,10 +1990,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Cauldron":',
         options: [
-            { text: 'Cauldron', isCorrect: true, imageUrl: '/images/evaluacion/cauldron.png' },
-            { text: 'Pot', isCorrect: false, imageUrl: '/images/evaluacion/flower_pot.png' },
-            { text: 'Bucket', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
-            { text: 'Bowl', isCorrect: false, imageUrl: '/images/evaluacion/flower_pot.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/cauldron.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/flower_pot.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bucket.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bowl.png' }
         ]
     },
     {
@@ -2009,10 +2004,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Bookshelf":',
         options: [
-            { text: 'Bookshelf', isCorrect: true, imageUrl: '/images/evaluacion/bookshelf.png' },
-            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
-            { text: 'Barrel', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
-            { text: 'Log', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/bookshelf.webp' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/log.png' }
         ]
     },
     {
@@ -2023,10 +2018,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Lectern":',
         options: [
-            { text: 'Lectern', isCorrect: true, imageUrl: '/images/evaluacion/lectern.png' },
-            { text: 'Chest', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
-            { text: 'Barrel', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
-            { text: 'Bookshelf', isCorrect: false, imageUrl: '/images/evaluacion/bookshelf.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/lectern.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/chest.gif' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/barrel.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bookshelf.webp' }
         ]
     },
     {
@@ -2037,10 +2032,10 @@ export const questionBank: Question[] = [
         type: 'image-choice',
         text: 'Cual de estas imagenes corresponde a "Crossbow":',
         options: [
-            { text: 'Crossbow', isCorrect: true, imageUrl: '/images/evaluacion/crossbow.png' },
-            { text: 'Bow', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' },
-            { text: 'Arrow', isCorrect: false, imageUrl: '/images/evaluacion/arrow.png' },
-            { text: 'Sword', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' }
+            { text: '', isCorrect: true, imageUrl: '/images/evaluacion/crossbow.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/bow.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/arrow.png' },
+            { text: '', isCorrect: false, imageUrl: '/images/evaluacion/sword.png' }
         ]
     },
 

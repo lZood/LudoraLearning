@@ -14,22 +14,27 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<{ message: string; field: 'email' | 'password' | 'general' | null }>({ message: '', field: null });
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
-    const translateError = (msg: string) => {
-        if (msg.includes('Invalid login credentials')) return 'Email o contraseña incorrectos.';
-        if (msg.includes('Email not confirmed')) return 'Por favor, confirma tu correo electrónico antes de ingresar.';
-        if (msg.includes('User not found')) return 'Usuario no encontrado.';
-        if (msg.includes('Email link is invalid or has expired')) return 'El enlace ha expirado o no es válido.';
-        return 'Ocurrió un error al intentar iniciar sesión. Inténtalo de nuevo.';
+    const getLoginError = (msg: string): { message: string, field: 'email' | 'password' | 'general' } => {
+        if (msg.includes('Invalid login credentials')) {
+            return { message: 'Email o contraseña incorrectos.', field: 'email' };
+        }
+        if (msg.includes('Email not confirmed')) {
+            return { message: 'Por favor, confirma tu correo electrónico.', field: 'email' };
+        }
+        if (msg.includes('User not found')) {
+            return { message: 'Usuario no encontrado.', field: 'email' };
+        }
+        return { message: 'Error al iniciar sesión. Inténtalo de nuevo.', field: 'general' };
     };
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
+        setError({ message: '', field: null });
         setIsLoading(true);
 
         try {
@@ -39,7 +44,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
             });
 
             if (signInError) {
-                setError(translateError(signInError.message));
+                setError(getLoginError(signInError.message));
                 setIsLoading(false);
                 return;
             }
@@ -48,35 +53,35 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
             router.push('/portal-alumno/evaluacion');
             router.refresh();
         } catch (err: any) {
-            setError(err.message || 'Error al conectar con el servidor.');
+            setError({ message: err.message || 'Error al conectar con el servidor.', field: 'general' });
             setIsLoading(false);
         }
     };
 
     const handleGoogleSignIn = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
+        setError({ message: '', field: null });
+        const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: `${window.location.origin}/portal-alumno/evaluacion`,
             },
         });
-        if (error) setError(translateError(error.message));
+        if (googleError) setError({ message: googleError.message, field: 'general' });
     };
 
     return (
         <div className="flex flex-col gap-6 w-full">
-            {/* CUADRO DE ALERTA (ESTILO DEEL) */}
-            {error && (
-                <div className="flex gap-3 p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
-                    <Info className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
-                    <p className="text-sm text-gray-600 leading-relaxed italic">
-                        {error}
+            {/* MENSAJE GENERAL (Si el error no es de campo) */}
+            {error.field === 'general' && (
+                <div className="flex gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
+                    <Info className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                    <p className="text-sm text-red-600 leading-relaxed font-medium">
+                        {error.message}
                     </p>
                 </div>
             )}
 
             <form className="space-y-5 w-full" onSubmit={handleSignIn}>
-                {/* CORREO ELECTRÓNICO */}
                 <div className="space-y-1.5">
                     <label htmlFor="email" className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider opacity-60">
                         Email
@@ -85,14 +90,21 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                         type="email"
                         id="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (error.field === 'email') setError({ message: '', field: null });
+                        }}
                         placeholder="tu@correo.com"
-                        className="w-full bg-white border border-gray-200 rounded-xl py-4 px-5 text-[#1a1a1a] focus:border-[#0F5451] transition-all outline-none"
+                        className={`w-full bg-white border ${error.field === 'email' ? 'border-red-500 focus:border-red-600' : 'border-gray-200 focus:border-[#88e04f]'} rounded-xl py-4 px-5 text-[#1a1a1a] transition-all outline-none`}
                         required
                     />
+                    {error.field === 'email' && (
+                        <p className="text-[11px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                            {error.message}
+                        </p>
+                    )}
                 </div>
 
-                {/* CONTRASEÑA */}
                 <div className="space-y-1.5">
                     <label htmlFor="password" className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider opacity-60">
                         Contraseña
@@ -102,35 +114,47 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                             type={showPassword ? "text" : "password"}
                             id="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                if (error.field === 'password') setError({ message: '', field: null });
+                            }}
                             placeholder="••••••••••••"
-                            className="w-full bg-white border border-gray-200 rounded-xl py-4 pl-5 pr-12 text-[#1a1a1a] focus:border-[#0F5451] transition-all outline-none tracking-widest"
+                            className={`w-full bg-white border ${error.field === 'password' ? 'border-red-500 focus:border-red-600' : 'border-gray-200 focus:border-[#88e04f]'} rounded-xl py-4 pl-5 pr-12 text-[#1a1a1a] transition-all outline-none tracking-widest`}
                             required
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0F5451] transition-colors"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#88e04f] transition-colors"
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                     </div>
+                    {error.field === 'password' && (
+                        <p className="text-[11px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                            {error.message}
+                        </p>
+                    )}
                 </div>
 
                 {/* ¿OLVIDASTE TU CONTRASEÑA? */}
                 <div className="text-left">
-                    <button type="button" className="text-sm font-bold text-[#0F5451] hover:underline">
+                    <button type="button" className="text-sm font-bold text-[#1a1a1a] opacity-70 hover:text-[#88e04f] hover:underline transition-colors">
                         ¿Olvidaste tu contraseña?
                     </button>
                 </div>
 
-                {/* BOTÓN DE ENTRAR */}
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#1a1a1a] hover:bg-black text-white font-black text-lg rounded-xl py-4 transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
+                    className="w-full bg-[#88e04f] hover:opacity-90 text-[#1a1a1a] font-black text-lg rounded-xl py-4 transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                    {isLoading ? 'Espera un momento...' : 'Entrar'}
+                    {isLoading ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-[#1a1a1a]/30 border-t-[#1a1a1a] rounded-full animate-spin" />
+                            <span>Entrando...</span>
+                        </>
+                    ) : 'Entrar'}
                 </button>
             </form>
 
@@ -139,7 +163,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                 ¿Aún no tienes cuenta?{' '}
                 <button 
                   onClick={onSwitch}
-                  className="text-[#0F5451] font-black hover:underline transition-colors"
+                  className="text-[#88e04f] font-black hover:underline transition-colors"
                 >
                     Regístrate
                 </button>

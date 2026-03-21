@@ -34,6 +34,8 @@ interface AdventurerReportProps {
     isCheckingOut: boolean;
     handleCheckout: () => void;
     error: string | null;
+    aiOracleVerdict?: string;
+    achievements?: Array<{ title: string; icon: string }>;
 }
 
 export default function AdventurerReport({
@@ -42,7 +44,9 @@ export default function AdventurerReport({
     evaluationHistory,
     isCheckingOut,
     handleCheckout,
-    error
+    error,
+    aiOracleVerdict,
+    achievements = []
 }: AdventurerReportProps) {
     const [showAllMissions, setShowAllMissions] = useState(false);
 
@@ -55,6 +59,9 @@ export default function AdventurerReport({
         return acc;
     }, {} as Record<number, typeof evaluationHistory>);
     const sortedBands = Object.keys(groupedMissions).map(Number).sort((a, b) => a - b);
+
+    // Fallback static if no dynamic AI vision passed
+    const defaultVision = "¡Gran trabajo, aventurero! He analizado tu desempeño a lo largo de las pruebas. Posees una base sólida que promete mucho potencial. Tu próxima meta será afianzar ese conocimiento para comunicarte de manera más fluida con los aldeanos y sortear obstáculos de nivel intermedio con total seguridad.";
 
     return (
         <div className="w-full flex flex-col gap-6 lg:gap-8 animate-fade-in-up">
@@ -71,7 +78,7 @@ export default function AdventurerReport({
                 </div>
                 <h3 className="font-bold text-[#815a9b] text-xl mb-2 ml-12">Vision de Ludora:</h3>
                 <p className="text-gray-700 italic border-l-4 border-[#815a9b] pl-4 py-2 bg-purple-50 font-medium text-sm md:text-base">
-                    "¡Gran trabajo, aventurero! He analizado tu desempeño a lo largo de las pruebas. Posees una base sólida que promete mucho potencial. Tu próxima meta será afianzar ese conocimiento para comunicarte de manera más fluida con los aldeanos y sortear obstáculos de nivel intermedio con total seguridad."
+                    "{aiOracleVerdict || defaultVision}"
                 </p>
             </div>
 
@@ -108,7 +115,7 @@ export default function AdventurerReport({
                                     <div key={category} className="flex flex-col gap-1.5">
                                         <div className="flex justify-between items-end">
                                             <span className="text-gray-700 font-bold text-xs uppercase tracking-tight">{rpgCategoryName}</span>
-                                            <span className="font-black text-gray-800 text-[10px] bg-gray-100 px-2 py-0.5 rounded border border-gray-200">Rango {lvlIndex + 1} ({catLabel})</span>
+                                            <span className="font-black text-gray-800 text-[10px] bg-gray-100 px-2 py-0.5 rounded border border-gray-200">Habilidad: {catLabel}</span>
                                         </div>
                                         <div className="w-full bg-blue-50 h-5 border-2 border-blue-100 p-0.5 rounded-sm relative overflow-hidden shadow-inner">
                                             <div className={`h-full bg-gradient-to-r ${barColor} transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(255,255,255,0.3)]`} style={{ width: `${lvlPct}%` }}>
@@ -142,14 +149,25 @@ export default function AdventurerReport({
                             <img src="/images/evaluacion/backpack.webp" alt="Backpack" className="w-10 h-10 object-contain" /> Mochila de Logros
                         </h3>
                         <div className="grid grid-cols-1 gap-3">
-                            <div className="bg-green-50 border-2 border-green-100 rounded p-3 flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200 cursor-default">
-                                <span className="text-xl leading-none text-green-600">★</span>
-                                <p className="text-[11px] text-green-900 font-bold leading-tight uppercase tracking-tight">Estructuras Base Dominadas</p>
-                            </div>
-                            <div className="bg-green-50 border-2 border-green-100 rounded p-3 flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200 cursor-default">
-                                <span className="text-xl leading-none text-green-600">★</span>
-                                <p className="text-[11px] text-green-900 font-bold leading-tight uppercase tracking-tight">Comprensión de Instrucciones</p>
-                            </div>
+                            {achievements.length > 0 ? (
+                                achievements.map((achievement, idx) => (
+                                    <div key={idx} className="bg-green-50 border-2 border-green-100 rounded p-3 flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200 cursor-default">
+                                        <span className="text-xl leading-none text-green-600">{achievement.icon}</span>
+                                        <p className="text-[11px] text-green-900 font-bold leading-tight uppercase tracking-tight">{achievement.title}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <>
+                                    <div className="bg-green-50 border-2 border-green-100 rounded p-3 flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200 cursor-default">
+                                        <span className="text-xl leading-none text-green-600">★</span>
+                                        <p className="text-[11px] text-green-900 font-bold leading-tight uppercase tracking-tight">Estructuras Base Dominadas</p>
+                                    </div>
+                                    <div className="bg-green-50 border-2 border-green-100 rounded p-3 flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200 cursor-default">
+                                        <span className="text-xl leading-none text-green-600">★</span>
+                                        <p className="text-[11px] text-green-900 font-bold leading-tight uppercase tracking-tight">Comprensión de Instrucciones</p>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
