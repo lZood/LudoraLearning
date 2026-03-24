@@ -16,8 +16,7 @@ export default function CheckoutPrompt() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    // TODO: Replace with actual Stripe Price IDs based on isYearly state
-                    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1T8WrO0qbWrTcjOehklKiW9X',
+                    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID || 'price_1T9w8q0qbWrTcjOeZ9z9n3ae',
                 }),
             });
 

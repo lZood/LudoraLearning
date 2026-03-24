@@ -50,7 +50,22 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
             }
 
             // Redirección condicionada por flujo de evaluación
-            router.push('/portal-alumno/evaluacion');
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data: userData } = await supabase
+                    .from('users')
+                    .select('has_completed_evaluation, english_level')
+                    .eq('id', user.id)
+                    .single();
+
+                if (userData?.has_completed_evaluation || userData?.english_level) {
+                    router.push('/portal-alumno/dashboard');
+                } else {
+                    router.push('/portal-alumno/evaluacion');
+                }
+            } else {
+                router.push('/portal-alumno/evaluacion');
+            }
             router.refresh();
         } catch (err: any) {
             setError({ message: err.message || 'Error al conectar con el servidor.', field: 'general' });

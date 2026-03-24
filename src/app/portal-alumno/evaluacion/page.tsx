@@ -573,10 +573,13 @@ export default function EvaluacionYBanda() {
 
             // Save to Supabase
             if (userId) {
-                // Update user's general english level
+                // Update user's general english level and completion flag
                 await supabase
                     .from('users')
-                    .update({ english_level: `Banda ${bandaResult}` })
+                    .update({ 
+                        english_level: `Banda ${bandaResult}`,
+                        has_completed_evaluation: true 
+                    })
                     .eq('id', userId);
 
                 // 1. Generar logros dinámicos
@@ -628,29 +631,8 @@ export default function EvaluacionYBanda() {
         }
     };
 
-    const handleCheckout = async () => {
-        setIsCheckingOut(true);
-        setError(null);
-        try {
-            const response = await fetch('/api/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ priceId: 'price_1T9w8q0qbWrTcjOeZ9z9n3ae' }), // Stripe Price ID
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error(data.error || 'Error al iniciar pago');
-            }
-        } catch (err: any) {
-            setError(err.message || 'Error de conexión');
-            console.error(err);
-        } finally {
-            setIsCheckingOut(false);
-        }
+    const handleCheckout = () => {
+        router.push('/portal-alumno/dashboard');
     };
 
     const currentTotalIndex = CATEGORIES.reduce((acc, cat) => acc + LEVEL_PROGRESSION.indexOf(categoryLevels[cat]), 0);

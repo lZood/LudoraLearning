@@ -3,6 +3,7 @@ CREATE TABLE public.users (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL,
   full_name TEXT,
+  age INTEGER, -- Añadido por solicitud
   stripe_customer_id TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
   PRIMARY KEY (id)

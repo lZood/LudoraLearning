@@ -17,33 +17,40 @@ import {
     CreditCard,
     LogOut,
     ChevronUp,
-    Loader2
+    Loader2,
+    Menu,
+    X,
+    Zap,
+    MoreHorizontal,
+    Star
 } from "lucide-react";
 
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
 
-const SIDEBAR_LINKS = [
+// Main links shown in top nav directly
+const MAIN_LINKS = [
     { name: "Inicio", href: "/portal-alumno/dashboard", icon: Home },
-    { name: "Noticias", href: "/portal-alumno/dashboard/noticias", icon: Newspaper },
-    { name: "Leaderboards", href: "/portal-alumno/dashboard/leaderboards", icon: Trophy },
+    { name: "Cursos", href: "/portal-alumno/dashboard/cursos", icon: GraduationCap },
+    { name: "Ranking", href: "/portal-alumno/dashboard/leaderboards", icon: Trophy },
 ];
 
-const LEARN_LINKS = [
-    { name: "Cursos", href: "/portal-alumno/dashboard/cursos", icon: GraduationCap },
+// Links grouped into a "Más" dropdown on desktop
+const MORE_LINKS = [
+    { name: "Noticias", href: "/portal-alumno/dashboard/noticias", icon: Newspaper },
     { name: "Materiales", href: "/portal-alumno/dashboard/materiales", icon: BookOpen },
     { name: "Letras", href: "/portal-alumno/dashboard/letras", icon: Type },
     { name: "Videos", href: "/portal-alumno/dashboard/videos", icon: Video },
     { name: "Tareas", href: "/portal-alumno/dashboard/tareas", icon: CheckSquare },
 ];
 
-function DashboardLogo() {
+function DashboardLogo({ className = "" }: { className?: string }) {
     return (
-        <div className="flex items-center gap-2 mb-8 px-2">
+        <div className={`flex items-center gap-2 ${className}`}>
             <svg
                 viewBox="0 0 184.08 72.96"
-                className="h-8 w-auto fill-[#2A2B2A] transition-colors duration-300 shrink-0"
+                className="h-7 sm:h-8 w-auto fill-[#2A2B2A] transition-colors duration-300 shrink-0"
                 aria-hidden="true"
             >
                 <g>
@@ -86,6 +93,9 @@ export default function DashboardLayout({
     const supabase = createClient();
 
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean | null>(null);
@@ -99,9 +109,7 @@ export default function DashboardLayout({
                 const { data: { session }, error: authError } = await supabase.auth.getSession();
 
                 if (authError || !session) {
-                    if (isMounted) {
-                        router.replace('/portal-alumno'); // Not logged in, go to login
-                    }
+                    if (isMounted) router.replace('/portal-alumno'); // Not logged in, go to login
                     return;
                 }
 
@@ -116,7 +124,6 @@ export default function DashboardLayout({
                     .single();
 
                 if (isMounted) {
-                    // True if a record is found, false if no active/trialing sub exists
                     setHasActiveSubscription(!!subData);
                 }
 
@@ -133,6 +140,13 @@ export default function DashboardLayout({
         return () => { isMounted = false; };
     }, [pathname, router, supabase]);
 
+    // Close menus when pathname changes
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsProfileMenuOpen(false);
+        setIsMoreMenuOpen(false);
+    }, [pathname]);
+
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.push('/portal-alumno');
@@ -143,147 +157,199 @@ export default function DashboardLayout({
         return (
             <div className="flex min-h-screen bg-[#F8F9FA] items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="w-10 h-10 text-[#0F5451] animate-spin" />
-                    <p className="text-gray-500 font-medium">Cargando Ludora Learning...</p>
+                    <Loader2 className="w-10 h-10 text-[#5B4FE0] animate-spin" />
+                    <p className="text-gray-500 font-medium tracking-wide">Cargando tu experiencia...</p>
                 </div>
             </div>
         );
     }
 
-    // Default Name Handling
     const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "Estudiante";
 
-    // If user has NO active subscription, show them the Checkout screen ONLY
-    if (hasActiveSubscription === false) {
-        return (
-            <div className="flex min-h-screen bg-[#F8F9FA] font-sans items-center justify-center relative overflow-hidden">
-                {/* Nether Background for checkout page */}
-                <div className="absolute inset-0 z-0 bg-white/50 backdrop-blur-3xl" />
+    // Unsubscribed users are allowed to enter the dashboard, but content will be limited
+    const isUnsubscribed = hasActiveSubscription === false;
 
-                <div className="relative z-10 w-full max-w-2xl bg-white shadow-2xl rounded-3xl p-8 border border-gray-100">
-                    <div className="flex justify-center mb-4">
-                        <DashboardLogo />
-                    </div>
-                    <CheckoutPrompt />
-                </div>
-            </div>
-        );
-    }
-
-    // IF Subscribed, show the full Dashboard
     return (
-        <div className="flex min-h-screen bg-[#F8F9FA] font-sans">
-            {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 flex flex-col pt-6">
+        <div className="flex flex-col min-h-screen bg-[#F8F9FA] font-sans text-gray-900">
+            {/* TOP NAVIGATION BAR */}
+            <header className="sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm">
+                <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-16">
+                        
+                        {/* Logo and Desktop Links */}
+                        <div className="flex items-center gap-8">
+                            <Link href="/portal-alumno/dashboard" className="flex-shrink-0">
+                                <DashboardLogo />
+                            </Link>
+                            
+                            {/* Desktop Nav */}
+                            <nav className="hidden lg:flex items-center gap-2">
+                                {MAIN_LINKS.map((item) => {
+                                    const isActive = pathname === item.href;
+                                    return (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all ${
+                                                isActive
+                                                    ? "text-[#5B4FE0] bg-purple-50"
+                                                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                                            }`}
+                                        >
+                                            <item.icon className="w-4 h-4" />
+                                            {item.name}
+                                        </Link>
+                                    );
+                                })}
 
-                <DashboardLogo />
+                                {/* "More" Dropdown Link */}
+                                <div className="relative">
+                                    <button 
+                                        onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
+                                        className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all ${
+                                            isMoreMenuOpen ? "text-[#5B4FE0] bg-purple-50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                                        }`}
+                                    >
+                                        <MoreHorizontal className="w-4 h-4" />
+                                        Más
+                                    </button>
 
-                <nav className="flex-1 space-y-1 px-4 overflow-y-auto">
-                    {SIDEBAR_LINKS.map((item) => {
+                                    {isMoreMenuOpen && (
+                                        <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden py-2 z-50 animate-in fade-in slide-in-from-top-2">
+                                            {MORE_LINKS.map((item) => {
+                                                const isActive = pathname === item.href;
+                                                return (
+                                                    <Link
+                                                        key={item.href}
+                                                        href={item.href}
+                                                        className={`flex items-center gap-3 px-4 py-2 text-sm font-bold transition-colors ${
+                                                            isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
+                                                        }`}
+                                                    >
+                                                        <item.icon className={`w-4 h-4 ${isActive ? 'text-[#5B4FE0]' : 'text-gray-400'}`} />
+                                                        {item.name}
+                                                    </Link>
+                                                )
+                                            })}
+                                        </div>
+                                    )}
+                                </div>
+                            </nav>
+                        </div>
+
+                        {/* Right side Profile / Streak / Mobile Toggle */}
+                        <div className="flex items-center gap-3">
+                            {/* Membership Upgrade Button for Unsubscribed Users */}
+                            {isUnsubscribed && (
+                                <Link 
+                                    href="/portal-alumno/dashboard/suscripcion"
+                                    className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#815a9b] hover:bg-[#6a4a7f] text-white rounded-xl text-sm font-black transition-all shadow-md shadow-purple-500/20 active:scale-95"
+                                >
+                                    <Star className="w-4 h-4 fill-white" />
+                                    <span>Pagar Membresía</span>
+                                </Link>
+                            )}
+                            {/* Streak Counter */}
+                            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-extrabold text-sm">
+                                <Zap className="w-4 h-4 fill-yellow-500" />
+                                <span>1</span>
+                            </div>
+
+                            {/* Profile Menu Trigger */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+                                    className="flex items-center gap-2 p-1 pl-2 pr-3 rounded-full hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200"
+                                >
+                                    <div className="w-8 h-8 rounded-full overflow-hidden bg-purple-100 border border-purple-200 flex items-center justify-center shrink-0">
+                                       <span className="text-purple-600 font-bold text-sm">
+                                            {userName.charAt(0).toUpperCase()}
+                                       </span>
+                                    </div>
+                                    <ChevronUp className={`hidden sm:block w-4 h-4 text-gray-500 transition-transform duration-300 ${isProfileMenuOpen ? 'rotate-180' : 'rotate-180'}`} />
+                                </button>
+
+                                {/* Profile Dropdown */}
+                                {isProfileMenuOpen && (
+                                    <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2">
+                                        <div className="px-4 py-3 border-b border-gray-100">
+                                            <p className="text-sm font-bold text-gray-900 truncate">{userName}</p>
+                                            <p className={`text-xs font-semibold mt-0.5 ${isUnsubscribed ? 'text-orange-500' : 'text-[#5B4FE0]'}`}>
+                                                {isUnsubscribed ? 'Prueba Gratis (Limitado)' : 'Suscripción Activa'}
+                                            </p>
+                                        </div>
+                                        <div className="py-1">
+                                            <Link href="/portal-alumno/dashboard/perfil" className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-700">
+                                                <User className="w-4 h-4 text-gray-400" /> Monitorear Progreso
+                                            </Link>
+                                            <Link href="/portal-alumno/dashboard/suscripcion" className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-700">
+                                                <CreditCard className="w-4 h-4 text-gray-400" /> Facturación
+                                            </Link>
+                                        </div>
+                                        <div className="h-px bg-gray-100 my-1" />
+                                        <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-50 text-sm font-bold text-red-600 text-left">
+                                            <LogOut className="w-4 h-4" /> Cerrar sesión
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Mobile Menu Toggle */}
+                            <button
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                className="lg:hidden p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-colors"
+                            >
+                                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            {/* Mobile Navigation Drawer */}
+            {isMobileMenuOpen && (
+                <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-4 space-y-1 z-30 shadow-md">
+                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest pl-3 mb-2">Principal</p>
+                    {MAIN_LINKS.map((item) => {
                         const isActive = pathname === item.href;
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
-                                    ? "bg-[#F3F4F6] text-[#2A2B2A] font-bold"
-                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                                    }`}
+                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-colors ${
+                                    isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
+                                }`}
                             >
-                                <item.icon className={`w-5 h-5 ${isActive ? "text-[#5B4FE0]" : "text-gray-400"}`} />
+                                <item.icon className="w-5 h-5" />
                                 {item.name}
                             </Link>
-                        )
+                        );
                     })}
-
-                    <div className="pt-6 pb-2">
-                        <p className="px-3 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                            Aprender
-                        </p>
-                    </div>
-
-                    {LEARN_LINKS.map((item) => {
-                        const isActive = pathname.startsWith(item.href);
+                    
+                    <div className="h-4"></div>
+                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest pl-3 mb-2">Más Herramientas</p>
+                    
+                    {MORE_LINKS.map((item) => {
+                        const isActive = pathname === item.href;
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
-                                    ? "bg-[#F3F4F6] text-[#2A2B2A] font-bold"
-                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                                    }`}
+                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-colors ${
+                                    isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
+                                }`}
                             >
-                                <item.icon className={`w-5 h-5 ${isActive ? "text-[#5B4FE0]" : "text-gray-400"}`} />
+                                <item.icon className="w-5 h-5" />
                                 {item.name}
                             </Link>
-                        )
+                        );
                     })}
-                </nav>
-
-                {/* Profile Section (Bottom) */}
-                <div className="relative mt-auto border-t border-gray-200 p-4">
-                    {/* Collapsible Menu */}
-                    {isProfileMenuOpen && (
-                        <div className="absolute bottom-full left-4 right-4 mb-2 bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200 z-50">
-                            <div className="flex flex-col">
-                                <Link
-                                    href="/portal-alumno/dashboard/perfil"
-                                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
-                                    onClick={() => setIsProfileMenuOpen(false)}
-                                >
-                                    <User className="w-4 h-4 text-gray-500" />
-                                    Ver Perfil
-                                </Link>
-                                <Link
-                                    href="/portal-alumno/dashboard/suscripcion"
-                                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
-                                    onClick={() => setIsProfileMenuOpen(false)}
-                                >
-                                    <CreditCard className="w-4 h-4 text-gray-500" />
-                                    Suscripción a Clases
-                                </Link>
-                                <div className="h-px bg-gray-200 mx-4 my-1" />
-                                <button
-                                    onClick={handleSignOut}
-                                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm font-bold text-red-600 transition-colors text-left"
-                                >
-                                    <LogOut className="w-4 h-4" />
-                                    Cerrar sesión
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Profile Toggle Button */}
-                    <button
-                        onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                        className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-[#5B4FE0] focus:ring-offset-2"
-                    >
-                        <div className="flex items-center gap-3 w-full overflow-hidden text-left">
-                            <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 border border-gray-200 bg-gray-100 flex items-center justify-center">
-                                {/* Fallback user icon or image */}
-                                <img
-                                    src="https://minecraftfaces.com/wp-content/bigfaces/big-steve-face.png"
-                                    alt="Steve Profile"
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                                />
-                            </div>
-                            <div className="flex flex-col flex-1 min-w-0">
-                                <span className="text-sm font-bold text-gray-900 truncate">
-                                    {userName}
-                                </span>
-                                <span className="text-xs text-gray-500 truncate">Suscrito 🎉</span>
-                            </div>
-                        </div>
-                        <ChevronUp className={`w-4 h-4 text-gray-500 transition-transform duration-300 shrink-0 ml-1 ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
-                    </button>
                 </div>
-            </aside>
+            )}
 
-            {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto">
-                <div className="max-w-[1200px] mx-auto py-8 px-8">
+            {/* MAIN CONTENT AREA */}
+            <main className="flex-1 overflow-y-auto w-full">
+                <div className="max-w-[1200px] mx-auto py-8 px-4 sm:px-6 lg:px-8">
                     {children}
                 </div>
             </main>

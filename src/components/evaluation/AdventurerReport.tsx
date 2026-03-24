@@ -230,29 +230,20 @@ export default function AdventurerReport({
                 </div>
             </div>
 
-            {/* ACTIVATION SECTION */}
-            <div className="w-full bg-rose-50 border-4 border-[#e11d48] rounded-sm p-6 md:p-10 shadow-[8px_8px_0_rgba(225,29,72,0.3)] text-center flex flex-col items-center">
-                <h3 className="font-black text-[#be123c] text-2xl md:text-3xl uppercase tracking-wide mb-3 drop-shadow-sm">Desbloquea tu Próxima Aventura</h3>
-                <p className="text-rose-900 font-medium mb-8 max-w-2xl mx-auto text-sm md:text-base">Activa tu suscripción para acceder a clases grupales guiadas, métricas en tiempo real y asegurar tu ascenso directo desde la <strong className="text-[#be123c]">Banda {calculatedBanda}</strong>.</p>
+            {/* CONTINUE TO PORTAL SECTION */}
+            <div className="w-full bg-purple-50 border-4 border-[#815a9b] rounded-sm p-6 md:p-10 shadow-[8px_8px_0_rgba(129,90,155,0.3)] text-center flex flex-col items-center">
+                <h3 className="font-black text-[#5e4171] text-2xl md:text-3xl uppercase tracking-wide mb-3 drop-shadow-sm">¡Tu aventura comienza ahora!</h3>
+                <p className="text-gray-700 font-medium mb-8 max-w-2xl mx-auto text-sm md:text-base">Hemos preparado tu ruta de aprendizaje basada en tu desempeño. Tienes acceso a los 3 primeros niveles de la <strong className="text-[#815a9b]">Banda {calculatedBanda}</strong> de forma gratuita.</p>
 
                 <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 justify-center w-full max-w-3xl">
-                    <div className="bg-white border-4 border-[#e11d48] py-3 px-6 rounded-sm shadow-sm flex items-center justify-center min-w-[200px]">
-                        <span className="text-2xl font-black text-gray-900">$1,400 <span className="text-sm font-bold text-gray-500 uppercase tracking-widest">MXN / mes</span></span>
-                    </div>
                     <button
                         onClick={handleCheckout}
-                        disabled={isCheckingOut}
-                        className="w-full md:w-auto bg-[#e11d48] hover:bg-[#be123c] border-b-4 border-r-4 border-t-2 border-l-2 border-[#9f1239] border-t-[#fda4af] border-l-[#fda4af] text-white font-black py-4 px-8 text-xl transition-all hover:-translate-y-1 focus:outline-none uppercase tracking-widest flex items-center justify-center flex-1 disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_4px_10px_rgba(225,29,72,0.4)]"
+                        className="w-full md:w-auto bg-[#815a9b] hover:bg-[#6a4a7f] border-b-4 border-r-4 border-t-2 border-l-2 border-b-[#5e4171] border-r-[#5e4171] border-t-[#a78bbf] border-l-[#a78bbf] text-white font-black py-4 px-12 text-xl transition-all hover:-translate-y-1 focus:outline-none uppercase tracking-widest flex items-center justify-center flex-1 shadow-[0_4px_10px_rgba(129,90,155,0.4)] group"
                     >
-                        {isCheckingOut ? (
-                            <span className="animate-pulse flex items-center gap-2">
-                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                Procesando...
-                            </span>
-                        ) : 'Iniciar Suscripción ➜'}
+                        <span>Ir al portal de alumno</span>
+                        <span className="ml-3 group-hover:translate-x-1 transition-transform">➜</span>
                     </button>
                 </div>
-                {error && <div className="mt-6 border-4 border-red-500 bg-red-50 text-red-700 font-bold p-3 text-sm uppercase max-w-lg w-full">{error}</div>}
             </div>
         </div>
     );
