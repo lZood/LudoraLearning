@@ -7,6 +7,11 @@ import { FrozenRoute } from "./FrozenRoute";
 
 export default function PageTransition({ children }: { children: ReactNode }) {
     const pathname = usePathname();
+    const isPortal = pathname?.startsWith("/portal-alumno");
+
+    if (isPortal) {
+        return <>{children}</>;
+    }
 
     return (
         // Es crítico establecer un grid aquí para que los elementos hijos compartan la

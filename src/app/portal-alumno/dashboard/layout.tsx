@@ -28,6 +28,7 @@ import {
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
+import MobileNavBar from "@/components/dashboard/MobileNavBar";
 
 // Main links shown in top nav directly
 const MAIN_LINKS = [
@@ -155,9 +156,9 @@ export default function DashboardLayout({
 
     if (isLoading) {
         return (
-            <div className="flex min-h-screen bg-[#F8F9FA] items-center justify-center">
+            <div className="flex min-h-screen bg-[#ffffff] items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="w-10 h-10 text-[#5B4FE0] animate-spin" />
+                    <Loader2 className="w-10 h-10 text-[#632EB0] animate-spin" />
                     <p className="text-gray-500 font-medium tracking-wide">Cargando tu experiencia...</p>
                 </div>
             </div>
@@ -170,9 +171,9 @@ export default function DashboardLayout({
     const isUnsubscribed = hasActiveSubscription === false;
 
     return (
-        <div className="flex flex-col min-h-screen bg-[#F8F9FA] font-sans text-gray-900">
-            {/* TOP NAVIGATION BAR */}
-            <header className="sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm">
+        <div className="flex flex-col min-h-screen bg-[#ffffff] font-sans text-gray-900 border-none">
+            {/* TOP NAVIGATION BAR (Desktop Only) */}
+            <header className="hidden md:block sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm transition-all">
                 <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         
@@ -192,7 +193,7 @@ export default function DashboardLayout({
                                             href={item.href}
                                             className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all ${
                                                 isActive
-                                                    ? "text-[#5B4FE0] bg-purple-50"
+                                                    ? "text-[#632EB0] bg-purple-50"
                                                     : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
                                             }`}
                                         >
@@ -207,7 +208,7 @@ export default function DashboardLayout({
                                     <button 
                                         onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
                                         className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold transition-all ${
-                                            isMoreMenuOpen ? "text-[#5B4FE0] bg-purple-50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                                            isMoreMenuOpen ? "text-[#632EB0] bg-purple-50" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
                                         }`}
                                     >
                                         <MoreHorizontal className="w-4 h-4" />
@@ -223,10 +224,10 @@ export default function DashboardLayout({
                                                         key={item.href}
                                                         href={item.href}
                                                         className={`flex items-center gap-3 px-4 py-2 text-sm font-bold transition-colors ${
-                                                            isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
+                                                            isActive ? "text-[#632EB0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
                                                         }`}
                                                     >
-                                                        <item.icon className={`w-4 h-4 ${isActive ? 'text-[#5B4FE0]' : 'text-gray-400'}`} />
+                                                        <item.icon className={`w-4 h-4 ${isActive ? 'text-[#632EB0]' : 'text-gray-400'}`} />
                                                         {item.name}
                                                     </Link>
                                                 )
@@ -243,7 +244,7 @@ export default function DashboardLayout({
                             {isUnsubscribed && (
                                 <Link 
                                     href="/portal-alumno/dashboard/suscripcion"
-                                    className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#815a9b] hover:bg-[#6a4a7f] text-white rounded-xl text-sm font-black transition-all shadow-md shadow-purple-500/20 active:scale-95"
+                                    className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#632EB0] hover:bg-[#4E248B] text-white rounded-xl text-sm font-black transition-all shadow-md shadow-purple-500/20 active:scale-95"
                                 >
                                     <Star className="w-4 h-4 fill-white" />
                                     <span>Pagar Membresía</span>
@@ -274,7 +275,7 @@ export default function DashboardLayout({
                                     <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2">
                                         <div className="px-4 py-3 border-b border-gray-100">
                                             <p className="text-sm font-bold text-gray-900 truncate">{userName}</p>
-                                            <p className={`text-xs font-semibold mt-0.5 ${isUnsubscribed ? 'text-orange-500' : 'text-[#5B4FE0]'}`}>
+                                            <p className={`text-xs font-semibold mt-0.5 ${isUnsubscribed ? 'text-orange-500' : 'text-[#632EB0]'}`}>
                                                 {isUnsubscribed ? 'Prueba Gratis (Limitado)' : 'Suscripción Activa'}
                                             </p>
                                         </div>
@@ -293,66 +294,21 @@ export default function DashboardLayout({
                                     </div>
                                 )}
                             </div>
-
-                            {/* Mobile Menu Toggle */}
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="lg:hidden p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-colors"
-                            >
-                                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                            </button>
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* Mobile Navigation Drawer */}
-            {isMobileMenuOpen && (
-                <div className="lg:hidden bg-white border-b border-gray-200 px-4 py-4 space-y-1 z-30 shadow-md">
-                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest pl-3 mb-2">Principal</p>
-                    {MAIN_LINKS.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-colors ${
-                                    isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
-                                }`}
-                            >
-                                <item.icon className="w-5 h-5" />
-                                {item.name}
-                            </Link>
-                        );
-                    })}
-                    
-                    <div className="h-4"></div>
-                    <p className="text-xs font-black text-gray-400 uppercase tracking-widest pl-3 mb-2">Más Herramientas</p>
-                    
-                    {MORE_LINKS.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-colors ${
-                                    isActive ? "text-[#5B4FE0] bg-purple-50" : "text-gray-600 hover:bg-gray-50"
-                                }`}
-                            >
-                                <item.icon className="w-5 h-5" />
-                                {item.name}
-                            </Link>
-                        );
-                    })}
-                </div>
-            )}
-
             {/* MAIN CONTENT AREA */}
-            <main className="flex-1 overflow-y-auto w-full">
-                <div className="max-w-[1200px] mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 w-full pb-28 md:pb-0">
+                <div className="max-w-[1200px] mx-auto pt-0 md:pt-8 pb-4 md:pb-8 px-0 sm:px-6 lg:px-8">
                     {children}
                 </div>
             </main>
+
+            {/* FLOATING BOTTOM BAR (MOBILE ONLY) - VIA REACT PORTAL */}
+            <MobileNavBar />
+            
         </div>
     );
 }
