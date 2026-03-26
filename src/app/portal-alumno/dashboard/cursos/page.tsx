@@ -1,8 +1,9 @@
 import React from "react";
-import { BookOpen, GraduationCap, Star } from "lucide-react";
+import { GraduationCap, Star } from "lucide-react";
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import CourseMap from "@/components/dashboard/CourseMap";
+import MobileSubHeader from "@/components/dashboard/MobileSubHeader";
 
 export default async function CursosPage() {
     const supabase = await createClient();
@@ -32,10 +33,12 @@ export default async function CursosPage() {
     const isPremium = subsData && subsData.length > 0;
 
     return (
-        <div className="flex flex-col gap-8 pb-12 w-full max-w-7xl mx-auto">
-            
-            {/* Header Section */}
-            <div className="hidden md:flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 pb-8">
+        <div className="flex flex-col w-full min-h-screen bg-white">
+            {/* Top Bar (Mobile Only) */}
+            <MobileSubHeader hideNav={true} />
+
+            {/* Desktop Header */}
+            <div className="hidden md:flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 p-8 max-w-7xl mx-auto w-full">
                 <div className="flex items-center gap-4">
                     <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center">
                         <GraduationCap className="w-8 h-8 text-[#632EB0]" />
@@ -61,8 +64,12 @@ export default async function CursosPage() {
                 )}
             </div>
 
-            {/* Course Map Section */}
-            <CourseMap />
+            {/* Main Content (Course Path) */}
+            <main className="flex-1 w-full max-w-7xl mx-auto pb-40 md:py-8">
+                <CourseMap />
+            </main>
+
+            {/* Floating Navigation (Mobile Only) is handled globally by MobileNavBar */}
         </div>
     );
 }
