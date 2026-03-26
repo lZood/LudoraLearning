@@ -87,7 +87,7 @@ export default function CourseMap() {
   return (
     <>
       {/* Mobile Top Levels Navigation/Tracker */}
-      <div className="lg:hidden sticky top-0 z-40 bg-white/95 backdrop-blur-xl border-b border-gray-100 py-3 px-4 shadow-sm w-full mx-auto pb-4">
+      <div className="lg:hidden sticky top-[52px] z-40 bg-white/95 backdrop-blur-xl border-b border-gray-100 pt-1 pb-2 px-4 shadow-sm w-full mx-auto">
         <div className="flex overflow-x-auto gap-4 snap-x pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {/* Hide webkit scrollbar via CSS in globals ideally, but style={{scrollbarWidth: 'none'}} works for Firefox/modern */}
           {COURSE_DATA.map((level, idx) => {

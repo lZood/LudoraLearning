@@ -8,6 +8,7 @@ import { COURSE_DATA, Unit, Level } from '@/constants/courseData';
 
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
+import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 
 const ACTIVITIES = [
   { id: 1, title: 'Teoría', icon: FileText, type: 'theory' },
@@ -76,13 +77,16 @@ export default function UnitViewPage() {
       transition={{ type: 'spring', damping: 30, stiffness: 300, mass: 0.8 }}
       className="min-h-screen bg-white pb-32 overflow-x-hidden"
     >
-      {/* MOBILE STICKY HEADER */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-3 flex items-center gap-4 shadow-sm">
+      {/* 1. STATUS TOP BAR (XP - LOGO - STREAK) */}
+      <MobileSubHeader hideNav={true} />
+
+      {/* 2. MOBILE UNIT NAVIGATION HEADER (Below Status Bar) */}
+      <div className="md:hidden sticky top-[68px] left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-2 flex items-center gap-4 shadow-sm">
         <Link href="/portal-alumno/dashboard/cursos" className="p-1 hover:bg-gray-100 rounded-full transition-colors active:scale-90">
           <ArrowLeft className="w-6 h-6 text-black" />
         </Link>
         <div className="flex flex-col">
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mb-0.5">
+          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-0.5">
             {level.title.split(':')[0]}
           </span>
           <h1 className="text-sm font-black text-black leading-tight truncate max-w-[240px]">
@@ -91,7 +95,7 @@ export default function UnitViewPage() {
         </div>
       </div>
 
-      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 lg:gap-16 items-start relative pt-20 md:pt-8">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 lg:gap-16 items-start relative pt-4">
         
         {/* Left Column: Header + Info Card (Sticky) */}
         <div className="w-full md:w-[380px] lg:w-[400px] flex-shrink-0 md:sticky md:top-24 flex flex-col gap-6 z-20">
@@ -177,7 +181,7 @@ export default function UnitViewPage() {
                           {activity.subtitle && <p className={`text-[10px] md:text-[11px] font-bold mt-1 ${isLocked ? 'text-gray-200' : 'text-gray-400'}`}>{activity.subtitle}</p>}
                        </div>
                     )}
-
+ 
                     {/* Icon Node */}
                     <div className="relative flex items-center justify-center flex-shrink-0">
                       {/* Ring for Active */}
