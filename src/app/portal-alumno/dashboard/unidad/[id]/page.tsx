@@ -81,12 +81,12 @@ export default function UnitViewPage() {
       <MobileSubHeader hideNav={true} />
 
       {/* 2. MOBILE UNIT NAVIGATION HEADER (Below Status Bar) */}
-      <div className="md:hidden sticky top-[68px] left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-2 flex items-center gap-4 shadow-sm">
+      <div className="md:hidden sticky top-[52px] left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-3 flex items-center gap-4 shadow-sm">
         <Link href="/portal-alumno/dashboard/cursos" className="p-1 hover:bg-gray-100 rounded-full transition-colors active:scale-90">
           <ArrowLeft className="w-6 h-6 text-black" />
         </Link>
         <div className="flex flex-col">
-          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-0.5">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mb-0.5">
             {level.title.split(':')[0]}
           </span>
           <h1 className="text-sm font-black text-black leading-tight truncate max-w-[240px]">
@@ -95,7 +95,7 @@ export default function UnitViewPage() {
         </div>
       </div>
 
-      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 lg:gap-16 items-start relative pt-4">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 lg:gap-16 items-start relative pt-8">
         
         {/* Left Column: Header + Info Card (Sticky) */}
         <div className="w-full md:w-[380px] lg:w-[400px] flex-shrink-0 md:sticky md:top-24 flex flex-col gap-6 z-20">

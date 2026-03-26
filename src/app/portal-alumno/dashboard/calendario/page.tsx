@@ -15,6 +15,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
+import CursosSubNav from '@/components/dashboard/CursosSubNav';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 
 // Mock Data for Phase 1
@@ -71,11 +72,11 @@ export default function CalendarioPage() {
     };
 
     return (
-        <div className="flex flex-col w-full min-h-screen bg-white pb-40">
+        <div className="flex flex-col w-full min-h-screen bg-[#F8F9FB] pb-40">
             <HapticTrigger ref={hapticRef} />
             <MobileSubHeader hideNav={true} />
             
-            <div className="flex flex-col gap-6 px-4 pt-6 max-w-[1600px] mx-auto w-full">
+            <div className="flex flex-col gap-6 px-4 pt-6 max-w-7xl mx-auto w-full">
                 
                 {/* 1. WALLET CARD (Premium Hero) */}
                 <div className="relative overflow-hidden bg-gradient-to-br from-[#632EB0] to-[#4E248B] rounded-[2.5rem] p-6 shadow-xl shadow-purple-200">
@@ -118,7 +119,7 @@ export default function CalendarioPage() {
                         <h2 className="text-xl font-black text-gray-900 leading-tight">Clases Disponibles</h2>
                         <span className="text-xs text-gray-400 font-bold tracking-wide">Basado en tu Nivel y Unidades</span>
                     </div>
-                    <button className="p-2 bg-[#F8F9FB] rounded-2xl border border-gray-100 shadow-sm text-gray-400">
+                    <button className="p-2 bg-white rounded-2xl border border-gray-100 shadow-sm text-gray-400">
                         <History className="w-5 h-5" />
                     </button>
                 </div>
@@ -129,12 +130,12 @@ export default function CalendarioPage() {
                         <motion.div 
                             key={clase.id}
                             whileTap={{ scale: 0.98 }}
-                            className={`relative bg-[#F8F9FB] border border-gray-100 rounded-[2rem] p-5 shadow-sm transition-all ${clase.status === 'full' ? 'opacity-70' : 'hover:shadow-md'}`}
+                            className={`relative bg-white border border-gray-100 rounded-[2rem] p-5 shadow-sm transition-all ${clase.status === 'full' ? 'opacity-70' : 'hover:shadow-md'}`}
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-4">
                                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border ${
-                                        clase.status === 'full' ? 'bg-white border-gray-100' : 'bg-purple-50 border-purple-100'
+                                        clase.status === 'full' ? 'bg-gray-50 border-gray-100' : 'bg-purple-50 border-purple-100'
                                     }`}>
                                         <Users className={`w-6 h-6 ${clase.status === 'full' ? 'text-gray-300' : 'text-[#632EB0]'}`} />
                                     </div>
@@ -148,18 +149,18 @@ export default function CalendarioPage() {
                                     </div>
                                 </div>
                                 <div className={`px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                                    clase.slots === 0 ? 'bg-white text-gray-400' : 'bg-green-50 text-green-600'
+                                    clase.slots === 0 ? 'bg-gray-100 text-gray-400' : 'bg-green-50 text-green-600'
                                 }`}>
                                     {clase.slots === 0 ? 'Lleno' : `${clase.slots} Cupos`}
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-3 mb-5">
-                                <div className="flex items-center gap-2 bg-white/50 rounded-2xl p-2.5 px-4 border border-white/80">
+                                <div className="flex items-center gap-2 bg-gray-50/50 rounded-2xl p-2.5 px-4 border border-gray-50">
                                     <CalendarIcon className="w-4 h-4 text-gray-400" />
                                     <span className="text-[13px] font-bold text-gray-700">{clase.date}</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/50 rounded-2xl p-2.5 px-4 border border-white/80">
+                                <div className="flex items-center gap-2 bg-gray-50/50 rounded-2xl p-2.5 px-4 border border-gray-50">
                                     <Clock className="w-4 h-4 text-gray-400" />
                                     <span className="text-[13px] font-bold text-gray-700">{clase.time}</span>
                                 </div>
@@ -173,7 +174,7 @@ export default function CalendarioPage() {
                                 }}
                                 className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2 ${
                                     clase.status === 'full' 
-                                        ? 'bg-white text-gray-300 shadow-none cursor-not-allowed border border-gray-100' 
+                                        ? 'bg-gray-100 text-gray-300 shadow-none cursor-not-allowed' 
                                         : 'bg-white border-2 border-[#632EB0] text-[#632EB0] hover:bg-purple-50 active:scale-95 shadow-purple-50'
                                 }`}
                             >
@@ -185,14 +186,14 @@ export default function CalendarioPage() {
                 </div>
 
                 {/* 4. HELP BOX */}
-                <div className="bg-[#F8F9FB] border border-gray-100 rounded-[2rem] p-6 mt-4 mb-8">
+                <div className="bg-blue-50/50 border border-blue-100/50 rounded-[2rem] p-6 mt-4 mb-8">
                    <div className="flex gap-4">
-                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
                             <Info className="w-5 h-5 text-blue-600" />
                         </div>
                         <div className="flex flex-col gap-1">
-                            <h4 className="text-sm font-black text-gray-800">¿Cómo funcionan las clases?</h4>
-                            <p className="text-xs text-gray-500 font-medium leading-relaxed opacity-70">
+                            <h4 className="text-sm font-black text-blue-900">¿Cómo funcionan las clases?</h4>
+                            <p className="text-xs text-blue-800 font-medium leading-relaxed opacity-70">
                                 Las clases son grupales (máx. 8 alumnos) y se realizan en nuestro servidor privado de Minecraft. Necesitas 1 Moneda Ludora por cada reserva. Puedes agendar hasta 4 clases al mes.
                             </p>
                         </div>
@@ -201,7 +202,7 @@ export default function CalendarioPage() {
 
             </div>
 
-            {/* Floating Navigation is handled globally by MobileNavBar */}
+            <CursosSubNav />
 
             {/* Floating Info (Monedas Insuficientes) - Solo ejemplo UI */}
             <AnimatePresence>
