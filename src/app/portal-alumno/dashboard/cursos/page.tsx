@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import CourseMap from "@/components/dashboard/CourseMap";
 import MobileSubHeader from "@/components/dashboard/MobileSubHeader";
+import CursosSubNav from "@/components/dashboard/CursosSubNav";
 
 export default async function CursosPage() {
     const supabase = await createClient();
@@ -69,7 +70,8 @@ export default async function CursosPage() {
                 <CourseMap />
             </main>
 
-            {/* Floating Navigation (Mobile Only) is handled globally by MobileNavBar */}
+            {/* Floating Navigation (Mobile Only) */}
+            <CursosSubNav />
         </div>
     );
 }

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, GraduationCap, User, Calendar } from 'lucide-react';
+import { Home, GraduationCap, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 
@@ -38,87 +38,72 @@ export default function MobileNavBar() {
 
   if (!mounted || typeof document === 'undefined') return null;
   
-  const isCursos = pathname.startsWith('/portal-alumno/dashboard/cursos');
-  const isCalendario = pathname.startsWith('/portal-alumno/dashboard/calendario');
-  const showFloatingActions = isCursos || isCalendario;
-
-  const navItems = [
-    { label: 'Inicio', href: '/portal-alumno/dashboard', icon: Home, active: pathname === '/portal-alumno/dashboard' || 
-                                                                     pathname.startsWith('/portal-alumno/dashboard/noticias') },
-    { label: 'Clases', href: '/portal-alumno/dashboard/cursos', icon: GraduationCap, active: isCursos },
-    { label: 'Tú', href: '/portal-alumno/dashboard/perfil', icon: User, active: pathname === '/portal-alumno/dashboard/perfil' }
-  ];
+  if (pathname.includes('/portal-alumno/dashboard/unidad')) {
+    return null;
+  }
 
   return createPortal(
     <>
       <HapticTrigger ref={hapticRef} />
       <AnimatePresence>
         {isVisible && (
-          <div className="md:hidden fixed bottom-4 left-0 right-0 z-[1000] flex flex-col items-center gap-4 px-6 pointer-events-none">
-            
-            {/* 1. FLOATING QUICK ACTIONS - Visible ONLY in Clases/Calendar */}
-            {showFloatingActions && (
-              <motion.div 
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 20, opacity: 0 }}
-                className="flex items-center gap-3 pointer-events-auto"
+          <motion.div 
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+            className="md:hidden fixed bottom-6 left-0 right-0 z-[1000] pointer-events-none px-4 flex justify-center w-full"
+          >
+            <nav className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-[2.5rem] p-2 shadow-[0_8px_40px_rgba(0,0,0,0.15)] pointer-events-auto flex items-center justify-between gap-1 w-[90%] max-w-[400px]">
+              {/* Inicio Tab */}
+              {(() => {
+                const isHomeActive = pathname === '/portal-alumno/dashboard' || 
+                                   pathname.startsWith('/portal-alumno/dashboard/noticias') ||
+                                   pathname.startsWith('/portal-alumno/dashboard/materiales') ||
+                                   pathname.startsWith('/portal-alumno/dashboard/videos');
+                
+                return (
+                  <Link
+                    href="/portal-alumno/dashboard"
+                    onClick={triggerHaptic}
+                    className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                      isHomeActive ? 'text-[#632EB0] bg-purple-50' : 'text-gray-400 hover:text-[#632EB0]'
+                    }`}
+                  >
+                    <Home className="w-6 h-6 mb-1.5" strokeWidth={isHomeActive ? 2.5 : 2} />
+                    <span className="text-[11px] font-bold">Inicio</span>
+                  </Link>
+                );
+              })()}
+              
+              {/* Clases Tab */}
+              <Link
+                href="/portal-alumno/dashboard/cursos"
+                onClick={triggerHaptic}
+                className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                  pathname.startsWith('/portal-alumno/dashboard/cursos') ? 'text-[#632EB0] bg-purple-50 shadow-sm' : 'text-gray-400 hover:text-[#632EB0]'
+                }`}
               >
-                  <Link
-                    href="/portal-alumno/dashboard/cursos"
-                    onClick={triggerHaptic}
-                    className={`bg-white border-2 px-6 py-3.5 rounded-2xl flex items-center gap-2.5 active:scale-95 transition-all shadow-sm ${
-                        isCursos ? 'border-[#632EB0]' : 'border-gray-50'
-                    }`}
-                  >
-                    <GraduationCap className={`w-5.5 h-5.5 ${isCursos ? 'text-[#632EB0]' : 'text-gray-400'}`} />
-                    <span className={`text-[13px] font-black tracking-tight ${isCursos ? 'text-[#632EB0]' : 'text-gray-900'}`}>Cursos</span>
-                  </Link>
-
-                  <Link
-                    href="/portal-alumno/dashboard/calendario"
-                    onClick={triggerHaptic}
-                    className={`bg-white border-2 px-6 py-3.5 rounded-2xl flex items-center gap-2.5 active:scale-95 transition-all shadow-sm ${
-                        isCalendario ? 'border-[#632EB0]' : 'border-gray-50'
-                    }`}
-                  >
-                    <Calendar className={`w-5.5 h-5.5 ${isCalendario ? 'text-[#632EB0]' : 'text-gray-400'}`} />
-                    <span className={`text-[13px] font-black tracking-tight ${isCalendario ? 'text-[#632EB0]' : 'text-gray-900'}`}>Calendario</span>
-                  </Link>
-              </motion.div>
-            )}
-
-            {/* 2. MAIN BOTTOM NAV BAR - Minimal, Solid */}
-            <motion.nav 
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 100, opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-white border border-gray-100 rounded-[2rem] p-1.5 shadow-sm pointer-events-auto flex items-center justify-between gap-1 w-full max-w-[400px]"
-            >
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={triggerHaptic}
-                  className={`flex flex-col items-center justify-center flex-1 py-3 transition-all rounded-3xl ${
-                    item.active 
-                      ? 'text-[#632EB0]' 
-                      : 'text-gray-400'
-                  }`}
-                >
-                  <item.icon className="w-5.5 h-5.5 mb-1" strokeWidth={item.active ? 2.5 : 2} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">
-                    {item.label}
-                  </span>
-                </Link>
-              ))}
-            </motion.nav>
-          </div>
+                <GraduationCap className="w-6 h-6 mb-1.5" strokeWidth={pathname.startsWith('/portal-alumno/dashboard/cursos') ? 2.5 : 2} />
+                <span className="text-[11px] font-bold">Clases</span>
+              </Link>
+      
+              {/* Tú (Perfil) Tab */}
+              <Link
+                href="/portal-alumno/dashboard/perfil"
+                onClick={triggerHaptic}
+                className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                  pathname === '/portal-alumno/dashboard/perfil' ? 'text-[#632EB0] bg-purple-50' : 'text-gray-400 hover:text-[#632EB0]'
+                }`}
+              >
+                <User className="w-6 h-6 mb-1.5" strokeWidth={pathname === '/portal-alumno/dashboard/perfil' ? 2.5 : 2} />
+                <span className="text-[11px] font-bold">Tú</span>
+              </Link>
+            </nav>
+          </motion.div>
         )}
       </AnimatePresence>
     </>,
-
     document.body
   );
 }
