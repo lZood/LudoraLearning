@@ -38,25 +38,8 @@ interface MobileSubHeaderProps {
 }
 
 export default function MobileSubHeader({ hideNav = false }: MobileSubHeaderProps) {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
   const hapticRef = useRef<HapticHandle>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < lastScrollY || currentScrollY < 100) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   const triggerHaptic = () => {
     hapticRef.current?.trigger();
@@ -72,10 +55,10 @@ export default function MobileSubHeader({ hideNav = false }: MobileSubHeaderProp
     <>
       <HapticTrigger ref={hapticRef} />
       {/* 1. FIXED TOP BAR: XP - LOGO - STREAK (Always Visible) */}
-      <div className="sticky top-0 z-[110] w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 grid grid-cols-3 items-center px-4 pt-4 pb-2 shadow-sm md:hidden">
+      <div className="sticky top-0 z-[110] w-full bg-white/95 backdrop-blur-xl border-b border-gray-100 grid grid-cols-3 items-center px-4 pt-5 pb-4 shadow-sm md:hidden">
           <div className="flex justify-start">
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 font-black text-[10px]">
-                <Star className="w-3 h-3 fill-blue-500" />
+            <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-600 font-black text-[9px]">
+                <Star className="w-2.5 h-2.5 fill-blue-500" />
                 <span>150 XP</span>
             </div>
           </div>
@@ -85,56 +68,41 @@ export default function MobileSubHeader({ hideNav = false }: MobileSubHeaderProp
           </div>
 
           <div className="flex justify-end">
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-black text-[10px]">
-                <Zap className="w-3 h-3 fill-yellow-500" />
+            <div className="flex items-center gap-1 px-2 py-1 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-black text-[9px]">
+                <Zap className="w-2.5 h-2.5 fill-yellow-500" />
                 <span>1</span>
             </div>
           </div>
       </div>
 
-      {/* 2. FLOATING NAVIGATION BUTTONS (Hidable) */}
+      {/* 2. NAVIGATION BUTTONS (Always Visible) */}
       {!hideNav && (
-        <AnimatePresence>
-          {isVisible && (
-            <motion.div 
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-              className="fixed top-[68px] left-0 right-0 z-[100] px-4 pointer-events-none md:hidden"
-            >
-              <div className="grid grid-cols-3 gap-3 w-full pointer-events-auto">
-                {navItems.map((item) => {
-                  const isActive = pathname.startsWith(item.href);
-                  const Icon = item.icon;
-                  
-                  return (
-                    <Link 
-                      key={item.href}
-                      href={item.href}
-                      onClick={triggerHaptic}
-                      className={`flex flex-col items-center justify-center py-4 px-2 rounded-[2rem] border transition-all active:scale-95 shadow-lg ${
-                        isActive 
-                          ? 'bg-purple-50 border-purple-200 text-[#632EB0] shadow-purple-100' 
-                          : 'bg-white/80 backdrop-blur-md border-gray-100 text-gray-400 hover:text-[#632EB0]'
-                      }`}
-                    >
-                      <Icon className={`w-6 h-6 mb-1.5 ${isActive ? 'text-[#632EB0]' : ''}`} strokeWidth={isActive ? 3 : 2} />
-                      <span className={`text-[11px] font-black ${isActive ? 'text-[#632EB0]' : ''}`}>
-                        {item.title}
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
-      
-      {/* Spacer to prevent content from going under the floating buttons initially */}
-      {!hideNav && (
-        <div className="h-24 md:hidden"></div>
+        <div className="sticky top-[56px] left-0 right-0 z-[100] px-4 pt-4 md:hidden bg-white/50 backdrop-blur-md pb-4 border-b border-gray-50">
+          <div className="grid grid-cols-3 gap-2 w-full">
+            {navItems.map((item) => {
+              const isActive = pathname.startsWith(item.href);
+              const Icon = item.icon;
+              
+              return (
+                <Link 
+                  key={item.href}
+                  href={item.href}
+                  onClick={triggerHaptic}
+                  className={`flex flex-col items-center justify-center py-2.5 px-2 rounded-2xl border transition-all active:scale-95 shadow-lg ${
+                    isActive 
+                      ? 'bg-purple-50 border-purple-200 text-[#632EB0] shadow-purple-100' 
+                      : 'bg-white/90 backdrop-blur-md border-gray-100 text-gray-400 hover:text-[#632EB0]'
+                  }`}
+                >
+                  <Icon className={`w-5 h-5 mb-1 ${isActive ? 'text-[#632EB0]' : ''}`} strokeWidth={isActive ? 3 : 2} />
+                  <span className={`text-[10px] font-black ${isActive ? 'text-[#632EB0]' : ''}`}>
+                    {item.title}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       )}
     </>
   );

@@ -3,7 +3,17 @@
 import React, { useState } from 'react';
 import { ArrowRight } from "lucide-react";
 
-export default function UpgradeButton() {
+interface UpgradeButtonProps {
+    priceId?: string;
+    label?: string;
+    variant?: 'primary' | 'secondary';
+}
+
+export default function UpgradeButton({ 
+    priceId = 'price_1T9w8q0qbWrTcjOeZ9z9n3ae', 
+    label = "Activar Membresía Ludora",
+    variant = 'primary'
+}: UpgradeButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckout = async () => {
@@ -15,7 +25,7 @@ export default function UpgradeButton() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    priceId: 'price_1T9w8q0qbWrTcjOeZ9z9n3ae',
+                    priceId: priceId,
                 }),
             });
 
@@ -37,17 +47,23 @@ export default function UpgradeButton() {
         }
     };
 
+    const baseStyles = "w-full py-4 rounded-[1.5rem] font-black text-lg shadow-lg transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed";
+    const variants = {
+        primary: "bg-[#815a9b] hover:bg-[#6a4a7f] text-white shadow-purple-500/20",
+        secondary: "bg-white border-2 border-purple-100 text-[#815a9b] hover:bg-purple-50 shadow-sm"
+    };
+
     return (
         <button 
             onClick={handleCheckout}
             disabled={isLoading}
-            className="w-full bg-[#815a9b] hover:bg-[#6a4a7f] text-white py-5 rounded-2xl font-black text-xl shadow-lg shadow-purple-500/30 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+            className={`${baseStyles} ${variants[variant]}`}
         >
             {isLoading ? (
-                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-6 h-6 border-4 border-current border-t-transparent rounded-full animate-spin"></div>
             ) : (
                 <>
-                    <span>Activar Membresía Ludora</span>
+                    <span>{label}</span>
                     <ArrowRight className="w-5 h-5" />
                 </>
             )}
