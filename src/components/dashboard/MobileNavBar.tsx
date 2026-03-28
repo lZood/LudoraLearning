@@ -52,9 +52,9 @@ export default function MobileNavBar() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            className="md:hidden fixed bottom-6 left-0 right-0 z-[1000] pointer-events-none px-4 flex justify-center w-full"
+            className="md:hidden fixed bottom-4 left-0 right-0 z-[1000] pointer-events-none px-2 flex justify-center w-full"
           >
-            <nav className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-[2.5rem] p-2 shadow-[0_8px_40px_rgba(0,0,0,0.15)] pointer-events-auto flex items-center justify-between gap-1 w-[90%] max-w-[400px]">
+            <nav className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-[2.5rem] p-1.5 shadow-[0_8px_40px_rgba(0,0,0,0.15)] pointer-events-auto flex items-center justify-between gap-1 w-[92%] max-w-[400px]">
               {/* Inicio Tab */}
               {(() => {
                 const isHomeActive = pathname === '/portal-alumno/dashboard' || 

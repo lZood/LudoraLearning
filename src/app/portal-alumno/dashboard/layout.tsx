@@ -272,23 +272,39 @@ export default function DashboardLayout({
 
                                 {/* Profile Dropdown */}
                                 {isProfileMenuOpen && (
-                                    <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 shadow-xl rounded-2xl overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-2">
-                                        <div className="px-4 py-3 border-b border-gray-100">
-                                            <p className="text-sm font-bold text-gray-900 truncate">{userName}</p>
-                                            <p className={`text-xs font-semibold mt-0.5 ${isUnsubscribed ? 'text-orange-500' : 'text-[#632EB0]'}`}>
-                                                {isUnsubscribed ? 'Prueba Gratis (Limitado)' : 'Suscripción Activa'}
-                                            </p>
+                                    <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-100 shadow-2xl rounded-[2rem] overflow-hidden p-2 z-50 animate-in fade-in slide-in-from-top-2">
+                                        <div className="px-5 py-4 border-b border-gray-50 mb-1">
+                                            <p className="text-sm font-black text-gray-900 truncate tracking-tight">{userName}</p>
+                                            <div className="flex items-center gap-1.5 mt-0.5">
+                                                <div className={`w-1.5 h-1.5 rounded-full ${isUnsubscribed ? 'bg-orange-500' : 'bg-green-500'}`} />
+                                                <p className={`text-[10px] font-black uppercase tracking-widest ${isUnsubscribed ? 'text-orange-500' : 'text-[#632EB0]'}`}>
+                                                    {isUnsubscribed ? 'Prueba Gratis' : 'Acceso Maestro'}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="py-1">
-                                            <Link href="/portal-alumno/dashboard/perfil" className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-700">
-                                                <User className="w-4 h-4 text-gray-400" /> Monitorear Progreso
-                                            </Link>
-                                            <Link href="/portal-alumno/dashboard/suscripcion" className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-700">
-                                                <CreditCard className="w-4 h-4 text-gray-400" /> Facturación
-                                            </Link>
+                                        
+                                        <div className="space-y-1">
+                                            {[
+                                                { name: "Mi Perfil", href: "/portal-alumno/dashboard/perfil", icon: User },
+                                                { name: "Suscripción", href: "/portal-alumno/dashboard/perfil?tab=suscripcion", icon: CreditCard },
+                                                { name: "Preferencias", href: "/portal-alumno/dashboard/perfil?tab=preferencias", icon: Settings },
+                                            ].map((item) => (
+                                                <Link 
+                                                    key={item.name}
+                                                    href={item.href}
+                                                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 text-[13px] font-bold text-gray-600 rounded-2xl transition-all"
+                                                >
+                                                    <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:text-[#632EB0]">
+                                                        <item.icon className="w-4 h-4" />
+                                                    </div>
+                                                    {item.name}
+                                                </Link>
+                                            ))}
                                         </div>
-                                        <div className="h-px bg-gray-100 my-1" />
-                                        <button onClick={handleSignOut} className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-50 text-sm font-bold text-red-600 text-left">
+
+                                        <div className="h-px bg-gray-50 my-2 mx-4" />
+                                        
+                                        <button onClick={handleSignOut} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 hover:bg-red-100 text-red-500 rounded-2xl text-[12px] font-black uppercase tracking-widest transition-all">
                                             <LogOut className="w-4 h-4" /> Cerrar sesión
                                         </button>
                                     </div>
@@ -300,8 +316,8 @@ export default function DashboardLayout({
             </header>
 
             {/* MAIN CONTENT AREA */}
-            <main className="flex-1 w-full pb-28 md:pb-0">
-                <div className="max-w-[1200px] mx-auto pt-0 md:pt-8 pb-4 md:pb-8 px-0 sm:px-6 lg:px-8">
+            <main className="flex-1 w-full pb-6 md:pb-0">
+                <div className="w-full pt-0 md:pt-4 pb-4 md:pb-8 px-0 md:px-[15px]">
                     {children}
                 </div>
             </main>
