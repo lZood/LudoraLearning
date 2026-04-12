@@ -25,7 +25,7 @@ export default function Estrategia() {
                     subtitleStart: { mobile: 1, desktop: 1 },
                     subtitleSpan: { mobile: 4, desktop: 11 }
                 }}
-                titleSize="clamp(3.2rem, 12vw, 8rem)"
+                titleSize="clamp(2.8rem, min(7.5vw, 10vh), 7rem)"
                 showGrid={false}
             />
             <HeroTransition showShadow={false} transitionColor="#f0ecff" />

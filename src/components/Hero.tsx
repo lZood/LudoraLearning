@@ -212,7 +212,7 @@ export default function Hero({
                             <h1
                                 className={`font-bold tracking-[0.06em] sm:tracking-[0.1em] leading-[0.9] mb-4 sm:mb-8 lg:mb-12 ${neueMachina.className}`}
                                 style={{
-                                    fontSize: titleSize || "clamp(3.2rem, 12vw, 8rem)",
+                                    fontSize: titleSize || "clamp(2.8rem, min(7.5vw, 10vh), 7rem)",
                                     filter: showTextShadow
                                         ? "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.05)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
                                         : "none",
@@ -235,7 +235,7 @@ export default function Hero({
                             <p
                                 className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
                                 style={{
-                                    fontSize: subtitleSize || "clamp(0.95rem, 2.5vw + 0.3rem, 2rem)",
+                                    fontSize: subtitleSize || "clamp(0.95rem, min(1.8vw + 0.3rem, 3vh), 1.75rem)",
                                     textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
                                     maxWidth: "100%",
                                     color: subtitleColor
