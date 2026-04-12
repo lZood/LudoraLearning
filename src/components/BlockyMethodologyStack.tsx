@@ -215,8 +215,7 @@ export default function BlockyMethodologyStack() {
                             </WigglyUnderline>
                         </h2>
                         <p className={`text-xl md:text-2xl leading-relaxed text-gray-700 max-w-xl ${roboto.className}`}>
-                            Nuestra metodología se adapta a tu nivel. Cada bloque que colocas es una nueva palabra
-                            aprendida, y cada misión es un paso más hacia la fluidez.
+                            Aprende inglés a tu ritmo combinando práctica en Minecraft con contenido interactivo dentro de nuestra plataforma. Cada bloque que colocas es una nueva palabra aprendida, y cada misión es un paso más hacia la fluidez.
                         </p>
                     </div>
 
