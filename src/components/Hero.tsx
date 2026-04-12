@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
@@ -16,33 +16,11 @@ const montserrat = Montserrat({
     display: "swap",
 });
 
-export interface ResponsiveSpan {
-    mobile?: number;    // < 640px (Default: 4 cols)
-    tablet?: number;    // 640px - 1024px (Default: 8 cols)
-    desktop?: number;   // 1024px - 1536px (Default: 12 cols)
-    ultrawide?: number; // > 1536px (Default: 16 cols)
-}
-
-export interface ResponsiveStart {
-    mobile?: number;
-    tablet?: number;
-    desktop?: number;
-    ultrawide?: number;
-}
-
-export interface HeroLayout {
-    titleSpan?: ResponsiveSpan;
-    titleStart?: ResponsiveStart;
-    subtitleSpan?: ResponsiveSpan;
-    subtitleStart?: ResponsiveStart;
-}
-
 export interface HeroProps {
     title?: React.ReactNode;
     subtitle?: React.ReactNode;
     mediaSrc?: string;
     isVideo?: boolean;
-    layout?: HeroLayout;
     showGrid?: boolean;
     backgroundColor?: string;
     showOverlay?: boolean;
@@ -51,28 +29,53 @@ export interface HeroProps {
     showTextShadow?: boolean;
     titleSize?: string;
     subtitleSize?: string;
+    layout?: Record<string, unknown>;
 }
 
-type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'ultrawide';
+/**
+ * Measures the actual visible area of the hero and computes
+ * font sizes as a percentage of that area. This reacts to:
+ * - Browser zoom (changes clientWidth/clientHeight)
+ * - Window resize
+ * - Display scaling (125%, 150%, etc.)
+ */
+function useHeroSizes(containerRef: React.RefObject<HTMLDivElement | null>) {
+    const [sizes, setSizes] = useState({ title: 72, subtitle: 20 });
 
-function useBreakpoint() {
-    const [breakpoint, setBreakpoint] = useState<Breakpoint>('desktop');
+    const calculate = useCallback(() => {
+        if (!containerRef.current) return;
+        const w = containerRef.current.clientWidth;
+        const h = containerRef.current.clientHeight;
+
+        // Title: ~8.5% of the container width, but capped by height
+        const byWidth = w * 0.08;
+        const byHeight = h * 0.13;
+        const titlePx = Math.max(36, Math.min(byWidth, byHeight, 120));
+
+        // Subtitle: ~30% of title size, with its own bounds
+        const subtitlePx = Math.max(14, Math.min(titlePx * 0.3, h * 0.035, 28));
+
+        setSizes({ title: titlePx, subtitle: subtitlePx });
+    }, [containerRef]);
 
     useEffect(() => {
-        const updateBreakpoint = () => {
-            const width = window.innerWidth;
-            if (width < 640) setBreakpoint('mobile');
-            else if (width < 1024) setBreakpoint('tablet');
-            else if (width < 1536) setBreakpoint('desktop');
-            else setBreakpoint('ultrawide');
+        calculate();
+
+        const ro = new ResizeObserver(calculate);
+        if (containerRef.current) ro.observe(containerRef.current);
+
+        window.addEventListener("resize", calculate);
+        // Also recalc on zoom — VisualViewport fires on zoom changes
+        window.visualViewport?.addEventListener("resize", calculate);
+
+        return () => {
+            ro.disconnect();
+            window.removeEventListener("resize", calculate);
+            window.visualViewport?.removeEventListener("resize", calculate);
         };
+    }, [calculate, containerRef]);
 
-        updateBreakpoint();
-        window.addEventListener('resize', updateBreakpoint);
-        return () => window.removeEventListener('resize', updateBreakpoint);
-    }, []);
-
-    return breakpoint;
+    return sizes;
 }
 
 export default function Hero({
@@ -84,12 +87,6 @@ export default function Hero({
     subtitle = "Enfocados en que hables inglés con seguridad, fluidez y naturalidad mientras juegas y aprendes en Minecraft.",
     mediaSrc = "/videos/clip-minecraft-3.webp",
     isVideo = true,
-    layout = { // Default behavior
-        titleSpan: { mobile: 4, tablet: 8, desktop: 14, ultrawide: 16 },
-        titleStart: { mobile: 1, tablet: 1, desktop: 1, ultrawide: 1 },
-        subtitleSpan: { mobile: 4, tablet: 6, desktop: 9, ultrawide: 11 },
-        subtitleStart: { mobile: 1, tablet: 1, desktop: 1, ultrawide: 1 }
-    },
     showGrid = false,
     backgroundColor,
     showOverlay = true,
@@ -97,33 +94,10 @@ export default function Hero({
     subtitleColor = "#ffffff",
     showTextShadow = true,
     titleSize,
-    subtitleSize
+    subtitleSize,
 }: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const bp = useBreakpoint();
-
-    const getCols = () => {
-        if (bp === 'mobile') return 4;
-        if (bp === 'tablet') return 8;
-        if (bp === 'ultrawide') return 16;
-        return 14;
-    };
-
-    const getValue = (obj: any, currentBp: Breakpoint, defaultVal: number) => {
-        if (!obj) return defaultVal;
-        const order: Breakpoint[] = ['mobile', 'tablet', 'desktop', 'ultrawide'];
-        const idx = order.indexOf(currentBp);
-        for (let i = idx; i >= 0; i--) {
-            if (obj[order[i]] !== undefined) return obj[order[i]];
-        }
-        return defaultVal;
-    };
-
-    const cols = getCols();
-    const tSpan = getValue(layout.titleSpan, bp, cols);
-    const tStart = getValue(layout.titleStart, bp, 1);
-    const sSpan = getValue(layout.subtitleSpan, bp, cols);
-    const sStart = getValue(layout.subtitleStart, bp, 1);
+    const sizes = useHeroSizes(containerRef);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -143,11 +117,10 @@ export default function Hero({
     return (
         <div
             ref={containerRef}
-            className="relative h-screen w-full overflow-hidden flex flex-col justify-between"
+            className="relative h-screen w-full overflow-hidden"
             style={{ backgroundColor: backgroundColor || 'black' }}
         >
-
-            {/* Background Media (Layer 0) */}
+            {/* Background Media */}
             {mediaSrc && !backgroundColor && (
                 isVideo ? (
                     <video
@@ -167,13 +140,14 @@ export default function Hero({
                 )
             )}
 
-            {/* Dark gradient overlay for better text readability */}
+            {/* Gradient overlay */}
             {showOverlay && (
                 <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/20 z-0" />
             )}
 
+            {/* Text Content — zones based on real container size */}
             <motion.div
-                className="absolute inset-x-0 top-0 bottom-0 pt-24 sm:pt-32 md:pt-36 lg:pt-48 pb-16 w-full max-w-[92vw] sm:max-w-[85vw] mx-auto z-10 overflow-hidden"
+                className="absolute inset-0 z-10 flex flex-col px-[4vw] sm:px-[7.5vw]"
                 style={{
                     scale: textScale,
                     opacity: textOpacity,
@@ -181,70 +155,44 @@ export default function Hero({
                     willChange: "transform, opacity"
                 }}
             >
-                {/* Grid Visualizer Overlay (Dev Mode) */}
-                {showGrid && (
-                    <div
-                        className="absolute inset-0 grid gap-4 pointer-events-none z-[-1] opacity-50"
-                        style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
-                    >
-                        {[...Array(cols)].map((_, i) => (
-                            <div
-                                key={i}
-                                className={`h-full border-x border-dashed border-white/20 ${i % 2 === 0 ? 'bg-white/10' : 'bg-[#8ED462]/20'}`}
-                            >
-                                <span className="text-[10px] text-white/40 p-1">{i + 1}</span>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {/* Zone 1: Navbar spacer — ~12% */}
+                <div className="shrink-0 h-[12%]" />
 
-                {/* Grid Container: Reactive Columns */}
-                <div
-                    className="grid gap-4 w-full relative"
-                    style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
-                >
-                    {/* Title Wrapper */}
-                    <div
+                {/* Zone 2: Title — ~50% */}
+                <div className="h-[50%] flex items-end pb-2 sm:pb-4 overflow-hidden">
+                    <h1
+                        className={`font-bold tracking-[0.06em] sm:tracking-[0.1em] leading-[0.88] ${neueMachina.className}`}
                         style={{
-                            gridColumn: `${tStart} / span ${tSpan}`,
+                            fontSize: titleSize || `${sizes.title}px`,
+                            filter: "none",
+                            maxWidth: "90%",
+                            wordBreak: "keep-all",
+                            color: titleColor,
+                            transition: "font-size 0.15s ease-out",
                         }}
                     >
-                            <h1
-                                className={`font-bold tracking-[0.06em] sm:tracking-[0.1em] leading-[0.9] mb-4 sm:mb-8 lg:mb-12 ${neueMachina.className}`}
-                                style={{
-                                    fontSize: titleSize || "clamp(2.8rem, min(7.5vw, 10vh), 7rem)",
-                                    filter: showTextShadow
-                                        ? "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.05)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
-                                        : "none",
-                                    maxWidth: "100%",
-                                    display: "inline-block",
-                                    wordBreak: "keep-all",
-                                    color: titleColor
-                                }}
-                            >
-                                {title}
-                            </h1>
-                    </div>
-
-                    {/* Subtitle Wrapper */}
-                    <div
-                        style={{
-                            gridColumn: `${sStart} / span ${sSpan}`,
-                        }}
-                    >
-                            <p
-                                className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
-                                style={{
-                                    fontSize: subtitleSize || "clamp(0.95rem, min(1.8vw + 0.3rem, 3vh), 1.75rem)",
-                                    textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
-                                    maxWidth: "100%",
-                                    color: subtitleColor
-                                }}
-                            >
-                                {subtitle}
-                            </p>
-                    </div>
+                        {title}
+                    </h1>
                 </div>
+
+                {/* Zone 3: Subtitle — ~22% */}
+                <div className="h-[22%] flex items-start pt-2 sm:pt-4 overflow-hidden">
+                    <p
+                        className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
+                        style={{
+                            fontSize: subtitleSize || `${sizes.subtitle}px`,
+                            textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
+                            maxWidth: "65%",
+                            color: subtitleColor,
+                            transition: "font-size 0.15s ease-out",
+                        }}
+                    >
+                        {subtitle}
+                    </p>
+                </div>
+
+                {/* Zone 4: Bottom breathing room — ~16% (fills remaining) */}
+                <div className="flex-1" />
             </motion.div>
         </div>
     );

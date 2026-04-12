@@ -19,14 +19,6 @@ export default function Estrategia() {
                 isVideo={false}
                 showTextShadow={false}
                 showOverlay={false}
-                layout={{
-                    titleStart: { mobile: 1, desktop: 1 },
-                    titleSpan: { mobile: 3, desktop: 13 },
-                    subtitleStart: { mobile: 1, desktop: 1 },
-                    subtitleSpan: { mobile: 4, desktop: 11 }
-                }}
-                titleSize="clamp(2.8rem, min(7.5vw, 10vh), 7rem)"
-                showGrid={false}
             />
             <HeroTransition showShadow={false} transitionColor="#f0ecff" />
             <EstrategiaOrigin />
