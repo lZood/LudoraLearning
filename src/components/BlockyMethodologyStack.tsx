@@ -25,7 +25,7 @@ const cards = [
         xDir: -1,
     },
     {
-        title: "Aprende a tu ritmo",
+        title: "Tú marcas el paso",
         description: "Refuerza lo aprendido con videos, ejercicios interactivos y contenido diseñado para avanzar paso a paso, todo dentro de nuestro portal de alumnos.",
         icon: <MessagesSquare className="w-6 h-6 text-[#632eaf]" />,
         bgColor: "bg-[#632eaf]",

@@ -155,11 +155,11 @@ export default function Hero({
                     willChange: "transform, opacity"
                 }}
             >
-                {/* Zone 1: Navbar spacer — ~12% */}
-                <div className="shrink-0 h-[12%]" />
+                {/* Zone 1: Navbar spacer */}
+                <div className="shrink-0 h-[20%] sm:h-[18%]" />
 
-                {/* Zone 2: Title — ~50% */}
-                <div className="h-[50%] flex items-end pb-2 sm:pb-4 overflow-hidden">
+                {/* Zone 2: Title */}
+                <div className="flex items-start overflow-hidden">
                     <h1
                         className={`font-bold tracking-[0.06em] sm:tracking-[0.1em] leading-[0.88] ${neueMachina.className}`}
                         style={{
@@ -175,8 +175,8 @@ export default function Hero({
                     </h1>
                 </div>
 
-                {/* Zone 3: Subtitle — ~22% */}
-                <div className="h-[22%] flex items-start pt-2 sm:pt-4 overflow-hidden">
+                {/* Zone 3: Subtitle */}
+                <div className="flex items-start pt-4 sm:pt-6 overflow-hidden">
                     <p
                         className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
                         style={{
