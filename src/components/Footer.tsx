@@ -19,7 +19,7 @@ export default function Footer() {
                             </p>
 
                             <Link
-                                href="/contacto"
+                                href="/portal-alumno"
                                 className="group flex items-center relative rounded-xl bg-white shadow-xl overflow-hidden"
                                 style={{ width: '300px', height: '56px' }}
                             >
@@ -30,7 +30,7 @@ export default function Footer() {
 
                                 {/* Texto centrado visualmente hacia la izquierda */}
                                 <span className="absolute left-6 font-semibold text-[#1d1d1b] text-lg transition-transform duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] group-hover:translate-x-[48px]">
-                                    Agenda tu clase!
+                                    Prueba tu nivel gratis!
                                 </span>
 
                                 {/* Icono a la derecha */}

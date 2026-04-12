@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/José Carlos/Documents/Desarrollo/LudoraLearning/**)",
+      "Bash(npx next:*)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

@@ -3,8 +3,10 @@ import HeroTransition from "@/components/HeroTransition";
 import LandingIntro from "@/components/LandingIntro";
 import LudoraCardsSection from "@/components/LudoraCardsSection";
 import BlockyFinalSection from "@/components/BlockyFinalSection";
+import HowItWorks from "@/components/HowItWorks";
 import MethodologyStack from "@/components/MethodologyStack";
-import PhotoGallery from "@/components/PhotoGallery";
+import PlatformPreview from "@/components/PlatformPreview";
+import GamificationShowcase from "@/components/GamificationShowcase";
 import Footer from "@/components/Footer";
 import DiscordCTA from "@/components/comunidad/DiscordCTA";
 
@@ -23,8 +25,10 @@ export default function Home() {
       <HeroTransition showShadow={false} transitionColor="#88e04f" />
       <LandingIntro />
       <LudoraCardsSection />
+      <HowItWorks />
       <BlockyFinalSection />
-      <PhotoGallery />
+      <PlatformPreview />
+      <GamificationShowcase />
       <MethodologyStack />
       <DiscordCTA />
       <Footer />

@@ -145,7 +145,7 @@ export default function BlockyFinalSection() {
                         </p>
 
                         <Link
-                            href="/contacto"
+                            href="/portal-alumno"
                             className="group flex items-center relative rounded-xl bg-white shadow-xl overflow-hidden"
                             style={{ width: '360px', height: '64px' }}
                         >
@@ -156,7 +156,7 @@ export default function BlockyFinalSection() {
 
                             {/* Texto centrado visualmente hacia la izquierda por defecto */}
                             <span className="absolute left-8 font-semibold text-[#1d1d1b] text-xl transition-transform duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] group-hover:translate-x-[48px]">
-                                Agenda tu clase!
+                                Prueba tu nivel gratis!
                             </span>
 
                             {/* Icono a la derecha por defecto (escala 100 por defecto) */}
@@ -165,11 +165,11 @@ export default function BlockyFinalSection() {
                             </div>
                         </Link>
 
-                        {/* 3 Columnas inferiores añadidas */}
+                        {/* 3 Columnas inferiores */}
                         <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mt-32 gap-6 text-[#1d1d1b] text-base md:text-lg font-medium opacity-90">
-                            <div className="flex-1 text-center md:text-left">Fast, high-quality insights</div>
-                            <div className="flex-1 text-center">One seamless project lead</div>
-                            <div className="flex-1 text-center md:text-right">Built for multi-market studies</div>
+                            <div className="flex-1 text-center md:text-left">Sin tarjeta de crédito</div>
+                            <div className="flex-1 text-center">Acceso inmediato a 3 niveles</div>
+                            <div className="flex-1 text-center md:text-right">Evaluación adaptativa incluida</div>
                         </div>
                     </section>
                 </motion.div>
