@@ -48,7 +48,7 @@ const cards: CardData[] = [
     },
     {
         number: "02",
-        title: "Practica",
+        title: "Práctica",
         subtitle: "Usa el idioma en situaciones reales",
         description:
             "Refuerza lo aprendido dentro de Minecraft y la plataforma, comunicándote constantemente con tus compañeros y maestros en un entorno dinámico y divertido.",

@@ -173,7 +173,7 @@ export default function Hero({
             )}
 
             <motion.div
-                className="absolute inset-x-0 top-0 pt-32 md:pt-48 w-full max-w-[85vw] mx-auto z-10"
+                className="absolute inset-x-0 top-0 bottom-0 pt-24 sm:pt-32 md:pt-36 lg:pt-48 pb-16 w-full max-w-[92vw] sm:max-w-[85vw] mx-auto z-10 overflow-hidden"
                 style={{
                     scale: textScale,
                     opacity: textOpacity,
@@ -203,19 +203,16 @@ export default function Hero({
                     className="grid gap-4 w-full relative"
                     style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
                 >
-                    {/* Title Wrapper with Container Query */}
+                    {/* Title Wrapper */}
                     <div
-                        className="bg-transparent"
                         style={{
                             gridColumn: `${tStart} / span ${tSpan}`,
-                            containerType: "inline-size"
                         }}
                     >
-                        <div>
                             <h1
-                                className={`font-bold tracking-[0.1em] leading-[0.9] mb-8 lg:mb-12 ${neueMachina.className}`}
+                                className={`font-bold tracking-[0.06em] sm:tracking-[0.1em] leading-[0.9] mb-4 sm:mb-8 lg:mb-12 ${neueMachina.className}`}
                                 style={{
-                                    fontSize: titleSize || "clamp(3.5rem, 10.5cqw, 9rem)",
+                                    fontSize: titleSize || "clamp(3.2rem, 12vw, 8rem)",
                                     filter: showTextShadow
                                         ? "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.05)) drop-shadow(0px 15px 100px rgba(255, 255, 255, 0.53))"
                                         : "none",
@@ -227,21 +224,18 @@ export default function Hero({
                             >
                                 {title}
                             </h1>
-                        </div>
                     </div>
 
                     {/* Subtitle Wrapper */}
                     <div
-                        className="bg-transparent"
                         style={{
                             gridColumn: `${sStart} / span ${sSpan}`,
                         }}
                     >
-                        <div>
                             <p
-                                className={`font-medium leading-relaxed tracking-[0.08em] break-words ${montserrat.className}`}
+                                className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
                                 style={{
-                                    fontSize: subtitleSize || "clamp(1.2rem, 3vw + 0.5rem, 2.5rem)",
+                                    fontSize: subtitleSize || "clamp(0.95rem, 2.5vw + 0.3rem, 2rem)",
                                     textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
                                     maxWidth: "100%",
                                     color: subtitleColor
@@ -249,7 +243,6 @@ export default function Hero({
                             >
                                 {subtitle}
                             </p>
-                        </div>
                     </div>
                 </div>
             </motion.div>
