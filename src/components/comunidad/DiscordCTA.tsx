@@ -1,10 +1,40 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
+const DISCORD_GUILD_ID = "1477231815323422751";
+const DISCORD_INVITE = "https://discord.gg/6SzMn3EqsV";
+
+function useDiscordOnline() {
+    const [onlineCount, setOnlineCount] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchOnline = async () => {
+            try {
+                const res = await fetch(
+                    `https://discord.com/api/guilds/${DISCORD_GUILD_ID}/widget.json`
+                );
+                if (!res.ok) return;
+                const data = await res.json();
+                setOnlineCount(data.presence_count ?? null);
+            } catch {
+                // Widget not enabled or network error — keep null
+            }
+        };
+
+        fetchOnline();
+        const interval = setInterval(fetchOnline, 60_000); // refresh every minute
+        return () => clearInterval(interval);
+    }, []);
+
+    return onlineCount;
+}
+
 export default function DiscordCTA() {
+    const onlineCount = useDiscordOnline();
+
     const containerVariants: Variants = {
         hidden: {},
         visible: {
@@ -23,8 +53,6 @@ export default function DiscordCTA() {
 
     return (
         <section className="relative w-full min-h-screen bg-[#1a1a2e] rounded-[50px] overflow-hidden flex items-center px-6 py-24 md:py-32 shadow-[0_30px_100px_rgb(88,101,242,0.15)]">
-            {/* Decorative blobs */}
-
             <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                 {/* Left — Content */}
@@ -36,10 +64,12 @@ export default function DiscordCTA() {
                     className="flex flex-col gap-8 order-2 lg:order-1"
                 >
                     <motion.div variants={itemVariants} className="flex flex-col gap-6">
-                        {/* Members badge */}
+                        {/* Members badge — live count */}
                         <div className="inline-flex items-center gap-2 bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#9ba2ff] px-5 py-2.5 rounded-full text-sm font-bold w-fit">
                             <span className="w-2.5 h-2.5 bg-[#57F287] rounded-full animate-pulse" />
-                            72 miembros en línea
+                            {onlineCount !== null
+                                ? `${onlineCount} miembros en línea`
+                                : "Comunidad activa"}
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.05]">
@@ -59,7 +89,7 @@ export default function DiscordCTA() {
 
                     <motion.div variants={itemVariants}>
                         <a
-                            href="https://discord.gg/WKF3mch4Q8"
+                            href={DISCORD_INVITE}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group inline-flex items-center gap-4 bg-[#5865F2] text-white px-10 py-6 rounded-[25px] font-black text-xl md:text-2xl tracking-wide shadow-[0_10px_30px_0_rgba(88,101,242,0.4)] hover:shadow-[0_15px_40px_rgba(88,101,242,0.5)] hover:-translate-y-1 hover:scale-105 active:translate-y-1 transition-all duration-300 w-fit"
@@ -81,14 +111,11 @@ export default function DiscordCTA() {
                     transition={{ duration: 0.8, type: "spring", bounce: 0.25 }}
                     className="relative aspect-[3/4] md:aspect-[2/3] lg:aspect-[3/4] max-w-sm md:max-w-md mx-auto w-full rounded-[40px] overflow-hidden shadow-2xl order-1 lg:order-2 border border-[#5865F2]/30 group"
                 >
-                    {/* Background Portal Image Placeholder */}
+                    {/* Background Portal Image */}
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                         style={{ backgroundImage: "url('/images/comunidad/nether-portal-minecraft.gif')" }}
                     />
-
-
-
                 </motion.div>
 
             </div>
