@@ -11,12 +11,12 @@ export default function PhotoGallery() {
                     <div className="md:col-span-2 md:row-span-2 flex flex-col gap-3 group cursor-pointer">
                         <div className="w-full flex-grow relative rounded-[2rem] overflow-hidden min-h-[350px] md:min-h-[0]">
                             {/* Insignia / Ícono en laquina superior derecha */}
-                            <div className="absolute top-6 right-6 z-10 bg-[#2ba0ff] p-3 rounded-full text-white shadow-lg">
+                            {/* <div className="absolute top-6 right-6 z-10 bg-[#2ba0ff] p-3 rounded-full text-white shadow-lg">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                                 </svg>
-                            </div>
+                            </div> */}
                             <img
                                 src="/images/photogallery/1Grande.png"
                                 alt="Estudiantes sonriendo"
@@ -24,7 +24,7 @@ export default function PhotoGallery() {
                             />
                         </div>
                         <p className="text-lg md:text-xl font-medium text-[#1d1d1b] leading-tight mt-1.5">
-                            Cross-Border UX Research: Unifying Online<br className="hidden md:block" /> Grocery Shopping Across Latin America
+                            No juegas solo: Aprende y convive con otros estudiantes en tiempo real.
                         </p>
                     </div>
 
@@ -38,22 +38,22 @@ export default function PhotoGallery() {
                             />
                         </div>
                         <p className="text-base md:text-lg font-medium text-[#1d1d1b] leading-tight mt-1.5">
-                            Understanding Consumer Behaviour in the Middle East: Key Insights for Global Companies
+                            Usa el idioma mientras exploras el mundo y completas retos, misiones reales, inglés real.
                         </p>
                     </div>
 
                     {/* Imagen 3: Inferior Centro (Ocupa Col: 3, Fila: 2) */}
                     <div className="md:col-span-1 md:row-span-1 flex flex-col gap-3 group cursor-pointer mt-8 md:mt-0">
                         <div className="w-full flex-grow relative rounded-[2rem] overflow-hidden min-h-[250px] md:min-h-[0]">
-                            {/* Tags sobre la imagen */}
-                            <div className="absolute top-4 left-4 z-10 flex gap-2">
+                            {/* <div className="absolute top-4 left-4 z-10 flex gap-2">
                                 <span className="bg-white/90 backdrop-blur-sm text-[#1d1d1b] text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
                                     Asia-Pacific
                                 </span>
                                 <span className="bg-white/90 backdrop-blur-sm text-[#1d1d1b] text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
                                     Customer Insights
                                 </span>
-                            </div>
+                            </div> */}
+
                             <img
                                 src="/images/photogallery/3Cuadrada.png"
                                 alt="Estudiante en ciudad asiática"
@@ -61,22 +61,22 @@ export default function PhotoGallery() {
                             />
                         </div>
                         <p className="text-sm md:text-base font-medium text-[#1d1d1b] leading-tight mt-1.5">
-                            Understanding East Asian Consumer Behaviour:<br />A Guide for Global Brands
+                            Este es tu espacio para mejorar, aprende con calma y a tus tiempos.
                         </p>
                     </div>
 
                     {/* Imagen 4: Inferior Derecha (Ocupa Col: 4, Fila: 2) */}
                     <div className="md:col-span-1 md:row-span-1 flex flex-col gap-3 group cursor-pointer mt-8 md:mt-0">
                         <div className="w-full flex-grow relative rounded-[2rem] overflow-hidden min-h-[250px] md:min-h-[0]">
-                            {/* Tags sobre la imagen */}
-                            <div className="absolute top-4 left-4 z-10 flex gap-2">
+                            {/* <div className="absolute top-4 left-4 z-10 flex gap-2">
                                 <span className="bg-white/90 backdrop-blur-sm text-[#1d1d1b] text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
                                     Middle East
                                 </span>
                                 <span className="bg-white/90 backdrop-blur-sm text-[#1d1d1b] text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
                                     Case Studies
                                 </span>
-                            </div>
+                            </div> */}
+
                             <img
                                 src="/images/photogallery/4Cuadrada.png"
                                 alt="Mercado medio oriental"
@@ -84,7 +84,7 @@ export default function PhotoGallery() {
                             />
                         </div>
                         <p className="text-sm md:text-base font-medium text-[#1d1d1b] leading-tight mt-1.5">
-                            Unlocking the Flavours of Egypt: A Journey into Seasoning Preferences
+                            Aplica lo que sabes en situaciones dentro del juego
                         </p>
                     </div>
 

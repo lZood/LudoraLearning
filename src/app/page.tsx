@@ -1,12 +1,11 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import LandingIntro from "@/components/LandingIntro";
 import LudoraCardsSection from "@/components/LudoraCardsSection";
-import BlockyFinalSection from "@/components/BlockyFinalSection";
-import MethodologyStack from "@/components/MethodologyStack";
-import PhotoGallery from "@/components/PhotoGallery";
+import ExpandableCards from "@/components/ExpandableCards";
+import BlockyMethodologyStack from "@/components/BlockyMethodologyStack";
 import Footer from "@/components/Footer";
 import DiscordCTA from "@/components/comunidad/DiscordCTA";
+import PhotoGallery from "@/components/PhotoGallery";
 
 export default function Home() {
   return (
@@ -20,12 +19,11 @@ export default function Home() {
           subtitleSpan: { mobile: 4, desktop: 10 }
         }}
       />
-      <HeroTransition showShadow={false} transitionColor="#88e04f" />
-      <LandingIntro />
-      <LudoraCardsSection />
-      <BlockyFinalSection />
+      <HeroTransition showShadow={false} transitionColor="#f5f1e4" />
+      <ExpandableCards />
+      {/* <LudoraCardsSection /> */}
+      <BlockyMethodologyStack />
       <PhotoGallery />
-      <MethodologyStack />
       <DiscordCTA />
       <Footer />
     </main>

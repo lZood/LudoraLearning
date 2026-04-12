@@ -81,7 +81,7 @@ export default function Hero({
             CRAFT YOUR <br className="hidden md:block" /> ENGLISH SKILLS!
         </>
     ),
-    subtitle = "Clases de inglés que se desarrollan dentro de Minecraft, convirtiendo el juego en una experiencia educativa real.",
+    subtitle = "Enfocados en que hables inglés con seguridad, fluidez y naturalidad mientras juegas y aprendes en Minecraft.",
     mediaSrc = "/videos/clip-minecraft-3.webp",
     isVideo = true,
     layout = { // Default behavior
