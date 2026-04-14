@@ -32,6 +32,7 @@ const cards = [
         textColor: "text-white",
         numberColor: "text-white",
         iconBg: "bg-white",
+        bgImage: "/images/home/methodology_02.webp",
         xDir: 1,
     },
     {
