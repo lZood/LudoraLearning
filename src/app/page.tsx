@@ -3,6 +3,7 @@ import HeroTransition from "@/components/HeroTransition";
 import LudoraCardsSection from "@/components/LudoraCardsSection";
 import ExpandableCards from "@/components/ExpandableCards";
 import BlockyMethodologyStack from "@/components/BlockyMethodologyStack";
+import PortalShowcase from "@/components/PortalShowcase";
 import Footer from "@/components/Footer";
 import DiscordCTA from "@/components/comunidad/DiscordCTA";
 import PhotoGallery from "@/components/PhotoGallery";
@@ -23,6 +24,7 @@ export default function Home() {
       <ExpandableCards />
       {/* <LudoraCardsSection /> */}
       <BlockyMethodologyStack />
+      <PortalShowcase />
       <PhotoGallery />
       <DiscordCTA />
       <Footer />
