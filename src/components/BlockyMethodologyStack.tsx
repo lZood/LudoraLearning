@@ -62,27 +62,37 @@ function AnimatedCard({
 
     useEffect(() => {
         if (isInView) {
-            controls.start({ y: 0, x: 0, rotate: 0 });
+            controls.start({
+                y: 0,
+                x: 0,
+                rotate: 0,
+                scale: 1,
+            });
         }
     }, [isInView, controls]);
 
-    const xOffset = isDesktop ? card.xDir * 220 : 0;
-    const initialRotate = isDesktop ? (card.xDir > 0 ? -10 : 10) : 0;
+    const xOffset = isDesktop ? card.xDir * 280 : (card.xDir * 60);
+    const initialRotate = isDesktop ? (card.xDir > 0 ? -12 : 12) : (card.xDir > 0 ? -6 : 6);
 
     return (
         <motion.div
             ref={ref}
-            className="sticky w-full rounded-[40px] overflow-hidden origin-bottom"
+            className="sticky w-full rounded-[30px] md:rounded-[40px] overflow-hidden origin-bottom"
             style={{
                 top: `calc(100px + ${index * 75}px)`,
                 zIndex: index,
             }}
-            initial={{ y: 350, x: xOffset, rotate: initialRotate }}
+            initial={{ y: 400, x: xOffset, rotate: initialRotate, scale: 0.85 }}
             animate={controls}
-            transition={{ duration: 1.6, type: "spring", bounce: 0.2 }}
+            transition={{
+                duration: 1.4,
+                type: "spring",
+                bounce: 0.35,
+                delay: index * 0.05,
+            }}
         >
             <div
-                className={`${card.bgColor} p-8 md:p-12 min-h-[60vh] md:min-h-[70vh] flex flex-col border border-black/5 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]`}
+                className={`${card.bgColor} relative min-h-[60vh] md:min-h-[70vh] flex flex-col shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)]`}
                 style={{
                     backgroundImage: card.bgImage ? `url(${card.bgImage})` : undefined,
                     backgroundPosition: "center",
@@ -90,20 +100,30 @@ function AnimatedCard({
                     backgroundSize: "cover",
                 }}
             >
-                <div className="flex-grow flex justify-between items-start w-full pt-0 pb-8 gap-4">
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 pointer-events-none" />
+
+                <div className="relative z-10 flex-grow flex justify-between items-start w-full p-6 md:p-10 gap-4">
                     <span
-                        className={`text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight ${card.numberColor} ${roboto.className}`}
-                        style={{ textShadow: "4px 4px 20px rgba(0,0,0,0.2)" }}
+                        className={`text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight leading-tight ${card.numberColor} ${roboto.className}`}
+                        style={{ textShadow: "2px 2px 16px rgba(0,0,0,0.35)" }}
                     >
                         {card.title}
                     </span>
-                    <div className={`${card.iconBg} w-16 h-16 rounded-full flex items-center justify-center shrink-0`}>
+                    <motion.div
+                        className={`${card.iconBg} w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shrink-0`}
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={isInView ? { scale: 1, rotate: 0 } : {}}
+                        transition={{ duration: 0.8, type: "spring", bounce: 0.5, delay: 0.3 + index * 0.05 }}
+                    >
                         {card.icon}
-                    </div>
+                    </motion.div>
                 </div>
 
-                <div className="w-full pb-4">
-                    <p className={`text-2xl md:text-3xl font-medium ${card.textColor} ${roboto.className}`}>
+                <div className="relative z-10 w-full p-6 md:p-10 pt-0">
+                    <p className={`text-xl md:text-2xl lg:text-3xl font-medium ${card.textColor} ${roboto.className}`}
+                        style={{ textShadow: "1px 1px 8px rgba(0,0,0,0.3)" }}
+                    >
                         {card.description}
                     </p>
                 </div>
