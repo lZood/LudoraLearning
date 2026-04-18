@@ -2,32 +2,60 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 const slides = [
     {
-        src: "/images/photogallery/1Grande.png",
-        alt: "Estudiantes en clase",
-        caption: "No juegas solo: Aprende y convive con otros estudiantes en tiempo real.",
+        src: "/images/photogallery/students.webp",
+        alt: "Estudiantes aprendiendo juntos",
+        caption: "No juegas solo: aprende y convive con otros estudiantes en tiempo real.",
     },
     {
-        src: "/images/photogallery/2Larga.png",
-        alt: "Misiones en Minecraft",
-        caption: "Usa el idioma mientras exploras el mundo y completas retos, misiones reales, inglés real.",
+        src: "/images/photogallery/football.webp",
+        alt: "Deportes en Minecraft",
+        caption: "Compite en actividades deportivas y usa el inglés bajo presión divertida.",
     },
     {
-        src: "/images/photogallery/3Cuadrada.png",
-        alt: "Plataforma de aprendizaje",
-        caption: "Este es tu espacio para mejorar, aprende con calma y a tus tiempos.",
+        src: "/images/photogallery/shop.webp",
+        alt: "Tienda en Minecraft",
+        caption: "Aprende vocabulario comprando, vendiendo y negociando en nuestras tiendas.",
     },
     {
-        src: "/images/photogallery/4Cuadrada.png",
-        alt: "Experiencia in-game",
-        caption: "Aplica lo que sabes en situaciones dentro del juego.",
+        src: "/images/photogallery/kitchen.webp",
+        alt: "Cocina en Minecraft",
+        caption: "Sigue recetas en inglés y prepara platillos mientras practicas el idioma.",
+    },
+    {
+        src: "/images/photogallery/converastion.webp",
+        alt: "Conversación en inglés",
+        caption: "Practica conversaciones reales con compañeros y maestros dentro del mundo.",
+
+    },
+    {
+        src: "/images/photogallery/swiming.webp",
+        alt: "Natación en Minecraft",
+        caption: "Sumérgete en retos acuáticos que refuerzan vocabulario cotidiano.",
+    },
+    {
+        src: "/images/photogallery/pigRace.webp",
+        alt: "Carrera de cerdos",
+        caption: "Participa en minijuegos locos y aprende a dar y seguir instrucciones.",
+    },
+    {
+        src: "/images/photogallery/laberynth.webp",
+        alt: "Laberinto en Minecraft",
+        caption: "Resuelve laberintos y acertijos que ponen a prueba tu comprensión.",
+    },
+    {
+        src: "/images/photogallery/words.webp",
+        alt: "Retos de vocabulario",
+        caption: "Construye palabras y frases en retos que fortalecen tu vocabulario.",
     },
 ];
 
 const VISIBLE = 3; // images visible at once on desktop
+const MOBILE_PREVIEW = 4; // images shown on mobile before CTA
 
 /* ── Desktop: 3-image strip with prev/next ── */
 function DesktopStrip() {
@@ -38,7 +66,6 @@ function DesktopStrip() {
     const next = () => setPage((p) => (p + 1) % totalPages);
 
     const startIdx = page * VISIBLE;
-    // Get visible slides, wrapping around if needed
     const visibleSlides = Array.from({ length: VISIBLE }, (_, i) => slides[(startIdx + i) % slides.length]);
 
     return (
@@ -94,11 +121,13 @@ function DesktopStrip() {
     );
 }
 
-/* ── Mobile: Stacked Cards ── */
+/* ── Mobile: Stacked Cards (preview only) ── */
 function MobileStack() {
+    const preview = slides.slice(0, MOBILE_PREVIEW);
+
     return (
         <div className="flex flex-col gap-6">
-            {slides.map((slide, i) => (
+            {preview.map((slide, i) => (
                 <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 30 }}
@@ -113,13 +142,30 @@ function MobileStack() {
                             alt={slide.alt}
                             className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
                         />
-                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                         <p className="absolute bottom-0 inset-x-0 p-4 text-white text-sm font-medium leading-relaxed">
                             {slide.caption}
                         </p>
                     </div>
                 </motion.div>
             ))}
+
+            {/* CTA: see full gallery */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="mt-2"
+            >
+                <Link
+                    href="/galeria"
+                    className="group w-full inline-flex items-center justify-center gap-3 bg-[#1d1d1b] hover:bg-[#632eaf] text-white px-6 py-4 rounded-full font-bold text-base transition-colors duration-300"
+                >
+                    Ver galería completa
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+            </motion.div>
         </div>
     );
 }
@@ -128,7 +174,7 @@ export default function PhotoGallery() {
     return (
         <section className="relative w-full bg-[#e0dbce] rounded-t-[50px] rounded-b-[50px] py-12 md:py-16 overflow-hidden">
             <div className="max-w-[92vw] sm:max-w-[90vw] mx-auto">
-                {/* Mobile: stacked */}
+                {/* Mobile: stacked preview + CTA */}
                 <div className="block md:hidden">
                     <MobileStack />
                 </div>

@@ -20,7 +20,7 @@ const INVENTORY_ITEMS = [
         iconSrc: "/images/service-page/netherportal.gif",
         color: "text-[#a855f7]",
         bgColor: "#a855f7",
-        description: "Desde tu primer módulo también tendrás acceso a nuestro portal exclusivo para alumnos, un espacio diseñado para que puedas repasar, complementar o reforzar lo aprendido durante tus sesiones in-game siempre que lo necesites."
+        description: "Desde tu primer módulo también tendrás acceso a nuestro portal exclusivo para alumnos, un espacio diseñado para que puedas repasar, complementar y reforzar lo aprendido durante tus sesiones in-game siempre que lo necesites."
     },
     {
         id: "gameplay",
@@ -36,7 +36,7 @@ const INVENTORY_ITEMS = [
         iconSrc: "/images/estrategia-page/bookshelf.webp",
         color: "text-[#f59e0b]",
         bgColor: "#f59e0b",
-        description: "Este portal es un beneficio adicional para nuestros alumnos, donde además de los videos encontrarás material de apoyo interactivo, como flashcards, cuadros de estudio, quizzes, mini-games dentro del servidor y muchas otras herramientas diseñadas para seguir aprendiendo mientras juegas."
+        description: "Este portal es un beneficio adicional para nuestros alumnos, donde además de los videos encontrarás material de apoyo interactivo, como flashcards, cuadros de estudio, quizzes, dictados interactivos, retos de voz y muchas otras herramientas diseñadas para seguir aprendiendo mientras juegas."
     }
 ];
 

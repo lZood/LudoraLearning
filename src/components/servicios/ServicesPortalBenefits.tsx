@@ -3,118 +3,262 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 
+/* ── Illustration 1: Material Interactivo ─────────────── */
+const InteractiveIllustration = () => (
+    <div className="relative w-full h-full flex items-end justify-center pb-4">
+        {/* Orbit sphere */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-gradient-to-t from-[#86d2fb]/20 to-transparent rounded-[50%] blur-xl" />
+
+        {/* Center portal icon */}
+        <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative z-10 flex flex-col items-center gap-3"
+        >
+            <div className="w-14 h-14 bg-[#86d2fb] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(134,210,251,0.5)]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
+                </svg>
+            </div>
+        </motion.div>
+
+        {/* Floating pills */}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="absolute bottom-20 left-1/2 -translate-x-[60%] bg-[#1f2a36] border border-[#86d2fb]/30 text-[#86d2fb] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 -rotate-6"
+        >
+            <span>📖</span> Flashcards
+        </motion.div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="absolute bottom-28 left-1/2 translate-x-[10%] bg-[#1f2a36] border border-[#ff705d]/30 text-[#ff9f90] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 rotate-3"
+        >
+            <span>✍️</span> Quizzes
+        </motion.div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="absolute bottom-12 left-1/2 -translate-x-[85%] bg-[#1f2a36] border border-[#88e04f]/30 text-[#88e04f] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 -rotate-3"
+        >
+            <span>🎧</span> Audio
+        </motion.div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="absolute bottom-20 left-1/2 translate-x-[30%] bg-[#1f2a36] border border-[#c084fc]/30 text-[#c084fc] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 rotate-6"
+        >
+            <span>🎯</span> Ejercicios
+        </motion.div>
+    </div>
+);
+
+/* ── Illustration 2: Seguimiento ─────────────── */
+const TrackingIllustration = () => (
+    <div className="relative w-full h-full flex items-end justify-center pb-4">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-gradient-to-t from-[#88e04f]/15 to-transparent rounded-[50%] blur-xl" />
+
+        {/* Top stats pills */}
+        <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="absolute top-2 left-1/2 -translate-x-[110%] bg-[#1f2a36] border border-[#88e04f]/30 text-[#88e04f] px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5"
+        >
+            Nivel B1
+        </motion.div>
+        <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.25 }}
+            className="absolute top-2 left-1/2 translate-x-[10%] bg-[#1f2a36] border border-[#ff705d]/30 text-[#ff9f90] px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center gap-1.5"
+        >
+            🔥 12 días
+        </motion.div>
+
+        {/* Connecting lines SVG */}
+        <svg className="absolute top-10 left-1/2 -translate-x-1/2" width="120" height="60" viewBox="0 0 120 60" fill="none">
+            <path d="M30 5 Q 30 30, 60 50" stroke="#88e04f" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.5" />
+            <path d="M90 5 Q 90 30, 60 50" stroke="#ff705d" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.5" />
+        </svg>
+
+        {/* Center progress circle */}
+        <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, type: "spring", bounce: 0.4 }}
+            className="relative z-10"
+        >
+            <div className="w-20 h-20 rounded-full bg-[#1f2a36] border-2 border-[#88e04f]/40 flex items-center justify-center shadow-[0_0_40px_rgba(136,224,79,0.3)]">
+                <div className="relative w-16 h-16 flex items-center justify-center">
+                    <svg className="absolute inset-0 -rotate-90" viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="28" stroke="#2a3a48" strokeWidth="4" fill="none" />
+                        <circle cx="32" cy="32" r="28" stroke="#88e04f" strokeWidth="4" fill="none"
+                            strokeDasharray={`${2 * Math.PI * 28}`}
+                            strokeDashoffset={`${2 * Math.PI * 28 * 0.32}`}
+                            strokeLinecap="round" />
+                    </svg>
+                    <span className="text-white font-black text-sm">68%</span>
+                </div>
+            </div>
+        </motion.div>
+    </div>
+);
+
+/* ── Illustration 3: Repositorio de Gameplay ─────────────── */
+const GameplayIllustration = () => (
+    <div className="relative w-full h-full flex items-end justify-center pb-4">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-gradient-to-t from-[#c084fc]/15 to-transparent rounded-[50%] blur-xl" />
+
+        {/* Video thumbnails */}
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="absolute bottom-24 left-1/2 -translate-x-[120%] w-20 h-14 bg-gradient-to-br from-[#c084fc]/30 to-[#632eaf]/30 border border-[#c084fc]/40 rounded-lg flex items-center justify-center -rotate-6"
+        >
+            <div className="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#632eaf">
+                    <polygon points="5,3 19,12 5,21" />
+                </svg>
+            </div>
+        </motion.div>
+
+        <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.25 }}
+            className="absolute bottom-24 left-1/2 translate-x-[20%] w-20 h-14 bg-gradient-to-br from-[#88e04f]/25 to-[#2d8a1e]/30 border border-[#88e04f]/40 rounded-lg flex items-center justify-center rotate-6"
+        >
+            <div className="w-6 h-6 rounded-full bg-white/90 flex items-center justify-center">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="#2d8a1e">
+                    <polygon points="5,3 19,12 5,21" />
+                </svg>
+            </div>
+        </motion.div>
+
+        {/* Center main video */}
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="relative z-10 w-28 h-20 bg-gradient-to-br from-[#1f2a36] to-[#0b1420] border border-[#c084fc]/40 rounded-xl flex items-center justify-center shadow-[0_0_40px_rgba(192,132,252,0.3)]"
+        >
+            <div className="w-10 h-10 rounded-full bg-[#c084fc] flex items-center justify-center shadow-lg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                    <polygon points="5,3 19,12 5,21" />
+                </svg>
+            </div>
+            {/* Live indicator */}
+            <div className="absolute top-1.5 right-1.5 flex items-center gap-1 bg-black/50 backdrop-blur-sm px-1.5 py-0.5 rounded-full">
+                <div className="w-1 h-1 rounded-full bg-red-400 animate-pulse" />
+                <span className="text-[7px] text-white font-bold">REC</span>
+            </div>
+        </motion.div>
+    </div>
+);
+
+const benefits = [
+    {
+        title: "Material interactivo a tu alcance",
+        description: "Flashcards, quizzes y ejercicios dinámicos que complementan tus clases. Practica cuando quieras, desde donde estés.",
+        Illustration: InteractiveIllustration,
+    },
+    {
+        title: "Seguimiento de tu progreso real",
+        description: "Reportes claros de tu nivel, tu avance y tus logros. Los padres pueden revisar el progreso en cualquier momento.",
+        Illustration: TrackingIllustration,
+    },
+    {
+        title: "Clases grabadas siempre disponibles",
+        description: "Nunca te pierdes una lección. Todas las clases y explicaciones quedan en el repositorio para repasar cuando quieras.",
+        Illustration: GameplayIllustration,
+    },
+];
+
+const containerVariants: Variants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, type: "spring", bounce: 0.25 },
+    },
+};
+
 export default function ServicesPortalBenefits() {
-    const benefits = [
-        {
-            title: "Material Interactivo",
-            description: "Flashcards, quizzes y recursos dinámicos para seguir aprendiendo fuera del servidor.",
-            iconSrc: "/images/estrategia-page/book.webp",
-            borderColor: "border-[#86d2fb]/40",
-            bg: "bg-white/90",
-            titleColor: "text-[#2a8ebd]",
-        },
-        {
-            title: "Seguimiento y Reportes",
-            description: "Reportes de progreso y logros desbloqueados que los padres pueden revisar en cualquier momento.",
-            iconSrc: "/images/service-page/endereye.webp",
-            borderColor: "border-[#8ED462]/40",
-            bg: "bg-white/90",
-            titleColor: "text-[#4caf2e]",
-        },
-        {
-            title: "Repositorio de Gameplay",
-            description: "Sesiones grabadas y explicaciones en formato gameplay por si el alumno no puede asistir o quiere repasar.",
-            iconSrc: "/images/service-page/enderchest.gif",
-            borderColor: "border-[#a855f7]/40",
-            bg: "bg-white/90",
-            titleColor: "text-[#9333ea]",
-        }
-    ];
-
-    const containerVariants: Variants = {
-        hidden: {},
-        visible: {
-            transition: { staggerChildren: 0.15 },
-        },
-    };
-
-    const itemVariants: Variants = {
-        hidden: { opacity: 0, scale: 0.9, y: 30 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            transition: { duration: 0.6, type: "spring", bounce: 0.4 },
-        },
-    };
-
     return (
-        <section className="relative w-full min-h-screen bg-[#1e1e24] rounded-[50px] overflow-hidden flex flex-col items-center justify-center px-6 py-24 md:py-32 shadow-[inset_0_4px_20px_rgba(0,0,0,0.5)]">
+        <section className="relative w-full bg-[#0b1018] rounded-[50px] overflow-hidden px-6 py-20 md:py-28">
+            <div className="relative z-10 max-w-7xl mx-auto w-full">
 
-            {/* Minecraft-like starry or dark background texture */}
-            <div className="absolute inset-0 opacity-10 bg-[url('/images/estrategia-page/pattern-dots.png')] bg-repeat mix-blend-overlay"></div>
-
-            <div className="absolute top-0 w-full h-32 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
-            <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-
-            <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col items-center">
+                {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, type: "spring", bounce: 0.3 }}
-                    className="text-center mb-16 md:mb-24"
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16 md:mb-20"
                 >
-                    <span className="inline-flex items-center gap-2 bg-white/10 text-[#a855f7] px-6 py-2.5 rounded-sm font-black uppercase tracking-[0.2em] mb-6 shadow-sm border-2 border-white/10 backdrop-blur-md">
-                        <img src="/images/service-page/diamond.webp" alt="Diamond" className="w-6 h-6 object-contain" /> Exclusividad
-                    </span>
-                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] max-w-4xl mx-auto drop-shadow-lg">
-                        Beneficios del <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c084fc] to-[#a855f7] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                            Portal de Alumnos
-                        </span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.1]">
+                        3 razones para elegir nuestro{" "}
+                        <span className="text-[#c084fc]">Portal de Alumnos</span>
                     </h2>
                 </motion.div>
 
+                {/* Cards grid */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.1 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto w-full"
+                    className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6"
                 >
-                    {benefits.map((benefit, i) => (
-                        <motion.div
-                            key={i}
-                            variants={itemVariants}
-                            className={`relative flex flex-col items-center text-center p-8 lg:p-10 rounded-[32px] ${benefit.bg} border-4 ${benefit.borderColor} shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:-translate-y-3 hover:shadow-[0_20px_50px_rgba(168,85,247,0.2)] transition-all duration-300 group`}
-                        >
-                            {/* Inner highlight (glassmorphism effect) */}
-                            <div className="absolute inset-0 rounded-[28px] border-2 border-white/50 pointer-events-none" />
+                    {benefits.map((benefit, i) => {
+                        const Illustration = benefit.Illustration;
+                        return (
+                            <motion.div
+                                key={i}
+                                variants={cardVariants}
+                                className="relative bg-[#131a24] border border-white/5 rounded-[28px] p-8 lg:p-10 flex flex-col hover:border-white/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                            >
+                                {/* Text content */}
+                                <div className="relative z-10">
+                                    <h3 className="text-xl md:text-2xl font-bold text-white leading-tight mb-4">
+                                        {benefit.title}
+                                    </h3>
+                                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                                        {benefit.description}
+                                    </p>
+                                </div>
 
-                            <div className="relative w-24 h-24 mb-8">
-                                {/* Rotating glow effect behind icon */}
-                                <div className={`absolute inset-0 bg-gradient-to-br from-white to-transparent rounded-full blur-xl opacity-50 group-hover:scale-125 transition-transform duration-500`}></div>
-
-                                <img
-                                    src={benefit.iconSrc}
-                                    alt={benefit.title}
-                                    className="w-full h-full object-contain relative z-10 drop-shadow-2xl group-hover:rotate-6 group-hover:scale-110 transition-transform duration-300"
-                                    onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                        e.currentTarget.parentElement?.classList.add('bg-gray-200', 'rounded-xl');
-                                    }}
-                                />
-                            </div>
-
-                            <h3 className={`text-2xl lg:text-3xl font-black ${benefit.titleColor} mb-4 leading-tight drop-shadow-sm`}>
-                                {benefit.title}
-                            </h3>
-                            <p className="text-gray-600 font-medium leading-relaxed text-lg">
-                                {benefit.description}
-                            </p>
-                        </motion.div>
-                    ))}
+                                {/* Illustration */}
+                                <div className="relative mt-auto pt-10 h-[180px]">
+                                    <Illustration />
+                                </div>
+                            </motion.div>
+                        );
+                    })}
                 </motion.div>
             </div>
         </section>

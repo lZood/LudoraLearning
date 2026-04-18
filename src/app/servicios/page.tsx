@@ -13,7 +13,7 @@ export default function ServiciosPage() {
         <main className="min-h-screen bg-[#f5f1e4] relative text-[#1a1a1a]">
             <Hero
                 title={<>NUESTRO <br className="hidden md:block" /> SERVICIO</>}
-                subtitle="Descubre todo lo que Ludora Learning tiene preparado para llevar tu nivel de inglés al máximo jugando."
+                subtitle="Mejora tu forma de comunicarte en inglés, entiende mejor y gana confianza al hablar con la experiencia interactiva que tenemos para ti."
                 mediaSrc="/images/service-page/windmill.webp"
                 isVideo={false}
                 layout={{
