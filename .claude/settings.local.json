@@ -3,7 +3,12 @@
     "allow": [
       "Read(//c/Users/José Carlos/Documents/Desarrollo/LudoraLearning/**)",
       "Bash(npx next:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python -c \"import reportlab; print\\(reportlab.Version\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"from pypdf import PdfReader; r=PdfReader\\('Carta_Recomendacion_Jose_Carlos_Ramirez.pdf'\\); print\\('pages:', len\\(r.pages\\)\\)\")",
+      "Bash(python carta_recomendacion.py)",
+      "Bash(python -c \"from pypdf import PdfReader; print\\('pages:', len\\(PdfReader\\('Carta_Recomendacion_Jose_Carlos_Ramirez.pdf'\\).pages\\)\\)\")"
     ]
   }
 }

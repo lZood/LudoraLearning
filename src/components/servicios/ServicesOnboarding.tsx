@@ -220,7 +220,7 @@ const itemVariants: Variants = {
 
 export default function ServicesOnboarding() {
     return (
-        <section className="relative w-full bg-white rounded-b-[50px] overflow-hidden px-6 py-12 md:py-16 md:min-h-screen md:flex md:flex-col md:justify-center">
+        <section className="relative w-full bg-white rounded-[50px] overflow-hidden px-6 py-16 md:py-20 min-h-screen flex flex-col justify-center">
             <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col gap-8 md:gap-10">
 
                 {/* Header */}

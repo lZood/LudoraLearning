@@ -44,7 +44,7 @@ const cards: CardData[] = [
             "Recibe el input que necesitas para tu vida real mientras interactúas directamente con maestros certificados. Aprende de forma natural, con contenido útil y aplicado desde el primer día.",
         icon: <BookOpen className="w-5 h-5" />,
         videoSrc: "/videos/aprende.webp",
-        accentColor: "#ff705d",
+        accentColor: "#2ba0ff",
     },
     {
         number: "02",
@@ -54,7 +54,7 @@ const cards: CardData[] = [
             "Refuerza lo aprendido dentro de Minecraft y la plataforma, comunicándote constantemente con tus compañeros y maestros en un entorno dinámico y divertido.",
         icon: <Swords className="w-5 h-5" />,
         videoSrc: "/videos/practica.webp",
-        accentColor: "#2ba0ff",
+        accentColor: "#ff705d",
     },
     {
         number: "03",
@@ -167,6 +167,7 @@ export default function ExpandableCards() {
                                         <div className="mt-auto">
                                             <motion.p
                                                 className="leading-relaxed mb-3"
+                                                style={{ textShadow: "0 1px 3px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.4)" }}
                                                 animate={{
                                                     fontSize: isHovered ? "1rem" : isMinimized ? "0.75rem" : "0.9rem",
                                                     color: isMinimized ? "rgba(255,255,255,0.35)" : "rgba(255,255,255,1)",

@@ -25,15 +25,10 @@ export default function ServiciosPage() {
                 showGrid={false}
             />
             <HeroTransition showShadow={false} transitionColor="#86d2fb" />
-            {/* Nueva sección de Información de Inventario */}
             <StudentInventory />
             <ServicesOnboarding />
             <ServicesDifference />
             <ServicesPortalBenefits />
-
-
-
-            {/* Nueva sección de Pricing */}
             <ServicePricing />
 
             <FAQ />

@@ -5,62 +5,69 @@ import { motion, Variants } from "framer-motion";
 
 /* ── Illustration 1: Material Interactivo ─────────────── */
 const InteractiveIllustration = () => (
-    <div className="relative w-full h-full flex items-end justify-center pb-4">
-        {/* Orbit sphere */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] h-32 bg-gradient-to-t from-[#86d2fb]/20 to-transparent rounded-[50%] blur-xl" />
+    <div className="relative w-full h-full flex items-center justify-center">
+        {/* Glow behind pills */}
+        <div className="absolute inset-0 bg-[#86d2fb]/10 blur-3xl rounded-full" />
 
-        {/* Center portal icon */}
-        <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative z-10 flex flex-col items-center gap-3"
-        >
-            <div className="w-14 h-14 bg-[#86d2fb] rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(134,210,251,0.5)]">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-                </svg>
-            </div>
-        </motion.div>
+        {/* Pills cluster — stacked with offset + rotation */}
+        <div className="relative w-full max-w-[260px] mx-auto">
 
-        {/* Floating pills */}
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="absolute bottom-20 left-1/2 -translate-x-[60%] bg-[#1f2a36] border border-[#86d2fb]/30 text-[#86d2fb] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 -rotate-6"
-        >
-            <span>📖</span> Flashcards
-        </motion.div>
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="absolute bottom-28 left-1/2 translate-x-[10%] bg-[#1f2a36] border border-[#ff705d]/30 text-[#ff9f90] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 rotate-3"
-        >
-            <span>✍️</span> Quizzes
-        </motion.div>
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="absolute bottom-12 left-1/2 -translate-x-[85%] bg-[#1f2a36] border border-[#88e04f]/30 text-[#88e04f] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 -rotate-3"
-        >
-            <span>🎧</span> Audio
-        </motion.div>
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="absolute bottom-20 left-1/2 translate-x-[30%] bg-[#1f2a36] border border-[#c084fc]/30 text-[#c084fc] px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 rotate-6"
-        >
-            <span>🎯</span> Ejercicios
-        </motion.div>
+            {/* Top row */}
+            <motion.div
+                initial={{ opacity: 0, y: -10, rotate: -4 }}
+                whileInView={{ opacity: 1, y: 0, rotate: -4 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.15, type: "spring", bounce: 0.5 }}
+                className="absolute top-0 left-[18%] bg-[#1f2a36] border border-[#ff705d]/40 text-[#ff9f90] px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xl z-20"
+            >
+                <span>✍️</span> Quizzes
+            </motion.div>
+
+            {/* Second row */}
+            <motion.div
+                initial={{ opacity: 0, y: -10, rotate: -3 }}
+                whileInView={{ opacity: 1, y: 0, rotate: -3 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.25, type: "spring", bounce: 0.5 }}
+                className="absolute top-[28px] left-[2%] bg-[#1f2a36] border border-[#86d2fb]/40 text-[#86d2fb] px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xl z-30"
+            >
+                <span>📖</span> Flashcards
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, y: -10, rotate: 5 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 5 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.35, type: "spring", bounce: 0.5 }}
+                className="absolute top-[32px] right-[2%] bg-[#1f2a36] border border-[#c084fc]/40 text-[#c084fc] px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xl z-30"
+            >
+                <span>🎯</span> Ejercicios
+            </motion.div>
+
+            {/* Third row */}
+            <motion.div
+                initial={{ opacity: 0, y: -10, rotate: -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.45, type: "spring", bounce: 0.5 }}
+                className="absolute top-[64px] left-[10%] bg-[#1f2a36] border border-[#88e04f]/40 text-[#88e04f] px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xl z-40"
+            >
+                <span>🎧</span> Audio
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, y: -10, rotate: 3 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 3 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.55, type: "spring", bounce: 0.5 }}
+                className="absolute top-[68px] right-[8%] bg-[#1f2a36] border border-[#fbbf24]/40 text-[#fbbf24] px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 shadow-xl z-40"
+            >
+                <span>📝</span> Tareas
+            </motion.div>
+
+            {/* Spacer to give height */}
+            <div className="h-[120px]" />
+        </div>
     </div>
 );
 
@@ -177,18 +184,18 @@ const GameplayIllustration = () => (
 
 const benefits = [
     {
-        title: "Material interactivo a tu alcance",
-        description: "Flashcards, quizzes y ejercicios dinámicos que complementan tus clases. Practica cuando quieras, desde donde estés.",
+        title: "Material interactivo con IA integrada",
+        description: "Flashcards, quizzes, crucigramas, dictados y juegos de memoria. Nuestra IA evalúa tu pronunciación y escritura al instante para que aprendas más rápido.",
         Illustration: InteractiveIllustration,
     },
     {
-        title: "Seguimiento de tu progreso real",
-        description: "Reportes claros de tu nivel, tu avance y tus logros. Los padres pueden revisar el progreso en cualquier momento.",
+        title: "Gamificación que engancha",
+        description: "Sube de liga (de Carbón a Netherite), gana XP y Monedas Ludora, desbloquea logros y compite en leaderboards semanales contra otros alumnos.",
         Illustration: TrackingIllustration,
     },
     {
-        title: "Clases grabadas siempre disponibles",
-        description: "Nunca te pierdes una lección. Todas las clases y explicaciones quedan en el repositorio para repasar cuando quieras.",
+        title: "Clases grabadas y biblioteca completa",
+        description: "Videos de gramática, vocabulario, pronunciación y conversación siempre disponibles. Nunca te pierdes una lección, repasa a tu ritmo.",
         Illustration: GameplayIllustration,
     },
 ];
@@ -209,7 +216,7 @@ const cardVariants: Variants = {
 
 export default function ServicesPortalBenefits() {
     return (
-        <section className="relative w-full bg-[#0b1018] rounded-[50px] overflow-hidden px-6 py-20 md:py-28">
+        <section className="relative w-full bg-[#0b1018] rounded-[50px] overflow-hidden px-6 py-20 md:py-28 min-h-screen flex flex-col justify-center">
             <div className="relative z-10 max-w-7xl mx-auto w-full">
 
                 {/* Header */}
@@ -253,7 +260,7 @@ export default function ServicesPortalBenefits() {
                                 </div>
 
                                 {/* Illustration */}
-                                <div className="relative mt-auto pt-10 h-[180px]">
+                                <div className="relative mt-auto pt-10 h-[200px]">
                                     <Illustration />
                                 </div>
                             </motion.div>

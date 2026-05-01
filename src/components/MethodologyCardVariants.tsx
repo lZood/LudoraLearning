@@ -34,7 +34,7 @@ const methodologyCards = [
         title: "Conecta y aplica",
         description:
             "Todo lo que aprendes en la plataforma lo usas dentro del juego, creando una experiencia práctica y completa.",
-        image: "/images/home/methodology_03.png",
+        image: "/images/home/methodology_03.webp",
         accent: "#ff705d",
         panel: "#a73b2e",
     },
