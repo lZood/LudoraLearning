@@ -51,32 +51,32 @@ const PixelXCircle = ({ color, bg }: { color: string; bg: string }) => (
 
 const comparisonRows = [
     {
-        ludora: "Metodología inmersiva y significativa",
-        traditional: "Aprendizaje memorístico (drill and kill)",
+        ludora: "Clases dinámicas, interactivas y vivas (no solo escuchar, sino participar)",
+        traditional: "Clases pasivas y repetitivas (escuchar y copiar)",
     },
     {
-        ludora: "Evaluaciones adaptativas con IA",
-        traditional: "Exámenes estáticos iguales para todos",
+        ludora: "Uso de videojuegos y escenarios reales que hacen el idioma útil y memorable",
+        traditional: "Ejercicios poco relevantes para la vida real",
     },
     {
-        ludora: "Clases en vivo con maestros reales dentro de Minecraft",
-        traditional: "Clases unidireccionales sin interacción real",
+        ludora: "Enfoque en comunicación real, no solo teoría",
+        traditional: "Mucha teoría, poca práctica real",
     },
     {
-        ludora: "Feedback instantáneo y personalizado con IA",
-        traditional: "Corrección tardía y genérica",
+        ludora: "Corrección inmediata que te ayuda a mejorar en el momento",
+        traditional: "Correcciones tardías que no ayudan a mejorar en el momento",
     },
     {
-        ludora: "Herramientas modernas: gamificación, videojuegos y comunidad",
-        traditional: "Libros de texto desactualizados",
+        ludora: "Desarrollo de confianza al hablar, sin miedo ni presión",
+        traditional: "Miedo a equivocarte frente al grupo",
     },
     {
-        ludora: "Seguimiento automático y reportes para padres",
-        traditional: "Sin visibilidad del progreso real",
+        ludora: "Aprendizaje personalizado a tu ritmo y nivel real",
+        traditional: "Mismo ritmo para todos, aunque te quedes atrás o te aburras",
     },
     {
-        ludora: "Ambiente seguro para practicar sin miedo a equivocarse",
-        traditional: "Miedo a hablar frente al grupo",
+        ludora: "Motivación constante (progreso visible, logros y retos)",
+        traditional: "Memorizas reglas pero no sabes usarlas al hablar",
     },
 ];
 

@@ -20,7 +20,7 @@ const INVENTORY_ITEMS = [
         iconSrc: "/images/service-page/netherportal.gif",
         color: "text-[#a855f7]",
         bgColor: "#a855f7",
-        description: "Desde tu primer módulo también tendrás acceso a nuestro portal exclusivo para alumnos, un espacio diseñado para que puedas repasar, complementar y reforzar lo aprendido durante tus sesiones in-game siempre que lo necesites."
+        description: "Desde tu primer módulo también tendrás acceso a nuestro portal exclusivo para alumnos, u  n espacio diseñado para que puedas repasar, complementar y reforzar lo aprendido durante tus sesiones in-game siempre que lo necesites."
     },
     {
         id: "gameplay",
@@ -83,101 +83,119 @@ export default function StudentInventory() {
 
     return (
         <section
-            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center bg-no-repeat bg-[length:100%_auto] bg-bottom bg-[url('/images/service-page/fondoTierrosoMovil.webp')] md:bg-[url('/images/service-page/fondotierrosoPC.webp')]"
+            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center"
         >
 
-            <div className="max-w-4xl mx-auto px-6 relative z-10 flex flex-col items-center justify-between w-full h-full gap-8">
+            <div className="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16 w-full">
 
-                {/* Nuevo Título Superior */}
+                {/* Columna Izquierda: Imagen del apicultor */}
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-4"
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="flex justify-center lg:justify-start order-2 lg:order-1"
                 >
-                    <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-lg tracking-tight">
-                        Todo lo que <WigglyUnderline color="#f59e0b" thickness="5px">ofrecemos</WigglyUnderline> para ti
-                    </h2>
+                    <img
+                        src="/images/service-page/Inventario.webp"
+                        alt="Personaje apicultor de Minecraft con abejas"
+                        className="w-full max-w-md lg:max-w-xl h-auto object-contain drop-shadow-2xl"
+                    />
                 </motion.div>
 
-                {/* Lado Superior: Descripción del Ítem (La Card de Información Estilo LudoraCard) */}
-                <div className="w-full flex-grow flex items-center justify-center min-h-[400px]">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={activeItem}
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            className="relative w-full max-w-3xl"
-                        >
-                            {/* Layer 1: Bloque de Color (Color Reveal) */}
-                            <motion.div
-                                variants={colorBlockVariants}
-                                className="absolute inset-0 rounded-2xl md:rounded-[32px]"
-                                style={{ backgroundColor: INVENTORY_ITEMS[activeItem].bgColor }}
-                            />
+                {/* Columna Derecha: Título + Card + Hotbar */}
+                <div className="flex flex-col items-center lg:items-start gap-8 order-1 lg:order-2">
 
-                            {/* Layer 2: Tarjeta Blanca (Content Bounce) con ícono a la izquierda del título */}
+                    {/* Título */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center lg:text-left w-full"
+                    >
+                        <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-lg tracking-tight">
+                            Todo lo que ofrecemos para ti
+                        </h2>
+                    </motion.div>
+
+                    {/* Card de Información */}
+                    <div className="w-full flex items-center justify-center min-h-[360px]">
+                        <AnimatePresence mode="wait">
                             <motion.div
-                                variants={cardVariants}
-                                className="relative bg-[#ffffff] rounded-2xl md:rounded-[32px] p-10 md:p-14 border-0 flex flex-col items-start text-left shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+                                key={activeItem}
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                className="relative w-full"
                             >
-                                <div className="flex items-center gap-6 mb-6">
-                                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0">
-                                        <img
-                                            src={INVENTORY_ITEMS[activeItem].iconSrc}
-                                            alt={INVENTORY_ITEMS[activeItem].title}
-                                            className="w-full h-full object-contain drop-shadow-md"
-                                        />
-                                    </div>
-                                    <h3 className="text-3xl md:text-[2.75rem] font-black tracking-tight text-[#222222]">
-                                        {INVENTORY_ITEMS[activeItem].title}
-                                    </h3>
-                                </div>
+                                {/* Layer 1: Bloque de Color */}
+                                <motion.div
+                                    variants={colorBlockVariants}
+                                    className="absolute inset-0 rounded-2xl md:rounded-[32px]"
+                                    style={{ backgroundColor: INVENTORY_ITEMS[activeItem].bgColor }}
+                                />
 
-                                <p className="text-xl md:text-[22px] text-[#333333] leading-snug w-full text-left font-normal">
-                                    {INVENTORY_ITEMS[activeItem].description}
-                                </p>
-                            </motion.div>
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
-
-                {/* Lado Inferior: El UI de Inventario (Estilo Hotbar de Minecraft) */}
-                <div className="w-full flex flex-col items-center pb-8">
-                    <div className="bg-[#c6c6c6] p-4 mx-auto inline-block rounded-md shadow-inner border-t-[4px] border-l-[4px] border-white border-b-[4px] border-r-[4px] border-b-[#555] border-r-[#555]">
-                        <div className="flex flex-row justify-center gap-2 md:gap-4">
-                            {INVENTORY_ITEMS.map((item, index) => {
-                                const isActive = activeItem === index;
-
-                                return (
-                                    <button
-                                        key={item.id}
-                                        onClick={() => setActiveItem(index)}
-                                        className={`
-                                            relative w-16 h-16 md:w-20 md:h-20 flex flex-col items-center justify-center p-2 
-                                            transition-all duration-200
-                                            bg-[#8b8b8b] border-t-[4px] border-l-[4px] border-b-[4px] border-r-[4px]
-                                            ${isActive
-                                                ? 'border-t-[#373737] border-l-[#373737] border-b-[#fff] border-r-[#fff] bg-[#7a7a7a]' // Presionado
-                                                : 'border-t-[#555] border-l-[#555] border-b-[#fff] border-r-[#fff] hover:bg-[#9e9e9e] shadow-[inset_-2px_-2px_0_rgba(0,0,0,0.1)]' // Normal
-                                            }
-                                        `}
-                                    >
-                                        <img src={item.iconSrc} alt={item.title} className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-md" />
-
-                                        {/* Highlight verde al seleccionarse como inventario activo de MC */}
-                                        {isActive && (
-                                            <motion.div
-                                                layoutId="inventory_highlight"
-                                                className="absolute inset-0 border-[4px] border-white pointer-events-none"
-                                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                {/* Layer 2: Tarjeta Blanca */}
+                                <motion.div
+                                    variants={cardVariants}
+                                    className="relative bg-[#ffffff] rounded-2xl md:rounded-[32px] p-8 md:p-10 border-0 flex flex-col items-start text-left shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+                                >
+                                    <div className="flex items-center gap-5 mb-5">
+                                        <div className="w-14 h-14 md:w-16 md:h-16 shrink-0">
+                                            <img
+                                                src={INVENTORY_ITEMS[activeItem].iconSrc}
+                                                alt={INVENTORY_ITEMS[activeItem].title}
+                                                className="w-full h-full object-contain drop-shadow-md"
                                             />
-                                        )}
-                                    </button>
-                                );
-                            })}
+                                        </div>
+                                        <h3 className="text-2xl md:text-4xl font-black tracking-tight text-[#222222]">
+                                            {INVENTORY_ITEMS[activeItem].title}
+                                        </h3>
+                                    </div>
+
+                                    <p className="text-base md:text-lg text-[#333333] leading-relaxed w-full text-left font-normal">
+                                        {INVENTORY_ITEMS[activeItem].description}
+                                    </p>
+                                </motion.div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Hotbar de Minecraft */}
+                    <div className="w-full flex justify-center">
+                        <div className="bg-[#c6c6c6] p-3 md:p-4 inline-block rounded-md shadow-inner border-t-[4px] border-l-[4px] border-white border-b-[4px] border-r-[4px] border-b-[#555] border-r-[#555]">
+                            <div className="flex flex-row justify-center gap-2 md:gap-3">
+                                {INVENTORY_ITEMS.map((item, index) => {
+                                    const isActive = activeItem === index;
+
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => setActiveItem(index)}
+                                            className={`
+                                                relative w-14 h-14 md:w-16 md:h-16 flex flex-col items-center justify-center p-2
+                                                transition-all duration-200
+                                                bg-[#8b8b8b] border-t-[4px] border-l-[4px] border-b-[4px] border-r-[4px]
+                                                ${isActive
+                                                    ? 'border-t-[#373737] border-l-[#373737] border-b-[#fff] border-r-[#fff] bg-[#7a7a7a]'
+                                                    : 'border-t-[#555] border-l-[#555] border-b-[#fff] border-r-[#fff] hover:bg-[#9e9e9e] shadow-[inset_-2px_-2px_0_rgba(0,0,0,0.1)]'
+                                                }
+                                            `}
+                                        >
+                                            <img src={item.iconSrc} alt={item.title} className="w-9 h-9 md:w-10 md:h-10 object-contain drop-shadow-md" />
+
+                                            {isActive && (
+                                                <motion.div
+                                                    layoutId="inventory_highlight"
+                                                    className="absolute inset-0 border-[4px] border-white pointer-events-none"
+                                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                                />
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>
