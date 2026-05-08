@@ -62,15 +62,15 @@ const itemVariants: Variants = {
 
 export default function ServicesOnboarding() {
     return (
-        <section className="relative w-full bg-white rounded-[50px] overflow-hidden px-6 py-16 md:py-20 min-h-screen flex flex-col justify-center">
+        <section className="relative w-full bg-[#f5f1e4] rounded-[50px] overflow-hidden px-6 py-16 md:py-20 min-h-screen flex flex-col justify-center">
             <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col gap-8 md:gap-10">
 
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
                     className="text-center"
                 >
                     <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight leading-[1.05]">
@@ -91,16 +91,18 @@ export default function ServicesOnboarding() {
                             <motion.div
                                 key={step.number}
                                 variants={itemVariants}
-                                className="flex flex-col"
+                                whileHover={{ y: -6 }}
+                                transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                                className="flex flex-col group"
                             >
                                 {/* Image card */}
-                                <div className={`${step.mockupBg} relative rounded-[24px] flex items-center justify-center h-[280px] md:h-[300px] mb-4 overflow-hidden`}>
+                                <div className={`${step.mockupBg} relative rounded-[24px] flex items-center justify-center h-[280px] md:h-[300px] mb-4 overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-500`}>
                                     <Image
                                         src={step.image}
                                         alt={step.imageAlt}
                                         fill
                                         sizes="(min-width: 768px) 33vw, 100vw"
-                                        className="object-cover"
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                 </div>
 

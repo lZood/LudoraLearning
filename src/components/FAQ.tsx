@@ -96,7 +96,7 @@ export default function FAQ() {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     return (
-        <section className="relative w-full min-h-screen py-28 md:py-36 bg-white rounded-t-[50px] rounded-b-[50px] overflow-hidden flex items-center px-6">
+        <section className="relative w-full min-h-screen py-28 md:py-36 bg-[#f5f1e4] rounded-t-[50px] rounded-b-[50px] overflow-hidden flex items-center px-6">
             {/* Blobs */}
             <div className="absolute top-20 right-[-50px] w-64 h-64 bg-[#8ED462]/15 rounded-full blur-[80px] pointer-events-none" />
             <div className="absolute bottom-20 left-[-30px] w-56 h-56 bg-[#86d2fb]/15 rounded-full blur-[70px] pointer-events-none" />

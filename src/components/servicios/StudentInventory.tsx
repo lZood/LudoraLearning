@@ -83,7 +83,7 @@ export default function StudentInventory() {
 
     return (
         <section
-            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center"
+            className="w-full min-h-screen py-24 bg-[#86d2fb] text-white relative overflow-hidden flex flex-col justify-center rounded-b-[50px]"
         >
 
             <div className="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16 w-full">
@@ -92,14 +92,16 @@ export default function StudentInventory() {
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
                     className="flex justify-center lg:justify-start order-2 lg:order-1"
                 >
-                    <img
+                    <motion.img
                         src="/images/service-page/Inventario.webp"
                         alt="Personaje apicultor de Minecraft con abejas"
                         className="w-full max-w-md lg:max-w-xl h-auto object-contain drop-shadow-2xl"
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                     />
                 </motion.div>
 
@@ -108,9 +110,10 @@ export default function StudentInventory() {
 
                     {/* Título */}
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.2 }}
+                        transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
                         className="text-center lg:text-left w-full"
                     >
                         <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-lg tracking-tight">

@@ -103,10 +103,10 @@ export default function ServicesDifference() {
 
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.7, type: "spring", bounce: 0.25 }}
                     className="text-center mb-14 md:mb-20"
                 >
                     <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-[#1d1d1b] tracking-tight leading-[1.1]">
@@ -118,8 +118,8 @@ export default function ServicesDifference() {
                     </p>
                 </motion.div>
 
-                {/* Comparison table */}
-                <div className="grid grid-cols-2 gap-0 bg-white rounded-[32px] p-6 md:p-10 shadow-xl">
+                {/* Comparison table — DESKTOP (md+) */}
+                <div className="hidden md:grid grid-cols-2 gap-0 bg-white rounded-[32px] p-6 md:p-10 shadow-xl">
 
                     {/* Column headers */}
                     <div className="pb-5 pr-6 md:pr-10 border-b-2 border-gray-200">
@@ -170,6 +170,49 @@ export default function ServicesDifference() {
                         ))}
                     </motion.div>
                 </div>
+
+                {/* Comparison stack — MOBILE (< md) */}
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.05 }}
+                    className="md:hidden flex flex-col gap-3"
+                >
+                    {comparisonRows.map((row, i) => (
+                        <motion.div
+                            key={i}
+                            variants={rowVariants}
+                            className="bg-white rounded-2xl p-4 shadow-md flex flex-col gap-3"
+                        >
+                            {/* Tradicional (arriba, tachado) */}
+                            <div className="flex items-start gap-3 pb-3 border-b border-gray-100">
+                                <PixelXCircle color="#9CA3AF" bg="#f5f5f5" />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-0.5">
+                                        Tradicional
+                                    </p>
+                                    <p className="text-sm text-gray-400 font-medium leading-snug line-through decoration-gray-300">
+                                        {row.traditional}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Ludora (abajo, destacado) */}
+                            <div className="flex items-start gap-3">
+                                <PixelCheckCircle color="#ffffff" bg="#632eaf" />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[10px] font-black uppercase tracking-wider text-[#632eaf] mb-0.5">
+                                        Ludora
+                                    </p>
+                                    <p className="text-sm text-[#1d1d1b] font-semibold leading-snug">
+                                        {row.ludora}
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
 
                 {/* CTA */}
                 <motion.div
