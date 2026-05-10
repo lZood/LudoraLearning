@@ -34,7 +34,12 @@ type Benefit = {
 /* ── Hero floats (animación simple "flotar") ── */
 const float = (delay = 0, distance = 6) => ({
     animate: { y: [0, -distance, 0] },
-    transition: { duration: 3 + delay * 0.4, repeat: Infinity, ease: "easeInOut", delay },
+    transition: {
+        duration: 3 + delay * 0.4,
+        repeat: Infinity,
+        ease: "easeInOut" as const,
+        delay,
+    },
 });
 
 /* ── Heroes por beneficio ── */
