@@ -40,6 +40,9 @@ const plans: Plan[] = [
             "Gamificación: ligas, XP, logros y leaderboards",
             "Reportes de progreso para padres",
             "Comunidad activa en Discord",
+            "Acompañamiento y resolución de dudas con maestros certificados 24/7",
+            "Speaking práctico con situaciones y comunicación real",
+            "Acceso completo al servidor exclusivo de Minecraft",
         ],
         cta: "EMPEZAR CON ESTÁNDAR",
         ctaHref: "/portal-alumno/registro?plan=basic",
@@ -62,6 +65,9 @@ const plans: Plan[] = [
             "Gamificación: ligas, XP, logros y leaderboards",
             "Reportes de progreso para padres",
             "Comunidad activa en Discord",
+            "Acompañamiento y resolución de dudas con maestros certificados 24/7",
+            "Speaking práctico con situaciones y comunicación real",
+            "Acceso completo al servidor exclusivo de Minecraft",
         ],
         cta: "ELEGIR LUDORA PLUS",
         ctaHref: "/portal-alumno/registro?plan=plus",
@@ -508,11 +514,8 @@ export default function ServicePricing() {
                     className="text-center mb-12 md:mb-14"
                 >
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.05] drop-shadow-[2px_2px_0_rgba(0,0,0,0.15)]">
-                        Elige tu <span className="text-[#632eaf]">plan</span>
+                        Elige tu plan
                     </h2>
-                    <p className="mt-3 text-sm md:text-base text-white/95 font-medium">
-                        Sin permanencia. Cancela cuando quieras.
-                    </p>
                 </motion.div>
 
                 {/* Cards grid */}
@@ -521,20 +524,37 @@ export default function ServicePricing() {
                     <PricingCard plan={plans[1]} isPopular />
                 </div>
 
-                {/* Footnote */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                {/* Support CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="text-center text-xs md:text-sm text-white mt-10"
+                    transition={{ delay: 0.25, duration: 0.5 }}
+                    className="mt-12 md:mt-14"
                 >
-                    ¿Dudas? Agenda una{" "}
-                    <Link href="/portal-alumno/evaluacion" className="text-white font-black underline underline-offset-4 hover:text-[#fff8b8]">
-                        evaluación gratuita
-                    </Link>{" "}
-                    antes de elegir.
-                </motion.p>
+                    <div className="mx-auto max-w-2xl rounded-[28px] bg-white/15 backdrop-blur-sm ring-1 ring-white/30 px-5 py-5 sm:px-7 sm:py-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 text-center sm:text-left">
+                        <div className="shrink-0 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md ring-2 ring-white/60">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#632eaf" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-sm md:text-base font-black text-white leading-tight">
+                                ¿Tienes dudas antes de elegir?
+                            </p>
+                            <p className="text-xs md:text-sm text-white/90 mt-0.5">
+                                Habla con nuestro equipo y te ayudamos a encontrar el plan ideal para ti.
+                            </p>
+                        </div>
+                        <Link
+                            href="/portal-alumno/evaluacion"
+                            className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs md:text-sm font-black tracking-wide text-[#632eaf] shadow-[0_4px_0_rgba(60,40,15,0.18)] hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(60,40,15,0.22)] active:translate-y-0 active:shadow-[0_2px_0_rgba(60,40,15,0.22)] transition-all duration-150"
+                        >
+                            Haz tu evaluación gratuita
+                            <PixelArrow color="#632eaf" size={14} />
+                        </Link>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );
