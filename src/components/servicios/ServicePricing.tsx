@@ -550,7 +550,7 @@ export default function ServicePricing() {
                             href="/portal-alumno/evaluacion"
                             className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs md:text-sm font-black tracking-wide text-[#632eaf] shadow-[0_4px_0_rgba(60,40,15,0.18)] hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(60,40,15,0.22)] active:translate-y-0 active:shadow-[0_2px_0_rgba(60,40,15,0.22)] transition-all duration-150"
                         >
-                            Haz tu evaluación gratuita
+                            Habla con soporte
                             <PixelArrow color="#632eaf" size={14} />
                         </Link>
                     </div>
