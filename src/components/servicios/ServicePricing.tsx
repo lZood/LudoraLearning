@@ -547,7 +547,7 @@ export default function ServicePricing() {
                             </p>
                         </div>
                         <Link
-                            href="/portal-alumno/evaluacion"
+                            href="/contacto"
                             className="shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs md:text-sm font-black tracking-wide text-[#632eaf] shadow-[0_4px_0_rgba(60,40,15,0.18)] hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(60,40,15,0.22)] active:translate-y-0 active:shadow-[0_2px_0_rgba(60,40,15,0.22)] transition-all duration-150"
                         >
                             Habla con soporte
