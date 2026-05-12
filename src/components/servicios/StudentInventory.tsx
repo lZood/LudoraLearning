@@ -20,7 +20,7 @@ const INVENTORY_ITEMS = [
         iconSrc: "/images/service-page/netherportal.gif",
         color: "text-[#a855f7]",
         bgColor: "#a855f7",
-        description: "Desde tu primer módulo también tendrás acceso a nuestro portal exclusivo para alumnos, u  n espacio diseñado para que puedas repasar, complementar y reforzar lo aprendido durante tus sesiones in-game siempre que lo necesites."
+        description: "Desde tu inscripción también tendrás acceso inmediato a nuestro portal exclusivo para alumnos, un espacio diseñado para complementar y reforzar tus sesiones in-game. Todo lo que practiques dentro de la plataforma podrás aplicarlo directamente en el juego mediante actividades, interacción y comunicación en tiempo real, ayudándote a mejorar de forma más natural y divertida. *"
     },
     {
         id: "gameplay",
