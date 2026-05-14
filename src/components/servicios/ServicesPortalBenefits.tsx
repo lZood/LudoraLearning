@@ -109,12 +109,12 @@ const HeroBiblioteca = () => (
 const benefits: Benefit[] = [
     {
         tag: "MATERIAL INTERACTIVO",
-        title: "Aprende con material interactivo y IA",
+        title: "Aprende con material interactivo e IA",
         description:
-            "Flashcards, quizzes, crucigramas, dictados y juegos de memoria. Nuestra IA evalúa tu pronunciación al instante.",
+            "Flashcards, quizzes, crucigramas, dictados y juegos de memoria. Nuestra IA evalúa tu progreso al instante.",
         bullets: [
             "Flashcards y quizzes adaptativos",
-            "IA que corrige tu pronunciación",
+            "IA que corrige tus fallos instantáneamente",
             "Crucigramas, dictados y memoramas",
         ],
         accent: "#2ba0ff",

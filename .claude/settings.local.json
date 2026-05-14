@@ -9,7 +9,8 @@
       "Bash(python -c \"from pypdf import PdfReader; r=PdfReader\\('Carta_Recomendacion_Jose_Carlos_Ramirez.pdf'\\); print\\('pages:', len\\(r.pages\\)\\)\")",
       "Bash(python carta_recomendacion.py)",
       "Bash(python -c \"from pypdf import PdfReader; print\\('pages:', len\\(PdfReader\\('Carta_Recomendacion_Jose_Carlos_Ramirez.pdf'\\).pages\\)\\)\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(rtk git *)"
     ]
   }
 }
