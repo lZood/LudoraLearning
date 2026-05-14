@@ -101,7 +101,13 @@ export default function EstrategiaBlackboard() {
 
     return (
         <section
-            className="relative w-full bg-[#2d5238]"
+            className="relative w-full -mt-[50px]"
+            style={{
+                // Top 60px transparent → top corners reveal the Hero behind
+                // Bottom area cream (#f2eee1) → bottom corners blend with that color
+                background:
+                    "linear-gradient(to bottom, transparent 0px, transparent 60px, #f2eee1 60px, #f2eee1 100%)",
+            }}
         >
             {/* Outer wooden card — rounded top & bottom; the section bg around the corners is the chalkboard green so it blends */}
             <div
