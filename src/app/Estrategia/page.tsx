@@ -1,5 +1,4 @@
 import Hero from "@/components/Hero";
-import HeroTransition from "@/components/HeroTransition";
 import EstrategiaBlackboard from "@/components/estrategia/EstrategiaBlackboard";
 import EstrategiaWhyMinecraft from "@/components/estrategia/EstrategiaWhyMinecraft";
 import Footer from "@/components/Footer";
@@ -15,7 +14,6 @@ export default function Estrategia() {
                 showTextShadow={false}
                 showOverlay={false}
             />
-            <HeroTransition showShadow={false} transitionColor="#f0ecff" />
             <EstrategiaBlackboard />
             <EstrategiaWhyMinecraft />
             <Footer />

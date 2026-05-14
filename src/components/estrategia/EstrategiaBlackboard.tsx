@@ -101,32 +101,37 @@ export default function EstrategiaBlackboard() {
 
     return (
         <section
-            className="relative w-full min-h-screen overflow-hidden p-3 sm:p-4 md:p-5"
-            style={{
-                background:
-                    "linear-gradient(135deg, #b8854a 0%, #9c6b35 25%, #c4915a 50%, #8a5a2a 75%, #b8854a 100%)",
-                boxShadow: "inset 0 2px 4px rgba(255,255,255,0.25), inset 0 -2px 4px rgba(0,0,0,0.3)",
-            }}
+            className="relative w-full bg-[#2d5238]"
         >
-            {/* Wood grain overlay on the frame */}
+            {/* Outer wooden card — rounded top & bottom; the section bg around the corners is the chalkboard green so it blends */}
             <div
-                className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay"
-                style={{
-                    backgroundImage:
-                        "repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,0.08) 1px, transparent 3px, rgba(255,255,255,0.05) 5px, transparent 8px)",
-                }}
-            />
-
-            {/* Chalkboard fills the section (minus the wood frame padding) */}
-            <div
-                className="relative w-full min-h-[calc(100vh-1.5rem)] sm:min-h-[calc(100vh-2rem)] md:min-h-[calc(100vh-2.5rem)] overflow-hidden rounded-[8px]"
+                className="relative w-full min-h-screen overflow-hidden p-3 sm:p-4 md:p-5 rounded-[50px]"
                 style={{
                     background:
-                        "radial-gradient(ellipse at 30% 20%, #3d6b4a 0%, #2d5238 40%, #1f3d28 100%)",
+                        "linear-gradient(135deg, #b8854a 0%, #9c6b35 25%, #c4915a 50%, #8a5a2a 75%, #b8854a 100%)",
                     boxShadow:
-                        "inset 0 0 120px rgba(0,0,0,0.55), inset 0 0 30px rgba(255,255,255,0.05)",
+                        "inset 0 2px 4px rgba(255,255,255,0.25), inset 0 -2px 4px rgba(0,0,0,0.3), 0 10px 40px -10px rgba(0,0,0,0.25)",
                 }}
             >
+                {/* Wood grain overlay on the frame */}
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay rounded-[50px]"
+                    style={{
+                        backgroundImage:
+                            "repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,0.08) 1px, transparent 3px, rgba(255,255,255,0.05) 5px, transparent 8px)",
+                    }}
+                />
+
+                {/* Chalkboard fills the section (minus the wood frame padding) */}
+                <div
+                    className="relative w-full min-h-[calc(100vh-1.5rem)] sm:min-h-[calc(100vh-2rem)] md:min-h-[calc(100vh-2.5rem)] overflow-hidden rounded-[38px] sm:rounded-[40px] md:rounded-[42px]"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse at 30% 20%, #3d6b4a 0%, #2d5238 40%, #1f3d28 100%)",
+                        boxShadow:
+                            "inset 0 0 120px rgba(0,0,0,0.55), inset 0 0 30px rgba(255,255,255,0.05)",
+                    }}
+                >
                 {/* Chalk dust texture */}
                 <div
                     className="absolute inset-0 pointer-events-none opacity-25"
@@ -135,20 +140,6 @@ export default function EstrategiaBlackboard() {
                             "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18) 0%, transparent 40%), radial-gradient(circle at 75% 60%, rgba(255,255,255,0.12) 0%, transparent 45%), radial-gradient(circle at 50% 90%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 90% 15%, rgba(255,255,255,0.1) 0%, transparent 35%)",
                     }}
                 />
-
-                {/* Floating chalk scribbles for atmosphere */}
-                <svg
-                    className="absolute top-8 right-12 opacity-20 pointer-events-none hidden md:block"
-                    width="140" height="50" viewBox="0 0 140 50" fill="none"
-                >
-                    <path d="M5 25 Q 35 5, 70 25 T 135 25" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-                <svg
-                    className="absolute bottom-16 left-10 opacity-15 pointer-events-none hidden md:block"
-                    width="80" height="80" viewBox="0 0 80 80" fill="none"
-                >
-                    <circle cx="40" cy="40" r="30" stroke="white" strokeWidth="2" strokeDasharray="4 6" />
-                </svg>
 
                 {/* Floating content */}
                 <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 md:gap-10 lg:gap-14 px-5 sm:px-8 md:px-12 lg:px-16 py-10 md:py-14 lg:py-20 min-h-[calc(100vh-1.5rem)] sm:min-h-[calc(100vh-2rem)] md:min-h-[calc(100vh-2.5rem)] items-center">
@@ -198,7 +189,7 @@ export default function EstrategiaBlackboard() {
                     </nav>
 
                     {/* RIGHT: Content floats directly on chalkboard */}
-                    <div className="relative min-h-[420px] md:min-h-[460px]">
+                    <div className="relative min-h-[420px] md:min-h-[460px] flex items-center justify-center">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={active.id}
@@ -206,19 +197,21 @@ export default function EstrategiaBlackboard() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -12 }}
                                 transition={{ duration: 0.35, ease: "easeOut" }}
-                                className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center"
+                                className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 w-full max-w-[1100px] mx-auto"
                             >
-                                {/* Image — transparent PNG floating directly on the chalkboard */}
-                                <div className="relative aspect-square w-full max-w-[440px] mx-auto md:mx-0 flex items-center justify-center">
-                                    <img
-                                        src={active.imageSrc}
-                                        alt=""
-                                        className="w-full h-full object-contain"
-                                    />
+                                {/* Image — 50% on md+, right-aligned to stay close to text */}
+                                <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                                    <div className="relative aspect-square w-full max-w-[360px] lg:max-w-[420px] flex items-center justify-center">
+                                        <img
+                                            src={active.imageSrc}
+                                            alt=""
+                                            className="w-full h-full object-contain"
+                                        />
+                                    </div>
                                 </div>
 
-                                {/* Text floats directly on the chalkboard */}
-                                <div className="flex flex-col gap-4 md:gap-5">
+                                {/* Text — 50% on md+, left-aligned to stay close to image */}
+                                <div className="w-full md:w-1/2 flex flex-col gap-4 md:gap-5 max-w-[520px]">
                                     <div className="flex items-center gap-3 md:gap-4">
                                         <div
                                             className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center overflow-hidden"
@@ -278,6 +271,7 @@ export default function EstrategiaBlackboard() {
                         boxShadow: "0 3px 6px rgba(0,0,0,0.5)",
                     }}
                 />
+                </div>
             </div>
         </section>
     );
