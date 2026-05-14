@@ -240,7 +240,7 @@ const PillButton = ({
     );
 };
 
-/* ── Chip minimalista de "clases en vivo" ── */
+/* ── Chip llamativo de "clases en vivo" ── */
 const LiveClassChip = ({
     count,
     icon,
@@ -252,35 +252,47 @@ const LiveClassChip = ({
     accent: string;
     accentLight: string;
 }) => (
-    <div
-        className="inline-flex items-center gap-2.5 self-center rounded-full pl-1.5 pr-4 py-1.5 ring-1"
+    <motion.div
+        animate={{ y: [0, -2, 0] }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        className="relative inline-flex items-center gap-3 self-center rounded-full pl-2 pr-5 py-2 ring-2"
         style={{
-            backgroundColor: `${accentLight}1a`, // 10% accent light bg
-            borderColor: `${accent}40`,
+            background: `linear-gradient(135deg, ${accentLight}33 0%, ${accentLight}1a 100%)`,
             // @ts-expect-error css var fallback, ring color via inline style
-            "--tw-ring-color": `${accent}33`,
+            "--tw-ring-color": `${accent}66`,
+            boxShadow: `0 6px 18px -8px ${accent}66, inset 0 0 0 1px rgba(255,255,255,0.4)`,
         }}
     >
+        {/* glow ring */}
+        <span
+            aria-hidden
+            className="absolute inset-0 rounded-full pointer-events-none animate-pulse"
+            style={{ boxShadow: `0 0 0 4px ${accent}1f` }}
+        />
         <div
-            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-            style={{ backgroundColor: `${accent}20` }}
+            className="relative w-11 h-11 rounded-full flex items-center justify-center shrink-0 ring-2 ring-white"
+            style={{
+                background: `linear-gradient(135deg, ${accent} 0%, ${accentLight} 100%)`,
+                boxShadow: `0 4px 10px -2px ${accent}80`,
+            }}
         >
             <img
                 src={icon}
                 alt=""
-                className="w-5 h-5 object-contain"
+                className="w-7 h-7 object-contain drop-shadow"
                 style={{ imageRendering: "pixelated" }}
             />
         </div>
-        <div className="flex items-baseline gap-1.5">
-            <span className="text-xl font-black leading-none" style={{ color: accent }}>
+        <div className="relative flex items-baseline gap-2">
+            <span className="text-3xl font-black leading-none drop-shadow-sm" style={{ color: accent }}>
                 {count}
             </span>
-            <span className="text-[11px] font-black uppercase tracking-wider text-[#3a3a3a]/75 leading-none">
-                {count === 1 ? "clase" : "clases"} en vivo · al mes
+            <span className="text-[12px] font-black uppercase tracking-wider text-[#3a3a3a]/80 leading-tight">
+                {count === 1 ? "clase" : "clases"} en vivo<br />
+                <span className="text-[10px] tracking-[0.18em] text-[#3a3a3a]/55">al mes</span>
             </span>
         </div>
-    </div>
+    </motion.div>
 );
 
 /* ── Pricing card (versión rounded + cream) ── */
@@ -299,7 +311,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                 type: "spring",
                 bounce: 0.2,
             }}
-            className="relative"
+            className="relative h-full"
         >
             {/* "MÁS POPULAR" badge — pill rounded-full */}
             {isPopular && (
@@ -321,6 +333,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                     relative overflow-hidden rounded-[32px] bg-[#f5f1e4]
                     shadow-[0_18px_45px_-12px_rgba(60,40,15,0.22)]
                     ring-2 ${p.ringStrong}
+                    h-full flex flex-col
                 `}
             >
                 {/* Enchanted MC particles (Plus only) — solo partículas pixeladas */}
@@ -396,7 +409,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                 </div>
 
                 {/* Body */}
-                <div className="relative p-5 sm:p-6 md:p-7 flex flex-col gap-5">
+                <div className="relative p-5 sm:p-6 md:p-7 flex flex-col gap-5 flex-1">
 
                     {/* Tagline */}
                     <p className="text-center text-xs md:text-sm font-semibold text-[#3a3a3a]/70 -mt-1">
@@ -459,7 +472,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        className="flex flex-col gap-2.5"
+                        className="flex flex-col gap-2.5 flex-1"
                     >
                         {plan.features.map((feature) => (
                             <motion.li
@@ -519,7 +532,7 @@ export default function ServicePricing() {
                 </motion.div>
 
                 {/* Cards grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 items-stretch">
                     <PricingCard plan={plans[0]} />
                     <PricingCard plan={plans[1]} isPopular />
                 </div>
