@@ -1,11 +1,6 @@
 import Hero from "@/components/Hero";
 import HeroTransition from "@/components/HeroTransition";
-import EstrategiaOrigin from "@/components/estrategia/EstrategiaOrigin";
-import EstrategiaPlanning from "@/components/estrategia/EstrategiaPlanning";
-import EstrategiaMinecraftSection from "@/components/estrategia/EstrategiaMinecraft";
-import EstrategiaPronunciation from "@/components/estrategia/EstrategiaPronunciation";
-import EstrategiaRealUsage from "@/components/estrategia/EstrategiaRealUsage";
-import EstrategiaResults from "@/components/estrategia/EstrategiaResults";
+import EstrategiaBlackboard from "@/components/estrategia/EstrategiaBlackboard";
 import EstrategiaWhyMinecraft from "@/components/estrategia/EstrategiaWhyMinecraft";
 import Footer from "@/components/Footer";
 
@@ -21,12 +16,7 @@ export default function Estrategia() {
                 showOverlay={false}
             />
             <HeroTransition showShadow={false} transitionColor="#f0ecff" />
-            <EstrategiaOrigin />
-            <EstrategiaPlanning />
-            <EstrategiaMinecraftSection />
-            <EstrategiaPronunciation />
-            <EstrategiaRealUsage />
-            <EstrategiaResults />
+            <EstrategiaBlackboard />
             <EstrategiaWhyMinecraft />
             <Footer />
         </main>
