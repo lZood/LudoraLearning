@@ -60,27 +60,16 @@ export default function EstrategiaWhyMinecraft() {
                     </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14 text-left">
+                <div className="flex justify-center mb-14 text-left">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.15 }}
-                        className="bg-white/20 border border-white/30 backdrop-blur-md rounded-[24px] p-8 shadow-sm"
+                        className="bg-white/20 border border-white/30 backdrop-blur-md rounded-[24px] p-8 md:p-10 shadow-sm max-w-3xl"
                     >
                         <p className="text-[#1d1d1b] text-lg md:text-xl font-medium leading-relaxed">
-                            Minecraft es el aula perfecta porque fomenta la <strong className="text-white drop-shadow-sm font-bold">creatividad sin límites</strong>. Es un entorno donde el inglés deja de ser una materia y se convierte en la "llave" para abrir cofres, completar misiones y colaborar en equipo.
-                        </p>
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.25 }}
-                        className="bg-white/20 border border-white/30 backdrop-blur-md rounded-[24px] p-8 shadow-sm"
-                    >
-                        <p className="text-[#1d1d1b] text-lg md:text-xl font-medium leading-relaxed">
-                            La <strong className="text-white drop-shadow-sm font-bold">alta motivación del juego</strong> mantiene a los alumnos enganchados y participando activamente, transformando cada sesión en una experiencia social y memorable que realmente disfrutan.
+                            Minecraft es el aula perfecta: fomenta la <strong className="text-white drop-shadow-sm font-bold">creatividad sin límites</strong> y mantiene una <strong className="text-white drop-shadow-sm font-bold">alta motivación</strong> que engancha a los alumnos. El inglés deja de ser una materia y se convierte en la "llave" para abrir cofres, completar misiones y colaborar en equipo, transformando cada sesión en una experiencia social memorable.
                         </p>
                     </motion.div>
                 </div>

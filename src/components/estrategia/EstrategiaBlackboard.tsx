@@ -268,13 +268,13 @@ export default function EstrategiaBlackboard() {
                     </div>
                 </div>
 
-                {/* Eraser detail in bottom-right corner of the chalkboard */}
+                {/* Eraser — 3× larger, stuck to the right edge of the chalkboard */}
                 <div
-                    className="absolute bottom-4 right-6 md:bottom-6 md:right-10 w-16 h-6 md:w-24 md:h-8 rounded-sm pointer-events-none"
+                    className="absolute right-0 bottom-8 md:bottom-12 w-48 h-[72px] md:w-72 md:h-24 rounded-l-sm pointer-events-none"
                     style={{
                         background:
                             "linear-gradient(180deg, #f5e6c8 0%, #e8d4a8 50%, #c89858 50%, #a67838 100%)",
-                        boxShadow: "0 3px 6px rgba(0,0,0,0.5)",
+                        boxShadow: "0 6px 14px rgba(0,0,0,0.55), -2px 0 6px rgba(0,0,0,0.25)",
                     }}
                 />
                 </div>
