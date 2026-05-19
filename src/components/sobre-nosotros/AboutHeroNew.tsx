@@ -45,7 +45,7 @@ export default function AboutHeroNew() {
                     className="w-full relative rounded-[30px] overflow-hidden shadow-2xl aspect-[16/9] md:aspect-[21/9]"
                 >
                     <img
-                        src="/images/sobre-nosotros/team.webp"
+                        src="/images/sobre-nosotros/bgHero.webp"
                         alt="El equipo de Ludora"
                         className="object-cover w-full h-full"
                     />
