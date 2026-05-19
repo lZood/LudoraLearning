@@ -79,15 +79,6 @@ export default function AboutHeroNew() {
                     JUGANDO.
                 </motion.h1>
 
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.35 }}
-                    className={`text-lg sm:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed ${montserrat.className}`}
-                >
-                    Todo empezó en un servidor de Minecraft entre amigos.
-                    Hoy somos un equipo que transforma la forma de aprender inglés.
-                </motion.p>
             </div>
 
             {/* Scroll indicator */}

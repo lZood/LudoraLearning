@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Section = {
@@ -99,6 +99,14 @@ export default function EstrategiaBlackboard() {
     const [activeId, setActiveId] = useState(sections[0].id);
     const active = sections.find((s) => s.id === activeId) ?? sections[0];
 
+    // Preload every section image once on mount so switching tabs is instant.
+    useEffect(() => {
+        sections.forEach((s) => {
+            const img = new Image();
+            img.src = s.imageSrc;
+        });
+    }, []);
+
     return (
         <section
             className="relative w-full -mt-[50px]"
@@ -196,75 +204,113 @@ export default function EstrategiaBlackboard() {
 
                     {/* RIGHT: Content floats directly on chalkboard */}
                     <div className="relative min-h-[420px] md:min-h-[460px] flex items-center justify-center">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={active.id}
-                                initial={{ opacity: 0, y: 12 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -12 }}
-                                transition={{ duration: 0.35, ease: "easeOut" }}
-                                className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 w-full max-w-[1100px] mx-auto"
-                            >
-                                {/* Image — 50% on md+, right-aligned to stay close to text */}
-                                <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                                    <div className="relative aspect-square w-full max-w-[360px] lg:max-w-[420px] flex items-center justify-center">
-                                        <img
-                                            src={active.imageSrc}
-                                            alt=""
-                                            className="w-full h-full object-contain"
-                                        />
-                                    </div>
-                                </div>
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 w-full max-w-[1100px] mx-auto">
 
-                                {/* Text — 50% on md+, left-aligned to stay close to image */}
-                                <div className="w-full md:w-1/2 flex flex-col gap-4 md:gap-5 max-w-[520px]">
-                                    <div className="flex items-center gap-3 md:gap-4">
-                                        <div
-                                            className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center overflow-hidden"
-                                            style={{
-                                                background: "rgba(255,255,255,0.08)",
-                                                border: `2px solid ${active.color}`,
-                                                boxShadow: `0 0 16px ${active.color}55`,
-                                            }}
-                                        >
-                                            <img
-                                                src={active.iconSrc}
+                            {/* Image column — persistent. All images stay mounted; only opacity/scale change → instant, smooth crossfade. */}
+                            <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+                                <div className="relative aspect-square w-full max-w-[360px] lg:max-w-[420px]">
+                                    {sections.map((s) => {
+                                        const isActive = s.id === active.id;
+                                        return (
+                                            <motion.img
+                                                key={s.id}
+                                                src={s.imageSrc}
                                                 alt=""
-                                                className="w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow"
-                                            />
-                                        </div>
-                                        <h2
-                                            className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-[1.05] text-white"
-                                            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
-                                        >
-                                            {active.title}{" "}
-                                            <span style={{ color: active.color, textShadow: `0 0 18px ${active.color}77` }}>
-                                                {active.titleAccent}
-                                            </span>
-                                        </h2>
-                                    </div>
-
-                                    <div
-                                        className="flex flex-col gap-3 md:gap-4 [&_strong]:text-[var(--accent-strong)] [&_strong]:font-bold [&_strong]:drop-shadow"
-                                        style={{ ["--accent-strong" as any]: active.color }}
-                                    >
-                                        {active.paragraphs.map((p, i) => (
-                                            <p
-                                                key={i}
-                                                className={
-                                                    i === 0
-                                                        ? "text-base md:text-lg font-medium leading-relaxed text-white/90"
-                                                        : "text-sm md:text-base font-medium leading-relaxed text-white/70"
+                                                loading="eager"
+                                                decoding="async"
+                                                draggable={false}
+                                                initial={false}
+                                                animate={
+                                                    isActive
+                                                        ? { opacity: 1, scale: 1, y: 0, rotate: 0 }
+                                                        : { opacity: 0, scale: 0.9, y: 14, rotate: -2 }
                                                 }
-                                                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}
-                                            >
-                                                {p}
-                                            </p>
-                                        ))}
-                                    </div>
+                                                transition={{
+                                                    duration: 0.55,
+                                                    ease: [0.22, 1, 0.36, 1],
+                                                }}
+                                                className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+                                                style={{
+                                                    willChange: "transform, opacity",
+                                                }}
+                                            />
+                                        );
+                                    })}
                                 </div>
-                            </motion.div>
-                        </AnimatePresence>
+                            </div>
+
+                            {/* Text column — animated with AnimatePresence on tab change */}
+                            <div className="w-full md:w-1/2 max-w-[520px] relative min-h-[300px] md:min-h-[340px] flex items-center">
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={active.id}
+                                        initial={{ opacity: 0, x: 30, filter: "blur(4px)" }}
+                                        animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                                        exit={{ opacity: 0, x: -20, filter: "blur(4px)" }}
+                                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                        className="flex flex-col gap-4 md:gap-5 w-full"
+                                    >
+                                        <div className="flex items-center gap-3 md:gap-4">
+                                            <motion.div
+                                                initial={{ scale: 0.6, rotate: -12, opacity: 0 }}
+                                                animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                                                transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1], delay: 0.05 }}
+                                                className="flex-shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center overflow-hidden"
+                                                style={{
+                                                    background: "rgba(255,255,255,0.08)",
+                                                    border: `2px solid ${active.color}`,
+                                                    boxShadow: `0 0 16px ${active.color}55`,
+                                                }}
+                                            >
+                                                <img
+                                                    src={active.iconSrc}
+                                                    alt=""
+                                                    className="w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow"
+                                                />
+                                            </motion.div>
+                                            <motion.h2
+                                                initial={{ opacity: 0, y: 14 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                                                className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight leading-[1.05] text-white"
+                                                style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}
+                                            >
+                                                {active.title}{" "}
+                                                <span style={{ color: active.color, textShadow: `0 0 18px ${active.color}77` }}>
+                                                    {active.titleAccent}
+                                                </span>
+                                            </motion.h2>
+                                        </div>
+
+                                        <div
+                                            className="flex flex-col gap-3 md:gap-4 [&_strong]:text-[var(--accent-strong)] [&_strong]:font-bold [&_strong]:drop-shadow"
+                                            style={{ ["--accent-strong" as any]: active.color }}
+                                        >
+                                            {active.paragraphs.map((p, i) => (
+                                                <motion.p
+                                                    key={i}
+                                                    initial={{ opacity: 0, y: 14 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{
+                                                        duration: 0.45,
+                                                        delay: 0.18 + i * 0.08,
+                                                        ease: [0.22, 1, 0.36, 1],
+                                                    }}
+                                                    className={
+                                                        i === 0
+                                                            ? "text-base md:text-lg font-medium leading-relaxed text-white/90"
+                                                            : "text-sm md:text-base font-medium leading-relaxed text-white/70"
+                                                    }
+                                                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}
+                                                >
+                                                    {p}
+                                                </motion.p>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
