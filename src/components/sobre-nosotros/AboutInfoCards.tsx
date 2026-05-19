@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 
@@ -66,7 +67,6 @@ const stories: Story[] = [
 
 const AUTO_MS = 8000;
 
-// Variants for staggered text reveal inside a card
 const contentVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -97,11 +97,26 @@ const wordVariants: Variants = {
 export default function AboutInfoCards() {
     const [active, setActive] = useState(0);
     const [paused, setPaused] = useState(false);
+    const [direction, setDirection] = useState<1 | -1>(1);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const goTo = (i: number) => {
+        setDirection(i > active || (active === stories.length - 1 && i === 0) ? 1 : -1);
+        setActive(((i % stories.length) + stories.length) % stories.length);
+    };
+    const next = () => {
+        setDirection(1);
+        setActive((p) => (p + 1) % stories.length);
+    };
+    const prev = () => {
+        setDirection(-1);
+        setActive((p) => (p - 1 + stories.length) % stories.length);
+    };
 
     useEffect(() => {
         if (paused) return;
         timerRef.current = setTimeout(() => {
+            setDirection(1);
             setActive((prev) => (prev + 1) % stories.length);
         }, AUTO_MS);
         return () => {
@@ -109,11 +124,22 @@ export default function AboutInfoCards() {
         };
     }, [active, paused]);
 
+    // Keyboard arrows for accessibility
+    useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+            if (e.key === "ArrowRight") next();
+            else if (e.key === "ArrowLeft") prev();
+        };
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const story = stories[active];
     const titleWords = story.title.split(" ");
 
     return (
-        <section className="relative w-full bg-[#f5f1e4] py-24 md:py-32 px-6 overflow-hidden">
+        <section className="relative w-full bg-[#f5f1e4] py-20 md:py-32 px-4 sm:px-6 overflow-hidden">
             {/* Soft floating page-level decoration */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-50">
                 {[...Array(5)].map((_, i) => (
@@ -149,17 +175,17 @@ export default function AboutInfoCards() {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.4 }}
                     variants={contentVariants}
-                    className="text-center mb-12 md:mb-16"
+                    className="text-center mb-10 md:mb-14"
                 >
                     <motion.span
                         variants={itemVariants}
-                        className={`text-[#8B5CF6] text-sm tracking-[0.3em] uppercase font-semibold block mb-4 ${montserrat.className}`}
+                        className={`text-[#8B5CF6] text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold block mb-3 md:mb-4 ${montserrat.className}`}
                     >
                         Cómo llegamos aquí
                     </motion.span>
                     <motion.h2
                         variants={itemVariants}
-                        className={`text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a1a] tracking-tight ${neueMachina.className}`}
+                        className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a1a] tracking-tight ${neueMachina.className}`}
                     >
                         NUESTRA HISTORIA
                     </motion.h2>
@@ -173,11 +199,12 @@ export default function AboutInfoCards() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative w-full rounded-[32px] overflow-hidden min-h-[480px] md:min-h-[520px] flex shadow-2xl"
+                    className="relative w-full rounded-[24px] md:rounded-[32px] overflow-hidden flex flex-col shadow-2xl"
                     style={{
                         background: story.bg,
                         transition: "background-color 0.8s ease, background 0.8s ease, box-shadow 0.8s ease",
                         boxShadow: `0 30px 60px -20px ${story.bg}55, 0 12px 25px -10px rgba(0,0,0,0.25)`,
+                        minHeight: "clamp(520px, 70vh, 600px)",
                     }}
                 >
                     {/* Floating pixel-style decorations inside the card */}
@@ -209,61 +236,62 @@ export default function AboutInfoCards() {
                         ))}
                     </div>
 
-                    {/* Left: vertical progress bars */}
-                    <div className="flex flex-col justify-center gap-3 pl-5 md:pl-8 py-10 z-20">
-                        {stories.map((_, i) => {
-                            const isActive = i === active;
-                            return (
-                                <motion.button
-                                    key={i}
-                                    onClick={() => setActive(i)}
-                                    aria-label={`Ir a la sección ${i + 1}`}
-                                    whileHover={{ scaleY: 1.15, opacity: 1 }}
-                                    whileTap={{ scale: 0.92 }}
-                                    animate={
-                                        isActive
-                                            ? { height: 56, opacity: 1 }
-                                            : { height: 14, opacity: 0.35 }
-                                    }
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 280,
-                                        damping: 24,
-                                    }}
-                                    className="block rounded-full cursor-pointer"
-                                    style={{
-                                        width: "4px",
-                                        background: story.fg,
-                                    }}
-                                />
-                            );
-                        })}
-                    </div>
-
-                    {/* Right: content */}
-                    <div className="flex-1 relative z-10">
-                        <AnimatePresence mode="wait">
+                    {/* Content area (draggable for swipe) */}
+                    <motion.div
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={0.18}
+                        onDragEnd={(_, info) => {
+                            if (info.offset.x < -60 || info.velocity.x < -300) next();
+                            else if (info.offset.x > 60 || info.velocity.x > 300) prev();
+                        }}
+                        className="relative flex-1 z-10 cursor-grab active:cursor-grabbing select-none touch-pan-y"
+                    >
+                        <AnimatePresence mode="wait" custom={direction}>
                             <motion.div
                                 key={active}
                                 variants={contentVariants}
                                 initial="hidden"
                                 animate="visible"
-                                exit={{ opacity: 0, x: -30, transition: { duration: 0.35 } }}
-                                className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-8 md:gap-12 items-center h-full px-6 sm:px-10 md:px-14 py-12 md:py-14"
+                                exit={{ opacity: 0, x: direction * -30, transition: { duration: 0.3 } }}
+                                className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-6 md:gap-12 items-center h-full px-5 sm:px-8 md:px-14 pt-12 sm:pt-14 md:pt-16 pb-24 md:pb-28"
                                 style={{ color: story.fg }}
                             >
                                 {/* Text block */}
-                                <div className="flex flex-col gap-5">
+                                <div className="flex flex-col gap-4 md:gap-5 order-2 md:order-1">
+                                    {/* Chapter chip (visible on mobile, hidden on md+) */}
+                                    <motion.div
+                                        variants={itemVariants}
+                                        className="flex items-center gap-2 md:hidden"
+                                    >
+                                        <span
+                                            className={`text-[10px] tracking-[0.25em] uppercase font-bold px-3 py-1.5 rounded-full ${montserrat.className}`}
+                                            style={{
+                                                background: story.accent,
+                                                color: story.fg,
+                                            }}
+                                        >
+                                            Capítulo {story.chapter}
+                                        </span>
+                                        <span
+                                            className={`text-[10px] tracking-[0.2em] uppercase font-semibold ${montserrat.className}`}
+                                            style={{ opacity: 0.55 }}
+                                        >
+                                            {active + 1} / {stories.length}
+                                        </span>
+                                    </motion.div>
+
+                                    {/* Capítulo label (desktop) */}
                                     <motion.span
                                         variants={itemVariants}
-                                        className={`text-xs md:text-sm tracking-[0.25em] uppercase font-semibold ${montserrat.className}`}
+                                        className={`hidden md:block text-xs md:text-sm tracking-[0.25em] uppercase font-semibold ${montserrat.className}`}
                                         style={{ opacity: 0.7 }}
                                     >
                                         Capítulo {story.chapter}
                                     </motion.span>
 
                                     {/* Title with word-by-word reveal */}
-                                    <h3 className={`text-3xl md:text-4xl lg:text-[2.75rem] font-black tracking-tight leading-[1.05] ${neueMachina.className}`}>
+                                    <h3 className={`text-[28px] leading-[1.05] sm:text-3xl md:text-4xl lg:text-[2.75rem] font-black tracking-tight ${neueMachina.className}`}>
                                         {titleWords.map((w, i) => (
                                             <motion.span
                                                 key={`${active}-${i}`}
@@ -280,22 +308,21 @@ export default function AboutInfoCards() {
 
                                     <motion.p
                                         variants={itemVariants}
-                                        className={`text-base md:text-lg leading-relaxed ${montserrat.className}`}
+                                        className={`text-[15px] sm:text-base md:text-lg leading-relaxed ${montserrat.className}`}
                                         style={{ opacity: 0.88 }}
                                     >
                                         {story.body}
                                     </motion.p>
                                 </div>
 
-                                {/* Visual side: big chapter number with spring entry + idle float */}
+                                {/* Visual side: big chapter number (hidden on mobile to save space) */}
                                 <motion.div
                                     variants={itemVariants}
                                     whileHover={{ scale: 1.04, rotate: -1 }}
                                     transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                                    className="rounded-[24px] aspect-square w-full max-w-[320px] mx-auto md:mx-0 flex items-center justify-center relative overflow-hidden"
+                                    className="hidden md:flex rounded-[24px] aspect-square w-full max-w-[320px] mx-auto md:mx-0 items-center justify-center relative overflow-hidden order-1 md:order-2"
                                     style={{ background: story.accent }}
                                 >
-                                    {/* Inner glow that pulses */}
                                     <motion.div
                                         className="absolute inset-0 rounded-[24px]"
                                         animate={{ opacity: [0.3, 0.55, 0.3] }}
@@ -304,8 +331,6 @@ export default function AboutInfoCards() {
                                             background: `radial-gradient(circle at 30% 30%, ${story.fg}22, transparent 70%)`,
                                         }}
                                     />
-
-                                    {/* The big chapter number, with continuous gentle float */}
                                     <motion.span
                                         initial={{ scale: 0.55, rotate: -8, opacity: 0 }}
                                         animate={{ scale: 1, rotate: 0, opacity: 0.45 }}
@@ -328,22 +353,93 @@ export default function AboutInfoCards() {
                                 </motion.div>
                             </motion.div>
                         </AnimatePresence>
+                    </motion.div>
 
-                        {/* Auto-advance progress line at the bottom */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1 z-20" style={{ background: story.accent }}>
-                            {!paused && (
-                                <motion.div
-                                    key={`bar-${active}`}
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ duration: AUTO_MS / 1000, ease: "linear" }}
-                                    className="h-full origin-left"
-                                    style={{ background: story.fg, opacity: 0.75 }}
-                                />
-                            )}
+                    {/* Bottom controls bar: prev arrow + horizontal pills + next arrow */}
+                    <div className="absolute bottom-0 left-0 right-0 z-20 flex items-center justify-between gap-4 px-4 sm:px-6 md:px-10 pb-5 sm:pb-6 md:pb-7">
+                        {/* Prev */}
+                        <motion.button
+                            onClick={prev}
+                            whileHover={{ scale: 1.08, x: -2 }}
+                            whileTap={{ scale: 0.92 }}
+                            aria-label="Capítulo anterior"
+                            className="flex-shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+                            style={{
+                                background: story.accent,
+                                color: story.fg,
+                                border: `1.5px solid ${story.fg}40`,
+                            }}
+                        >
+                            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+                        </motion.button>
+
+                        {/* Horizontal pills (also act as progress bar for the active one) */}
+                        <div className="flex items-center gap-2 md:gap-2.5 flex-1 justify-center">
+                            {stories.map((_, i) => {
+                                const isActive = i === active;
+                                return (
+                                    <motion.button
+                                        key={i}
+                                        onClick={() => goTo(i)}
+                                        whileHover={{ scaleY: 1.4 }}
+                                        whileTap={{ scale: 0.92 }}
+                                        animate={{
+                                            width: isActive ? 56 : 10,
+                                        }}
+                                        transition={{ type: "spring", stiffness: 260, damping: 24 }}
+                                        aria-label={`Ir a la sección ${i + 1}`}
+                                        className="relative h-2 rounded-full overflow-hidden cursor-pointer"
+                                        style={{
+                                            background: `${story.fg}33`,
+                                        }}
+                                    >
+                                        {isActive && (
+                                            <motion.div
+                                                key={`fill-${active}-${paused ? "p" : "r"}`}
+                                                initial={paused ? false : { width: "0%" }}
+                                                animate={{ width: "100%" }}
+                                                transition={{
+                                                    duration: paused ? 0 : AUTO_MS / 1000,
+                                                    ease: "linear",
+                                                }}
+                                                className="absolute inset-y-0 left-0 rounded-full"
+                                                style={{ background: story.fg }}
+                                            />
+                                        )}
+                                    </motion.button>
+                                );
+                            })}
                         </div>
+
+                        {/* Next */}
+                        <motion.button
+                            onClick={next}
+                            whileHover={{ scale: 1.08, x: 2 }}
+                            whileTap={{ scale: 0.92 }}
+                            aria-label="Siguiente capítulo"
+                            className="flex-shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors"
+                            style={{
+                                background: story.accent,
+                                color: story.fg,
+                                border: `1.5px solid ${story.fg}40`,
+                            }}
+                        >
+                            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+                        </motion.button>
                     </div>
                 </motion.div>
+
+                {/* Hint text below the carousel */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 0.5 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className={`text-center text-xs mt-5 md:mt-6 text-[#1a1a1a] ${montserrat.className}`}
+                >
+                    <span className="md:hidden">Desliza, toca las flechas o los puntos para navegar</span>
+                    <span className="hidden md:inline">Usa las flechas, los puntos o las teclas ← → para cambiar de capítulo</span>
+                </motion.p>
             </div>
         </section>
     );
