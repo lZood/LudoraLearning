@@ -23,7 +23,7 @@ export default function AboutHeroNew() {
             {/* Background image with overlay */}
             <div className="absolute inset-0">
                 <img
-                    src="/images/sobre-nosotros/team.webp"
+                    src="/images/sobre-nosotros/bgHero.webp"
                     alt=""
                     className="w-full h-full object-cover"
                 />
@@ -101,11 +101,7 @@ export default function AboutHeroNew() {
                     animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
                 >
-                    <img
-                        src="/images/sobre-nosotros/bgHero.webp"
-                        alt="El equipo de Ludora"
-                        className="object-cover w-full h-full"
-                    />
+                    <ChevronDown className="w-6 h-6 text-white/60" />
                 </motion.div>
             </motion.div>
         </section>
