@@ -190,18 +190,6 @@ export default function AboutTeamGrid() {
 
     return (
         <section className="relative w-full bg-[#1a1a2e] rounded-[50px] py-32 md:py-44 px-6 overflow-hidden">
-            {/* Subtle grid bg */}
-            <div
-                className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style={{
-                    backgroundImage: `
-                        linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)
-                    `,
-                    backgroundSize: "16px 16px",
-                }}
-            />
-
             <div className="relative z-10 max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div

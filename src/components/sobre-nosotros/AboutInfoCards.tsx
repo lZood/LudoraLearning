@@ -139,7 +139,7 @@ export default function AboutInfoCards() {
     const titleWords = story.title.split(" ");
 
     return (
-        <section className="relative w-full bg-[#f5f1e4] py-20 md:py-32 px-4 sm:px-6 overflow-hidden">
+        <section className="relative w-full bg-[#1a1a2e] py-20 md:py-32 px-4 sm:px-6 overflow-hidden">
             {/* Soft floating page-level decoration */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-50">
                 {[...Array(5)].map((_, i) => (
@@ -179,13 +179,13 @@ export default function AboutInfoCards() {
                 >
                     <motion.span
                         variants={itemVariants}
-                        className={`text-[#8B5CF6] text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold block mb-3 md:mb-4 ${montserrat.className}`}
+                        className={`text-[#88e04f] text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold block mb-3 md:mb-4 ${montserrat.className}`}
                     >
                         Cómo llegamos aquí
                     </motion.span>
                     <motion.h2
                         variants={itemVariants}
-                        className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#1a1a1a] tracking-tight ${neueMachina.className}`}
+                        className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight ${neueMachina.className}`}
                     >
                         NUESTRA HISTORIA
                     </motion.h2>
@@ -432,10 +432,10 @@ export default function AboutInfoCards() {
                 {/* Hint text below the carousel */}
                 <motion.p
                     initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 0.5 }}
+                    whileInView={{ opacity: 0.55 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className={`text-center text-xs mt-5 md:mt-6 text-[#1a1a1a] ${montserrat.className}`}
+                    className={`text-center text-xs mt-5 md:mt-6 text-white ${montserrat.className}`}
                 >
                     <span className="md:hidden">Desliza, toca las flechas o los puntos para navegar</span>
                     <span className="hidden md:inline">Usa las flechas, los puntos o las teclas ← → para cambiar de capítulo</span>
