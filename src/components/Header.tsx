@@ -101,13 +101,6 @@ export default function Header() {
               </Link>
 
               <Link
-                href="/comunidad"
-                className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/comunidad" ? "bg-[#f2f0e9]" : ""}`}
-              >
-                Comunidad
-              </Link>
-
-              <Link
                 href="/sobre-nosotros"
                 className={`text-[13px] font-bold text-neutral-800 hover:bg-[#f2f0e9] px-4 py-1.5 rounded-full transition-colors duration-300 ease-in-out flex items-center ${pathname === "/sobre-nosotros" ? "bg-[#f2f0e9]" : ""}`}
               >
@@ -172,10 +165,6 @@ export default function Header() {
 
               <Link href="/Estrategia" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
                 Estrategia
-              </Link>
-
-              <Link href="/comunidad" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
-                Comunidad
               </Link>
 
               <Link href="/sobre-nosotros" className="text-[18px] text-neutral-800 py-4 border-b border-black/5" onClick={() => setIsMobileMenuOpen(false)}>
