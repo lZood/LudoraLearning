@@ -9,6 +9,11 @@
   color: #fff;
 }
 
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(16px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 /* Base style for the redesigned reusable WigglyUnderline component */
 .wiggly-underline {
   text-decoration: none;
