@@ -120,11 +120,14 @@ function MethodologyCard({
                 className="relative h-full w-full rounded-[36px] [transform-style:preserve-3d]"
             >
                 <div
-                    className="absolute inset-0 overflow-hidden rounded-[36px] bg-[#0b1d2a] shadow-[0_34px_70px_-26px_rgba(0,0,0,0.4)] [backface-visibility:hidden]"
+                    className="absolute inset-0 overflow-hidden rounded-[36px] bg-[#0b1d2a] shadow-[0_34px_70px_-26px_rgba(0,0,0,0.4)]"
                     style={{
                         backgroundImage: `url(${card.image})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(0deg)",
                     }}
                 >
                     {/* Bottom gradient — always present for text legibility */}
@@ -148,8 +151,13 @@ function MethodologyCard({
                 </div>
 
                 <div
-                    className="absolute inset-0 rounded-[36px] p-6 text-white shadow-[0_34px_70px_-26px_rgba(0,0,0,0.4)] [backface-visibility:hidden] [transform:rotateY(180deg)] md:p-8"
-                    style={{ background: `linear-gradient(145deg, ${card.accent}, ${card.panel})` }}
+                    className="absolute inset-0 rounded-[36px] p-6 text-white shadow-[0_34px_70px_-26px_rgba(0,0,0,0.4)] md:p-8"
+                    style={{
+                        background: `linear-gradient(145deg, ${card.accent}, ${card.panel})`,
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(180deg)",
+                    }}
                 >
                     <div className="flex h-full flex-col justify-end">
                         <div>

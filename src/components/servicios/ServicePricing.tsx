@@ -296,7 +296,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                 type: "spring",
                 bounce: 0.2,
             }}
-            className="relative"
+            className="relative h-full"
         >
             {/* "MÁS POPULAR" badge — pill rounded-full */}
             {isPopular && (
@@ -318,6 +318,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                     relative overflow-hidden rounded-[32px] bg-[#f5f1e4]
                     shadow-[0_18px_45px_-12px_rgba(60,40,15,0.22)]
                     ring-2 ${p.ringStrong}
+                    h-full flex flex-col
                 `}
             >
                 {/* Enchanted MC particles (Plus only) — solo partículas pixeladas */}
@@ -393,7 +394,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                 </div>
 
                 {/* Body */}
-                <div className="relative p-5 sm:p-6 md:p-7 flex flex-col gap-5">
+                <div className="relative p-5 sm:p-6 md:p-7 flex flex-col gap-5 flex-1">
 
                     {/* Tagline */}
                     <p className="text-center text-xs md:text-sm font-semibold text-[#3a3a3a]/70 -mt-1">
@@ -473,7 +474,7 @@ const PricingCard = ({ plan, isPopular = false }: { plan: Plan; isPopular?: bool
                     </motion.ul>
 
                     {/* Clases en vivo — chip minimalista */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center mt-auto pt-1">
                         <LiveClassChip
                             count={plan.classesCount}
                             icon={plan.classIcon}
@@ -516,7 +517,7 @@ export default function ServicePricing() {
                 </motion.div>
 
                 {/* Cards grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 lg:gap-8 items-stretch">
                     <PricingCard plan={plans[0]} />
                     <PricingCard plan={plans[1]} isPopular />
                 </div>

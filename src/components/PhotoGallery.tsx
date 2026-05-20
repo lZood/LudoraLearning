@@ -2,8 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
     {
@@ -149,23 +148,6 @@ function MobileStack() {
                     </div>
                 </motion.div>
             ))}
-
-            {/* CTA: see full gallery */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="mt-2"
-            >
-                <Link
-                    href="/galeria"
-                    className="group w-full inline-flex items-center justify-center gap-3 bg-[#1d1d1b] hover:bg-[#632eaf] text-white px-6 py-4 rounded-full font-bold text-base transition-colors duration-300"
-                >
-                    Ver galería completa
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-            </motion.div>
         </div>
     );
 }
