@@ -86,7 +86,7 @@ const sections: Section[] = [
         title: "Resultados",
         titleAccent: "del Método",
         color: "#fca5a5",
-        iconSrc: "/images/estrategia-page/Enchanted_Golden.gif",
+        iconSrc: "/images/estrategia-page/Enchanted_Golden.webp",
         imageSrc: "/images/estrategia-page/resultados.webp",
         paragraphs: [
             <>Los resultados son duraderos porque <strong>vinculamos el idioma con experiencias positivas</strong>.</>,
@@ -314,15 +314,6 @@ export default function EstrategiaBlackboard() {
                     </div>
                 </div>
 
-                {/* Eraser — 3× larger, stuck to the right edge of the chalkboard */}
-                <div
-                    className="absolute right-0 bottom-8 md:bottom-12 w-48 h-[72px] md:w-72 md:h-24 rounded-l-sm pointer-events-none"
-                    style={{
-                        background:
-                            "linear-gradient(180deg, #f5e6c8 0%, #e8d4a8 50%, #c89858 50%, #a67838 100%)",
-                        boxShadow: "0 6px 14px rgba(0,0,0,0.55), -2px 0 6px rgba(0,0,0,0.25)",
-                    }}
-                />
                 </div>
             </div>
         </section>

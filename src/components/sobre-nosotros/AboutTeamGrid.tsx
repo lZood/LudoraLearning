@@ -66,7 +66,7 @@ const teamMembers = [
     {
         name: "Kevin Bedoya",
         role: "Game-Dev",
-        image: "/images/sobre-nosotros/kevin.webp",
+        image: "/images/sobre-nosotros/Kevin.webp",
         mcTag: "KevinAlexJn",
         accent: "#2dd4bf",
         quote: "La creatividad no tiene límites cuando el medio es un videojuego.",
@@ -141,13 +141,6 @@ function TeamModal({ selected, onClose }: { selected: number; onClose: () => voi
                             </div>
                         </div>
 
-                        {/* Quote */}
-                        <div className="mb-5 p-4 rounded-2xl bg-white/5 border border-white/[0.06]">
-                            <p className={`text-white/80 text-base sm:text-lg leading-relaxed italic ${montserrat.className}`}>
-                                &ldquo;{member.quote}&rdquo;
-                            </p>
-                        </div>
-
                         {/* Fun fact */}
                         <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
                             <span
@@ -189,7 +182,7 @@ export default function AboutTeamGrid() {
     }, [selected]);
 
     return (
-        <section className="relative w-full bg-[#1a1a2e] rounded-[50px] py-32 md:py-44 px-6 overflow-hidden">
+        <section className="relative w-full bg-[#1a1a2e] rounded-b-[50px] py-32 md:py-44 px-6 overflow-hidden">
             <div className="relative z-10 max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div

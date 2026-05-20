@@ -52,7 +52,7 @@ export default function EstrategiaResults() {
                         {/* Big Icon */}
                         <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border-4 border-[#dc2626]/10 flex items-center justify-center shadow-lg overflow-hidden">
                             <img
-                                src="/images/estrategia-page/Enchanted_Golden.gif"
+                                src="/images/estrategia-page/Enchanted_Golden.webp"
                                 alt="Icono"
                                 className="w-12 h-12 md:w-16 md:h-16 object-contain"
                             />

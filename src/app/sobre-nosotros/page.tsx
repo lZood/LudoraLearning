@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 export default function SobreNosotrosPage() {
     return (
-        <main className="min-h-screen relative w-full">
+        <main className="min-h-screen relative w-full bg-[#f5f1e4]">
             {/* Hero — cinematic with team photo */}
             <AboutHeroNew />
 
