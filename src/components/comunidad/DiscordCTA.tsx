@@ -69,27 +69,27 @@ export default function DiscordCTA() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.3 }}
-                    className="relative z-10 flex flex-col gap-6 px-6 pt-[45%] pb-12"
+                    className="relative z-10 flex flex-col justify-end gap-6 px-6 pt-32 pb-16 min-h-screen"
                 >
                     <motion.div variants={itemVariants} className="flex flex-col gap-4">
-                        <div className="inline-flex items-center gap-2 bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#9ba2ff] px-4 py-2 rounded-full text-xs font-bold w-fit">
-                            <span className="w-2 h-2 bg-[#57F287] rounded-full animate-pulse" />
+                        <div className="inline-flex items-center gap-2 bg-[#5865F2]/20 border border-[#5865F2]/30 text-[#9ba2ff] px-5 py-2.5 rounded-full text-sm font-bold w-fit">
+                            <span className="w-2.5 h-2.5 bg-[#57F287] rounded-full animate-pulse" />
                             {onlineCount !== null
                                 ? `${onlineCount} miembros en línea`
                                 : "Comunidad activa"}
                         </div>
 
-                        <h2 className="text-4xl font-black text-white tracking-tight leading-[1.05]">
+                        <h2 className="text-5xl font-black text-white tracking-tight leading-[1.05]">
                             Entra a la <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5865F2] to-[#9ba2ff]">fortaleza</span>
                         </h2>
                     </motion.div>
 
-                    <motion.p variants={itemVariants} className="text-base text-gray-300 font-medium leading-relaxed">
+                    <motion.p variants={itemVariants} className="text-lg text-gray-300 font-medium leading-relaxed">
                         Nuestra comunidad en Discord es el punto de encuentro. Encuentra compañeros para misiones, comparte tus construcciones y resuelve dudas con los profesores.
                     </motion.p>
 
-                    <motion.p variants={itemVariants} className="text-sm text-gray-400 font-medium leading-relaxed">
+                    <motion.p variants={itemVariants} className="text-base text-gray-400 font-medium leading-relaxed">
                         ¡Tu tribu te espera para la siguiente aventura!
                     </motion.p>
 

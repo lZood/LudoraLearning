@@ -46,14 +46,15 @@ function useHeroSizes(containerRef: React.RefObject<HTMLDivElement | null>) {
         if (!containerRef.current) return;
         const w = containerRef.current.clientWidth;
         const h = containerRef.current.clientHeight;
+        const isMobile = w < 640;
 
-        // Title: ~8.5% of the container width, but capped by height
-        const byWidth = w * 0.08;
+        // Title: takes a larger share of width on mobile so it doesn't bottom out
+        const byWidth = w * (isMobile ? 0.14 : 0.08);
         const byHeight = h * 0.13;
-        const titlePx = Math.max(36, Math.min(byWidth, byHeight, 120));
+        const titlePx = Math.max(isMobile ? 44 : 36, Math.min(byWidth, byHeight, 120));
 
-        // Subtitle: ~30% of title size, with its own bounds
-        const subtitlePx = Math.max(14, Math.min(titlePx * 0.3, h * 0.035, 28));
+        // Subtitle: larger floor on mobile so it stays readable
+        const subtitlePx = Math.max(isMobile ? 17 : 14, Math.min(titlePx * 0.3, h * 0.035, 28));
 
         setSizes({ title: titlePx, subtitle: subtitlePx });
     }, [containerRef]);
@@ -178,11 +179,10 @@ export default function Hero({
                 {/* Zone 3: Subtitle */}
                 <div className="flex items-start pt-4 sm:pt-6 overflow-hidden">
                     <p
-                        className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words ${montserrat.className}`}
+                        className={`font-medium leading-relaxed tracking-[0.04em] sm:tracking-[0.08em] break-words max-w-[90%] sm:max-w-[65%] ${montserrat.className}`}
                         style={{
                             fontSize: subtitleSize || `${sizes.subtitle}px`,
                             textShadow: showTextShadow ? "0px 4px 4px rgba(0, 0, 0, 0.10)" : "none",
-                            maxWidth: "65%",
                             color: subtitleColor,
                             transition: "font-size 0.15s ease-out",
                         }}
