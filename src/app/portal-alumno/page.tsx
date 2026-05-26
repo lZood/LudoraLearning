@@ -17,17 +17,10 @@ export default function PortalAlumnoPage() {
     };
 
     return (
-        <AuthLayout 
-            title={
-                mode === 'login' ? 'Iniciar sesión' : 
-                mode === 'register' ? 'Crear cuenta' : 
-                'Verificación requerida'
-            }
-            subtitle={
-                mode === 'login' ? 'Accede a tu portal de alumno' : 
-                mode === 'register' ? 'Comienza tu aventura con Ludora' : 
-                'Confirma tu cuenta para continuar'
-            }
+        <AuthLayout
+            // Los tres modos traen su propio título centrado, así que el AuthLayout queda en modo "centrado sin imagen".
+            title=""
+            subtitle=""
         >
             <div className="relative w-full">
                 <AnimatePresence mode="wait">
