@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Eye, EyeOff, Info } from 'lucide-react';
@@ -19,7 +18,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     const router = useRouter();
     const supabase = createClient();
 
-    const getLoginError = (msg: string): { message: string, field: 'email' | 'password' | 'general' } => {
+    const getLoginError = (msg: string): { message: string; field: 'email' | 'password' | 'general' } => {
         if (msg.includes('Invalid login credentials')) {
             return { message: 'Email o contraseña incorrectos.', field: 'email' };
         }
@@ -38,10 +37,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
         setIsLoading(true);
 
         try {
-            const { error: signInError } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
+            const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 
             if (signInError) {
                 setError(getLoginError(signInError.message));
@@ -86,7 +82,23 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
 
     return (
         <div className="flex flex-col gap-6 w-full">
-            {/* MENSAJE GENERAL (Si el error no es de campo) */}
+            {/* Encabezado centrado estilo Wise */}
+            <div className="text-center">
+                <h1 className="text-3xl md:text-4xl font-black text-[#1a1a1a] mb-2 tracking-tight">
+                    Bienvenido de vuelta
+                </h1>
+                <p className="text-sm text-gray-500 font-medium">
+                    ¿Nuevo en Ludora?{' '}
+                    <button
+                        onClick={onSwitch}
+                        className="text-[#1a1a1a] font-bold underline underline-offset-2 hover:text-[#88e04f] transition-colors"
+                    >
+                        Regístrate
+                    </button>
+                </p>
+            </div>
+
+            {/* MENSAJE GENERAL */}
             {error.field === 'general' && (
                 <div className="flex gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
                     <Info className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
@@ -96,10 +108,11 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                 </div>
             )}
 
-            <form className="space-y-5 w-full" onSubmit={handleSignIn}>
+            <form className="space-y-4 w-full" onSubmit={handleSignIn}>
+                {/* EMAIL */}
                 <div className="space-y-1.5">
-                    <label htmlFor="email" className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider opacity-60">
-                        Email
+                    <label htmlFor="email" className="block text-sm font-bold text-[#1a1a1a]">
+                        Tu correo electrónico
                     </label>
                     <input
                         type="email"
@@ -110,23 +123,24 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                             if (error.field === 'email') setError({ message: '', field: null });
                         }}
                         placeholder="tu@correo.com"
-                        className={`w-full bg-white border ${error.field === 'email' ? 'border-red-500 focus:border-red-600' : 'border-gray-200 focus:border-[#88e04f]'} rounded-xl py-4 px-5 text-[#1a1a1a] transition-all outline-none`}
+                        className={`w-full bg-white border ${error.field === 'email' ? 'border-red-500 focus:border-red-600' : 'border-gray-300 focus:border-[#1a1a1a]'} rounded-xl py-3.5 px-4 text-[#1a1a1a] transition-all outline-none`}
                         required
                     />
                     {error.field === 'email' && (
-                        <p className="text-[11px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
                 </div>
 
+                {/* PASSWORD */}
                 <div className="space-y-1.5">
-                    <label htmlFor="password" className="text-xs font-bold text-[#1a1a1a] uppercase tracking-wider opacity-60">
-                        Contraseña
+                    <label htmlFor="password" className="block text-sm font-bold text-[#1a1a1a]">
+                        Tu contraseña
                     </label>
-                    <div className="relative group">
+                    <div className="relative">
                         <input
-                            type={showPassword ? "text" : "password"}
+                            type={showPassword ? 'text' : 'password'}
                             id="password"
                             value={password}
                             onChange={(e) => {
@@ -134,65 +148,65 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                                 if (error.field === 'password') setError({ message: '', field: null });
                             }}
                             placeholder="••••••••••••"
-                            className={`w-full bg-white border ${error.field === 'password' ? 'border-red-500 focus:border-red-600' : 'border-gray-200 focus:border-[#88e04f]'} rounded-xl py-4 pl-5 pr-12 text-[#1a1a1a] transition-all outline-none tracking-widest`}
+                            className={`w-full bg-white border ${error.field === 'password' ? 'border-red-500 focus:border-red-600' : 'border-gray-300 focus:border-[#1a1a1a]'} rounded-xl py-3.5 pl-4 pr-12 text-[#1a1a1a] transition-all outline-none tracking-widest`}
                             required
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#88e04f] transition-colors"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#1a1a1a] transition-colors"
+                            aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                     </div>
                     {error.field === 'password' && (
-                        <p className="text-[11px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
                 </div>
 
-                {/* ¿OLVIDASTE TU CONTRASEÑA? */}
-                <div className="text-left">
-                    <button type="button" className="text-sm font-bold text-[#1a1a1a] opacity-70 hover:text-[#88e04f] hover:underline transition-colors">
-                        ¿Olvidaste tu contraseña?
-                    </button>
-                </div>
-
+                {/* BOTÓN DE LOGIN */}
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#88e04f] hover:opacity-90 text-[#1a1a1a] font-black text-lg rounded-xl py-4 transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full bg-[#88e04f] hover:opacity-90 text-[#1a1a1a] font-black text-base rounded-full py-4 mt-2 transition-all shadow-md active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                     {isLoading ? (
                         <>
                             <div className="w-5 h-5 border-2 border-[#1a1a1a]/30 border-t-[#1a1a1a] rounded-full animate-spin" />
                             <span>Entrando...</span>
                         </>
-                    ) : 'Entrar'}
+                    ) : (
+                        'Iniciar sesión'
+                    )}
                 </button>
             </form>
 
-            {/* IR A REGISTRO */}
-            <p className="text-center text-gray-500 font-medium">
-                ¿Aún no tienes cuenta?{' '}
-                <button 
-                  onClick={onSwitch}
-                  className="text-[#88e04f] font-black hover:underline transition-colors"
+            {/* ¿PROBLEMAS PARA INICIAR SESIÓN? */}
+            <div className="text-center -mt-2">
+                <button
+                    type="button"
+                    className="text-sm font-bold text-[#1a1a1a] underline underline-offset-2 hover:text-[#88e04f] transition-colors"
                 >
-                    Regístrate
+                    ¿Problemas para iniciar sesión?
                 </button>
-            </p>
+            </div>
 
             {/* DIVISOR */}
-            <div className="flex items-center gap-4 py-1">
+            <div className="flex items-center gap-4 pt-2">
                 <div className="h-[1px] bg-gray-200 flex-1" />
-                <span className="text-xs text-gray-400 font-bold uppercase tracking-widest px-2">o</span>
+                <span className="text-xs text-gray-400 font-medium px-2">
+                    O inicia sesión con
+                </span>
                 <div className="h-[1px] bg-gray-200 flex-1" />
             </div>
 
-            {/* BOTÓN DE GOOGLE */}
-            <GoogleAuthButton onClick={handleGoogleSignIn} label="Entrar con Google" />
+            {/* BOTÓN DE GOOGLE — única alternativa */}
+            <div className="flex justify-center">
+                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" />
+            </div>
         </div>
     );
 }

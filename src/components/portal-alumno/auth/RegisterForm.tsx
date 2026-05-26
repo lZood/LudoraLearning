@@ -43,7 +43,9 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                         full_name: name,
                         phone: fullPhone,
                     },
-                    emailRedirectTo: `${window.location.origin}/portal-alumno/dashboard`,
+                    // Al hacer clic en el link del correo, el usuario aterriza aquí.
+                    // /auth/callback intercambia el código por sesión y manda a la evaluación.
+                    emailRedirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
                 },
             });
 
@@ -64,9 +66,9 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                 return;
             }
 
-            // Éxito en modo DEV: Redirigir directamente a la evaluación diagnóstica
-            router.push('/portal-alumno/evaluacion');
-            router.refresh();
+            // Registro OK: cambia al modo "verification" para que el usuario meta el código del correo.
+            // La sesión todavía no existe hasta que confirme el OTP (verifyOtp).
+            onSuccess(email);
         } catch (err: any) {
             setError({ message: err.message || 'Error al crear la cuenta', field: 'general' });
             setIsLoading(false);
@@ -78,7 +80,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/portal-alumno/dashboard`,
+                redirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
             },
         });
         if (googleError) setError({ message: googleError.message, field: 'general' });
@@ -86,6 +88,22 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
 
     return (
         <div className="flex flex-col gap-6 w-full">
+            {/* Encabezado centrado estilo Wise */}
+            <div className="text-center">
+                <h1 className="text-3xl md:text-4xl font-black text-[#1a1a1a] mb-2 tracking-tight">
+                    Crea tu cuenta
+                </h1>
+                <p className="text-sm text-gray-500 font-medium">
+                    ¿Ya tienes cuenta?{' '}
+                    <button
+                        onClick={onSwitch}
+                        className="text-[#1a1a1a] font-bold underline underline-offset-2 hover:text-[#88e04f] transition-colors"
+                    >
+                        Inicia sesión
+                    </button>
+                </p>
+            </div>
+
             {/* MENSAJE GENERAL */}
             {error.field === 'general' && (
                 <div className="flex gap-3 p-4 bg-red-50 border border-red-100 rounded-xl">
@@ -219,7 +237,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-[#88e04f] hover:opacity-90 text-[#1a1a1a] font-black text-lg rounded-xl py-4 mt-2 transition-all shadow-lg active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="w-full bg-[#88e04f] hover:opacity-90 text-[#1a1a1a] font-black text-base rounded-full py-4 mt-2 transition-all shadow-md active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                     {isLoading ? (
                         <>
@@ -230,23 +248,19 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                 </button>
             </form>
 
-            <p className="text-center text-gray-500 mt-2 font-medium">
-                ¿Ya tienes una cuenta?{' '}
-                <button 
-                  onClick={onSwitch}
-                  className="text-[#88e04f] font-black hover:underline transition-colors"
-                >
-                    Inicia sesión
-                </button>
-            </p>
-
-            <div className="flex items-center gap-4 py-2">
+            {/* DIVISOR */}
+            <div className="flex items-center gap-4 pt-2">
                 <div className="h-[1px] bg-gray-200 flex-1" />
-                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest px-2">o</span>
+                <span className="text-xs text-gray-400 font-medium px-2">
+                    O regístrate con
+                </span>
                 <div className="h-[1px] bg-gray-200 flex-1" />
             </div>
 
-            <GoogleAuthButton onClick={handleGoogleSignIn} label="Regístrate con Google" />
+            {/* BOTÓN DE GOOGLE — única alternativa */}
+            <div className="flex justify-center">
+                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" />
+            </div>
         </div>
     );
 }

@@ -1,44 +1,108 @@
--- 1. Create a table to track user profiles and link them to Stripe customers
-CREATE TABLE public.users (
-  id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  email TEXT NOT NULL,
-  full_name TEXT,
-  age INTEGER, -- Añadido por solicitud
-  stripe_customer_id TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
+-- =============================================================================
+-- LudoraLearning · Esquema completo (desde cero)
+-- Reconstruido a partir del código de la app (single source of truth).
+-- Aplicar en un proyecto Supabase nuevo: SQL Editor o `supabase db push`.
+-- Idempotente: se puede re-ejecutar sin romper.
+-- Tablas: users, subscriptions, evaluations, evaluation_results
+-- Storage: bucket público `student_audios`
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 1. users — perfil ligado a auth.users y a Stripe
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.users (
+  id                       UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  email                    TEXT NOT NULL,
+  full_name                TEXT,
+  age                      INTEGER,
+  stripe_customer_id       TEXT,
+  english_level            TEXT,                          -- p.ej. 'Banda 3'
+  has_completed_evaluation BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at               TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now()),
   PRIMARY KEY (id)
 );
 
--- Turn on Row Level Security (RLS)
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 
--- Allow users to read and update their own profiles
-CREATE POLICY "Users can view own profile." ON public.users 
-  FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Users can update own profile." ON public.users 
-  FOR UPDATE USING (auth.uid() = id);
+DROP POLICY IF EXISTS "Users can view own profile."   ON public.users;
+DROP POLICY IF EXISTS "Users can update own profile." ON public.users;
+CREATE POLICY "Users can view own profile."   ON public.users FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Users can update own profile." ON public.users FOR UPDATE USING (auth.uid() = id);
 
--- 2. Create a table to store subscription statuses
-CREATE TABLE public.subscriptions (
-  id TEXT PRIMARY KEY, -- Stripe Subscription ID
-  user_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
-  status TEXT NOT NULL, -- 'active', 'canceled', 'past_due', etc.
-  price_id TEXT, -- The Stripe Price ID they are subscribed to
-  current_period_start TIMESTAMP WITH TIME ZONE NOT NULL,
-  current_period_end TIMESTAMP WITH TIME ZONE NOT NULL,
-  cancel_at_period_end BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+-- -----------------------------------------------------------------------------
+-- 2. subscriptions — estado de suscripción Stripe
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.subscriptions (
+  id                   TEXT PRIMARY KEY,                  -- Stripe Subscription ID
+  user_id              UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  status               TEXT NOT NULL,                     -- active | trialing | canceled | past_due ...
+  price_id             TEXT,                              -- Stripe Price ID
+  current_period_start TIMESTAMPTZ NOT NULL,
+  current_period_end   TIMESTAMPTZ NOT NULL,
+  cancel_at_period_end BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at           TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now())
 );
 
--- Turn on Row Level Security (RLS)
+CREATE INDEX IF NOT EXISTS subscriptions_user_id_idx ON public.subscriptions(user_id);
+
 ALTER TABLE public.subscriptions ENABLE ROW LEVEL SECURITY;
 
--- Allow users to view only their own subscriptions
-CREATE POLICY "Users can view own subscriptions." ON public.subscriptions 
-  FOR SELECT USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "Users can view own subscriptions." ON public.subscriptions;
+CREATE POLICY "Users can view own subscriptions." ON public.subscriptions FOR SELECT USING (auth.uid() = user_id);
+-- Nota: las escrituras a subscriptions las hace el webhook de Stripe con la
+-- service_role key (bypassa RLS), por eso no se definen policies de insert/update.
 
--- 3. Trigger to automatically create a profile in 'public.users' when a new auth user signs up
-CREATE OR REPLACE FUNCTION public.handle_new_user() 
+-- -----------------------------------------------------------------------------
+-- 3. evaluations — resultado global de la evaluación diagnóstica
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.evaluations (
+  id                 UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id            UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  calculated_band    INTEGER,
+  category_levels    JSONB,                               -- niveles por categoría
+  evaluation_history JSONB,                               -- historial de QA + feedback
+  ai_oracle_verdict  TEXT,                                -- veredicto generado por IA
+  achievements       JSONB,                               -- logros obtenidos
+  created_at         TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now())
+);
+
+CREATE INDEX IF NOT EXISTS evaluations_user_id_idx ON public.evaluations(user_id);
+
+ALTER TABLE public.evaluations ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can view own evaluations."   ON public.evaluations;
+DROP POLICY IF EXISTS "Users can insert own evaluations." ON public.evaluations;
+CREATE POLICY "Users can view own evaluations."   ON public.evaluations FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own evaluations." ON public.evaluations FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- -----------------------------------------------------------------------------
+-- 4. evaluation_results — respuesta individual de cada reactivo
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.evaluation_results (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id          UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  skill_id         TEXT,
+  level            INTEGER,
+  is_correct       BOOLEAN,
+  user_answer_text TEXT,
+  audio_url        TEXT,                                  -- URL pública en bucket student_audios
+  ai_feedback      TEXT,
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT timezone('utc', now())
+);
+
+CREATE INDEX IF NOT EXISTS evaluation_results_user_id_idx ON public.evaluation_results(user_id);
+
+ALTER TABLE public.evaluation_results ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can view own results."   ON public.evaluation_results;
+DROP POLICY IF EXISTS "Users can insert own results." ON public.evaluation_results;
+CREATE POLICY "Users can view own results."   ON public.evaluation_results FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert own results." ON public.evaluation_results FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- -----------------------------------------------------------------------------
+-- 5. Trigger: crear perfil en public.users al registrarse en auth.users
+-- -----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO public.users (id, email, full_name)
@@ -47,6 +111,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- -----------------------------------------------------------------------------
+-- 6. Storage: bucket público para audios de evaluación
+-- -----------------------------------------------------------------------------
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('student_audios', 'student_audios', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+DROP POLICY IF EXISTS "student_audios public read"          ON storage.objects;
+DROP POLICY IF EXISTS "student_audios authenticated upload" ON storage.objects;
+CREATE POLICY "student_audios public read"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'student_audios');
+CREATE POLICY "student_audios authenticated upload"
+  ON storage.objects FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'student_audios');
