@@ -6,12 +6,13 @@ import { Info, X, Loader2 } from 'lucide-react';
 
 interface EmailVerificationViewProps {
     email: string;
+    password: string;
     onClose: () => void;
 }
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
-export default function EmailVerificationView({ email, onClose }: EmailVerificationViewProps) {
+export default function EmailVerificationView({ email, password, onClose }: EmailVerificationViewProps) {
     const router = useRouter();
     const supabase = createClient();
 
@@ -118,19 +119,26 @@ export default function EmailVerificationView({ email, onClose }: EmailVerificat
         setError('');
         setInfo('');
 
-        const { error: resendError } = await supabase.auth.resend({
-            type: 'signup',
-            email,
-        });
+        try {
+            const res = await fetch('/api/auth/resend-confirmation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+            const payload = await res.json().catch(() => ({}));
 
-        setIsResending(false);
+            if (!res.ok) {
+                setError(payload?.error || 'No se pudo reenviar el correo.');
+                return;
+            }
 
-        if (resendError) {
-            setError(resendError.message);
-            return;
+            setInfo('Te enviamos un nuevo código.');
+            setTimer(RESEND_COOLDOWN_SECONDS);
+        } catch (err: any) {
+            setError(err?.message || 'No se pudo reenviar el correo.');
+        } finally {
+            setIsResending(false);
         }
-        setInfo('Te enviamos un nuevo código.');
-        setTimer(RESEND_COOLDOWN_SECONDS);
     };
 
     return (

@@ -1,13 +1,12 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Eye, EyeOff, Info } from 'lucide-react';
 import GoogleAuthButton from './GoogleAuthButton';
 
 interface RegisterFormProps {
     onSwitch: () => void;
-    onSuccess: (email: string) => void;
+    onSuccess: (email: string, password: string) => void;
 }
 
 export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps) {
@@ -19,7 +18,6 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<{ message: string; field: 'name' | 'email' | 'phone' | 'password' | 'general' | null }>({ message: '', field: null });
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
     const supabase = createClient();
 
     const handleSignUp = async (e: React.FormEvent) => {
@@ -35,40 +33,33 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
 
         try {
             const fullPhone = `${countryCode}${phone}`;
-            const { error: signUpError } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        full_name: name,
-                        phone: fullPhone,
-                    },
-                    // Al hacer clic en el link del correo, el usuario aterriza aquí.
-                    // /auth/callback intercambia el código por sesión y manda a la evaluación.
-                    emailRedirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
-                },
+            // Mandamos al endpoint server-side, que crea el usuario en estado
+            // "no confirmado" vía admin.generateLink y dispara el correo con
+            // Resend usando la plantilla React Email.
+            const res = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email,
+                    password,
+                    fullName: name,
+                    phone: fullPhone,
+                }),
             });
 
-            if (signUpError) {
-                let msg = signUpError.message;
-                let field: 'email' | 'password' | 'general' = 'general';
-                
-                if (msg.includes('User already registered')) {
-                    msg = 'Este correo ya está registrado.';
-                    field = 'email';
-                } else if (msg.includes('Password should be at least 6 characters')) {
-                    msg = 'La contraseña debe tener al menos 6 caracteres.';
-                    field = 'password';
-                }
-                
-                setError({ message: msg, field });
+            const payload = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                const field = (payload?.field as 'email' | 'password' | 'general') || 'general';
+                const message = payload?.error || 'Error al crear la cuenta';
+                setError({ message, field });
                 setIsLoading(false);
                 return;
             }
 
-            // Registro OK: cambia al modo "verification" para que el usuario meta el código del correo.
-            // La sesión todavía no existe hasta que confirme el OTP (verifyOtp).
-            onSuccess(email);
+            // Cuenta creada y correo enviado. Pasamos a la vista de verificación,
+            // guardando email + password para poder reenviar el correo si hace falta.
+            onSuccess(email, password);
         } catch (err: any) {
             setError({ message: err.message || 'Error al crear la cuenta', field: 'general' });
             setIsLoading(false);
