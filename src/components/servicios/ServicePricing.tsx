@@ -42,7 +42,7 @@ const plans: Plan[] = [
             "Comunidad activa en Discord",
         ],
         cta: "EMPEZAR CON ESTÁNDAR",
-        ctaHref: "/portal-alumno/registro?plan=basic",
+        ctaHref: "/portal-alumno?mode=register&plan=basic",
     },
     {
         id: "plus",
@@ -67,7 +67,7 @@ const plans: Plan[] = [
             "Acceso completo al servidor exclusivo de Minecraft",
         ],
         cta: "ELEGIR LUDORA PLUS",
-        ctaHref: "/portal-alumno/registro?plan=plus",
+        ctaHref: "/portal-alumno?mode=register&plan=plus",
     },
 ];
 

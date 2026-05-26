@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { Eye, EyeOff, Info } from 'lucide-react';
@@ -9,6 +9,12 @@ interface LoginFormProps {
     onSwitch: () => void;
 }
 
+const VERIFY_ERROR_MESSAGES: Record<string, string> = {
+    verify_expired: 'El enlace de confirmación expiró. Regístrate o pide un nuevo código.',
+    verify_failed: 'No pudimos confirmar tu correo. Solicita un nuevo enlace.',
+    verify_missing_params: 'El enlace de confirmación no es válido.',
+};
+
 export default function LoginForm({ onSwitch }: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,6 +23,20 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const supabase = createClient();
+
+    // Si /auth/confirm falló y redirigió con ?error=..., mostramos el mensaje.
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const params = new URLSearchParams(window.location.search);
+        const errCode = params.get('error');
+        if (errCode && VERIFY_ERROR_MESSAGES[errCode]) {
+            setError({ message: VERIFY_ERROR_MESSAGES[errCode], field: 'general' });
+            // Limpia el querystring para que no quede pegado al recargar.
+            const url = new URL(window.location.href);
+            url.searchParams.delete('error');
+            window.history.replaceState({}, '', url.toString());
+        }
+    }, []);
 
     const getLoginError = (msg: string): { message: string; field: 'email' | 'password' | 'general' } => {
         if (msg.includes('Invalid login credentials')) {
