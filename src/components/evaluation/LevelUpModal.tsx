@@ -1,62 +1,145 @@
-import React, { useEffect } from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronsUp, ChevronsDown, Sparkles } from 'lucide-react';
 
 interface LevelModalProps {
-    banda: number;
-    title: string;
-    type: 'up' | 'down';
-    onClose: () => void;
+  banda: number;
+  title: string;
+  type: 'up' | 'down';
+  onClose: () => void;
 }
 
+const CONFETTI_COUNT = 16;
+const CONFETTI_COLORS = ['#fbbf24', '#a855f7', '#22d3ee', '#f472b6', '#84cc16', '#fb923c'];
+
 export default function LevelModal({ banda, title, type, onClose }: LevelModalProps) {
-    useEffect(() => {
-        if (type === 'up') {
-            const audio = new Audio('/audios/sounds-effect/Random_levelup.ogg');
-            audio.volume = 0.5;
-            audio.play().catch(e => console.error("Error playing sound", e));
-        }
-        
-        const timer = setTimeout(() => {
-            onClose();
-        }, 3000); // 3 seconds visible
+  useEffect(() => {
+    if (type === 'up') {
+      const audio = new Audio('/audios/sounds-effect/Random_levelup.ogg');
+      audio.volume = 0.5;
+      audio.play().catch((e) => console.error('Error playing sound', e));
+    }
 
-        return () => clearTimeout(timer);
-    }, [onClose, type]);
+    const timer = setTimeout(() => onClose(), 3000);
+    return () => clearTimeout(timer);
+  }, [onClose, type]);
 
-    const isUp = type === 'up';
+  const isUp = type === 'up';
 
-    return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className={`border-4 p-8 md:p-12 rounded-2xl transform scale-in-center overflow-hidden relative flex flex-col items-center text-center max-w-sm mx-4 ${isUp ? 'bg-gradient-to-b from-[#fdfaff] to-[#f5ecff] border-[#815a9b] shadow-[0_0_50px_rgba(129,90,155,0.5)]' : 'bg-gradient-to-b from-gray-100 to-gray-300 border-gray-600 shadow-[0_0_50px_rgba(75,85,99,0.5)]'}`}>
-                
-                {/* Shine effect background */}
-                <div className={`absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent -translate-x-[150%] animate-[shimmer_2s_infinite]`}></div>
+  // Pre-compute confetti positions once per mount via lazy useState initializer
+  // (lazy init is the React-blessed way to run impure code once, not useMemo).
+  const [confetti] = useState(() =>
+    Array.from({ length: CONFETTI_COUNT }).map((_, i) => {
+      const angle = (i / CONFETTI_COUNT) * Math.PI * 2;
+      const distance = 140 + Math.random() * 60;
+      return {
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance,
+        rotate: Math.random() * 360,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+      };
+    })
+  );
 
-                <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-[inset_0_4px_8px_rgba(0,0,0,0.2),_0_4px_12px_rgba(0,0,0,0.4)] animate-bounce text-white relative z-10 border-4 ${isUp ? 'bg-[#815a9b] border-[#fdfaff]' : 'bg-gray-600 border-gray-100'}`}>
-                    {isUp ? (
-                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 11l7-7 7 7M5 19l7-7 7 7" /></svg>
-                    ) : (
-                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 13l-7 7-7-7m14-8l-7 7-7-7" /></svg>
-                    )}
-                </div>
-                
-                <h2 className={`text-3xl md:text-4xl font-black uppercase tracking-wider mb-2 drop-shadow-sm relative z-10 ${isUp ? 'text-[#5e4171]' : 'text-gray-800'}`}>
-                    {isUp ? '¡Nivel Aumentado!' : 'Nivel Reducido'}
-                </h2>
-                
-                <div className={`bg-white/60 px-6 py-3 rounded-full border-2 mt-4 relative z-10 ${isUp ? 'border-[#815a9b]/30' : 'border-gray-500/30'}`}>
-                    <p className="text-xl font-bold text-gray-800">
-                        {isUp ? 'Has alcanzado la ' : 'Has descendido a la '}
-                        <span className={isUp ? 'text-[#815a9b]' : 'text-gray-700'}>Banda {banda}</span>
-                    </p>
-                    <p className="text-sm text-gray-600 font-bold uppercase tracking-widest mt-1">"{title}"</p>
-                </div>
-                
-                <div className="mt-8 flex gap-3 justify-center relative z-10">
-                    <div className={`w-3 h-3 rounded-full animate-ping [animation-delay:0ms] ${isUp ? 'bg-[#815a9b]' : 'bg-gray-600'}`}></div>
-                    <div className={`w-3 h-3 rounded-full animate-ping [animation-delay:150ms] ${isUp ? 'bg-[#815a9b]' : 'bg-gray-600'}`}></div>
-                    <div className={`w-3 h-3 rounded-full animate-ping [animation-delay:300ms] ${isUp ? 'bg-[#815a9b]' : 'bg-gray-600'}`}></div>
-                </div>
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 } as never}
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ scale: 0.7, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 280, damping: 22 } as never}
+          onClick={(e) => e.stopPropagation()}
+          className={`relative bg-white rounded-[2.5rem] p-8 md:p-10 max-w-sm w-full overflow-hidden shadow-2xl ${
+            isUp ? 'shadow-purple-500/30' : 'shadow-gray-500/30'
+          }`}
+        >
+          {/* Confetti / particles */}
+          {isUp && (
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              {confetti.map((p, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ x: 0, y: 0, opacity: 1, scale: 0 }}
+                  animate={{ x: p.x, y: p.y, opacity: 0, scale: 1, rotate: p.rotate }}
+                  transition={{ duration: 1.4, delay: 0.1, ease: 'easeOut' } as never}
+                  className="absolute top-1/2 left-1/2 w-2 h-3 rounded-sm"
+                  style={{ backgroundColor: p.color }}
+                />
+              ))}
             </div>
-        </div>
-    );
+          )}
+
+          {/* Blur background glow */}
+          <div
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-3xl pointer-events-none ${
+              isUp ? 'bg-purple-200/60' : 'bg-gray-200/60'
+            }`}
+          />
+
+          <div className="relative flex flex-col items-center text-center">
+            {/* Badge */}
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.15 } as never}
+              className={`relative w-24 h-24 rounded-3xl flex items-center justify-center mb-5 shadow-xl ${
+                isUp
+                  ? 'bg-gradient-to-br from-[#632EB0] to-[#4E248B] shadow-purple-500/40 text-white'
+                  : 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-gray-500/40 text-white'
+              }`}
+            >
+              {isUp ? <ChevronsUp className="w-12 h-12" strokeWidth={3} /> : <ChevronsDown className="w-12 h-12" strokeWidth={3} />}
+              {isUp && (
+                <motion.span
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' } as never}
+                  className="absolute -inset-2 rounded-3xl border-2 border-purple-200/50 border-dashed"
+                />
+              )}
+            </motion.div>
+
+            {/* Title */}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.35 } as never}
+            >
+              <p className={`text-[10px] font-black uppercase tracking-[0.3em] mb-1 ${isUp ? 'text-[#632EB0]' : 'text-gray-500'}`}>
+                {isUp ? '¡Subiste de nivel!' : 'Nivel reducido'}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tighter">
+                Banda {banda}
+              </h2>
+              <p className="text-sm font-bold text-gray-500 mt-1 flex items-center justify-center gap-1.5">
+                {isUp && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
+                &ldquo;{title}&rdquo;
+              </p>
+            </motion.div>
+
+            {/* Dots */}
+            <div className="mt-6 flex gap-2">
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 } as never}
+                  className={`w-2 h-2 rounded-full ${isUp ? 'bg-[#632EB0]' : 'bg-gray-500'}`}
+                />
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
