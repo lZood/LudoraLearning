@@ -71,15 +71,29 @@ export async function POST(req: NextRequest) {
         }
 
         prompt += `
-        Tu tarea es determinar si la respuesta del estudiante es "Correcta/Aceptable" basada en su intento de cumplir la rúbrica y las reglas básicas del inglés (perdonando errores ortográficos menores que no impidan la comprensión, especialmente si es un nivel bajo).
+        Tu tarea es determinar si la respuesta del estudiante es "Correcta/Aceptable" basada en su intento de cumplir la rúbrica y las reglas básicas del inglés (perdonando errores menores que no impidan la comprensión, especialmente en niveles bajos).`;
 
-        Devuelve tu respuesta estrictamente en formato JSON con dos parámetros:
+        if (questionType === 'audio-record') {
+            prompt += `
+        Además evalúa la PRONUNCIACIÓN del audio. Devuelve ESTRICTAMENTE este JSON (sin markdown):
         {
-          "isCorrect": boolean, // true si logró el objetivo comunicativo / rúbrica, false si está completamente perdido o dice algo incoherente.
-          "feedback": string // una frase breve explicando el por qué (en español) para el dashboard del profesor.
+          "isCorrect": boolean,
+          "feedback": string,        // breve, en español
+          "transcript": string,      // lo que dijo el alumno (en inglés)
+          "overallScore": number,    // 0-100 pronunciación global
+          "accuracyScore": number,   // 0-100 precisión fonética
+          "fluencyScore": number,    // 0-100 fluidez
+          "notes": string            // 1 frase de mejora (español)
+        }`;
+        } else {
+            prompt += `
+        Devuelve ESTRICTAMENTE este JSON (sin markdown):
+        {
+          "isCorrect": boolean,      // logró el objetivo comunicativo / rúbrica
+          "feedback": string         // una frase breve (en español)
+        }`;
         }
-        NO devuelvas formato markdown (\`\`\`json), solo el raw JSON.
-        `;
+        prompt += `\n        NO devuelvas markdown (\`\`\`json), solo el JSON crudo.\n        `;
 
         let result;
         if (questionType === 'audio-record' && audioBase64) {

@@ -313,7 +313,7 @@ export default function EvaluacionYBanda() {
         userAnswerText?: string,
         base64Audio?: string,
         mimeType?: string
-    ): Promise<{ isCorrect: boolean; feedback: string; needsReview: boolean; raw?: string }> => {
+    ): Promise<{ isCorrect: boolean; feedback: string; needsReview: boolean; raw?: string; pron?: { transcript?: string; overall?: number; accuracy?: number; fluency?: number; notes?: string } }> => {
         if (!currentQuestion) return { isCorrect: false, feedback: 'No question', needsReview: true };
 
         try {
@@ -336,7 +336,10 @@ export default function EvaluacionYBanda() {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Error de evaluación');
-            return { isCorrect: !!data.isCorrect, feedback: data.feedback, needsReview: false, raw: data.raw };
+            const pron = (data.transcript !== undefined || data.overallScore !== undefined)
+                ? { transcript: data.transcript, overall: data.overallScore, accuracy: data.accuracyScore, fluency: data.fluencyScore, notes: data.notes }
+                : undefined;
+            return { isCorrect: !!data.isCorrect, feedback: data.feedback, needsReview: false, raw: data.raw, pron };
         } catch (error) {
             // NO inflar: ante error marcamos incorrecto + revisión humana (no isCorrect:true).
             console.error('Error contacting Gemini:', error);
@@ -365,6 +368,7 @@ export default function EvaluacionYBanda() {
         let aiFeedbackStr = '';
         let needsReview = false;
         let aiRaw: string | undefined;
+        let pron: { transcript?: string; overall?: number; accuracy?: number; fluency?: number; notes?: string } | undefined;
         let uploadedAudioPath: string | null = null;
 
         try {
@@ -393,6 +397,7 @@ export default function EvaluacionYBanda() {
                 aiFeedbackStr = aiResult.feedback;
                 needsReview = aiResult.needsReview;
                 aiRaw = aiResult.raw;
+                pron = aiResult.pron;
             }
 
             playFeedbackSound(finalIsCorrect);
@@ -413,7 +418,7 @@ export default function EvaluacionYBanda() {
             }
 
             if (userId && currentQuestion) {
-                await supabase.from('evaluation_results').insert({
+                const { data: insertedResult } = await supabase.from('evaluation_results').insert({
                     user_id: userId,
                     evaluation_id: evaluationId,
                     question_id: currentQuestion.id,
@@ -425,7 +430,20 @@ export default function EvaluacionYBanda() {
                     ai_feedback: aiFeedbackStr || null,
                     ai_raw_response: aiRaw ? { raw: aiRaw } : null,
                     needs_human_review: needsReview,
-                });
+                }).select('id').maybeSingle();
+
+                // Score de pronunciación (audio): RPC valida que el reactivo es del alumno.
+                if (pron && insertedResult?.id) {
+                    await supabase.rpc('save_pronunciation_score', {
+                        p_result_id: insertedResult.id,
+                        p_transcript: pron.transcript ?? null,
+                        p_overall: pron.overall ?? null,
+                        p_accuracy: pron.accuracy ?? null,
+                        p_fluency: pron.fluency ?? null,
+                        p_reference: currentQuestion.text ?? null,
+                        p_raw: aiRaw ? { raw: aiRaw } : null,
+                    });
+                }
             }
 
             setEvaluationHistory((prev) => [...prev, {
@@ -690,6 +708,19 @@ export default function EvaluacionYBanda() {
 
                 if (saveError) {
                     console.error('Error saving detailed evaluation:', saveError);
+                }
+
+                // Agente de guía: genera feedback dual (alumno + maestro) en feedback_sessions.
+                if (evaluationId) {
+                    try {
+                        await fetch('/api/evaluation/finalize', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ evaluationId }),
+                        });
+                    } catch (fErr) {
+                        console.error('finalize feedback error:', fErr);
+                    }
                 }
             }
 
