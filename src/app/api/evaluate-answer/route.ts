@@ -13,6 +13,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Gemini API key is not configured.' }, { status: 500 });
         }
 
+        // Rate-limit por IP (anti-abuso/costos de IA): 40 req/min.
+        const ip = (req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown').trim();
+        const admin = createAdminClient();
+        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `eval:${ip}`, p_max: 40, p_window: 60 });
+        if (rlOk === false) {
+            return NextResponse.json({ error: 'Demasiadas solicitudes, intenta en un momento.' }, { status: 429 });
+        }
+
         const body = await req.json();
         let { questionType, questionText, gradingRubric, expectedKeywords } = body;
         const { questionId, userAnswerText, audioBase64, audioMimeType } = body;
@@ -20,7 +28,6 @@ export async function POST(req: NextRequest) {
         // Fuente autoritativa: si llega questionId, tomamos tipo/texto/rúbrica/keywords de la BD
         // (no confiamos en lo que mande el cliente, que ya no las recibe vía get_exam_questions).
         if (questionId) {
-            const admin = createAdminClient();
             const { data: q } = await admin
                 .from('questions')
                 .select('type, text, grading_rubric, expected_keywords')

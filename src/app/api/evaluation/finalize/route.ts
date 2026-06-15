@@ -18,6 +18,11 @@ export async function POST(req: NextRequest) {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
 
+        // Rate-limit por usuario: 5 finalizaciones/min.
+        const rl = createAdminClient();
+        const { data: rlOk } = await rl.rpc('check_rate_limit', { p_key: `finalize:${user.id}`, p_max: 5, p_window: 60 });
+        if (rlOk === false) return NextResponse.json({ error: 'Demasiadas solicitudes.' }, { status: 429 });
+
         // RLS asegura que solo lee su propia evaluación.
         const { data: ev } = await supabase
             .from('evaluations')
