@@ -24,16 +24,8 @@ import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import SuscripcionContent from '@/components/dashboard/SuscripcionContent';
 import { createClient } from '@/utils/supabase/client';
 
-// --- MOCK DATA ---
-const WEEKLY_LEADERBOARD = [
-    { id: '1', name: 'Zoe Ludora', avatar: 'Zoe', xp: 2850, rank: 1, trend: 'up' },
-    { id: '2', name: 'Alex Craft', avatar: 'Alex', xp: 2450, rank: 2, trend: 'up' },
-    { id: 'me', name: 'Tú (José Carlos)', avatar: 'Steve', xp: 2120, rank: 3, isUser: true, trend: 'neutral' },
-    { id: '4', name: 'Santi Bloom', avatar: 'Santi', xp: 1980, rank: 4, trend: 'down' },
-    { id: '5', name: 'Emma Rose', avatar: 'Emma', xp: 1850, rank: 5, trend: 'neutral' },
-];
-
 type TabType = 'cuenta' | 'suscripcion' | 'preferencias';
+type RankRow = { name: string; avatar: string; xp: number; rank: number; isUser: boolean };
 
 export default function PerfilPage() {
     const supabase = createClient();
@@ -41,22 +33,41 @@ export default function PerfilPage() {
     const [activeTab, setActiveTab] = useState<TabType>('cuenta');
     const hapticRef = useRef<HapticHandle>(null);
     const [userData, setUserData] = useState({ name: 'José Carlos', isPremium: false, renewalDate: 'Cargando...' });
+    const [stats, setStats] = useState({ streak: 0, xp: 0, coins: 0, level: '—' });
+    const [ranking, setRanking] = useState<RankRow[]>([]);
 
     useEffect(() => {
         setMounted(true);
-        const fetch = async () => {
+        const fetchData = async () => {
             const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data: profile } = await supabase.from('users').select('full_name').eq('id', user.id).maybeSingle();
-                const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).maybeSingle();
-                setUserData({
-                    name: profile?.full_name || 'Estudiante',
-                    isPremium: !!sub,
-                    renewalDate: sub?.current_period_end ? new Date(sub.current_period_end).toLocaleDateString() : 'Proximamente'
-                });
-            }
+            if (!user) return;
+            const { data: profile } = await supabase.from('users').select('full_name, english_level').eq('id', user.id).maybeSingle();
+            const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).maybeSingle();
+            const { data: g } = await supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak').eq('user_id', user.id).maybeSingle();
+            const { data: lb } = await supabase.rpc('get_leaderboard');
+
+            setUserData({
+                name: profile?.full_name || 'Estudiante',
+                isPremium: !!sub,
+                renewalDate: sub?.current_period_end ? new Date(sub.current_period_end).toLocaleDateString() : 'Proximamente',
+            });
+            setStats({
+                streak: g?.current_streak ?? 0,
+                xp: g?.xp_total ?? 0,
+                coins: g?.coins ?? 0,
+                level: profile?.english_level || `Nv ${g?.level_number ?? 1}`,
+            });
+            setRanking(((lb as Array<{ display_name: string; points: number; rank: number; is_self: boolean }> | null) ?? [])
+                .slice(0, 5)
+                .map((r) => ({
+                    name: r.is_self ? `Tú (${r.display_name})` : r.display_name,
+                    avatar: r.display_name,
+                    xp: r.points,
+                    rank: r.rank,
+                    isUser: r.is_self,
+                })));
         };
-        fetch();
+        fetchData();
     }, []);
 
     if (!mounted) return null;
@@ -114,7 +125,7 @@ export default function PerfilPage() {
 
                                     {/* STATS */}
                                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                        {[{ label: "Racha", val: "7", icon: Flame, color: "text-orange-500" }, { label: "XP", val: "2,450", icon: Zap, color: "text-yellow-500" }, { label: "Nivel", val: "A2", icon: Trophy, color: "text-[#815a9b]" }, { label: "Monedas", val: "2", icon: Sparkles, color: "text-yellow-600" }].map((s, i) => (
+                                        {[{ label: "Racha", val: String(stats.streak), icon: Flame, color: "text-orange-500" }, { label: "XP", val: stats.xp.toLocaleString(), icon: Zap, color: "text-yellow-500" }, { label: "Nivel", val: stats.level, icon: Trophy, color: "text-[#815a9b]" }, { label: "Monedas", val: String(stats.coins), icon: Sparkles, color: "text-yellow-600" }].map((s, i) => (
                                             <div key={i} className="bg-white p-6 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col items-center gap-2">
                                                 <s.icon className={`w-6 h-6 ${s.color}`} />
                                                 <span className="text-2xl font-black text-gray-900 tracking-tighter">{s.val}</span>
@@ -143,14 +154,17 @@ export default function PerfilPage() {
                                             <div className="px-4 py-2 bg-gray-50 rounded-full font-black text-[11px] text-gray-400">2d 14h</div>
                                         </div>
                                         <div className="space-y-2">
-                                            {WEEKLY_LEADERBOARD.map((u) => (
-                                                <div key={u.id} className={`flex items-center justify-between p-4 rounded-[2rem] ${u.isUser ? 'bg-purple-50/40 border-2 border-purple-100' : ''}`}>
+                                            {ranking.length === 0 && (
+                                                <p className="text-center text-gray-400 font-bold py-6 text-sm">Aún no hay puntos esta semana. ¡Completa lecciones para subir! 🏆</p>
+                                            )}
+                                            {ranking.map((u) => (
+                                                <div key={u.rank} className={`flex items-center justify-between p-4 rounded-[2rem] ${u.isUser ? 'bg-purple-50/40 border-2 border-purple-100' : ''}`}>
                                                     <div className="flex items-center gap-5">
                                                         <span className="w-4 text-center font-black text-gray-300">{u.rank}</span>
                                                         <img src={`https://minotar.net/avatar/${u.avatar}/60.png`} className="w-11 h-11 rounded-xl bg-gray-100 p-1" />
                                                         <span className={`font-black tracking-tight ${u.isUser ? 'text-[#815a9b]' : 'text-gray-900'}`}>{u.name}</span>
                                                     </div>
-                                                    <div className="flex items-center gap-4"><Zap className="w-4 h-4 text-yellow-500" fill="currentColor" /><span className="font-black text-gray-900">{u.xp}</span>{u.trend === 'up' && <ArrowUp className="w-4 h-4 text-green-500" />}</div>
+                                                    <div className="flex items-center gap-4"><Zap className="w-4 h-4 text-yellow-500" fill="currentColor" /><span className="font-black text-gray-900">{u.xp.toLocaleString()}</span></div>
                                                 </div>
                                             ))}
                                         </div>
