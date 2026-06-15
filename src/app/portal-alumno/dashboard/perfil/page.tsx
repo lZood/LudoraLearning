@@ -134,6 +134,19 @@ export default function PerfilPage() {
                                         ))}
                                     </div>
 
+                                    {/* REPORTE PARA PADRES */}
+                                    <a href="/portal-alumno/dashboard/reporte" className="bg-white rounded-[3rem] p-8 border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer group">
+                                        <div className="flex items-center gap-6">
+                                            <div className="w-16 h-16 bg-gradient-to-br from-[#88e04f] to-[#5bbf2e] rounded-3xl flex items-center justify-center shadow-lg"><Trophy className="w-8 h-8 text-white" /></div>
+                                            <div>
+                                                <span className="text-[10px] font-black text-green-700 uppercase tracking-widest">Para tutores</span>
+                                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Reporte de progreso</h3>
+                                                <p className="text-[11px] text-gray-400 font-bold mt-1">Resumen imprimible del avance del alumno</p>
+                                            </div>
+                                        </div>
+                                        <div className="p-3 bg-gray-50 rounded-2xl group-hover:bg-green-50 transition-all"><ChevronRight className="w-5 h-5 text-gray-300" /></div>
+                                    </a>
+
                                     {/* SUB CARD */}
                                     <div onClick={() => setActiveTab('suscripcion')} className="bg-white rounded-[3rem] p-8 border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer group">
                                         <div className="flex items-center gap-6">
