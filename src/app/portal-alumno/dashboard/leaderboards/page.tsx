@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
+import { createClient } from '@/utils/supabase/client';
+
+type RankRow = { name: string; xp: number; avatar: string; isUser: boolean; trend: string };
 
 // --- LEAGUE CONFIGURATION --- 
 const LEAGUES = [
@@ -33,27 +36,9 @@ const LEAGUES = [
     { id: 'netherite', name: 'Netherite', color: 'text-purple-700', bg: 'bg-purple-50', icon: 'Netherite', border: 'border-purple-300' },
 ];
 
-// --- MOCK DATA --- 
-const MOCK_RANKING = [
-    { id: 1, name: 'Zoe Ludora', xp: 2850, avatar: 'Zoe', trend: 'up' },
-    { id: 2, name: 'Alex Craft', xp: 2450, avatar: 'Alex', trend: 'up' },
-    { id: 3, name: 'Tú (José Carlos)', xp: 2210, avatar: 'Steve', trend: 'neutral', isUser: true },
-    { id: 4, name: 'Santi Bloom', xp: 1980, avatar: 'Santi', trend: 'down' },
-    { id: 5, name: 'Emma Rose', xp: 1850, avatar: 'Emma', trend: 'neutral' },
-    { id: 6, name: 'Mateo Block', xp: 1720, avatar: 'Mateo', trend: 'up' },
-    { id: 7, name: 'Luna Star', xp: 1600, avatar: 'Luna', trend: 'down' },
-    { id: 8, name: 'Rex Steve', xp: 1450, avatar: 'Rex', trend: 'neutral' },
-    { id: 9, name: 'Fede Miner', xp: 1300, avatar: 'Fede', trend: 'up' },
-    { id: 10, name: 'Mia Cubes', xp: 1100, avatar: 'Mia', trend: 'down' },
-    { id: 11, name: 'Kira Diamond', xp: 950, avatar: 'Kira', trend: 'neutral' },
-    { id: 12, name: 'Leo Iron', xp: 800, avatar: 'Leo', trend: 'down' },
-    { id: 13, name: 'Sofía Craft', xp: 750, avatar: 'Sofia', trend: 'up' },
-    { id: 14, name: 'Vito Gold', xp: 600, avatar: 'Vito', trend: 'down' },
-    { id: 15, name: 'Dani Coal', xp: 450, avatar: 'Dani', trend: 'neutral' },
-];
-
 export default function LeaderboardsPage() {
     const [mounted, setMounted] = useState(false);
+    const [ranking, setRanking] = useState<RankRow[]>([]);
     const [currentLeague, setCurrentLeague] = useState(LEAGUES[3]); // Default Gold
     const hapticRef = useRef<HapticHandle>(null);
     const leagueRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -61,6 +46,17 @@ export default function LeaderboardsPage() {
 
     useEffect(() => {
         setMounted(true);
+        (async () => {
+            const supabase = createClient();
+            const { data } = await supabase.rpc('get_leaderboard');
+            setRanking(((data as Array<{ display_name: string; points: number; is_self: boolean }> | null) ?? []).map((r) => ({
+                name: r.is_self ? `Tú (${r.display_name})` : r.display_name,
+                xp: r.points,
+                avatar: r.display_name,
+                isUser: r.is_self,
+                trend: 'neutral',
+            })));
+        })();
     }, []);
 
     // Auto-center active league effect
@@ -140,14 +136,19 @@ export default function LeaderboardsPage() {
 
                 {/* 3. VERTICAL RANKING LIST (Duolingo Style - Option B) */}
                 <div className="w-full max-w-4xl mt-12 px-6 flex flex-col gap-3 pb-20">
-                    {MOCK_RANKING.map((user, i) => {
+                    {ranking.length === 0 && (
+                        <div className="text-center py-16 text-gray-400 font-bold">
+                            Aún no hay puntos esta semana. ¡Completa lecciones para aparecer en el ranking! 🏆
+                        </div>
+                    )}
+                    {ranking.map((user, i) => {
                         const rank = i + 1;
                         const isPromoZone = rank <= 10;
                         const isDemoteZone = rank > 30; // Not applicable for 15 mock users
                         const leagueBorderClass = `border-[3px] ${currentLeague.id === 'oro' ? 'border-yellow-400' : currentLeague.id === 'esmeralda' ? 'border-emerald-400' : 'border-gray-200'}`;
 
                         return (
-                            <React.Fragment key={user.id}>
+                            <React.Fragment key={i}>
                                 {/* Promotion Line Indicator */}
                                 {rank === 11 && (
                                     <div className="py-4 flex items-center gap-4">
