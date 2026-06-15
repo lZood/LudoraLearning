@@ -722,6 +722,16 @@ export default function EvaluacionYBanda() {
                         console.error('finalize feedback error:', fErr);
                     }
                 }
+
+                // Gamificación: XP + monedas por completar la evaluación + logros desbloqueados.
+                try {
+                    await supabase.rpc('grant_progress', { p_xp: 50, p_coins: 20, p_source: 'evaluacion' });
+                    for (const a of topAchievements) {
+                        await supabase.rpc('unlock_achievement', { p_achievement_id: a.id });
+                    }
+                } catch (gErr) {
+                    console.error('gamification error:', gErr);
+                }
             }
 
             setIsQuizFinished(true);

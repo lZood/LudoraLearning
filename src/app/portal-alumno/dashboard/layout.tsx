@@ -100,6 +100,7 @@ export default function DashboardLayout({
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean | null>(null);
+    const [streak, setStreak] = useState<number>(0);
 
     useEffect(() => {
         let isMounted = true;
@@ -127,6 +128,14 @@ export default function DashboardLayout({
                 if (isMounted) {
                     setHasActiveSubscription(!!subData);
                 }
+
+                // Racha real (gamificación)
+                const { data: gdata } = await supabase
+                    .from('user_gamification')
+                    .select('current_streak')
+                    .eq('user_id', session.user.id)
+                    .maybeSingle();
+                if (isMounted && gdata) setStreak(gdata.current_streak ?? 0);
 
             } catch (err) {
                 console.error("Error verifying access:", err);
@@ -253,7 +262,7 @@ export default function DashboardLayout({
                             {/* Streak Counter */}
                             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-extrabold text-sm">
                                 <Zap className="w-4 h-4 fill-yellow-500" />
-                                <span>1</span>
+                                <span>{streak}</span>
                             </div>
 
                             {/* Profile Menu Trigger */}
