@@ -18,7 +18,7 @@ export default async function CursosPage() {
         .from('users')
         .select('english_level')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
     if (!userData || !userData.english_level) {
         redirect('/portal-alumno/evaluacion');
@@ -32,6 +32,28 @@ export default async function CursosPage() {
         .in('status', ['active', 'trialing']);
 
     const isPremium = subsData && subsData.length > 0;
+
+    // 4. Currículo + progreso real del alumno (reemplaza COURSE_DATA mock)
+    const [{ data: levelsRows }, { data: unitRows }, { data: progressRows }] = await Promise.all([
+        supabase.from('levels').select('id, external_id, title, subtitle, order_index').order('order_index'),
+        supabase.from('units').select('id, external_id, level_id, title, icon, order_index, is_new').order('order_index'),
+        supabase.from('user_progress').select('unit_id, progress_pct').eq('user_id', user.id),
+    ]);
+    const progByUnit = new Map((progressRows ?? []).map((p) => [p.unit_id as string, p.progress_pct as number]));
+    const levelsData = (levelsRows ?? []).map((l) => ({
+        id: (l.external_id as string) ?? (l.id as string),
+        title: l.title as string,
+        subtitle: (l.subtitle as string) ?? '',
+        units: (unitRows ?? [])
+            .filter((u) => u.level_id === l.id)
+            .map((u) => ({
+                id: (u.external_id as string) ?? (u.id as string),
+                title: u.title as string,
+                icon: u.icon as string | null,
+                progress: progByUnit.get(u.id as string) ?? 0,
+                isNew: u.is_new as boolean,
+            })),
+    }));
 
     return (
         <div className="flex flex-col w-full min-h-screen bg-white">
@@ -67,7 +89,7 @@ export default async function CursosPage() {
 
             {/* Main Content (Course Path) */}
             <main className="flex-1 w-full max-w-7xl mx-auto pb-40 md:py-8">
-                <CourseMap />
+                <CourseMap levels={levelsData} />
             </main>
 
             {/* Floating Navigation (Mobile Only) */}
