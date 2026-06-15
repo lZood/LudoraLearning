@@ -21,6 +21,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
+import { createClient } from '@/utils/supabase/client';
 
 const categories = [
     { id: 'todos', label: 'Todos' },
@@ -30,95 +31,144 @@ const categories = [
     { id: 'conversacion', label: 'Conversación' }
 ];
 
-const VIDEO_DATA = [
-    {
-        id: 1,
-        title: 'Saludos básicos (Hi, Hello)',
-        duration: '4:45',
-        level: 1,
-        difficulty: 'Nivel 1',
-        thumbnail: '/images/portal-alumnos/videos/gameplay.png',
-        category: 'Conversación',
-        description: 'Aprende a presentarte y saludar a otros jugadores en el servidor. Cubriremos frases esenciales y etiqueta básica de juego.',
-        xp: 25,
-        youtubeId: 'dQw4w9WgXcQ' // Mock
-    },
-    {
-        id: 2,
-        title: 'Objetos y Herramientas: Vocabulario Esencial',
-        duration: '08:20',
-        level: 1,
-        difficulty: 'Nivel 1',
-        thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1973&auto=format&fit=crop',
-        category: 'Vocabulario',
-        description: 'Domina los nombres de las herramientas y bloques principales mientras construyes tu primera aldea.',
-        xp: 15,
-        youtubeId: 'dQw4w9WgXcQ'
-    },
-    {
-        id: 3,
-        title: 'Construyendo con Adjetivos: Descripción de Estructuras',
-        duration: '15:10',
-        level: 2,
-        difficulty: 'Nivel 2',
-        thumbnail: 'https://images.unsplash.com/photo-1485546246426-74dc83626bad?q=80&w=2070&auto=format&fit=crop',
-        category: 'Gramática',
-        description: 'Mejora tus construcciones usando adjetivos descriptivos y comparativos. Aprende a decir "más grande", "más resistente", etc.',
-        xp: 35,
-        youtubeId: 'dQw4w9WgXcQ'
-    },
-    {
-        id: 4,
-        title: 'Comandos de Servidor y Direcciones',
-        duration: '10:15',
-        level: 2,
-        difficulty: 'Nivel 2',
-        thumbnail: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop',
-        category: 'Conversación',
-        description: 'Utiliza comandos rápidos y aprende a dar direcciones precisas para coordinar incursiones con tus amigos.',
-        xp: 20,
-        youtubeId: 'dQw4w9WgXcQ'
-    },
-    {
-        id: 5,
-        title: 'Encantamientos y Vocabulario Místico',
-        duration: '18:30',
-        level: 3,
-        difficulty: 'Nivel 3',
-        thumbnail: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop',
-        category: 'Vocabulario',
-        description: 'Explora el mundo de la alquimia y los encantamientos. Un vocabulario avanzado para expertos exploradores.',
-        xp: 50,
-        youtubeId: 'dQw4w9WgXcQ'
-    }
-];
-
-// MOCK USER STATE
-const USER_PROGRESS = {
-    currentLevel: 2, // El usuario está en nivel 2, puede ver niveles <= 2
-    hoursWatched: 24,
-    quizzesCompleted: 12,
-    totalQuizzes: 15,
-    streak: 7
+// Fila cruda de la tabla public.videos
+type VideoRow = {
+    id: string;
+    title: string;
+    category: string | null;
+    level: number | null;
+    thumbnail_url: string | null;
+    youtube_id: string | null;
+    duration_sec: number | null;
+    xp_reward: number | null;
+    unlock_level: number | null;
+    order_index: number | null;
 };
+
+// Estructura que consume el diseño (misma forma que el antiguo VIDEO_DATA)
+type Video = {
+    id: string;
+    title: string;
+    duration: string;
+    unlockLevel: number;
+    difficulty: string;
+    thumbnail: string;
+    category: string;
+    description: string;
+    xp: number;
+    youtubeId: string | null;
+    watched: boolean;
+};
+
+const FALLBACK_THUMBNAIL = '/images/portal-alumnos/videos/gameplay.png';
+
+// Formatea segundos a "M:SS" o "MM:SS" para conservar el estilo de duración del diseño
+function formatDuration(totalSec: number | null): string {
+    if (!totalSec || totalSec <= 0) return '--:--';
+    const minutes = Math.floor(totalSec / 60);
+    const seconds = totalSec % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// Normaliza una fila de BD a la forma visual que ya espera la página
+function mapVideo(row: VideoRow, watchedIds: Set<string>): Video {
+    const unlockLevel = row.unlock_level ?? 1;
+    return {
+        id: row.id,
+        title: row.title ?? 'Vídeo sin título',
+        duration: formatDuration(row.duration_sec),
+        unlockLevel,
+        difficulty: `Nivel ${unlockLevel}`,
+        thumbnail: row.thumbnail_url || FALLBACK_THUMBNAIL,
+        category: row.category ?? 'General',
+        description: '',
+        xp: row.xp_reward ?? 0,
+        youtubeId: row.youtube_id,
+        watched: watchedIds.has(row.id),
+    };
+}
 
 export default function VideosPage() {
     const [activeTab, setActiveTab] = useState('Todos');
-    const [selectedVideo, setSelectedVideo] = useState<any>(null);
+    const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
     const [showQuizz, setShowQuizz] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [videos, setVideos] = useState<Video[]>([]);
+    // Nivel real del alumno (banda N). Si no hay sesión/nivel, asumimos banda 1.
+    const [userLevel, setUserLevel] = useState(1);
     const hapticRef = useRef<HapticHandle>(null);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    useEffect(() => {
+        const supabase = createClient();
+        let cancelled = false;
+
+        (async () => {
+            try {
+                // 1. Catálogo de vídeos (reemplaza VIDEO_DATA mock)
+                const { data: videoRows } = await supabase
+                    .from('videos')
+                    .select('*')
+                    .order('order_index');
+
+                // 2. Sesión + nivel real del alumno y su progreso de visto
+                const { data: { user } } = await supabase.auth.getUser();
+
+                let watchedIds = new Set<string>();
+                let level = 1;
+
+                if (user) {
+                    const [{ data: userData }, { data: progressRows }] = await Promise.all([
+                        supabase
+                            .from('users')
+                            .select('english_level')
+                            .eq('id', user.id)
+                            .maybeSingle(),
+                        supabase
+                            .from('video_progress')
+                            .select('video_id, watched')
+                            .eq('user_id', user.id),
+                    ]);
+
+                    if (userData?.english_level) {
+                        const parsed = parseInt(String(userData.english_level).replace('Banda ', ''), 10);
+                        if (!Number.isNaN(parsed)) level = parsed;
+                    }
+
+                    watchedIds = new Set(
+                        (progressRows ?? [])
+                            .filter((p) => p.watched)
+                            .map((p) => p.video_id as string)
+                    );
+                }
+
+                if (cancelled) return;
+                setUserLevel(level);
+                setVideos((videoRows ?? []).map((row) => mapVideo(row as VideoRow, watchedIds)));
+            } finally {
+                if (!cancelled) setLoading(false);
+            }
+        })();
+
+        return () => { cancelled = true; };
+    }, []);
+
     const triggerHaptic = () => {
         hapticRef.current?.trigger();
     };
 
-    const filteredVideos = VIDEO_DATA.filter(v => activeTab === 'Todos' || v.category === activeTab);
-    const featuredVideo = VIDEO_DATA[0];
+    const filteredVideos = videos.filter(v => activeTab === 'Todos' || v.category === activeTab);
+    const featuredVideo = videos[0];
+
+    // Métricas reales derivadas del progreso del alumno (reemplazan USER_PROGRESS mock)
+    const watchedVideos = videos.filter(v => v.watched);
+    const watchedCount = watchedVideos.length;
+    const totalVideos = videos.length;
+    const xpEarned = watchedVideos.reduce((acc, v) => acc + v.xp, 0);
 
     if (!mounted) return null;
 
@@ -159,6 +209,7 @@ export default function VideosPage() {
                 </div>
 
                 {/* FEATURED VIDEO (HERO) */}
+                {featuredVideo && (
                 <div className="relative mb-16 group">
                     <div className="bg-black rounded-[2.5rem_2.5rem_2.5rem_2.5rem] overflow-hidden aspect-[21/9] w-full relative group cursor-pointer shadow-2xl shadow-purple-200/50"
                         onClick={() => {
@@ -208,6 +259,7 @@ export default function VideosPage() {
                         </div>
                     </div>
                 </div>
+                )}
 
                 {/* VIDEOS GRID SECTION */}
                 <div className="space-y-10">
@@ -238,9 +290,34 @@ export default function VideosPage() {
                     </div>
 
                     {/* GRID VIEW */}
+                    {loading ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <div key={i} className="flex flex-col h-full bg-[#F8F9FB] rounded-[2.5rem] overflow-hidden border border-gray-100 animate-pulse">
+                                    <div className="aspect-video w-full bg-gray-100" />
+                                    <div className="p-8 space-y-3">
+                                        <div className="h-3 w-20 bg-gray-100 rounded-full" />
+                                        <div className="h-5 w-3/4 bg-gray-100 rounded-full" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : filteredVideos.length === 0 ? (
+                        <div className="bg-[#F8F9FB] rounded-[2.5rem] border border-gray-100 py-20 px-8 flex flex-col items-center justify-center text-center gap-4">
+                            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                                <PlayCircle className="w-8 h-8 text-[#632EB0]" />
+                            </div>
+                            <h4 className="text-lg font-black text-gray-900">Aún no hay vídeos por aquí</h4>
+                            <p className="text-sm font-medium text-gray-400 max-w-sm">
+                                {videos.length === 0
+                                    ? 'Pronto subiremos nuevos vídeos de aprendizaje. ¡Vuelve a revisar más tarde!'
+                                    : 'No hay vídeos en esta categoría todavía. Prueba con otra.'}
+                            </p>
+                        </div>
+                    ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {filteredVideos.map((video) => {
-                            const isLocked = video.level > USER_PROGRESS.currentLevel;
+                            const isLocked = video.unlockLevel > userLevel;
                             return (
                                 <div
                                     key={video.id}
@@ -277,6 +354,11 @@ export default function VideosPage() {
                                                 <Zap className="w-2.5 h-2.5 fill-white" /> +{video.xp} XP
                                             </span>
                                         </div>
+                                        {!isLocked && video.watched && (
+                                            <div className="absolute bottom-4 left-4 px-2 py-1 bg-green-500 shadow-sm rounded-lg text-[10px] font-black text-white uppercase tracking-widest flex items-center gap-1">
+                                                <CheckCircle2 className="w-3 h-3" /> Visto
+                                            </div>
+                                        )}
                                         {!isLocked && (
                                             <div className="absolute bottom-4 right-4 px-2 py-1 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-bold text-white">
                                                 {video.duration}
@@ -301,22 +383,23 @@ export default function VideosPage() {
                             );
                         })}
                     </div>
+                    )}
                 </div>
 
                 {/* STATS BOARD (PC) */}
                 <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="bg-[#F8F9FB] rounded-[2.5rem] p-10 flex flex-col gap-2 items-center text-center">
-                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Total Aprendido</span>
-                        <span className="text-4xl font-black text-gray-900">{USER_PROGRESS.hoursWatched} Horas</span>
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Tu Nivel</span>
+                        <span className="text-4xl font-black text-gray-900">Banda {userLevel}</span>
                     </div>
                     <div className="bg-[#F8F9FB] rounded-[2.5rem] p-10 flex flex-col gap-2 items-center text-center border-l border-r border-gray-100">
-                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Quizzes Completados</span>
-                        <span className="text-4xl font-black text-[#632EB0]">{USER_PROGRESS.quizzesCompleted}/{USER_PROGRESS.totalQuizzes}</span>
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Vídeos Vistos</span>
+                        <span className="text-4xl font-black text-[#632EB0]">{watchedCount}/{totalVideos}</span>
                     </div>
                     <div className="bg-[#F8F9FB] rounded-[2.5rem] p-10 flex flex-col gap-2 items-center text-center">
-                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Racha de Vídeo</span>
+                        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">XP Ganado</span>
                         <span className="text-4xl font-black text-[#FD9624] flex items-center gap-3">
-                            {USER_PROGRESS.streak} Días <Zap className="w-8 h-8 fill-[#FD9624]" />
+                            {xpEarned} XP <Zap className="w-8 h-8 fill-[#FD9624]" />
                         </span>
                     </div>
                 </div>
@@ -342,16 +425,32 @@ export default function VideosPage() {
                         <div className="w-full h-full max-w-[1400px] flex flex-col lg:flex-row bg-[#F8F9FB] md:rounded-[3rem] overflow-hidden shadow-2xl">
                             {/* Video Player Area */}
                             <div className="flex-1 bg-black relative flex items-center justify-center">
-                                <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1`}
-                                    title={selectedVideo.title}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="aspect-video w-full"
-                                ></iframe>
+                                {selectedVideo.youtubeId ? (
+                                    <iframe
+                                        width="100%"
+                                        height="100%"
+                                        src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1`}
+                                        title={selectedVideo.title}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                        className="aspect-video w-full"
+                                    ></iframe>
+                                ) : (
+                                    <div className="aspect-video w-full relative flex items-center justify-center">
+                                        <img
+                                            src={selectedVideo.thumbnail}
+                                            alt={selectedVideo.title}
+                                            className="absolute inset-0 w-full h-full object-cover opacity-50"
+                                        />
+                                        <div className="relative z-10 flex flex-col items-center gap-3 text-white text-center px-6">
+                                            <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
+                                                <PlayCircle className="w-8 h-8 text-white" />
+                                            </div>
+                                            <span className="text-[11px] font-black uppercase tracking-widest">Vídeo no disponible aún</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Interaction / Quizz Area */}

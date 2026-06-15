@@ -18,56 +18,113 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
+import { createClient } from '@/utils/supabase/client';
 
-const NEWS_DATA = [
-  {
-    id: 1,
-    type: 'new_content',
-    badge: 'Nueva Unidad',
-    title: '¡Ya está aquí la Unidad: Colores y Emociones!',
-    description: 'Aprende a expresar cómo te sientes y a identificar todos los colores del arcoíris en inglés con nuestras nuevas actividades interactivas.',
-    image: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop',
-    cta: 'Explorar ahora',
-    likes: 124,
-    comments: 18,
-    date: 'Hace 2 horas',
-    category: 'Recientes'
-  },
-  {
-    id: 2,
-    type: 'social',
-    badge: 'Comunidad Discord',
-    title: 'Evento en vivo: Práctica de Listening',
-    description: 'Únete a nuestro canal de Discord este viernes a las 6:00 PM para una sesión de práctica real con nativos. ¡No te lo pierdas!',
-    image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=1974&auto=format&fit=crop',
-    cta: 'Unirme al Discord',
-    likes: 89,
-    comments: 5,
-    date: 'Hace 5 horas',
-    category: 'Eventos'
-  },
-  {
-    id: 3,
-    type: 'tiktok',
-    badge: 'TikTok Destacado',
-    title: '5 Tips para mejorar tu pronunciación',
-    description: 'Nuestro último video de TikTok se ha vuelto viral. Mira cómo poner la lengua correctamente para los sonidos "th".',
-    image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop',
-    cta: 'Ver video completo',
-    likes: 456,
-    comments: 42,
-    date: 'Ayer',
-    category: 'Redes'
+// Estructura visual de cada noticia (se llena con datos reales de la BD).
+type NewsItem = {
+  id: string;
+  type: string;
+  badge: string;
+  title: string;
+  description: string;
+  image: string | null;
+  cta: string;
+  likes: number;
+  comments: number;
+  liked: boolean;
+  date: string;
+  category: string;
+};
+
+// Convierte published_at en una etiqueta amigable en español ("Hace 2 horas", "Ayer"...).
+function formatRelativeDate(iso: string | null): string {
+  if (!iso) return '';
+  const date = new Date(iso);
+  const diffMs = Date.now() - date.getTime();
+  const diffMin = Math.round(diffMs / 60000);
+  if (diffMin < 1) return 'Ahora mismo';
+  if (diffMin < 60) return `Hace ${diffMin} ${diffMin === 1 ? 'minuto' : 'minutos'}`;
+  const diffH = Math.round(diffMin / 60);
+  if (diffH < 24) return `Hace ${diffH} ${diffH === 1 ? 'hora' : 'horas'}`;
+  const diffD = Math.round(diffH / 24);
+  if (diffD === 1) return 'Ayer';
+  if (diffD < 7) return `Hace ${diffD} días`;
+  return date.toLocaleDateString('es-MX', { day: 'numeric', month: 'long' });
+}
+
+// Deriva un estilo (badge/tipo/cta) coherente a partir de la categoría almacenada.
+function deriveMeta(category: string | null, ctaUrl: string | null) {
+  const cat = (category ?? '').toLowerCase();
+  if (cat.includes('redes') || cat.includes('tiktok')) {
+    return { type: 'tiktok', badge: 'Redes', cta: ctaUrl ? 'Ver video completo' : 'Ver más' };
   }
-];
+  if (cat.includes('evento')) {
+    return { type: 'social', badge: 'Evento', cta: ctaUrl ? 'Unirme al Discord' : 'Más info' };
+  }
+  if (cat.includes('logro')) {
+    return { type: 'achievement', badge: 'Logro', cta: 'Ver detalles' };
+  }
+  return { type: 'new_content', badge: category || 'Anuncio', cta: ctaUrl ? 'Explorar ahora' : 'Leer más' };
+}
 
 export default function NoticiasPage() {
   const [activeTab, setActiveTab] = useState('Recientes');
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
   const hapticRef = useRef<HapticHandle>(null);
 
   useEffect(() => {
     setMounted(true);
+
+    (async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id ?? null);
+
+      // 1) Traer todas las noticias, más recientes primero.
+      const { data: posts } = await supabase
+        .from('news_posts')
+        .select('*')
+        .order('published_at', { ascending: false });
+
+      const rows = posts ?? [];
+
+      // 2) Traer todos los likes para contar por post y saber cuáles dio el usuario.
+      const { data: likeRows } = await supabase
+        .from('post_likes')
+        .select('post_id, user_id');
+
+      const likeCounts = new Map<string, number>();
+      const userLiked = new Set<string>();
+      (likeRows ?? []).forEach((l) => {
+        const pid = l.post_id as string;
+        likeCounts.set(pid, (likeCounts.get(pid) ?? 0) + 1);
+        if (user && l.user_id === user.id) userLiked.add(pid);
+      });
+
+      const mapped: NewsItem[] = rows.map((p) => {
+        const meta = deriveMeta(p.category as string | null, p.cta_url as string | null);
+        return {
+          id: p.id as string,
+          type: meta.type,
+          badge: meta.badge,
+          title: (p.title as string) ?? '',
+          description: (p.description as string) ?? '',
+          image: (p.image_url as string | null) ?? null,
+          cta: meta.cta,
+          likes: likeCounts.get(p.id as string) ?? 0,
+          comments: 0,
+          liked: userLiked.has(p.id as string),
+          date: formatRelativeDate(p.published_at as string | null),
+          category: (p.category as string) ?? '',
+        };
+      });
+
+      setNews(mapped);
+      setLoading(false);
+    })();
   }, []);
 
   const triggerHaptic = () => {
@@ -165,23 +222,34 @@ export default function NoticiasPage() {
                 exit={{ opacity: 0, y: -10 }}
                 className="flex flex-col gap-10 w-full pb-32"
               >
-                {NEWS_DATA.filter(n => activeTab === 'Recientes' || n.category === activeTab).length > 0 ? (
-                  NEWS_DATA.filter(n => activeTab === 'Recientes' || n.category === activeTab).map((news) => (
-                    <div key={news.id} className="group cursor-pointer w-full" onClick={triggerHaptic}>
+                {loading ? (
+                  <div className="flex flex-col items-center justify-center py-20 text-center text-gray-400">
+                    <div className="w-10 h-10 border-4 border-gray-100 border-t-[#632EB0] rounded-full animate-spin mb-4" />
+                    <p className="text-sm font-bold">Cargando novedades...</p>
+                  </div>
+                ) : news.filter(n => activeTab === 'Recientes' || n.category === activeTab).length > 0 ? (
+                  news.filter(n => activeTab === 'Recientes' || n.category === activeTab).map((item) => (
+                    <div key={item.id} className="group cursor-pointer w-full" onClick={triggerHaptic}>
                       <div className="bg-[#F8F9FB] rounded-[2.5rem] overflow-hidden border border-gray-100/50 transition-all hover:bg-gray-50 group flex flex-col">
                             {/* Image Area */}
                             <div className="relative aspect-[16/9] w-full overflow-hidden shrink-0">
-                                <img 
-                                    src={news.image} 
-                                    alt={news.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
+                                {item.image ? (
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#632EB0] to-[#88e04f] transition-transform duration-700 group-hover:scale-105">
+                                        <Newspaper className="w-14 h-14 text-white/80" />
+                                    </div>
+                                )}
                                 <div className="absolute top-4 left-4">
                                     <span className="px-4 py-1.5 bg-white/95 backdrop-blur-md rounded-full text-[9px] font-black text-[#632EB0] uppercase tracking-widest shadow-sm">
-                                    {news.badge}
+                                    {item.badge}
                                     </span>
                                 </div>
-                                {news.type === 'tiktok' && (
+                                {item.type === 'tiktok' && (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="w-16 h-16 bg-white/30 backdrop-blur-lg rounded-full flex items-center justify-center border border-white/40">
                                             <Play className="w-8 h-8 text-white fill-white ml-1" />
@@ -195,27 +263,33 @@ export default function NoticiasPage() {
                                 <div>
                                     <div className="flex items-center gap-2 mb-4">
                                         <Clock className="w-3.5 h-3.5 text-gray-400" />
-                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">{news.date}</span>
+                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em]">{item.date}</span>
                                     </div>
                                     <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 leading-[1.15] tracking-tight">
-                                        {news.title}
+                                        {item.title}
                                     </h3>
                                     <p className="text-gray-500 font-medium text-[15px] leading-relaxed">
-                                        {news.description}
+                                        {item.description}
                                     </p>
                                 </div>
-                                
+
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 pt-6 border-t border-gray-200/50">
                                     <div className="flex items-center gap-6">
-                                        <LikeButton initialLikes={news.likes} onLike={triggerHaptic} />
+                                        <LikeButton
+                                            postId={item.id}
+                                            initialLikes={item.likes}
+                                            initialLiked={item.liked}
+                                            userId={userId}
+                                            onLike={triggerHaptic}
+                                        />
                                         <div className="flex items-center gap-2 text-gray-400">
                                             <MessageCircle className="w-4 h-4" />
-                                            <span className="text-[12px] font-bold">{news.comments}</span>
+                                            <span className="text-[12px] font-bold">{item.comments}</span>
                                         </div>
                                     </div>
-                                    
+
                                     <button className="sm:ml-auto w-full sm:w-auto px-8 py-3.5 bg-[#632EB0] text-white rounded-2xl font-black text-[11px] uppercase tracking-widest transition-all hover:bg-[#4E248B] active:scale-95 shadow-lg shadow-purple-200">
-                                        {news.cta}
+                                        {item.cta}
                                     </button>
                                 </div>
                             </div>
@@ -290,22 +364,64 @@ export default function NoticiasPage() {
   );
 }
 
-function LikeButton({ initialLikes, onLike }: { initialLikes: number; onLike: () => void }) {
-  const [liked, setLiked] = useState(false);
+function LikeButton({
+  postId,
+  initialLikes,
+  initialLiked,
+  userId,
+  onLike,
+}: {
+  postId: string;
+  initialLikes: number;
+  initialLiked: boolean;
+  userId: string | null;
+  onLike: () => void;
+}) {
+  const [liked, setLiked] = useState(initialLiked);
   const [likes, setLikes] = useState(initialLikes);
+  const [busy, setBusy] = useState(false);
 
-  const toggleLike = () => {
+  // Sincroniza el estado si los datos reales llegan después del primer render.
+  useEffect(() => {
+    setLiked(initialLiked);
+    setLikes(initialLikes);
+  }, [initialLiked, initialLikes]);
+
+  const toggleLike = async () => {
     onLike();
-    if (liked) {
-      setLikes(likes - 1);
+    if (!userId || busy) return;
+
+    const supabase = createClient();
+    const wasLiked = liked;
+
+    // Actualización optimista del conteo local.
+    setLiked(!wasLiked);
+    setLikes((n) => n + (wasLiked ? -1 : 1));
+    setBusy(true);
+
+    let error;
+    if (wasLiked) {
+      ({ error } = await supabase
+        .from('post_likes')
+        .delete()
+        .eq('post_id', postId)
+        .eq('user_id', userId));
     } else {
-      setLikes(likes + 1);
+      ({ error } = await supabase
+        .from('post_likes')
+        .insert({ post_id: postId, user_id: userId }));
     }
-    setLiked(!liked);
+
+    // Si falla, revertimos el cambio optimista.
+    if (error) {
+      setLiked(wasLiked);
+      setLikes((n) => n + (wasLiked ? 1 : -1));
+    }
+    setBusy(false);
   };
 
   return (
-    <button 
+    <button
       onClick={(e) => {
           e.stopPropagation();
           toggleLike();
