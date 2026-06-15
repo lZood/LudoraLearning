@@ -47,8 +47,8 @@ export default function PerfilPage() {
         const fetch = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             if (user) {
-                const { data: profile } = await supabase.from('users').select('full_name').eq('id', user.id).single();
-                const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).single();
+                const { data: profile } = await supabase.from('users').select('full_name').eq('id', user.id).maybeSingle();
+                const { data: sub } = await supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).maybeSingle();
                 setUserData({
                     name: profile?.full_name || 'Estudiante',
                     isPremium: !!sub,

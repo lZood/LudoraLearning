@@ -7,7 +7,9 @@ if (!apiKey && process.env.NODE_ENV === 'production') {
     console.warn('[resend] RESEND_API_KEY no está configurado.');
 }
 
-export const resend = new Resend(apiKey ?? 'placeholder');
+// `||` (no `??`): cubre también string vacío, para que un RESEND_API_KEY="" no
+// rompa el build/instanciación. En runtime el envío fallará si no hay key real.
+export const resend = new Resend(apiKey || 'placeholder');
 
 // Remitente por defecto. Cambia EMAIL_FROM en tu .env si usas otro dominio.
 export const EMAIL_FROM =

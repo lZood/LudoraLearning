@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
-import { questionBank, Question, QuestionLevel, QuestionCategory } from './questions';
+import { Question, QuestionLevel, QuestionCategory } from './questions';
 
 import LevelModal from '@/components/evaluation/LevelUpModal';
 import AdventurerReport from '@/components/evaluation/AdventurerReport';
@@ -67,6 +67,10 @@ const STREAK_PHRASES: Record<number, string> = {
 export default function EvaluacionYBanda() {
     const router = useRouter();
     const supabase = createClient();
+
+    // Banco de preguntas cargado desde BD (sin is_correct). Ref para uso síncrono en el motor CAT.
+    const questionsRef = useRef<Question[]>([]);
+    const [evaluationId, setEvaluationId] = useState<string | null>(null);
 
     const [userId, setUserId] = useState<string | null>(null);
     const [userMetadata, setUserMetadata] = useState<{ name: string; email: string } | null>(null);
@@ -214,6 +218,15 @@ export default function EvaluacionYBanda() {
                         setShowResults(true);
                     }
                 } else {
+                    // Cargar banco desde BD (sin is_correct) y abrir el intento (idempotencia).
+                    const { data: qData } = await supabase.rpc('get_exam_questions');
+                    questionsRef.current = (Array.isArray(qData) ? qData : []) as Question[];
+                    const { data: evalRow } = await supabase
+                        .from('evaluations')
+                        .insert({ user_id: user.id, status: 'in_progress' })
+                        .select('id')
+                        .maybeSingle();
+                    setEvaluationId(evalRow?.id ?? null);
                     loadNextQuestion(CATEGORIES[0], categoryLevels['Gramática y Vocabulario'], new Set(), 0);
                 }
             }
@@ -230,12 +243,12 @@ export default function EvaluacionYBanda() {
     ) => {
         setTextInputValue('');
 
-        let availableQuestions = questionBank.filter(
+        let availableQuestions = questionsRef.current.filter(
             (q) => q.category === targetCategory && q.level === targetLevel && !answered.has(q.id)
         );
 
         if (availableQuestions.length === 0) {
-            availableQuestions = questionBank.filter((q) => q.category === targetCategory && !answered.has(q.id));
+            availableQuestions = questionsRef.current.filter((q) => q.category === targetCategory && !answered.has(q.id));
         }
 
         if (availableQuestions.length > 0) {
@@ -281,32 +294,34 @@ export default function EvaluacionYBanda() {
         loadNextQuestion(CATEGORIES[nextIndex], categoryLevels[CATEGORIES[nextIndex]], answered, nextIndex);
     };
 
+    // Sube a bucket PRIVADO en {uid}/{evaluationId}/...; devuelve el PATH (no URL pública).
     const uploadAudioToSupabase = async (audioBlob: Blob): Promise<string | null> => {
         if (!userId) return null;
-        const fileName = `${userId}/${Date.now()}_audio.webm`;
-        const { data, error } = await supabase.storage.from('student_audios').upload(fileName, audioBlob);
+        const folder = evaluationId ?? 'misc';
+        const fileName = `${userId}/${folder}/${Date.now()}_audio.webm`;
+        const { data, error } = await supabase.storage
+            .from('student_audios')
+            .upload(fileName, audioBlob, { contentType: 'audio/webm' });
         if (error) {
             console.error('Error subiendo audio:', error);
             return null;
         }
-        const { data: { publicUrl } } = supabase.storage.from('student_audios').getPublicUrl(data.path);
-        return publicUrl;
+        return data.path;
     };
 
     const evaluateWithGemini = async (
         userAnswerText?: string,
         base64Audio?: string,
         mimeType?: string
-    ): Promise<{ isCorrect: boolean; feedback: string }> => {
-        if (!currentQuestion) return { isCorrect: false, feedback: 'No question' };
+    ): Promise<{ isCorrect: boolean; feedback: string; needsReview: boolean; raw?: string }> => {
+        if (!currentQuestion) return { isCorrect: false, feedback: 'No question', needsReview: true };
 
         try {
             const bodyData: Record<string, unknown> = {
+                questionId: currentQuestion.id,   // la rúbrica/keywords se leen en el server desde BD
                 questionType: currentQuestion.type,
                 questionText: currentQuestion.text,
                 userAnswerText,
-                gradingRubric: currentQuestion.gradingRubric,
-                expectedKeywords: currentQuestion.expectedKeywords
             };
 
             if (base64Audio) {
@@ -320,11 +335,12 @@ export default function EvaluacionYBanda() {
                 body: JSON.stringify(bodyData)
             });
             const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
-            return { isCorrect: data.isCorrect, feedback: data.feedback };
+            if (!response.ok) throw new Error(data.error || 'Error de evaluación');
+            return { isCorrect: !!data.isCorrect, feedback: data.feedback, needsReview: false, raw: data.raw };
         } catch (error) {
+            // NO inflar: ante error marcamos incorrecto + revisión humana (no isCorrect:true).
             console.error('Error contacting Gemini:', error);
-            return { isCorrect: true, feedback: 'AI error, defaulting to true' };
+            return { isCorrect: false, feedback: 'No se pudo evaluar automáticamente; marcado para revisión.', needsReview: true };
         }
     };
 
@@ -347,14 +363,16 @@ export default function EvaluacionYBanda() {
 
         let finalIsCorrect = isCorrectVal;
         let aiFeedbackStr = '';
-        let uploadedAudioUrl = null;
+        let needsReview = false;
+        let aiRaw: string | undefined;
+        let uploadedAudioPath: string | null = null;
 
         try {
             let base64AudioData: string | undefined;
             let mimeTypeStr: string | undefined;
 
             if (audioBlobToUpload) {
-                uploadedAudioUrl = await uploadAudioToSupabase(audioBlobToUpload);
+                uploadedAudioPath = await uploadAudioToSupabase(audioBlobToUpload);
 
                 if (needsAIEvaluation) {
                     const reader = new FileReader();
@@ -373,6 +391,8 @@ export default function EvaluacionYBanda() {
                 const aiResult = await evaluateWithGemini(userAnswerTextStr, base64AudioData, mimeTypeStr);
                 finalIsCorrect = aiResult.isCorrect;
                 aiFeedbackStr = aiResult.feedback;
+                needsReview = aiResult.needsReview;
+                aiRaw = aiResult.raw;
             }
 
             playFeedbackSound(finalIsCorrect);
@@ -395,12 +415,16 @@ export default function EvaluacionYBanda() {
             if (userId && currentQuestion) {
                 await supabase.from('evaluation_results').insert({
                     user_id: userId,
+                    evaluation_id: evaluationId,
+                    question_id: currentQuestion.id,
                     skill_id: currentQuestion.skillId,
                     level: categoryLevels[currentQuestion.category],
                     is_correct: finalIsCorrect,
                     user_answer_text: userAnswerTextStr || null,
-                    audio_url: uploadedAudioUrl,
-                    ai_feedback: aiFeedbackStr || null
+                    audio_path: uploadedAudioPath,
+                    ai_feedback: aiFeedbackStr || null,
+                    ai_raw_response: aiRaw ? { raw: aiRaw } : null,
+                    needs_human_review: needsReview,
                 });
             }
 
@@ -477,6 +501,22 @@ export default function EvaluacionYBanda() {
         setShowAudioPreview(false);
         setRecordedAudioBlob(null);
         setRecordedAudioUrl(null);
+    };
+
+    // MC / image-choice / audio-listening: el grading lo decide el SERVER (grade_choice), no el cliente.
+    const handleChooseOption = async (optionId: string, text: string) => {
+        if (!currentQuestion) return;
+        let ok = false;
+        try {
+            const { data } = await supabase.rpc('grade_choice', {
+                p_question_id: currentQuestion.id,
+                p_option_id: optionId,
+            });
+            ok = data === true;
+        } catch (e) {
+            console.error('grade_choice error', e);
+        }
+        handleAnswerSubmission(ok, text, undefined, false);
     };
 
     const handleSkipQuestion = () => {
@@ -634,19 +674,22 @@ export default function EvaluacionYBanda() {
 
                 setAiOracleVerdict(finalOracleVerdict);
 
-                const { error: insertError } = await supabase
-                    .from('evaluations')
-                    .insert({
-                        user_id: userId,
-                        calculated_band: bandaResult,
-                        category_levels: categoryLevels,
-                        evaluation_history: evaluationHistory,
-                        ai_oracle_verdict: finalOracleVerdict,
-                        achievements: topAchievements
-                    });
+                const payload = {
+                    calculated_band: bandaResult,
+                    category_levels: categoryLevels,
+                    evaluation_history: evaluationHistory,
+                    ai_oracle_verdict: finalOracleVerdict,
+                    achievements: topAchievements,
+                    status: 'completed',
+                    completed_at: new Date().toISOString(),
+                };
+                // Idempotencia: actualiza el intento in_progress; si no hay id, inserta.
+                const { error: saveError } = evaluationId
+                    ? await supabase.from('evaluations').update(payload).eq('id', evaluationId)
+                    : await supabase.from('evaluations').insert({ user_id: userId, ...payload });
 
-                if (insertError) {
-                    console.error('Error saving detailed evaluation:', insertError);
+                if (saveError) {
+                    console.error('Error saving detailed evaluation:', saveError);
                 }
             }
 
@@ -745,7 +788,7 @@ export default function EvaluacionYBanda() {
                 stopRecording={stopRecording}
                 onConfirmAudio={handleConfirmAudio}
                 onCancelAudio={handleCancelAudio}
-                onAnswer={(isCorrect, text) => handleAnswerSubmission(isCorrect, text, undefined, false)}
+                onChooseOption={handleChooseOption}
                 onSubmitText={() => handleAnswerSubmission(false, textInputValue, undefined, true)}
                 onSkip={handleSkipQuestion}
                 showDevMode={showDevMode}

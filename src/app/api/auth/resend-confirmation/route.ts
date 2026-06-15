@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { sendConfirmationEmail } from '@/lib/emails/sendConfirmationEmail';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,10 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const supabaseAdmin = createAdminClient();
-    const origin =
-        request.headers.get('origin') ||
-        process.env.NEXT_PUBLIC_SITE_URL ||
-        new URL(request.url).origin;
+    const origin = getSiteUrl();
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
         type: 'signup',

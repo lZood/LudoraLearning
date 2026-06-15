@@ -117,12 +117,12 @@ export default function DashboardLayout({
                 if (isMounted) setUser(session.user);
 
                 // 2. Check Subscription
-                const { data: subData, error: subError } = await supabase
+                const { data: subData } = await supabase
                     .from('subscriptions')
                     .select('status')
                     .eq('user_id', session.user.id)
                     .in('status', ['active', 'trialing'])
-                    .single();
+                    .maybeSingle();
 
                 if (isMounted) {
                     setHasActiveSubscription(!!subData);

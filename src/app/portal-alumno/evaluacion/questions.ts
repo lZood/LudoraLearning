@@ -4,9 +4,10 @@ export type QuestionCategory = 'Gramática y Vocabulario' | 'Comprensión Auditi
 export type QuestionType = 'multiple-choice' | 'image-choice' | 'audio-listening' | 'text-input' | 'audio-record';
 
 export interface AnswerOption {
+    id?: string;          // uuid de question_options cuando viene de BD (grading server-side)
     text: string;
-    isCorrect?: boolean;
-    imageUrl?: string; // For image-choice
+    isCorrect?: boolean;  // solo en el seed local; NUNCA llega al cliente desde BD
+    imageUrl?: string;    // For image-choice
 }
 
 export interface Question {

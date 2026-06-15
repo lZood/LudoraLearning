@@ -296,7 +296,8 @@ export interface QuizScreenProps {
   stopRecording: () => void;
   onConfirmAudio: () => void;
   onCancelAudio: () => void;
-  onAnswer: (isCorrect: boolean, text?: string) => void;
+  // Grading de opción server-side: la página recibe el optionId y consulta grade_choice.
+  onChooseOption: (optionId: string, text: string) => void;
   onSubmitText: () => void;
   onSkip: () => void;
   // Dev mode
@@ -330,7 +331,7 @@ export default function QuizScreen(props: QuizScreenProps) {
     stopRecording,
     onConfirmAudio,
     onCancelAudio,
-    onAnswer,
+    onChooseOption,
     onSubmitText,
     onSkip,
     showDevMode,
@@ -575,8 +576,8 @@ export default function QuizScreen(props: QuizScreenProps) {
                 <div className={currentQuestion.type === 'image-choice' ? 'grid grid-cols-2 gap-3 md:gap-4' : 'space-y-3'}>
                   {currentQuestion.options?.map((option, idx) => (
                     <motion.button
-                      key={idx}
-                      onClick={() => onAnswer(!!option.isCorrect, option.text)}
+                      key={option.id ?? idx}
+                      onClick={() => onChooseOption(option.id ?? '', option.text)}
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.97 }}
                       className={`group w-full text-left p-4 md:p-5 rounded-2xl border-2 border-gray-100 hover:border-[#632EB0] hover:bg-purple-50/40 transition-all font-bold text-gray-800 ${

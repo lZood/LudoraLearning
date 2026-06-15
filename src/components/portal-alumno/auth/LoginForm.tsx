@@ -20,9 +20,28 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<{ message: string; field: 'email' | 'password' | 'general' | null }>({ message: '', field: null });
+    const [notice, setNotice] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const supabase = createClient();
+
+    // Reset de contraseña: usa el correo ya escrito arriba y dispara el enlace por Resend.
+    const handleForgotPassword = async () => {
+        setNotice('');
+        setError({ message: '', field: null });
+        if (!email) {
+            setError({ message: 'Escribe tu correo arriba y te enviaremos un enlace para restablecer tu contraseña.', field: 'email' });
+            return;
+        }
+        try {
+            await fetch('/api/auth/reset-request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+        } catch { /* respuesta uniforme abajo (anti-enumeración) */ }
+        setNotice(`Si existe una cuenta con ${email}, te enviamos un enlace para restablecer tu contraseña.`);
+    };
 
     // Si /auth/confirm falló y redirigió con ?error=..., mostramos el mensaje.
     useEffect(() => {
@@ -65,23 +84,18 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                 return;
             }
 
-            // Redirección condicionada por flujo de evaluación
+            // Redirección condicionada por flujo de evaluación.
+            // maybeSingle(): si la fila aún no existe no lanza error (evita mandar a
+            // /evaluacion por un fallo de query a usuarios que ya completaron).
             const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const { data: userData } = await supabase
-                    .from('users')
-                    .select('has_completed_evaluation, english_level')
-                    .eq('id', user.id)
-                    .single();
+            const { data: userData } = await supabase
+                .from('users')
+                .select('has_completed_evaluation, english_level')
+                .eq('id', user?.id ?? '')
+                .maybeSingle();
 
-                if (userData?.has_completed_evaluation || userData?.english_level) {
-                    router.push('/portal-alumno/dashboard');
-                } else {
-                    router.push('/portal-alumno/evaluacion');
-                }
-            } else {
-                router.push('/portal-alumno/evaluacion');
-            }
+            const alreadyPlaced = Boolean(userData?.has_completed_evaluation || userData?.english_level);
+            router.push(alreadyPlaced ? '/portal-alumno/dashboard' : '/portal-alumno/evaluacion');
             router.refresh();
         } catch (err: any) {
             setError({ message: err.message || 'Error al conectar con el servidor.', field: 'general' });
@@ -94,7 +108,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/portal-alumno/evaluacion`,
+                redirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
             },
         });
         if (googleError) setError({ message: googleError.message, field: 'general' });
@@ -125,6 +139,14 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
                     <p className="text-sm text-red-600 leading-relaxed font-medium">
                         {error.message}
                     </p>
+                </div>
+            )}
+
+            {/* AVISO (éxito reset) */}
+            {notice && (
+                <div className="flex gap-3 p-4 bg-green-50 border border-green-100 rounded-xl">
+                    <Info className="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
+                    <p className="text-sm text-green-700 leading-relaxed font-medium">{notice}</p>
                 </div>
             )}
 
@@ -208,6 +230,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
             <div className="text-center -mt-2">
                 <button
                     type="button"
+                    onClick={handleForgotPassword}
                     className="text-sm font-bold text-[#1a1a1a] underline underline-offset-2 hover:text-[#88e04f] transition-colors"
                 >
                     ¿Problemas para iniciar sesión?

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { sendConfirmationEmail } from '@/lib/emails/sendConfirmationEmail';
+import { getSiteUrl } from '@/lib/siteUrl';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,10 +36,8 @@ export async function POST(request: NextRequest) {
     }
 
     const supabaseAdmin = createAdminClient();
-    const origin =
-        request.headers.get('origin') ||
-        process.env.NEXT_PUBLIC_SITE_URL ||
-        new URL(request.url).origin;
+    // No confiamos en el header `origin` (manipulable): usamos la URL canónica del sitio.
+    const origin = getSiteUrl();
 
     // generateLink({ type: 'signup' }) crea al usuario en estado no-confirmado
     // y devuelve email_otp + hashed_token para que enviemos NOSOTROS el correo.
