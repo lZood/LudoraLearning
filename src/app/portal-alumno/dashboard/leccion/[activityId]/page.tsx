@@ -288,8 +288,11 @@ function FreeText({ ex, frozen, onDone }: RProps) {
     );
 }
 
-function Speak({ ex, frozen, onDone }: RProps) {
-    const e = ex as { instruction?: string; say: string; prompt?: string };
+// Núcleo de los ejercicios de voz. Verifica al instante con SpeechRecognition del
+// navegador (sin servidor); fallback a IA solo en navegadores sin soporte.
+function SpeakCore({ instruction, model, prompt, verify, correctText, mode, frozen, onDone }: {
+    instruction?: string; model: string; prompt?: string; verify: (alts: string[]) => boolean; correctText: string; mode: 'repeat' | 'answer'; frozen: boolean; onDone: (r: Result) => void;
+}) {
     const [listening, setListening] = useState(false);
     const [recording, setRecording] = useState(false);
     const [busy, setBusy] = useState(false);
@@ -298,9 +301,8 @@ function Speak({ ex, frozen, onDone }: RProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recRef = useRef<any>(null);
     const hasSR = !!getSR();
-    useEffect(() => { const t = setTimeout(() => speak(e.say), 350); return () => clearTimeout(t); }, []); // auto-reproduce el modelo al entrar
+    useEffect(() => { const t = setTimeout(() => speak(model), 350); return () => clearTimeout(t); }, []); // auto-reproduce al entrar
 
-    // Camino rápido: reconocimiento de voz del navegador, instantáneo y sin servidor.
     const startSR = () => {
         try {
             const rec = new (getSR())(); recRef.current = rec;
@@ -314,12 +316,12 @@ function Speak({ ex, frozen, onDone }: RProps) {
                 resolved = true;
                 setHeard(alts[0] || '');
                 setListening(false);
-                onDone({ correct: speechMatches(alts, e.say), correctText: e.say });
+                onDone({ correct: verify(alts), correctText });
             };
             rec.onerror = () => { setListening(false); };
             rec.onend = () => { setListening(false); if (!resolved) setHeard(''); };
             rec.start();
-        } catch { onDone({ correct: true, correctText: e.say }); }
+        } catch { onDone({ correct: true, correctText }); }
     };
     const stopSR = () => { try { recRef.current?.stop(); } catch { /* noop */ } };
 
@@ -332,16 +334,18 @@ function Speak({ ex, frozen, onDone }: RProps) {
             mr.onstop = async () => {
                 stream.getTracks().forEach((t) => t.stop()); setRecording(false); setBusy(true);
                 const blob = new Blob(chunks, { type: 'audio/webm' });
+                const qText = mode === 'answer' ? `Responde hablando en inglés a: "${model}"` : `Repite/di en inglés: "${model}"`;
+                const rubric = mode === 'answer' ? `Acepta si la respuesta hablada menciona: ${correctText}. Sé indulgente.` : `El alumno debe pronunciar "${model}". Sé indulgente con principiantes.`;
                 try {
                     const b64: string = await new Promise((res) => { const r = new FileReader(); r.onloadend = () => res(r.result as string); r.readAsDataURL(blob); });
-                    const resp = await fetch('/api/evaluate-answer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ questionType: 'audio-record', questionText: `Repite/di en inglés: "${e.say}"`, gradingRubric: `El alumno debe pronunciar "${e.say}". Sé indulgente con principiantes.`, audioBase64: b64.split(',')[1], audioMimeType: 'audio/webm' }) });
+                    const resp = await fetch('/api/evaluate-answer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ questionType: 'audio-record', questionText: qText, gradingRubric: rubric, audioBase64: b64.split(',')[1], audioMimeType: 'audio/webm' }) });
                     const data = await resp.json();
-                    onDone({ correct: resp.ok ? !!data.isCorrect : true, correctText: e.say });
-                } catch { onDone({ correct: true, correctText: e.say }); }
+                    onDone({ correct: resp.ok ? !!data.isCorrect : true, correctText });
+                } catch { onDone({ correct: true, correctText }); }
                 setBusy(false);
             };
             mr.start(); setRecording(true);
-        } catch { onDone({ correct: true, correctText: e.say }); }
+        } catch { onDone({ correct: true, correctText }); }
     };
 
     const active = listening || recording;
@@ -350,16 +354,16 @@ function Speak({ ex, frozen, onDone }: RProps) {
         if (hasSR) { listening ? stopSR() : startSR(); }
         else { recording ? mrRef.current?.stop() : startRec(); }
     };
-    const status = busy ? 'Evaluando…' : listening ? 'Escuchando… habla ahora' : recording ? 'Grabando… toca para terminar' : 'Toca y di la frase';
+    const status = busy ? 'Evaluando…' : listening ? 'Escuchando… habla ahora' : recording ? 'Grabando… toca para terminar' : (mode === 'answer' ? 'Toca y responde hablando' : 'Toca y di la frase');
     return (
         <>
-            <ExHeader text={e.instruction || 'Habla'} />
-            {e.prompt && <p className="text-gray-500 font-bold mb-4">{e.prompt}</p>}
+            <ExHeader text={instruction || (mode === 'answer' ? 'Responde hablando' : 'Habla')} />
+            {prompt && <p className="text-gray-500 font-bold mb-4">{prompt}</p>}
             <div className="bg-purple-50/50 border border-purple-100 rounded-3xl p-6 text-center mb-6">
                 <p className="text-2xl font-black text-gray-900 mb-3 flex items-center justify-center gap-2">
-                    <Volume2 className="w-6 h-6 text-[#632EB0] cursor-pointer" onClick={() => speak(e.say)} /> {e.say}
+                    <Volume2 className="w-6 h-6 text-[#632EB0] cursor-pointer" onClick={() => speak(model)} /> {model}
                 </p>
-                <p className="text-xs font-bold text-gray-400">Toca el botón y repítelo.</p>
+                <p className="text-xs font-bold text-gray-400">{mode === 'answer' ? 'Toca el botón y responde hablando.' : 'Toca el botón y repítelo.'}</p>
             </div>
             <div className="flex flex-col items-center gap-3">
                 <button onClick={onMic} disabled={busy || frozen}
@@ -368,10 +372,18 @@ function Speak({ ex, frozen, onDone }: RProps) {
                 </button>
                 <p className="text-sm font-bold text-gray-500">{status}</p>
                 {heard && <p className="text-xs font-bold text-gray-400">Te escuché: “{heard}”</p>}
-                {!frozen && <button onClick={() => onDone({ correct: true, correctText: e.say })} className="text-xs font-bold text-gray-400 underline">Saltar</button>}
+                {!frozen && <button onClick={() => onDone({ correct: true, correctText })} className="text-xs font-bold text-gray-400 underline">Saltar</button>}
             </div>
         </>
     );
+}
+function Speak({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; say: string; prompt?: string };
+    return <SpeakCore instruction={e.instruction} model={e.say} prompt={e.prompt} verify={(alts) => speechMatches(alts, e.say)} correctText={e.say} mode="repeat" frozen={frozen} onDone={onDone} />;
+}
+function SpeakAnswer({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; question: string; accept: string[]; prompt?: string };
+    return <SpeakCore instruction={e.instruction || 'Responde hablando'} model={e.question} prompt={e.prompt} verify={(alts) => e.accept.some((a) => speechMatches(alts, a))} correctText={e.accept[0] || ''} mode="answer" frozen={frozen} onDone={onDone} />;
 }
 
 function ListenBuild({ ex, frozen, onDone }: RProps) {
@@ -445,6 +457,186 @@ function Conversation({ ex, frozen, onDone }: RProps) {
     );
 }
 
+function ListenMissingWord({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; audio: string; options: string[]; correct: number };
+    const [sel, setSel] = useState<number | null>(null);
+    useEffect(() => { const t = setTimeout(() => speak(e.audio), 350); return () => clearTimeout(t); }, []);
+    return (
+        <>
+            <ExHeader text={e.instruction || 'Escucha y elige la palabra que falta'} />
+            <button onClick={() => speak(e.audio)} className="mb-6 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95">
+                <Volume2 className="w-6 h-6" /> Reproducir
+            </button>
+            <div className="grid grid-cols-2 gap-3">
+                {e.options.map((o, i) => (
+                    <button key={i} onClick={() => { speak(o); setSel(i); }} disabled={frozen}
+                        className={`p-4 rounded-2xl border-2 font-black flex items-center justify-center gap-2 transition-all ${sel === i ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>
+                        <Volume2 className="w-4 h-4 opacity-50" /> {o}
+                    </button>
+                ))}
+            </div>
+            <Footer label="Comprobar" disabled={sel === null} onClick={() => onDone({ correct: sel === e.correct, correctText: e.options[e.correct] })} />
+        </>
+    );
+}
+
+function MinimalPairs({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; audio: string; options: string[]; correct: number; ipa?: string[] };
+    const [sel, setSel] = useState<number | null>(null);
+    useEffect(() => { const t = setTimeout(() => speak(e.audio), 350); return () => clearTimeout(t); }, []);
+    return (
+        <>
+            <ExHeader text={e.instruction || '¿Cuál escuchaste?'} />
+            <button onClick={() => speak(e.audio)} className="mb-6 inline-flex items-center gap-3 bg-[#10b981] text-white font-black px-6 py-4 rounded-2xl active:scale-95">
+                <Volume2 className="w-6 h-6" /> Reproducir
+            </button>
+            <div className="grid grid-cols-2 gap-3">
+                {e.options.map((o, i) => (
+                    <button key={i} onClick={() => setSel(i)} disabled={frozen}
+                        className={`p-5 rounded-2xl border-2 font-black flex flex-col items-center gap-1 transition-all ${sel === i ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>
+                        <span className="text-lg">{o}</span>
+                        {e.ipa?.[i] && <span className="text-xs font-mono text-gray-400">{e.ipa[i]}</span>}
+                    </button>
+                ))}
+            </div>
+            <Footer label="Comprobar" disabled={sel === null} onClick={() => onDone({ correct: sel === e.correct, correctText: e.options[e.correct] })} />
+        </>
+    );
+}
+
+function TapPairsAudio({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; pairs: { audio: string; word: string }[] };
+    const left = useRef(e.pairs.map((p, i) => ({ id: i, audio: p.audio }))).current;
+    const right = useRef(shuffle(e.pairs.map((p, i) => ({ id: i, t: p.word })))).current;
+    const [selL, setSelL] = useState<number | null>(null);
+    const [matched, setMatched] = useState<Set<number>>(new Set());
+    const [bad, setBad] = useState<number | null>(null);
+    const tapRight = (id: number) => {
+        if (frozen || selL === null || matched.has(id)) return;
+        if (selL === id) { const n = new Set(matched); n.add(id); setMatched(n); setSelL(null); if (n.size === e.pairs.length) setTimeout(() => onDone({ correct: true }), 350); }
+        else { setBad(id); setTimeout(() => setBad(null), 400); setSelL(null); }
+    };
+    return (
+        <>
+            <ExHeader text={e.instruction || 'Empareja cada sonido con su palabra'} />
+            <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-3">
+                    {left.map((l) => (
+                        <button key={l.id} disabled={frozen || matched.has(l.id)} onClick={() => { speak(l.audio); setSelL(l.id); }}
+                            className={`w-full p-4 rounded-2xl border-2 font-black flex items-center justify-center gap-2 transition-all ${matched.has(l.id) ? 'border-[#88e04f] bg-[#88e04f]/10 text-[#4a8a1f] opacity-60' : selL === l.id ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>
+                            <Volume2 className="w-5 h-5" /> Sonido {l.id + 1}
+                        </button>
+                    ))}
+                </div>
+                <div className="space-y-3">
+                    {right.map((r) => (
+                        <button key={r.id} disabled={frozen || matched.has(r.id)} onClick={() => tapRight(r.id)}
+                            className={`w-full p-4 rounded-2xl border-2 font-black transition-all ${matched.has(r.id) ? 'border-[#88e04f] bg-[#88e04f]/10 text-[#4a8a1f] opacity-60' : bad === r.id ? 'border-red-400 bg-red-50 text-red-600 animate-pulse' : 'border-gray-200 text-gray-800'}`}>{r.t}</button>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+}
+
+// Lectura interactiva: pasaje por oraciones + preguntas encadenadas (cloze/insert/highlight/idea/título).
+type RQ = { kind: 'cloze'; gapId: number; prompt?: string; options: string[]; correct: number }
+    | { kind: 'insert_sentence'; afterSentenceId: number; prompt?: string; options: string[]; correct: number }
+    | { kind: 'highlight'; prompt: string; correctSentenceId: number }
+    | { kind: 'main_idea'; prompt?: string; options: string[]; correct: number }
+    | { kind: 'title'; prompt?: string; options: string[]; correct: number };
+function ReadingPassage({ ex, onDone }: RProps) {
+    const e = ex as { instruction?: string; title?: string | null; sentences: { id: number; text: string; gapId?: number }[]; glossary?: { word: string; es: string }[]; questions: RQ[] };
+    const [qi, setQi] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
+    const [answered, setAnswered] = useState(false);
+    const [lastOk, setLastOk] = useState(false);
+    const [sel, setSel] = useState<number | null>(null);
+    const [hlSel, setHlSel] = useState<number | null>(null);
+    const [filled, setFilled] = useState<Record<number, { text: string; ok: boolean }>>({});
+    const [revealed, setRevealed] = useState<Set<number>>(new Set());
+    const q = e.questions[qi];
+    const clozeByGap: Record<number, Extract<RQ, { kind: 'cloze' }>> = {};
+    for (const qq of e.questions) if (qq.kind === 'cloze') clozeByGap[qq.gapId] = qq;
+    const hlActive = q?.kind === 'highlight' && !answered;
+
+    const check = () => {
+        let ok = false;
+        if (q.kind === 'highlight') ok = hlSel === q.correctSentenceId;
+        else ok = sel === q.correct;
+        if (q.kind === 'cloze' && sel !== null) setFilled((f) => ({ ...f, [q.gapId]: { text: q.options[sel], ok } }));
+        setLastOk(ok); setAnswered(true); playSfx(ok ? 'correct' : 'wrong');
+        if (ok) setCorrectCount((c) => c + 1);
+    };
+    const next = () => {
+        if (qi + 1 >= e.questions.length) { onDone({ correct: (correctCount) / e.questions.length >= 0.6, correctText: 'Lectura completada' }); return; }
+        setQi(qi + 1); setAnswered(false); setSel(null); setHlSel(null);
+    };
+
+    const renderSentence = (s: { id: number; text: string; gapId?: number }) => {
+        const cloze = s.gapId != null ? clozeByGap[s.gapId] : undefined;
+        if (cloze) {
+            const gw = cloze.options[cloze.correct];
+            const idx = s.text.toLowerCase().indexOf(gw.toLowerCase());
+            const f = filled[s.gapId!];
+            const blank = <span className={`inline-block min-w-[64px] text-center font-black border-b-4 px-1 ${f ? (f.ok ? 'text-[#4a8a1f] border-[#88e04f]' : 'text-red-600 border-red-400') : 'text-[#632EB0] border-gray-300'}`}>{f ? f.text : '_____'}</span>;
+            if (idx === -1) return <span key={s.id}>{s.text} {blank} </span>;
+            return <span key={s.id}>{s.text.slice(0, idx)}{blank}{s.text.slice(idx + gw.length)} </span>;
+        }
+        if (hlActive) {
+            return <button key={s.id} onClick={() => setHlSel(s.id)} className={`text-left rounded px-1 ${hlSel === s.id ? 'bg-purple-200/60' : 'hover:bg-gray-100'}`}>{s.text} </button>;
+        }
+        const showCorrect = answered && q?.kind === 'highlight' && s.id === q.correctSentenceId;
+        const showWrong = answered && q?.kind === 'highlight' && s.id === hlSel && !lastOk;
+        return <span key={s.id} className={`px-1 rounded ${showCorrect ? 'bg-[#88e04f]/30' : showWrong ? 'bg-red-100' : ''}`}>{s.text} </span>;
+    };
+
+    return (
+        <>
+            <ExHeader text={e.instruction || 'Lee y responde'} />
+            {e.title && <h3 className="text-lg font-black text-gray-900 mb-2">{e.title}</h3>}
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 mb-4 leading-relaxed text-gray-800 font-medium">
+                {e.sentences.map(renderSentence)}
+            </div>
+            {e.glossary && e.glossary.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-5">
+                    {e.glossary.map((g, i) => (
+                        <button key={i} onClick={() => setRevealed((r) => new Set(r).add(i))}
+                            className="text-xs font-bold px-3 py-1.5 rounded-full bg-amber-50 border border-amber-100 text-amber-700">
+                            {g.word}{revealed.has(i) ? ` = ${g.es}` : ' 👁'}
+                        </button>
+                    ))}
+                </div>
+            )}
+            <div className="border-t border-gray-100 pt-4">
+                <p className="text-xs font-black text-gray-400 mb-2">Pregunta {qi + 1}/{e.questions.length}</p>
+                {q.kind === 'highlight' && <p className="text-lg font-black text-gray-900 mb-3">{q.prompt} <span className="text-sm font-bold text-gray-400">(toca la oración)</span></p>}
+                {q.kind !== 'highlight' && (
+                    <>
+                        <p className="text-lg font-black text-gray-900 mb-3">{q.kind === 'cloze' ? 'Elige la palabra que falta' : q.kind === 'insert_sentence' ? (q.prompt || '¿Qué oración encaja en el hueco?') : q.kind === 'main_idea' ? (q.prompt || '¿Cuál es la idea principal?') : (q.prompt || 'Elige el mejor título')}</p>
+                        <div className="space-y-3">
+                            {q.options.map((o, i) => (
+                                <OptionBtn key={i} label={o} state={sel === i ? 'sel' : 'idle'} onClick={() => !answered && setSel(i)} disabled={answered} />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+            {!answered
+                ? <Footer label="Comprobar" disabled={q.kind === 'highlight' ? hlSel === null : sel === null} onClick={check} />
+                : (
+                    <div className={`fixed bottom-0 inset-x-0 z-40 ${lastOk ? 'bg-[#d7ffb8]' : 'bg-[#ffdfe0]'} border-t-2 ${lastOk ? 'border-[#88e04f]' : 'border-red-300'} px-4 py-5`}>
+                        <div className="max-w-xl mx-auto flex items-center gap-4">
+                            <Mascot mood={lastOk ? 'happy' : 'sad'} className="w-14 h-14 shrink-0" />
+                            <p className={`flex-1 text-lg font-black ${lastOk ? 'text-[#4a8a1f]' : 'text-red-600'}`}>{lastOk ? '¡Correcto!' : 'Revisa la respuesta'}</p>
+                            <button onClick={next} className={`shrink-0 px-6 py-3 rounded-2xl font-black uppercase text-white active:scale-95 ${lastOk ? 'bg-[#58a700]' : 'bg-red-500'}`}>{qi + 1 >= e.questions.length ? 'Terminar' : 'Siguiente'}</button>
+                        </div>
+                    </div>
+                )}
+        </>
+    );
+}
+
 function Renderer(props: RProps) {
     switch (props.ex.type) {
         case 'text_mc': return <ChoiceMC {...props} />;
@@ -456,7 +648,13 @@ function Renderer(props: RProps) {
         case 'fill_blank': return <FillBlank {...props} />;
         case 'free_text': return <FreeText {...props} />;
         case 'speak': return <Speak {...props} />;
+        case 'speak_repeat': return <Speak {...props} />;
+        case 'speak_answer': return <SpeakAnswer {...props} />;
         case 'listen_build': return <ListenBuild {...props} />;
+        case 'listen_missing_word': return <ListenMissingWord {...props} />;
+        case 'tap_pairs_audio': return <TapPairsAudio {...props} />;
+        case 'minimal_pairs': return <MinimalPairs {...props} />;
+        case 'reading_passage': return <ReadingPassage {...props} />;
         case 'conversation': return <Conversation {...props} />;
         default: return null;
     }
