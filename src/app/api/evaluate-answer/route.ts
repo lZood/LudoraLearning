@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_SMART } from '@/lib/gemini';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: GEMINI_SMART });
 
         let prompt = `Eres un evaluador de nivel de inglés usando el marco MCER (CEFR).
         Se le hizo la siguiente tarea o pregunta a un estudiante (contexto Minecraft): "${questionText}"

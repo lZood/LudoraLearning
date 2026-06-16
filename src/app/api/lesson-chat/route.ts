@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_SMART } from '@/lib/gemini';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -43,7 +44,7 @@ Conversación hasta ahora:
 ${history || '(aún no hay mensajes del alumno)'}
 NPC:`;
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: GEMINI_SMART });
         const result = await model.generateContent(prompt);
         const reply = result.response.text().trim();
         return NextResponse.json({ reply });

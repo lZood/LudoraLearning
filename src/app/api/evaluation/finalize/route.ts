@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_SMART } from '@/lib/gemini';
 
 export const dynamic = 'force-dynamic';
 
@@ -76,7 +77,7 @@ Devuelve ESTRICTAMENTE este JSON (sin markdown):
   }
 }`;
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: GEMINI_SMART });
         const result = await model.generateContent(prompt);
         const text = result.response.text().trim();
         const match = text.match(/\{[\s\S]*\}/);

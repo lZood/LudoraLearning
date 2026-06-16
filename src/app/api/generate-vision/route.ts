@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_FAST } from '@/lib/gemini';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { categoryLevels, calculatedBanda } = body;
 
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const model = genAI.getGenerativeModel({ model: GEMINI_FAST });
 
         const prompt = `
         Eres el **Oráculo de Ludora**, un sabio místico en un mundo RPG estilo Minecraft que evalúa la esencia lingüística de los aventureros.

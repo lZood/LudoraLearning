@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GEMINI_FAST } from '@/lib/gemini';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
         const history = messages.slice(-8).map((m) => `${m.role === 'user' ? 'Alumno' : 'Tutor'}: ${m.text}`).join('\n');
         const prompt = `${base}\n\n${ctx}\n\n${history ? history + '\nTutor:' : 'Explica por qué la respuesta correcta es correcta.'}`;
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+        const model = genAI.getGenerativeModel({ model: GEMINI_FAST });
         const result = await model.generateContent(prompt);
         return NextResponse.json({ reply: result.response.text().trim() });
     } catch (e: unknown) {
