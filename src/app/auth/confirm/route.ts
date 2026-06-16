@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
+import { getSiteUrl } from '@/lib/siteUrl';
 import type { EmailOtpType } from '@supabase/supabase-js';
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     if (!token_hash || !type) {
         return NextResponse.redirect(
-            new URL('/portal-alumno?error=verify_missing_params', url.origin)
+            new URL('/portal-alumno?error=verify_missing_params', getSiteUrl())
         );
     }
 
@@ -28,9 +29,9 @@ export async function GET(request: NextRequest) {
             ? 'verify_expired'
             : 'verify_failed';
         return NextResponse.redirect(
-            new URL(`/portal-alumno?error=${code}`, url.origin)
+            new URL(`/portal-alumno?error=${code}`, getSiteUrl())
         );
     }
 
-    return NextResponse.redirect(new URL(next, url.origin));
+    return NextResponse.redirect(new URL(next, getSiteUrl()));
 }
