@@ -3,9 +3,10 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 // Rutas privadas: requieren sesión. Si no hay usuario, se redirige al login.
 // El control fino por rol (alumno vs maestro) se hace en el layout de cada portal.
+// NOTA: /portal-alumno/evaluacion es PÚBLICA a propósito (registro diferido): el invitado
+// hace la diagnóstica y solo se registra al final para guardar su nivel.
 const PROTECTED_PREFIXES = [
     '/portal-alumno/dashboard',
-    '/portal-alumno/evaluacion',
     '/portal-maestro',
 ]
 
