@@ -1,0 +1,227 @@
+{"ext":"u3-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I wake up in the morning.",
+    "options": [
+     "Me despierto en la mañana.",
+     "Duermo de noche.",
+     "Construyo una casa."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "build",
+    "options": [
+     "bild",
+     "build",
+     "bilt",
+     "sleep"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What do you do at night?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "At night I sleep.",
+     "I mine diamonds.",
+     "I eat bread."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "wake up",
+      "es": "despertarse"
+     },
+     {
+      "en": "eat",
+      "es": "comer"
+     },
+     {
+      "en": "mine",
+      "es": "picar/minar"
+     },
+     {
+      "en": "build",
+      "es": "construir"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "In the morning I wake up.",
+    "options": [
+     "En la mañana me despierto.",
+     "De noche duermo.",
+     "Luego como."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones de la rutina",
+    "options": [
+     {
+      "text": "wake up",
+      "correct": true
+     },
+     {
+      "text": "sleep",
+      "correct": true
+     },
+     {
+      "text": "Hello",
+      "correct": false
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
+      "text": "mine",
+      "correct": true
+     },
+     {
+      "text": "pig",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "En la mañana me despierto.",
+    "answer": [
+     "In",
+     "the",
+     "morning",
+     "I",
+     "wake",
+     "up"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": "diamonds.",
+    "options": [
+     "mine",
+     "sleep",
+     "eat"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe tu rutina",
+    "prompt": "¿Qué haces de noche? — At night I ______",
+    "accept": [
+     "sleep",
+     "at night i sleep",
+     "i sleep"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "In the morning I wake up.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di tu rutina",
+    "say": "I mine and build.",
+    "prompt": "Di: I mine and build."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta sobre tu rutina en el servidor de Minecraft.",
+    "objective": "Di qué haces en la mañana, qué picas y qué construyes.",
+    "starter": "Good morning! What do you do every day?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/b/",
+    "options": [
+     {
+      "text": "build",
+      "correct": true
+     },
+     {
+      "text": "bread",
+      "correct": true
+     },
+     {
+      "text": "sleep",
+      "correct": false
+     },
+     {
+      "text": "build a house",
+      "correct": true
+     },
+     {
+      "text": "eat",
+      "correct": false
+     },
+     {
+      "text": "mine",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Build, bread, build a house.",
+    "prompt": "Escucha y repite los sonidos /b/."
+   }
+  ]
+ }
+]}

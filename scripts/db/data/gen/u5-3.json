@@ -1,0 +1,226 @@
+{"ext":"u5-3","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Yesterday I mined diamonds.",
+    "options": [
+     "Ayer minè diamantes",
+     "Hice una espada",
+     "Vi un Enderman"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "Nether",
+    "options": [
+     "Nedder",
+     "Nether",
+     "Nather",
+     "Castle"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Did you build a shelter?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Yes, I built a castle.",
+     "I see a Creeper.",
+     "What is your name?"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I crafted a sword",
+      "es": "Hice una espada"
+     },
+     {
+      "en": "I found gold",
+      "es": "Encontrè oro"
+     },
+     {
+      "en": "I fought a Creeper",
+      "es": "Peleè contra un Creeper"
+     },
+     {
+      "en": "I saw an Enderman",
+      "es": "Vi un Enderman"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The diamond sword was better than the stone sword.",
+    "options": [
+     "La espada de diamante fue mejor que la de piedra",
+     "Construì un castillo de piedra",
+     "El Creeper es màs peligroso que el oro"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones pasadas",
+    "options": [
+     {
+      "text": "I built a castle",
+      "correct": true
+     },
+     {
+      "text": "I found gold",
+      "correct": true
+     },
+     {
+      "text": "I saw an Enderman",
+      "correct": true
+     },
+     {
+      "text": "Hello, how are you?",
+      "correct": false
+     },
+     {
+      "text": "My name is Steve",
+      "correct": false
+     },
+     {
+      "text": "The pig is blue",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Ayer minè diamantes.",
+    "answer": [
+     "Yesterday",
+     "I",
+     "mined",
+     "diamonds."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": "a sword.",
+    "options": [
+     "crafted",
+     "stronger",
+     "finally"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Cuenta una experiencia pasada",
+    "prompt": "¿Qué hiciste ayer? — Yesterday I ______",
+    "accept": [
+     "yesterday i mined diamonds",
+     "i went to the nether",
+     "i built a castle",
+     "i found gold"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I went to the Nether.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Cuenta tu experiencia",
+    "say": "First I crafted a sword, then I fought a Creeper.",
+    "prompt": "Di la oración usando first y then."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta en el chat qué hiciste en tu aventura de ayer.",
+    "objective": "Cuenta qué hiciste usando first, then y because.",
+    "starter": "Did you build a shelter yesterday?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "Diamonds",
+      "correct": true
+     },
+     {
+      "text": "Did",
+      "correct": true
+     },
+     {
+      "text": "Dangerous",
+      "correct": true
+     },
+     {
+      "text": "Castle",
+      "correct": false
+     },
+     {
+      "text": "Sword",
+      "correct": false
+     },
+     {
+      "text": "Gold",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Did you mine diamonds? Dangerous!",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

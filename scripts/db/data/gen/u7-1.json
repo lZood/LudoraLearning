@@ -1,0 +1,227 @@
+{"ext":"u7-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción",
+    "audio": "Yesterday I built a house",
+    "options": [
+     "Ayer construí una casa",
+     "Voy a construir un castillo mañana",
+     "Encontré tres diamantes en la cueva"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Diamonds",
+    "options": [
+     "Daimonds",
+     "Diamonds",
+     "Diamins",
+     "Dragons"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "We are going to explore the Nether",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I will help you fight the zombies.",
+     "Yesterday I built a house.",
+     "She crafted a diamond sword."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "Yesterday I built a house",
+      "es": "Ayer construí una casa"
+     },
+     {
+      "en": "We defeated the Ender Dragon",
+      "es": "Derrotamos al Dragón del End"
+     },
+     {
+      "en": "I'm going to build a castle tomorrow",
+      "es": "Voy a construir un castillo mañana"
+     },
+     {
+      "en": "First, I mined some stone",
+      "es": "Primero, miné algo de piedra"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la traducción",
+    "prompt": "If you dig down, you will find lava",
+    "options": [
+     "Si cavas hacia abajo, encontrarás lava",
+     "Si oscurece, aparecerán los monstruos",
+     "En mi opinión, el Nether es peligroso"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las oraciones sobre planes futuros",
+    "options": [
+     {
+      "text": "I'm going to build a castle tomorrow",
+      "correct": true
+     },
+     {
+      "text": "We are going to explore the Nether",
+      "correct": true
+     },
+     {
+      "text": "They are going to plant wheat",
+      "correct": true
+     },
+     {
+      "text": "Yesterday I built a house",
+      "correct": false
+     },
+     {
+      "text": "I found three diamonds in the cave",
+      "correct": false
+     },
+     {
+      "text": "We defeated the Ender Dragon",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Ayer construí una casa.",
+    "answer": [
+     "Yesterday",
+     "I",
+     "built",
+     "a",
+     "house"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "We defeated the Ender",
+    "after": ".",
+    "options": [
+     "Dragon",
+     "house",
+     "wheat"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe sobre un plan futuro",
+    "prompt": "¿Qué vas a hacer mañana? — I'm going to ______",
+    "accept": [
+     "i'm going to build a castle tomorrow",
+     "i am going to build a castle tomorrow",
+     "i'm going to build a castle",
+     "going to build a castle"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I found three diamonds in the cave",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Narra tu plan",
+    "say": "We are going to explore the Nether",
+    "prompt": "Di la oración en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta en el chat del servidor qué hiciste ayer y qué planeas hacer.",
+    "objective": "Cuenta una experiencia pasada y un plan futuro usando 'Yesterday I...' y 'I'm going to...'.",
+    "starter": "Hi! What did you do yesterday, and what are you going to do tomorrow?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "Diamonds",
+      "correct": true
+     },
+     {
+      "text": "Defeated",
+      "correct": true
+     },
+     {
+      "text": "Dragon",
+      "correct": true
+     },
+     {
+      "text": "House",
+      "correct": false
+     },
+     {
+      "text": "Wheat",
+      "correct": false
+     },
+     {
+      "text": "Nether",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Diamonds, defeated, Dragon",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

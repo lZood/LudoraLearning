@@ -1,0 +1,228 @@
+{"ext":"u4-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "A creeper exploded my house",
+    "options": [
+     "Un creeper explotó mi casa",
+     "Perdí mi pico",
+     "Un zombi rompió la puerta"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "help",
+    "options": [
+     "halp",
+     "help",
+     "hep",
+     "stone"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "I have a problem. Can you help me?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "You should build a wall.",
+     "Diamond is stronger than iron.",
+     "First I dug a tunnel."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I have a problem",
+      "es": "Tengo un problema"
+     },
+     {
+      "en": "Can you help me?",
+      "es": "¿Me puedes ayudar?"
+     },
+     {
+      "en": "I lost my pickaxe",
+      "es": "Perdí mi pico"
+     },
+     {
+      "en": "Let's craft a new sword",
+      "es": "Hagamos una espada nueva"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Diamond is stronger than iron.",
+    "options": [
+     "El diamante es más fuerte que el hierro.",
+     "La piedra es más dura que la madera.",
+     "El agua es más segura que la lava."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases de problemas y soluciones",
+    "options": [
+     {
+      "text": "I have a problem",
+      "correct": true
+     },
+     {
+      "text": "Can you help me?",
+      "correct": true
+     },
+     {
+      "text": "Hello, my name is Steve",
+      "correct": false
+     },
+     {
+      "text": "The sky is blue",
+      "correct": false
+     },
+     {
+      "text": "You should build a wall",
+      "correct": true
+     },
+     {
+      "text": "Nice to meet you",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Una antorcha es mejor que nada.",
+    "answer": [
+     "A",
+     "torch",
+     "is",
+     "better",
+     "than",
+     "nothing"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Water is",
+    "after": "than lava.",
+    "options": [
+     "safer",
+     "stronger",
+     "harder"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Pide ayuda",
+    "prompt": "Tienes un problema. ¿Cómo pides ayuda en inglés?",
+    "accept": [
+     "can you help me?",
+     "can you help me",
+     "i have a problem",
+     "help me"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "A zombie broke the door",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pide ayuda en voz alta",
+    "say": "I have a problem. Can you help me?",
+    "prompt": "Di que tienes un problema y pide ayuda."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te encuentra al lado de tu casa destruida en el servidor.",
+    "objective": "Explica tu problema, pide ayuda y acepta la solución del aldeano.",
+    "starter": "Oh no! What happened to your house?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/s/",
+    "options": [
+     {
+      "text": "stronger",
+      "correct": true
+     },
+     {
+      "text": "stone",
+      "correct": true
+     },
+     {
+      "text": "safer",
+      "correct": true
+     },
+     {
+      "text": "lava",
+      "correct": false
+     },
+     {
+      "text": "door",
+      "correct": false
+     },
+     {
+      "text": "wall",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Stone is harder than wood",
+    "prompt": "Escucha y repite los sonidos /s/."
+   }
+  ]
+ }
+]}

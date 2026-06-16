@@ -1,0 +1,231 @@
+{"ext":"u8-6","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción correcta",
+    "audio": "In my opinion, we should build the Nether portal first.",
+    "options": [
+     "En mi opinión, deberíamos construir el portal del Nether primero.",
+     "Creo que la armadura de diamante es la mejor opción.",
+     "Ayer exploré una cueva enorme y encontré esmeraldas."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "diamond",
+    "options": [
+     "diamand",
+     "diamond",
+     "diemond",
+     "emerald"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "If the creeper explodes, it will destroy our house.",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Then we should put torches everywhere.",
+     "Yesterday I traded with the librarian.",
+     "I chose the sword because it is faster."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "In my opinion",
+      "es": "En mi opinión"
+     },
+     {
+      "en": "I think",
+      "es": "Creo que"
+     },
+     {
+      "en": "If you dig straight down",
+      "es": "Si cavas directo hacia abajo"
+     },
+     {
+      "en": "Although the dragon was strong",
+      "es": "Aunque el dragón era fuerte"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I chose the sword because it is faster than the axe.",
+    "options": [
+     "Elegí la espada porque es más rápida que el hacha.",
+     "Elegí el hacha porque es más fuerte que la espada.",
+     "Construí una espada y un hacha nuevas."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases para dar tu opinión",
+    "options": [
+     {
+      "text": "In my opinion",
+      "correct": true
+     },
+     {
+      "text": "I think",
+      "correct": true
+     },
+     {
+      "text": "Open the door",
+      "correct": false
+     },
+     {
+      "text": "Turn left here",
+      "correct": false
+     },
+     {
+      "text": "I believe",
+      "correct": true
+     },
+     {
+      "text": "Good morning",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Si encontramos diamantes, haremos mejores herramientas.",
+    "answer": [
+     "If",
+     "we",
+     "find",
+     "diamonds,",
+     "we",
+     "will",
+     "make",
+     "better",
+     "tools."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Yesterday I explored a huge cave and found",
+    "after": ".",
+    "options": [
+     "emeralds",
+     "opinion",
+     "torches"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da tu opinión",
+    "prompt": "¿Cuál es la mejor armadura? — In my ______, the diamond armor is the best.",
+    "accept": [
+     "opinion",
+     "in my opinion",
+     "i think",
+     "i believe"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I think the diamond armor is the best choice.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Cuenta lo que pasó ayer",
+    "say": "We built a castle and then we fought the zombies.",
+    "prompt": "Di la oración con buena pronunciación."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás planeando una misión con un aldeano antes de la incursión.",
+    "objective": "Da tu opinión sobre qué construir o qué armadura usar y explica por qué.",
+    "starter": "In my opinion, we should build the Nether portal first. What do you think?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "diamond",
+      "correct": true
+     },
+     {
+      "text": "dragon",
+      "correct": true
+     },
+     {
+      "text": "dig",
+      "correct": true
+     },
+     {
+      "text": "opinion",
+      "correct": false
+     },
+     {
+      "text": "torches",
+      "correct": false
+     },
+     {
+      "text": "arrows",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Diamond, dragon, dig down.",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

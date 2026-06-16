@@ -1,0 +1,225 @@
+{"ext":"u2-4","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I am mining",
+    "options": [
+     "Estoy minando",
+     "Estoy corriendo",
+     "Estoy comiendo"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "build",
+    "options": [
+     "bild",
+     "build",
+     "bilt",
+     "run"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What are you doing?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I am running",
+     "Let's go!",
+     "To jump"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "to walk",
+      "es": "caminar"
+     },
+     {
+      "en": "to mine",
+      "es": "minar"
+     },
+     {
+      "en": "to build",
+      "es": "construir"
+     },
+     {
+      "en": "to fight",
+      "es": "luchar"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "What are you doing?",
+    "options": [
+     "¿Qué estás haciendo?",
+     "¿A dónde vas?",
+     "¿Cómo te llamas?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones",
+    "options": [
+     {
+      "text": "run",
+      "correct": true
+     },
+     {
+      "text": "jump",
+      "correct": true
+     },
+     {
+      "text": "red",
+      "correct": false
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "dig",
+      "correct": true
+     },
+     {
+      "text": "blue",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Estoy minando.",
+    "answer": [
+     "I",
+     "am",
+     "mining"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I am",
+    "after": ".",
+    "options": [
+     "running",
+     "red",
+     "pig"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde la pregunta",
+    "prompt": "What are you doing? — I am ______",
+    "accept": [
+     "i am mining",
+     "i am running",
+     "mining",
+     "running"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Let's go!",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di lo que estás haciendo",
+    "say": "I am mining",
+    "prompt": "Di: I am mining."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás minando en una cueva y un amigo del servidor te pregunta qué haces.",
+    "objective": "Responde qué estás haciendo y propón ir juntos con \"Let's go!\".",
+    "starter": "What are you doing?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/r/",
+    "options": [
+     {
+      "text": "run",
+      "correct": true
+     },
+     {
+      "text": "running",
+      "correct": true
+     },
+     {
+      "text": "build",
+      "correct": false
+     },
+     {
+      "text": "eat",
+      "correct": false
+     },
+     {
+      "text": "fright",
+      "correct": true
+     },
+     {
+      "text": "jump",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Run, running, fight",
+    "prompt": "Escucha y repite el sonido /r/."
+   }
+  ]
+ }
+]}

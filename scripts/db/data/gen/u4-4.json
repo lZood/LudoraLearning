@@ -1,0 +1,226 @@
+{"ext":"u4-4","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I mined diamonds.",
+    "options": [
+     "Mine diamantes.",
+     "Fabriqué una espada.",
+     "Construí una casa."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "fought",
+    "options": [
+     "fawt",
+     "fought",
+     "foot",
+     "found"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What did you do yesterday?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I explored a cave.",
+     "It is a diamond.",
+     "I am hungry."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "I built a house.",
+      "es": "Construí una casa."
+     },
+     {
+      "en": "I found gold.",
+      "es": "Encontré oro."
+     },
+     {
+      "en": "I went to the Nether.",
+      "es": "Fui al Nether."
+     },
+     {
+      "en": "I saw an Enderman.",
+      "es": "Vi un Enderman."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Diamond is stronger than iron.",
+    "options": [
+     "El diamante es más fuerte que el hierro.",
+     "El hierro es más fuerte que el diamante.",
+     "El diamante es más débil que el oro."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones del pasado",
+    "options": [
+     {
+      "text": "I crafted a sword.",
+      "correct": true
+     },
+     {
+      "text": "I explored a cave.",
+      "correct": true
+     },
+     {
+      "text": "Hello, how are you?",
+      "correct": false
+     },
+     {
+      "text": "My favorite color is blue.",
+      "correct": false
+     },
+     {
+      "text": "I fought a creeper.",
+      "correct": true
+     },
+     {
+      "text": "The pig is hungry.",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Construí una casa.",
+    "answer": [
+     "I",
+     "built",
+     "a",
+     "house."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "First I",
+    "after": "wood.",
+    "options": [
+     "mined",
+     "saw",
+     "found"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe lo que hiciste",
+    "prompt": "What did you do in the game? — I ______ diamonds.",
+    "accept": [
+     "mined",
+     "i mined",
+     "found",
+     "i found"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I mined diamonds.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Cuenta tu historia",
+    "say": "First I mined wood. Then I built a shelter.",
+    "prompt": "Di la secuencia en orden."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta qué hiciste anoche en el servidor.",
+    "objective": "Cuenta tres cosas que hiciste usando el pasado (I mined, I built, I fought).",
+    "starter": "Hi! What did you do last night?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/f/",
+    "options": [
+     {
+      "text": "fought",
+      "correct": true
+     },
+     {
+      "text": "found",
+      "correct": true
+     },
+     {
+      "text": "mined",
+      "correct": false
+     },
+     {
+      "text": "finally",
+      "correct": true
+     },
+     {
+      "text": "built",
+      "correct": false
+     },
+     {
+      "text": "saw",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I fought, I found, finally.",
+    "prompt": "Escucha y repite los sonidos /f/."
+   }
+  ]
+ }
+]}

@@ -1,0 +1,225 @@
+{"ext":"u2-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "What is this?",
+    "options": [
+     "¿Qué es esto?",
+     "¿Dónde está?",
+     "¿Cuántos hay?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "Where",
+    "options": [
+     "Wear",
+     "Where",
+     "Whir",
+     "Who"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Where is the chest?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "It is in the house.",
+     "It is a creeper.",
+     "Three apples."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "What",
+      "es": "Qué"
+     },
+     {
+      "en": "Where",
+      "es": "Dónde"
+     },
+     {
+      "en": "Who",
+      "es": "Quién"
+     },
+     {
+      "en": "How many",
+      "es": "Cuántos"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "How many apples?",
+    "options": [
+     "¿Cuántas manzanas?",
+     "¿Dónde están las manzanas?",
+     "¿Qué es una manzana?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de pregunta",
+    "options": [
+     {
+      "text": "What",
+      "correct": true
+     },
+     {
+      "text": "Where",
+      "correct": true
+     },
+     {
+      "text": "Creeper",
+      "correct": false
+     },
+     {
+      "text": "Tree",
+      "correct": false
+     },
+     {
+      "text": "Who",
+      "correct": true
+     },
+     {
+      "text": "Block",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "¿Dónde está el cofre?",
+    "answer": [
+     "Where",
+     "is",
+     "the",
+     "chest?"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "How",
+    "after": "blocks?",
+    "options": [
+     "many",
+     "where",
+     "creeper"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde la pregunta",
+    "prompt": "What is this? — It is a ______ (creeper, tree, block)",
+    "accept": [
+     "it is a creeper",
+     "it is a tree",
+     "it is a block"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "What is this?",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pregunta por una ubicación",
+    "say": "Where is Steve?",
+    "prompt": "Di: Where is Steve?"
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Exploras una cueva y un aldeano busca el cofre perdido.",
+    "objective": "Pregunta dónde está el cofre y di cuántos bloques ves.",
+    "starter": "Where is the chest? How many blocks do you see?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/w/",
+    "options": [
+     {
+      "text": "What",
+      "correct": true
+     },
+     {
+      "text": "Where",
+      "correct": true
+     },
+     {
+      "text": "Tree",
+      "correct": false
+     },
+     {
+      "text": "Who",
+      "correct": false
+     },
+     {
+      "text": "Block",
+      "correct": false
+     },
+     {
+      "text": "Why",
+      "correct": true
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "What, Where, Why?",
+    "prompt": "Escucha y repite los sonidos /w/."
+   }
+  ]
+ }
+]}

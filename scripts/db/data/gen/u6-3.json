@@ -1,0 +1,226 @@
+{"ext":"u6-3","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción",
+    "audio": "I mined diamonds yesterday.",
+    "options": [
+     "Ayer miné diamantes.",
+     "Construí una casa.",
+     "Fabriqué una espada."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Nether",
+    "options": [
+     "Nedder",
+     "Nether",
+     "Nather",
+     "Letter"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y completa la historia",
+    "audio": "The creeper exploded near me.",
+    "prompt": "Elige lo que pasó",
+    "options": [
+     "El creeper explotó cerca de mí.",
+     "Vi un Ghast.",
+     "Corrí de los zombis."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "I built a house.",
+      "es": "Construí una casa."
+     },
+     {
+      "en": "I crafted a sword.",
+      "es": "Fabriqué una espada."
+     },
+     {
+      "en": "I went to the Nether.",
+      "es": "Fui al Nether."
+     },
+     {
+      "en": "I found a fortress.",
+      "es": "Encontré una fortaleza."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la traducción",
+    "prompt": "I fought the Ender Dragon.",
+    "options": [
+     "Luché contra el Dragón del End.",
+     "Vi un Ghast.",
+     "Corrí de los zombis."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones que cuentan una historia del pasado",
+    "options": [
+     {
+      "text": "I mined diamonds yesterday.",
+      "correct": true
+     },
+     {
+      "text": "I went to the Nether.",
+      "correct": true
+     },
+     {
+      "text": "Hello, my name is Steve.",
+      "correct": false
+     },
+     {
+      "text": "The pig is pink.",
+      "correct": false
+     },
+     {
+      "text": "I fought the Ender Dragon.",
+      "correct": true
+     },
+     {
+      "text": "What color is the sky?",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Encontré una fortaleza.",
+    "answer": [
+     "I",
+     "found",
+     "a",
+     "fortress."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I ran from the",
+    "after": ".",
+    "options": [
+     "zombies",
+     "diamonds",
+     "house"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Cuenta qué hiciste primero",
+    "prompt": "¿Qué hiciste primero? — First, I ______ wood.",
+    "accept": [
+     "first, i chopped wood",
+     "first i chopped wood",
+     "i chopped wood",
+     "chopped wood"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I built a house.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Cuenta tu aventura",
+    "say": "I went to the Nether and I saw a Ghast.",
+    "prompt": "Di la frase en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta en el chat qué hiciste en tu última aventura por las cuevas.",
+    "objective": "Cuenta tu historia en pasado: di al menos dos cosas que hiciste (por ejemplo minar diamantes, fabricar una espada o luchar contra el Dragón del End).",
+    "starter": "Hi! What did you do yesterday?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "diamonds",
+      "correct": true
+     },
+     {
+      "text": "dangerous",
+      "correct": true
+     },
+     {
+      "text": "house",
+      "correct": false
+     },
+     {
+      "text": "found",
+      "correct": true
+     },
+     {
+      "text": "sword",
+      "correct": true
+     },
+     {
+      "text": "creeper",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I mined diamonds and found a sword.",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

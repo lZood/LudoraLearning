@@ -1,0 +1,227 @@
+{"ext":"u8-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción correcta",
+    "audio": "Yesterday I mined some diamonds.",
+    "options": [
+     "Ayer mine unos diamantes.",
+     "Construi una torre alta.",
+     "Encontramos una aldea escondida."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Creeper",
+    "options": [
+     "Creeber",
+     "Creeper",
+     "Kreeper",
+     "Skeleton"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y completa la historia",
+    "audio": "Then the sun went down.",
+    "prompt": "Elige la traducción correcta",
+    "options": [
+     "Luego el sol se oculto.",
+     "Primero, fabrique una espada de madera.",
+     "Finalmente, volvi a casa a salvo."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "I built a tall tower.",
+      "es": "Construi una torre alta."
+     },
+     {
+      "en": "We found a hidden village.",
+      "es": "Encontramos una aldea escondida."
+     },
+     {
+      "en": "After that, a skeleton attacked me.",
+      "es": "Despues de eso, un esqueleto me ataco."
+     },
+     {
+      "en": "It was an amazing adventure.",
+      "es": "Fue una aventura asombrosa."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la traducción correcta",
+    "prompt": "If I find iron, I will craft armor.",
+    "options": [
+     "Si encuentro hierro, fabricare armadura.",
+     "Si trabajamos juntos, ganaremos.",
+     "Si llueve, los zombis no se quemaran."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo los conectores para contar una historia",
+    "options": [
+     {
+      "text": "First",
+      "correct": true
+     },
+     {
+      "text": "Then",
+      "correct": true
+     },
+     {
+      "text": "Diamond",
+      "correct": false
+     },
+     {
+      "text": "Creeper",
+      "correct": false
+     },
+     {
+      "text": "Finally",
+      "correct": true
+     },
+     {
+      "text": "Tower",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Construi una torre alta.",
+    "answer": [
+     "I",
+     "built",
+     "a",
+     "tall",
+     "tower."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Yesterday I mined some",
+    "after": ".",
+    "options": [
+     "diamonds",
+     "village",
+     "tower"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Cuenta el final de tu historia",
+    "prompt": "¿Cómo termino tu aventura? Escribe en inglés: Finally, I ______",
+    "accept": [
+     "finally, i returned home safely.",
+     "finally i returned home safely",
+     "i returned home safely",
+     "in the end, we defeated the ender dragon."
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "First, I crafted a wooden sword.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Cuenta parte de tu aventura",
+    "say": "In the end, we defeated the Ender Dragon.",
+    "prompt": "Di la oración en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te encuentra al amanecer y quiere saber qué te paso anoche en tu aventura.",
+    "objective": "Cuenta tu historia usando First, Then y Finally, y di si fue asombrosa o aterradora.",
+    "starter": "Wow, you look tired! What happened on your adventure yesterday?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "Diamonds",
+      "correct": true
+     },
+     {
+      "text": "Down",
+      "correct": true
+     },
+     {
+      "text": "Dragon",
+      "correct": true
+     },
+     {
+      "text": "Tower",
+      "correct": false
+     },
+     {
+      "text": "Creeper",
+      "correct": false
+     },
+     {
+      "text": "Village",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Diamonds, down, dragon.",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

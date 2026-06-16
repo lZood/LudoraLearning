@@ -1,0 +1,226 @@
+{"ext":"u6-4","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Let's work together",
+    "options": [
+     "Trabajemos juntos",
+     "Necesito mas madera",
+     "Buen trabajo, equipo!"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "Quien lo dijo?",
+    "target": "Team",
+    "options": [
+     "Teem",
+     "Team",
+     "Tame",
+     "Stone"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversacion",
+    "audio": "Can you help me, please?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Yes, let's work together!",
+     "Diamond is stronger than iron.",
+     "They went to the cave."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Let's work together",
+      "es": "Trabajemos juntos"
+     },
+     {
+      "en": "I need more wood",
+      "es": "Necesito mas madera"
+     },
+     {
+      "en": "Good job, team!",
+      "es": "Buen trabajo, equipo!"
+     },
+     {
+      "en": "Can you help me, please?",
+      "es": "Puedes ayudarme, por favor?"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Diamond is stronger than iron.",
+    "options": [
+     "El diamante es mas fuerte que el hierro.",
+     "El hierro es mas fuerte que el diamante.",
+     "Necesitamos mas madera y piedra."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases sobre trabajo en equipo",
+    "options": [
+     {
+      "text": "Let's work together",
+      "correct": true
+     },
+     {
+      "text": "Good job, team!",
+      "correct": true
+     },
+     {
+      "text": "We won because we worked together",
+      "correct": true
+     },
+     {
+      "text": "Hello, how are you?",
+      "correct": false
+     },
+     {
+      "text": "My favorite color is blue",
+      "correct": false
+     },
+     {
+      "text": "The cat is on the table",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oracion",
+    "prompt": "Necesito mas madera.",
+    "answer": [
+     "I",
+     "need",
+     "more",
+     "wood"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "We built a",
+    "after": "yesterday.",
+    "options": [
+     "house",
+     "team",
+     "cave"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Pide ayuda a tu equipo",
+    "prompt": "Como pides ayuda en ingles? (Puedes ayudarme, por favor?)",
+    "accept": [
+     "can you help me, please?",
+     "can you help me please?",
+     "can you help me",
+     "can you help me please"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite despues del personaje",
+    "say": "Let's work together",
+    "prompt": "Escucha y repitelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Anima a tu equipo",
+    "say": "Good job, team!",
+    "prompt": "Di: Good job, team!"
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequena conversacion",
+    "scenario": "Estas construyendo una casa con un aldeano en el servidor y necesitan materiales.",
+    "objective": "Pide ayuda, di que necesitas mas madera y anima al equipo.",
+    "starter": "Hi! Let's work together. What do you need?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/t/",
+    "options": [
+     {
+      "text": "Team",
+      "correct": true
+     },
+     {
+      "text": "Together",
+      "correct": true
+     },
+     {
+      "text": "Tools",
+      "correct": true
+     },
+     {
+      "text": "Wood",
+      "correct": false
+     },
+     {
+      "text": "Iron",
+      "correct": false
+     },
+     {
+      "text": "House",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Team, together, tools",
+    "prompt": "Escucha y repite los sonidos /t/."
+   }
+  ]
+ }
+]}

@@ -1,0 +1,225 @@
+{"ext":"u3-4","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Go left.",
+    "options": [
+     "Ve a la izquierda.",
+     "Ve a la derecha.",
+     "Ve recto."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "right",
+    "options": [
+     "rite",
+     "right",
+     "right",
+     "near"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Where is the chest?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "It is here.",
+     "Go down.",
+     "Stop here."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "left",
+      "es": "izquierda"
+     },
+     {
+      "en": "right",
+      "es": "derecha"
+     },
+     {
+      "en": "near",
+      "es": "cerca"
+     },
+     {
+      "en": "far",
+      "es": "lejos"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The mine is far.",
+    "options": [
+     "La mina está lejos.",
+     "La mina está cerca.",
+     "El cofre está aquí."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las direcciones",
+    "options": [
+     {
+      "text": "left",
+      "correct": true
+     },
+     {
+      "text": "right",
+      "correct": true
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "up",
+      "correct": true
+     },
+     {
+      "text": "hello",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "El cofre está cerca.",
+    "answer": [
+     "The",
+     "chest",
+     "is",
+     "near."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Where is the",
+    "after": "?",
+    "options": [
+     "village",
+     "left",
+     "stop"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Indica una dirección",
+    "prompt": "¿Cómo dices \"Ve recto\" en inglés?",
+    "accept": [
+     "go straight",
+     "go straight.",
+     "straight"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Go straight.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pregunta por una ubicación",
+    "say": "Where is the village?",
+    "prompt": "Di: Where is the village?"
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano se perdió buscando el cofre en tu base de Minecraft.",
+    "objective": "Pregunta dónde está, da una dirección (left, right o straight) y di \"It is here\".",
+    "starter": "Hello! Where is the chest?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/r/",
+    "options": [
+     {
+      "text": "right",
+      "correct": true
+     },
+     {
+      "text": "straight",
+      "correct": true
+     },
+     {
+      "text": "near",
+      "correct": true
+     },
+     {
+      "text": "up",
+      "correct": false
+     },
+     {
+      "text": "down",
+      "correct": false
+     },
+     {
+      "text": "here",
+      "correct": true
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "right, straight, near, here",
+    "prompt": "Escucha y repite los sonidos /r/."
+   }
+  ]
+ }
+]}

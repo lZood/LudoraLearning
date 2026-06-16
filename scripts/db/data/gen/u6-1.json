@@ -1,0 +1,229 @@
+{"ext":"u6-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción",
+    "audio": "A creeper exploded near my house.",
+    "options": [
+     "Un creeper explotó cerca de mi casa.",
+     "Encontré un diamante en la cueva.",
+     "Construimos un refugio antes de la noche."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "exploded",
+    "options": [
+     "explored",
+     "exploded",
+     "exblowded",
+     "explowed"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige por qué corrió",
+    "audio": "I ran because a zombie appeared.",
+    "prompt": "Elige la razón correcta",
+    "options": [
+     "Porque apareció un zombi.",
+     "Porque encontró un diamante.",
+     "Porque hizo una antorcha."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "I mined some coal.",
+      "es": "Minaste algo de carbón."
+     },
+     {
+      "en": "I found a diamond in the cave.",
+      "es": "Encontré un diamante en la cueva."
+     },
+     {
+      "en": "Diamond is stronger than iron.",
+      "es": "El diamante es más fuerte que el hierro."
+     },
+     {
+      "en": "A horse is faster than walking.",
+      "es": "Un caballo es más rápido que caminar."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la traducción",
+    "prompt": "It was dark, so I made a torch.",
+    "options": [
+     "Estaba oscuro, así que hice una antorcha.",
+     "Quería pelear, pero no tenía espada.",
+     "Anoche un esqueleto me atacó."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las oraciones que explican una situación",
+    "options": [
+     {
+      "text": "I ran because a zombie appeared.",
+      "correct": true
+     },
+     {
+      "text": "I lost my items because I fell in the lava.",
+      "correct": true
+     },
+     {
+      "text": "I built a new base because the old one was weak.",
+      "correct": true
+     },
+     {
+      "text": "Hello, my name is Steve.",
+      "correct": false
+     },
+     {
+      "text": "The cat is on the table.",
+      "correct": false
+     },
+     {
+      "text": "I have three apples.",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Encontré un diamante en la cueva.",
+    "answer": [
+     "I",
+     "found",
+     "a",
+     "diamond",
+     "in",
+     "the",
+     "cave."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Diamond is",
+    "after": "than iron.",
+    "options": [
+     "stronger",
+     "faster",
+     "darker"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Explica qué pasó",
+    "prompt": "What happened? — I ran because a ______ appeared.",
+    "accept": [
+     "zombie",
+     "a zombie",
+     "i ran because a zombie appeared",
+     "zombie appeared"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "It was dark, so I made a torch.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Explica la situación",
+    "say": "I lost my items because I fell in the lava.",
+    "prompt": "Di la oración completa en inglés."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te encuentra en el servidor y nota que perdiste tus cosas.",
+    "objective": "Explica qué pasó usando 'because' (por ejemplo: I lost my items because I fell in the lava).",
+    "starter": "What happened to your items?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/s/",
+    "options": [
+     {
+      "text": "stronger",
+      "correct": true
+     },
+     {
+      "text": "shelter",
+      "correct": true
+     },
+     {
+      "text": "skeleton",
+      "correct": true
+     },
+     {
+      "text": "diamond",
+      "correct": false
+     },
+     {
+      "text": "torch",
+      "correct": false
+     },
+     {
+      "text": "horse",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Stone is stronger than wood, so I used it.",
+    "prompt": "Escucha y repite los sonidos /s/."
+   }
+  ]
+ }
+]}

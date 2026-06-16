@@ -1,0 +1,229 @@
+{"ext":"u8-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción",
+    "audio": "Yesterday I mined diamonds in a deep cave.",
+    "options": [
+     "Ayer extraje diamantes en una cueva profunda.",
+     "Encontré una aldea cerca del bosque.",
+     "Luchamos contra el Dragón del End juntos."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "creeper",
+    "options": [
+     "creepy",
+     "creeper",
+     "cripper",
+     "village"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What happened last night?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Last night a creeper exploded next to my house.",
+     "In my opinion, building is more fun than fighting.",
+     "If you dig straight down, you will fall into lava."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "First, I chopped some wood.",
+      "es": "Primero, corté algo de madera."
+     },
+     {
+      "en": "Then I built a shelter before night.",
+      "es": "Luego construí un refugio antes de la noche."
+     },
+     {
+      "en": "After that, zombies appeared outside.",
+      "es": "Después de eso, aparecieron zombis afuera."
+     },
+     {
+      "en": "Finally, the sun came up and I was safe.",
+      "es": "Finalmente, salió el sol y estuve a salvo."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "The best part was finding a buried treasure.",
+    "options": [
+     "La mejor parte fue encontrar un tesoro enterrado.",
+     "Fue el momento más aterrador del juego.",
+     "Encontré una aldea cerca del bosque."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de orden narrativo (secuencia)",
+    "options": [
+     {
+      "text": "First",
+      "correct": true
+     },
+     {
+      "text": "Then",
+      "correct": true
+     },
+     {
+      "text": "Diamond",
+      "correct": false
+     },
+     {
+      "text": "Village",
+      "correct": false
+     },
+     {
+      "text": "Finally",
+      "correct": true
+     },
+     {
+      "text": "Lava",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Encontré una aldea cerca del bosque.",
+    "answer": [
+     "I",
+     "found",
+     "a",
+     "village",
+     "near",
+     "the",
+     "forest."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "We fought the Ender Dragon",
+    "after": ".",
+    "options": [
+     "together",
+     "yesterday",
+     "outside"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Cuenta una experiencia pasada",
+    "prompt": "What did you do yesterday? — Yesterday I ______",
+    "accept": [
+     "yesterday i mined diamonds",
+     "yesterday i built a shelter",
+     "yesterday i found a village",
+     "yesterday i fought"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "We fought the Ender Dragon together.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di tu opinión",
+    "say": "I think the Nether is the most dangerous place.",
+    "prompt": "Di la oración en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un amigo te pregunta en el chat qué hiciste anoche en el servidor de Minecraft.",
+    "objective": "Narra una experiencia pasada usando First, Then y Finally.",
+    "starter": "Hey! What did you do last night in the game?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/f/",
+    "options": [
+     {
+      "text": "found",
+      "correct": true
+     },
+     {
+      "text": "fought",
+      "correct": true
+     },
+     {
+      "text": "diamond",
+      "correct": false
+     },
+     {
+      "text": "forest",
+      "correct": true
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "village",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I found the forest and fought the dragon.",
+    "prompt": "Escucha y repite los sonidos /f/."
+   }
+  ]
+ }
+]}

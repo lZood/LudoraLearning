@@ -1,0 +1,226 @@
+{"ext":"u6-2","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Let's go mining!",
+    "options": [
+     "Vamos a minar.",
+     "Construí un refugio.",
+     "Elegí la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "choose",
+    "options": [
+     "chews",
+     "choose",
+     "chooz",
+     "cheese"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Did you craft a sword?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Yes, I went mining first.",
+     "I am blue.",
+     "The pig is fast."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "to decide",
+      "es": "decidir"
+     },
+     {
+      "en": "to choose",
+      "es": "elegir"
+     },
+     {
+      "en": "stronger than",
+      "es": "más fuerte que"
+     },
+     {
+      "en": "better than",
+      "es": "mejor que"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "I think the cave is more dangerous than the forest.",
+    "options": [
+     "Creo que la cueva es más peligrosa que el bosque.",
+     "Creo que la cueva es más segura que el bosque.",
+     "Creo que el bosque es más fuerte que la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras para tomar decisiones",
+    "options": [
+     {
+      "text": "decide",
+      "correct": true
+     },
+     {
+      "text": "choose",
+      "correct": true
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
+      "text": "because",
+      "correct": true
+     },
+     {
+      "text": "sheep",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Elegí la cueva.",
+    "answer": [
+     "I",
+     "chose",
+     "the",
+     "cave"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "A diamond sword is",
+    "after": "than a stone sword.",
+    "options": [
+     "stronger",
+     "because",
+     "first"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Explica tu decisión",
+    "prompt": "Why did you choose the cave? — Because it is ______",
+    "accept": [
+     "because it is safer",
+     "because it is better",
+     "safer",
+     "better"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Let's build a shelter first.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di tu decisión",
+    "say": "I think the cave is better than the forest.",
+    "prompt": "Di por qué eliges la cueva."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Tu amigo y tú deben decidir qué hacer al caer la noche en el servidor.",
+    "objective": "Propón una idea con \"Let's...\", explica con \"because\" y compara usando \"better than\".",
+    "starter": "It's getting dark. What should we do first?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/ch/",
+    "options": [
+     {
+      "text": "choose",
+      "correct": true
+     },
+     {
+      "text": "chose",
+      "correct": true
+     },
+     {
+      "text": "stronger",
+      "correct": false
+     },
+     {
+      "text": "craft",
+      "correct": true
+     },
+     {
+      "text": "better",
+      "correct": false
+     },
+     {
+      "text": "decide",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Choose, chose, craft a sword.",
+    "prompt": "Escucha y repite los sonidos /ch/."
+   }
+  ]
+ }
+]}

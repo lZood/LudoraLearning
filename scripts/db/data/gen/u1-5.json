@@ -1,0 +1,226 @@
+{"ext":"u1-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I build a house.",
+    "options": [
+     "Yo construyo una casa.",
+     "Yo como una manzana.",
+     "Yo corro."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "jump",
+    "options": [
+     "jamp",
+     "jump",
+     "yump",
+     "swim"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What do you do?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I craft a sword.",
+     "Yes, please.",
+     "It is red."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "walk",
+      "es": "caminar"
+     },
+     {
+      "en": "mine",
+      "es": "minar"
+     },
+     {
+      "en": "swim",
+      "es": "nadar"
+     },
+     {
+      "en": "fight",
+      "es": "pelear"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I fight the zombie.",
+    "options": [
+     "Yo peleo contra el zombi.",
+     "Yo cavo un hoyo.",
+     "Yo nado en el río."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las acciones",
+    "options": [
+     {
+      "text": "run",
+      "correct": true
+     },
+     {
+      "text": "dig",
+      "correct": true
+     },
+     {
+      "text": "red",
+      "correct": false
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "eat",
+      "correct": true
+     },
+     {
+      "text": "blue",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Yo como una manzana.",
+    "answer": [
+     "I",
+     "eat",
+     "an",
+     "apple"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": "a house.",
+    "options": [
+     "build",
+     "swim",
+     "eat"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde la pregunta",
+    "prompt": "What do you do? — I ______",
+    "accept": [
+     "i run",
+     "i walk",
+     "i jump",
+     "i build"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I craft a sword.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di lo que haces",
+    "say": "I build a house.",
+    "prompt": "Di: I build a house."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te encuentra minando en una cueva del servidor.",
+    "objective": "Responde qué haces usando acciones como mine, dig o craft.",
+    "starter": "Hello! What do you do?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/b/",
+    "options": [
+     {
+      "text": "build",
+      "correct": true
+     },
+     {
+      "text": "fight",
+      "correct": false
+     },
+     {
+      "text": "swim",
+      "correct": false
+     },
+     {
+      "text": "zombie",
+      "correct": true
+     },
+     {
+      "text": "apple",
+      "correct": false
+     },
+     {
+      "text": "robot",
+      "correct": true
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Build, zombie, robot.",
+    "prompt": "Escucha y repite los sonidos /b/."
+   }
+  ]
+ }
+]}

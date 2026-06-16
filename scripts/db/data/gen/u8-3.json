@@ -1,0 +1,226 @@
+{"ext":"u8-3","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "What do you think we should do?",
+    "options": [
+     "¿Que crees que deberiamos hacer?",
+     "Creo que deberiamos construir una casa.",
+     "Esa es una buena idea."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "agree",
+    "options": [
+     "agree",
+     "agri",
+     "agrii",
+     "build"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "What do you think we should do?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I think we should build a house first.",
+     "That's a good idea!",
+     "If you don't eat, you will lose health."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I agree, let's build the farm here.",
+      "es": "Estoy de acuerdo, construyamos la granja aqui."
+     },
+     {
+      "en": "I disagree, the mountain is too far.",
+      "es": "No estoy de acuerdo, la montana esta muy lejos."
+     },
+     {
+      "en": "That's a good idea!",
+      "es": "Esa es una buena idea!"
+     },
+     {
+      "en": "Maybe we could go mining instead.",
+      "es": "Tal vez podriamos ir a minar en su lugar."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "In my opinion, the cave is too dangerous.",
+    "options": [
+     "En mi opinion, la cueva es muy peligrosa.",
+     "La aldea es mas segura que la cueva.",
+     "Prefiero quedarme y pelear con los zombis."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases para discutir opciones",
+    "options": [
+     {
+      "text": "That's a good idea!",
+      "correct": true
+     },
+     {
+      "text": "I agree, let's build the farm here.",
+      "correct": true
+     },
+     {
+      "text": "Hello, my name is Steve.",
+      "correct": false
+     },
+     {
+      "text": "The cow gives milk.",
+      "correct": false
+     },
+     {
+      "text": "What do you think we should do?",
+      "correct": true
+     },
+     {
+      "text": "The sky is blue today.",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Esa es una buena idea!",
+    "answer": [
+     "That's",
+     "a",
+     "good",
+     "idea!"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": ", let's build the farm here.",
+    "options": [
+     "agree",
+     "disagree",
+     "think"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da tu opinion",
+    "prompt": "What do you think we should do? — I think we should ______",
+    "accept": [
+     "i think we should",
+     "i think",
+     "in my opinion",
+     "maybe we could"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I think we should build a house first.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Da tu opinion",
+    "say": "In my opinion, the cave is too dangerous.",
+    "prompt": "Di tu opinion en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estas con un aldeano decidiendo que construir antes de que oscurezca en el servidor.",
+    "objective": "Da tu opinion, propon una idea y responde si estas de acuerdo o no.",
+    "starter": "What do you think we should do first?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/th/",
+    "options": [
+     {
+      "text": "think",
+      "correct": true
+     },
+     {
+      "text": "that's",
+      "correct": true
+     },
+     {
+      "text": "the",
+      "correct": true
+     },
+     {
+      "text": "build",
+      "correct": false
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "mining",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I think that's the idea.",
+    "prompt": "Escucha y repite los sonidos /th/."
+   }
+  ]
+ }
+]}

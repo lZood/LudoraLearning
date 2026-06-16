@@ -1,0 +1,227 @@
+{"ext":"u4-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Let's build a house together.",
+    "options": [
+     "Construyamos una casa juntos.",
+     "Quieres jugar esta noche?",
+     "Que tal explorar la cueva?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "Build",
+    "options": [
+     "Bild",
+     "Build",
+     "Buld",
+     "Mine"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Do you want to play tonight?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Sure, that sounds great!",
+     "Yesterday I mined ten diamonds.",
+     "She found gold in the cave."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "How about exploring the cave?",
+      "es": "Que tal explorar la cueva?"
+     },
+     {
+      "en": "We built a big castle last night.",
+      "es": "Construimos un gran castillo anoche."
+     },
+     {
+      "en": "Diamonds are stronger than iron.",
+      "es": "Los diamantes son mas fuertes que el hierro."
+     },
+     {
+      "en": "First we mine, then we build.",
+      "es": "Primero minamos, luego construimos."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "My house is bigger than yours.",
+    "options": [
+     "Mi casa es mas grande que la tuya.",
+     "Mi casa es mas pequena que la tuya.",
+     "Tu casa es mas grande que la mia."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases para hacer planes",
+    "options": [
+     {
+      "text": "Let's build a house together.",
+      "correct": true
+     },
+     {
+      "text": "Do you want to play tonight?",
+      "correct": true
+     },
+     {
+      "text": "Hello, my name is Steve.",
+      "correct": false
+     },
+     {
+      "text": "The pig is pink.",
+      "correct": false
+     },
+     {
+      "text": "How about exploring the cave?",
+      "correct": true
+     },
+     {
+      "text": "I have five apples.",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Construyamos una casa juntos.",
+    "answer": [
+     "Let's",
+     "build",
+     "a",
+     "house",
+     "together."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Diamonds are",
+    "after": "than iron.",
+    "options": [
+     "stronger",
+     "faster",
+     "darker"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Propón un plan",
+    "prompt": "Invita a tu amigo a jugar esta noche en inglés.",
+    "accept": [
+     "do you want to play tonight?",
+     "do you want to play tonight",
+     "let's play tonight",
+     "let's play tonight."
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "How about exploring the cave?",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Acepta el plan",
+    "say": "Sure, that sounds great!",
+    "prompt": "Di que el plan te parece genial."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un amigo te escribe en el chat del servidor para organizar la noche.",
+    "objective": "Propón un plan, acepta su idea y di qué haréis primero.",
+    "starter": "Do you want to play tonight?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/b/",
+    "options": [
+     {
+      "text": "build",
+      "correct": true
+     },
+     {
+      "text": "bigger",
+      "correct": true
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "night",
+      "correct": false
+     },
+     {
+      "text": "because",
+      "correct": true
+     },
+     {
+      "text": "torches",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Build, bigger, because",
+    "prompt": "Escucha y repite los sonidos /b/."
+   }
+  ]
+ }
+]}

@@ -1,0 +1,228 @@
+{"ext":"u7-2","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Go straight ahead and then turn left.",
+    "options": [
+     "Sigue recto y luego gira a la izquierda.",
+     "Cruza el puente a la derecha.",
+     "Camina hasta que llegues al río."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "bridge",
+    "options": [
+     "bredge",
+     "bridge",
+     "brigde",
+     "river"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha la pregunta y elige la respuesta",
+    "audio": "Could you tell me how to get to the village?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Go straight ahead and then turn left.",
+     "My base is between the two mountains.",
+     "If it gets dark, mobs will spawn."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Go straight ahead",
+      "es": "Sigue recto"
+     },
+     {
+      "en": "Turn left",
+      "es": "Gira a la izquierda"
+     },
+     {
+      "en": "Cross the bridge",
+      "es": "Cruza el puente"
+     },
+     {
+      "en": "Walk until you reach the river",
+      "es": "Camina hasta que llegues al río"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "Which way is the nearest stronghold?",
+    "options": [
+     "¿Hacia dónde está la fortaleza más cercana?",
+     "¿Sabes el camino al portal del Nether?",
+     "¿Cómo llego a la cueva de diamantes?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases para dar direcciones",
+    "options": [
+     {
+      "text": "Turn left",
+      "correct": true
+     },
+     {
+      "text": "Go straight ahead",
+      "correct": true
+     },
+     {
+      "text": "My name is Alex",
+      "correct": false
+     },
+     {
+      "text": "I like blue",
+      "correct": false
+     },
+     {
+      "text": "Cross the bridge",
+      "correct": true
+     },
+     {
+      "text": "Feed the pig",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Camina hasta que llegues al río.",
+    "answer": [
+     "Walk",
+     "until",
+     "you",
+     "reach",
+     "the",
+     "river."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Cross the bridge and take the second path on the",
+    "after": ".",
+    "options": [
+     "right",
+     "river",
+     "furnace"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Pregunta por una dirección",
+    "prompt": "Pregunta cómo llegar a la aldea (village).",
+    "accept": [
+     "could you tell me how to get to the village?",
+     "could you tell me how to get to the village",
+     "how do i get to the village",
+     "how do i reach the village"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Go straight ahead and then turn left.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pide una dirección",
+    "say": "Excuse me, how do I reach the diamond cave?",
+    "prompt": "Di la frase con voz clara."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás perdido en el bosque y un aldeano aparece en el chat del servidor.",
+    "objective": "Pregunta el camino a la aldea y sigue las indicaciones que te dé.",
+    "starter": "Excuse me! Do you know the way to the Nether portal?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/r/",
+    "options": [
+     {
+      "text": "right",
+      "correct": true
+     },
+     {
+      "text": "river",
+      "correct": true
+     },
+     {
+      "text": "reach",
+      "correct": true
+     },
+     {
+      "text": "left",
+      "correct": false
+     },
+     {
+      "text": "village",
+      "correct": false
+     },
+     {
+      "text": "bed",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Right, river, reach the river.",
+    "prompt": "Escucha y repite los sonidos /r/."
+   }
+  ]
+ }
+]}

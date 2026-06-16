@@ -1,0 +1,227 @@
+{"ext":"u5-2","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traducción",
+    "audio": "How much is it?",
+    "options": [
+     "¿Cuánto cuesta?",
+     "¿Compraste algo?",
+     "Es muy caro"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "buy",
+    "options": [
+     "boy",
+     "buy",
+     "bai",
+     "sold"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "How much is it?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "It costs three emeralds.",
+     "I want to buy a sword.",
+     "Did you buy a new armor?"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "How much is it?",
+      "es": "¿Cuánto cuesta?"
+     },
+     {
+      "en": "It costs three emeralds",
+      "es": "Cuesta tres esmeraldas"
+     },
+     {
+      "en": "The diamond is expensive",
+      "es": "El diamante es caro"
+     },
+     {
+      "en": "The dirt is cheap",
+      "es": "La tierra es barata"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I want to buy a sword",
+    "options": [
+     "Quiero comprar una espada",
+     "Vendí una espada",
+     "La espada es cara"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de compras y precios",
+    "options": [
+     {
+      "text": "buy",
+      "correct": true
+     },
+     {
+      "text": "expensive",
+      "correct": true
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
+      "text": "cheap",
+      "correct": true
+     },
+     {
+      "text": "hello",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Quiero comprar una espada.",
+    "answer": [
+     "I",
+     "want",
+     "to",
+     "buy",
+     "a",
+     "sword"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "The diamond is",
+    "after": ".",
+    "options": [
+     "expensive",
+     "cheap",
+     "hungry"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Pregunta el precio",
+    "prompt": "¿Cómo preguntas el precio en inglés? — How ______",
+    "accept": [
+     "how much is it",
+     "how much is it?",
+     "how much"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I want to buy a sword",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pregunta el precio",
+    "say": "How much is it?",
+    "prompt": "Di: How much is it?"
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás en la tienda de un aldeano en el servidor y quieres comprar una espada.",
+    "objective": "Di que quieres comprar una espada, pregunta el precio y responde si es caro o barato.",
+    "starter": "Welcome! What do you want to buy?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/b/",
+    "options": [
+     {
+      "text": "buy",
+      "correct": true
+     },
+     {
+      "text": "bought",
+      "correct": true
+     },
+     {
+      "text": "boots",
+      "correct": true
+     },
+     {
+      "text": "sword",
+      "correct": false
+     },
+     {
+      "text": "emerald",
+      "correct": false
+     },
+     {
+      "text": "cheap",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Buy, bought, boots",
+    "prompt": "Escucha y repite los sonidos /b/."
+   }
+  ]
+ }
+]}

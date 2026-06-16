@@ -1,0 +1,228 @@
+{"ext":"u5-4","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "The chest is on the left.",
+    "options": [
+     "El cofre está a la izquierda.",
+     "El cofre está a la derecha.",
+     "El cofre está lejos."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "right",
+    "options": [
+     "rite",
+     "right",
+     "right",
+     "left"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha la pregunta y elige la respuesta",
+    "audio": "How do I get to the village?",
+    "prompt": "Elige la indicación correcta",
+    "options": [
+     "Go straight to the mine.",
+     "The chest is on the left.",
+     "I found diamonds."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "left",
+      "es": "izquierda"
+     },
+     {
+      "en": "right",
+      "es": "derecha"
+     },
+     {
+      "en": "near",
+      "es": "cerca"
+     },
+     {
+      "en": "far",
+      "es": "lejos"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "The Creeper is behind you.",
+    "options": [
+     "El Creeper está detrás de ti.",
+     "El Creeper está al lado de ti.",
+     "El Creeper está enfrente de ti."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de direcciones y ubicaciones",
+    "options": [
+     {
+      "text": "left",
+      "correct": true
+     },
+     {
+      "text": "near",
+      "correct": true
+     },
+     {
+      "text": "Pig",
+      "correct": false
+     },
+     {
+      "text": "Red",
+      "correct": false
+     },
+     {
+      "text": "behind",
+      "correct": true
+     },
+     {
+      "text": "Hello",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "El horno está al lado del cofre.",
+    "answer": [
+     "The",
+     "furnace",
+     "is",
+     "next",
+     "to",
+     "the",
+     "chest."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Go",
+    "after": "to the mine.",
+    "options": [
+     "straight",
+     "behind",
+     "near"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Pregunta cómo llegar a un lugar",
+    "prompt": "¿Cómo preguntas el camino a la aldea? — ______ the village?",
+    "accept": [
+     "how do i get to",
+     "how do i get to the village",
+     "how do i get to the village?"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Turn left at the river.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Da una indicación",
+    "say": "First go straight, then turn left.",
+    "prompt": "Di la indicación en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás perdido en el bioma del bosque y un aldeano aparece para ayudarte a encontrar la aldea.",
+    "objective": "Pregunta cómo llegar a la aldea y entiende las direcciones (left, right, straight).",
+    "starter": "Hello! Are you lost? How do I help you?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/r/",
+    "options": [
+     {
+      "text": "right",
+      "correct": true
+     },
+     {
+      "text": "river",
+      "correct": true
+     },
+     {
+      "text": "across",
+      "correct": true
+     },
+     {
+      "text": "left",
+      "correct": false
+     },
+     {
+      "text": "near",
+      "correct": true
+     },
+     {
+      "text": "behind",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Turn right at the river.",
+    "prompt": "Escucha y repite los sonidos /r/."
+   }
+  ]
+ }
+]}

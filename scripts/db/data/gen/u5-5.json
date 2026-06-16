@@ -1,0 +1,229 @@
+{"ext":"u5-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I like mining",
+    "options": [
+     "Me gusta minar",
+     "Prefiero construir",
+     "No me gustan los creepers"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "prefer",
+    "options": [
+     "prefor",
+     "prefer",
+     "prifer",
+     "diamond"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha la pregunta y elige la respuesta",
+    "audio": "Which do you prefer, day or night?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I prefer day because it is safer",
+     "I love exploring caves",
+     "Yesterday I built a house"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada oración con su significado",
+    "pairs": [
+     {
+      "en": "I like mining",
+      "es": "Me gusta minar"
+     },
+     {
+      "en": "I prefer building",
+      "es": "Prefiero construir"
+     },
+     {
+      "en": "I love exploring caves",
+      "es": "Me encanta explorar cuevas"
+     },
+     {
+      "en": "I don't like creepers",
+      "es": "No me gustan los creepers"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "Diamonds are better than gold",
+    "options": [
+     "Los diamantes son mejores que el oro",
+     "El pastel es más rico que el pan",
+     "El Nether es más peligroso que el Mundo Normal"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases de gustos y preferencias",
+    "options": [
+     {
+      "text": "I like mining",
+      "correct": true
+     },
+     {
+      "text": "I prefer building",
+      "correct": true
+     },
+     {
+      "text": "Hello, how are you?",
+      "correct": false
+     },
+     {
+      "text": "The pig is red",
+      "correct": false
+     },
+     {
+      "text": "I love exploring caves",
+      "correct": true
+     },
+     {
+      "text": "My name is Steve",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Prefiero el día porque es más seguro.",
+    "answer": [
+     "I",
+     "prefer",
+     "day",
+     "because",
+     "it",
+     "is",
+     "safer"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Cake is",
+    "after": "than bread.",
+    "options": [
+     "tastier",
+     "stronger",
+     "darker"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde sobre tus gustos",
+    "prompt": "Do you like fighting zombies? — Responde diciendo qué te gusta.",
+    "accept": [
+     "i like",
+     "i prefer",
+     "i love",
+     "i don't like"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I love exploring caves",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di tu preferencia",
+    "say": "A diamond sword is stronger than a stone sword",
+    "prompt": "Di la oración completa en inglés."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta sobre tus gustos mientras minan juntos.",
+    "objective": "Dile qué te gusta hacer, qué prefieres y qué no te gusta.",
+    "starter": "Which do you prefer, day or night?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "diamond",
+      "correct": true
+     },
+     {
+      "text": "dangerous",
+      "correct": true
+     },
+     {
+      "text": "mining",
+      "correct": false
+     },
+     {
+      "text": "day",
+      "correct": true
+     },
+     {
+      "text": "caves",
+      "correct": false
+     },
+     {
+      "text": "safer",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Diamonds are better than gold",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

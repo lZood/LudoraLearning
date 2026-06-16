@@ -1,0 +1,227 @@
+{"ext":"u7-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Let's work together.",
+    "options": [
+     "Trabajemos juntos.",
+     "Necesito más madera.",
+     "Lo siento, ahora no puedo."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo \"trade\" (intercambiar)?",
+    "target": "trade",
+    "options": [
+     "traid",
+     "trade",
+     "tred",
+     "stone"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha la propuesta y elige la respuesta correcta",
+    "audio": "Let's make a deal!",
+    "prompt": "Elige cómo aceptar el trato",
+    "options": [
+     "Sure, no problem!",
+     "I need more wood and stone.",
+     "In my opinion, the cave is dangerous."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Let's work together.",
+      "es": "Trabajemos juntos."
+     },
+     {
+      "en": "I agree with you.",
+      "es": "Estoy de acuerdo contigo."
+     },
+     {
+      "en": "Let's make a deal!",
+      "es": "¡Hagamos un trato!"
+     },
+     {
+      "en": "Let's divide the work.",
+      "es": "Dividamos el trabajo."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "We should share our resources.",
+    "options": [
+     "Deberíamos compartir nuestros recursos.",
+     "Necesito más madera y piedra.",
+     "¿Por qué no luchas contra los zombis?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases de negociación y colaboración",
+    "options": [
+     {
+      "text": "Let's make a deal!",
+      "correct": true
+     },
+     {
+      "text": "We should share our resources.",
+      "correct": true
+     },
+     {
+      "text": "The pig is pink.",
+      "correct": false
+     },
+     {
+      "text": "My favorite color is blue.",
+      "correct": false
+     },
+     {
+      "text": "Let's work together.",
+      "correct": true
+     },
+     {
+      "text": "I am ten years old.",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración en inglés",
+    "prompt": "Deberíamos compartir nuestros recursos.",
+    "answer": [
+     "We",
+     "should",
+     "share",
+     "our",
+     "resources."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Let's make a",
+    "after": "!",
+    "options": [
+     "deal",
+     "wood",
+     "zombie"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Propón trabajar en equipo",
+    "prompt": "Invita a otro jugador a trabajar contigo. (Pista: Let's work ______)",
+    "accept": [
+     "let's work together",
+     "lets work together",
+     "let's work together.",
+     "work together"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite la propuesta de trato",
+    "say": "Let's make a deal!",
+    "prompt": "Escucha y repítelo con entusiasmo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pide ayuda para construir",
+    "say": "Can you help me build the base?",
+    "prompt": "Di la frase para pedir ayuda."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Otro jugador tiene diamantes y tú tienes hierro en el servidor de Minecraft.",
+    "objective": "Propón un trato, ofrece tus recursos y llega a un acuerdo.",
+    "starter": "I have many diamonds. What can you give me?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/w/",
+    "options": [
+     {
+      "text": "work",
+      "correct": true
+     },
+     {
+      "text": "we",
+      "correct": true
+     },
+     {
+      "text": "stone",
+      "correct": false
+     },
+     {
+      "text": "win",
+      "correct": true
+     },
+     {
+      "text": "iron",
+      "correct": false
+     },
+     {
+      "text": "deal",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "We work and we win.",
+    "prompt": "Escucha y repite los sonidos /w/."
+   }
+  ]
+ }
+]}

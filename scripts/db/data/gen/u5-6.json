@@ -1,0 +1,229 @@
+{"ext":"u5-6","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I built a house yesterday.",
+    "options": [
+     "Construí una casa ayer.",
+     "Miné mucha piedra.",
+     "Crafteé una espada."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "built",
+    "options": [
+     "bilt",
+     "built",
+     "buld",
+     "found"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Did you find diamonds?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I wanted diamonds, but I found coal.",
+     "I built a roof because it was raining.",
+     "Building is more fun than mining."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada verbo con su pasado",
+    "pairs": [
+     {
+      "en": "build",
+      "es": "built"
+     },
+     {
+      "en": "find",
+      "es": "found"
+     },
+     {
+      "en": "make",
+      "es": "made"
+     },
+     {
+      "en": "dig",
+      "es": "dug"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Diamond is stronger than iron.",
+    "options": [
+     "El diamante es más fuerte que el hierro.",
+     "La obsidiana es más dura que la piedra.",
+     "Mi torre es más alta que la tuya."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo los verbos en pasado",
+    "options": [
+     {
+      "text": "built",
+      "correct": true
+     },
+     {
+      "text": "found",
+      "correct": true
+     },
+     {
+      "text": "dug",
+      "correct": true
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
+      "text": "house",
+      "correct": false
+     },
+     {
+      "text": "stone",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Miné piedra y construí un muro.",
+    "answer": [
+     "I",
+     "mined",
+     "stone",
+     "and",
+     "built",
+     "a",
+     "wall."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": "a sword.",
+    "options": [
+     "crafted",
+     "fought",
+     "found"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde en inglés",
+    "prompt": "What did you build yesterday? — I built a ______",
+    "accept": [
+     "i built a house",
+     "i built a wall",
+     "i built a shelter",
+     "i built a tower"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I crafted a sword.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Di la oración",
+    "say": "My tower is taller than yours.",
+    "prompt": "Di: My tower is taller than yours."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te ve volver de la mina en el servidor.",
+    "objective": "Cuéntale qué minaste y construiste, y responde si encontraste diamantes.",
+    "starter": "Did you find diamonds in the cave?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "built",
+      "correct": false
+     },
+     {
+      "text": "found",
+      "correct": true
+     },
+     {
+      "text": "made",
+      "correct": true
+     },
+     {
+      "text": "dug",
+      "correct": true
+     },
+     {
+      "text": "stone",
+      "correct": false
+     },
+     {
+      "text": "house",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "found, made, dug, diamond",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

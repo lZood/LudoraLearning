@@ -1,0 +1,227 @@
+{"ext":"u6-5","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Let's make a deal.",
+    "options": [
+     "Hagamos un trato.",
+     "Dame madera.",
+     "Encontré una esmeralda."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "trade",
+    "options": [
+     "treyd",
+     "trade",
+     "trayed",
+     "diamond"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Do you want to trade?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "What do you have?",
+     "I mined ten blocks yesterday.",
+     "She gave me three apples."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Let's make a deal.",
+      "es": "Hagamos un trato."
+     },
+     {
+      "en": "Do you want to trade?",
+      "es": "¿Quieres intercambiar?"
+     },
+     {
+      "en": "What do you have?",
+      "es": "¿Qué tienes?"
+     },
+     {
+      "en": "This sword is stronger.",
+      "es": "Esta espada es más fuerte."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Gold is more expensive than coal.",
+    "options": [
+     "El oro es más caro que el carbón.",
+     "El carbón es más caro que el oro.",
+     "El oro es más barato que el hierro."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras sobre negociar",
+    "options": [
+     {
+      "text": "trade",
+      "correct": true
+     },
+     {
+      "text": "deal",
+      "correct": true
+     },
+     {
+      "text": "rabbit",
+      "correct": false
+     },
+     {
+      "text": "rainy",
+      "correct": false
+     },
+     {
+      "text": "offer",
+      "correct": true
+     },
+     {
+      "text": "kitchen",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Te cambio mis diamantes.",
+    "answer": [
+     "I'll",
+     "trade",
+     "you",
+     "my",
+     "diamonds."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I found an emerald in the",
+    "after": ".",
+    "options": [
+     "cave",
+     "trade",
+     "deal"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Propón un intercambio",
+    "prompt": "¿Quieres intercambiar? Escribe la pregunta en inglés.",
+    "accept": [
+     "do you want to trade?",
+     "do you want to trade",
+     "what do you have?",
+     "what do you have"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Let's make a deal.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Haz tu oferta",
+    "say": "I'll trade you my diamonds.",
+    "prompt": "Di que cambias tus diamantes."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te ofrece intercambiar objetos en su puesto del mercado.",
+    "objective": "Pregunta qué tiene, haz una oferta y cierra el trato.",
+    "starter": "Hello! Do you want to trade?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "deal",
+      "correct": true
+     },
+     {
+      "text": "diamonds",
+      "correct": true
+     },
+     {
+      "text": "trade",
+      "correct": true
+     },
+     {
+      "text": "sword",
+      "correct": true
+     },
+     {
+      "text": "apples",
+      "correct": false
+     },
+     {
+      "text": "stronger",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Deal, diamonds, trade.",
+    "prompt": "Escucha y repite los sonidos /d/."
+   }
+  ]
+ }
+]}

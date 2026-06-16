@@ -1,0 +1,225 @@
+{"ext":"u7-3","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I think we should craft armor.",
+    "options": [
+     "Creo que deberíamos fabricar armadura.",
+     "No estoy de acuerdo contigo.",
+     "Construyamos un refugio."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "Agree",
+    "options": [
+     "Agreh",
+     "Agree",
+     "Egree",
+     "Build"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Why don't we explore the cave?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Good idea!",
+     "My name is Alex.",
+     "Goodbye."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I think...",
+      "es": "Creo que..."
+     },
+     {
+      "en": "Good idea!",
+      "es": "¡Buena idea!"
+     },
+     {
+      "en": "I agree with you.",
+      "es": "Estoy de acuerdo contigo."
+     },
+     {
+      "en": "Let's build a shelter.",
+      "es": "Construyamos un refugio."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "What do you think we should do?",
+    "options": [
+     "¿Qué crees que deberíamos hacer?",
+     "¿Estás de acuerdo conmigo?",
+     "¿Por qué no exploramos la cueva?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases de opinión o sugerencia",
+    "options": [
+     {
+      "text": "In my opinion...",
+      "correct": true
+     },
+     {
+      "text": "I believe that...",
+      "correct": true
+     },
+     {
+      "text": "Good idea!",
+      "correct": true
+     },
+     {
+      "text": "Pig",
+      "correct": false
+     },
+     {
+      "text": "Blue",
+      "correct": false
+     },
+     {
+      "text": "Hello",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Deberíamos fabricar armadura.",
+    "answer": [
+     "We",
+     "should",
+     "craft",
+     "armor."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I",
+    "after": "with you.",
+    "options": [
+     "agree",
+     "build",
+     "cave"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da tu opinión",
+    "prompt": "Expresa una opinión: ______ we should craft armor.",
+    "accept": [
+     "i think",
+     "i believe that",
+     "in my opinion"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Let's build a shelter.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Haz una sugerencia",
+    "say": "Why don't we explore the cave?",
+    "prompt": "Di la sugerencia en voz alta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Está anocheciendo en el servidor y tu compañero te pregunta qué hacer antes de que aparezcan los mobs.",
+    "objective": "Da tu opinión, haz una sugerencia y muestra acuerdo o desacuerdo.",
+    "starter": "It's getting dark. What do you think we should do?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/ɪ/",
+    "options": [
+     {
+      "text": "think",
+      "correct": true
+     },
+     {
+      "text": "build",
+      "correct": true
+     },
+     {
+      "text": "if",
+      "correct": true
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "share",
+      "correct": false
+     },
+     {
+      "text": "agree",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I think we should build it.",
+    "prompt": "Escucha y repite los sonidos /ɪ/."
+   }
+  ]
+ }
+]}

@@ -1,0 +1,229 @@
+{"ext":"u8-2","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I think we should build near the river.",
+    "options": [
+     "Creo que deberíamos construir cerca del río.",
+     "Creo que la cueva es demasiado peligrosa.",
+     "En mi opinión, los diamantes son mejores."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "think",
+    "options": [
+     "thunk",
+     "think",
+     "thing",
+     "tink"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Why do you prefer building at night?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Because mobs teach us to fight.",
+     "Yesterday I mined a lot of coal.",
+     "We found a village and traded with a villager."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "In my opinion",
+      "es": "En mi opinión"
+     },
+     {
+      "en": "I believe",
+      "es": "Creo"
+     },
+     {
+      "en": "I prefer",
+      "es": "Prefiero"
+     },
+     {
+      "en": "Let me explain",
+      "es": "Déjame explicar"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I believe the cave is too dangerous.",
+    "options": [
+     "Creo que la cueva es demasiado peligrosa.",
+     "Creo que la cueva es muy bonita.",
+     "En mi opinión, la cueva es segura."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las frases para explicar ideas",
+    "options": [
+     {
+      "text": "I think",
+      "correct": true
+     },
+     {
+      "text": "In my opinion",
+      "correct": true
+     },
+     {
+      "text": "Pig",
+      "correct": false
+     },
+     {
+      "text": "Blue",
+      "correct": false
+     },
+     {
+      "text": "I believe",
+      "correct": true
+     },
+     {
+      "text": "Sword",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Creo que deberíamos construir cerca del río.",
+    "answer": [
+     "I",
+     "think",
+     "we",
+     "should",
+     "build",
+     "near",
+     "the",
+     "river."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "We need torches because creepers",
+    "after": "in the dark.",
+    "options": [
+     "explode",
+     "sleep",
+     "swim"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da tu opinión",
+    "prompt": "Empieza tu opinión: ¿cómo dices \"Creo que...\" en inglés?",
+    "accept": [
+     "i think",
+     "in my opinion",
+     "i believe"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "In my opinion, diamonds are better than iron.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Explica tu plan",
+    "say": "Let me explain why this plan works.",
+    "prompt": "Di la frase con seguridad."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Tu equipo discute dónde construir la base en el servidor de Minecraft.",
+    "objective": "Da tu opinión usando \"I think\" o \"In my opinion\" y explica por qué.",
+    "starter": "Where should we build our base?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/th/",
+    "options": [
+     {
+      "text": "think",
+      "correct": true
+     },
+     {
+      "text": "the",
+      "correct": true
+     },
+     {
+      "text": "river",
+      "correct": false
+     },
+     {
+      "text": "than",
+      "correct": true
+     },
+     {
+      "text": "coal",
+      "correct": false
+     },
+     {
+      "text": "cave",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I think the diamonds are better than iron.",
+    "prompt": "Escucha y repite los sonidos /th/."
+   }
+  ]
+ }
+]}

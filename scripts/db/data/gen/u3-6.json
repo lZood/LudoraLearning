@@ -1,0 +1,225 @@
+{"ext":"u3-6","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I have a sword",
+    "options": [
+     "Tengo una espada",
+     "Veo un creeper",
+     "Me gustan los diamantes"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "sword",
+    "options": [
+     "sward",
+     "sword",
+     "swurd",
+     "torch"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "I see a creeper",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "Let's build a house!",
+     "Good morning",
+     "My name is Steve"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "sword",
+      "es": "espada"
+     },
+     {
+      "en": "pickaxe",
+      "es": "pico"
+     },
+     {
+      "en": "torch",
+      "es": "antorcha"
+     },
+     {
+      "en": "block",
+      "es": "bloque"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I like diamonds",
+    "options": [
+     "Me gustan los diamantes",
+     "Tengo una espada",
+     "Veo un creeper"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo los animales",
+    "options": [
+     {
+      "text": "pig",
+      "correct": true
+     },
+     {
+      "text": "cow",
+      "correct": true
+     },
+     {
+      "text": "sword",
+      "correct": false
+     },
+     {
+      "text": "torch",
+      "correct": false
+     },
+     {
+      "text": "creeper",
+      "correct": true
+     },
+     {
+      "text": "block",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Tengo una espada.",
+    "answer": [
+     "I",
+     "have",
+     "a",
+     "sword"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I see a",
+    "after": ".",
+    "options": [
+     "creeper",
+     "morning",
+     "house"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe lo que te gusta",
+    "prompt": "What do you like? — I like ______",
+    "accept": [
+     "i like diamonds",
+     "i like",
+     "like diamonds"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I have a sword",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Avisa del peligro",
+    "say": "I see a creeper",
+    "prompt": "Di: I see a creeper."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás explorando una cueva con un amigo en el servidor de Minecraft.",
+    "objective": "Saluda, di que tienes una espada y propón construir una casa.",
+    "starter": "Good morning! I see a zombie. What do you have?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/s/",
+    "options": [
+     {
+      "text": "sword",
+      "correct": true
+     },
+     {
+      "text": "see",
+      "correct": true
+     },
+     {
+      "text": "house",
+      "correct": true
+     },
+     {
+      "text": "pig",
+      "correct": false
+     },
+     {
+      "text": "block",
+      "correct": false
+     },
+     {
+      "text": "torch",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "I see a sword in the house",
+    "prompt": "Escucha y repite los sonidos /s/."
+   }
+  ]
+ }
+]}

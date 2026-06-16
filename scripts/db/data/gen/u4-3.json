@@ -1,0 +1,226 @@
+{"ext":"u4-3","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Turn left",
+    "options": [
+     "Gira a la izquierda",
+     "Gira a la derecha",
+     "Sigue derecho"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "Bridge",
+    "options": [
+     "Brij",
+     "Bridge",
+     "Bruge",
+     "River"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "First go straight, then turn right.",
+    "prompt": "Elige la traducción correcta",
+    "options": [
+     "Primero ve recto, luego gira a la derecha.",
+     "Primero gira a la izquierda, luego ve recto.",
+     "Primero cruza el puente, luego gira."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Go straight ahead",
+      "es": "Sigue derecho"
+     },
+     {
+      "en": "Turn left",
+      "es": "Gira a la izquierda"
+     },
+     {
+      "en": "Across the bridge",
+      "es": "Al otro lado del puente"
+     },
+     {
+      "en": "Near the river",
+      "es": "Cerca del río"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The cave is farther than the village.",
+    "options": [
+     "La cueva está más lejos que la aldea.",
+     "La cueva está más cerca que la aldea.",
+     "La aldea está detrás de la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las direcciones",
+    "options": [
+     {
+      "text": "Turn right",
+      "correct": true
+     },
+     {
+      "text": "Go straight ahead",
+      "correct": true
+     },
+     {
+      "text": "Across the bridge",
+      "correct": true
+     },
+     {
+      "text": "Red apple",
+      "correct": false
+     },
+     {
+      "text": "My name is Steve",
+      "correct": false
+     },
+     {
+      "text": "Good morning",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Caminamos al otro lado del puente.",
+    "answer": [
+     "We",
+     "walked",
+     "across",
+     "the",
+     "bridge"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Turn",
+    "after": "at the well.",
+    "options": [
+     "left",
+     "river",
+     "behind"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da una indicación",
+    "prompt": "¿Cómo dices \"Gira a la derecha\" en inglés?",
+    "accept": [
+     "turn right",
+     "turn right.",
+     "on the right"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Go straight ahead",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Da una indicación",
+    "say": "Turn left because the lava is dangerous",
+    "prompt": "Di la frase en inglés."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano perdido en el servidor te pregunta cómo llegar a la aldea.",
+    "objective": "Dale indicaciones: ve recto, gira a la derecha y cruza el puente.",
+    "starter": "Excuse me! How do I get to the village?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/r/",
+    "options": [
+     {
+      "text": "Right",
+      "correct": true
+     },
+     {
+      "text": "River",
+      "correct": true
+     },
+     {
+      "text": "Bridge",
+      "correct": true
+     },
+     {
+      "text": "Left",
+      "correct": false
+     },
+     {
+      "text": "Cave",
+      "correct": false
+     },
+     {
+      "text": "Village",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Turn right across the river bridge",
+    "prompt": "Escucha y repite los sonidos /r/."
+   }
+  ]
+ }
+]}

@@ -1,0 +1,226 @@
+{"ext":"u2-1","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I am eight years old.",
+    "options": [
+     "Tengo ocho anos",
+     "Tengo diez anos",
+     "Soy de Mexico"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "Quien lo dijo?",
+    "target": "village",
+    "options": [
+     "village",
+     "villach",
+     "villege",
+     "diamond"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversacion",
+    "audio": "Where are you from?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "I am from Mexico.",
+     "I am eight years old.",
+     "I like to mine."
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I am Alex",
+      "es": "Yo soy Alex"
+     },
+     {
+      "en": "How old are you?",
+      "es": "Cuantos anos tienes?"
+     },
+     {
+      "en": "I am from the forest",
+      "es": "Soy del bosque"
+     },
+     {
+      "en": "I like to build",
+      "es": "Me gusta construir"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "What do you like?",
+    "options": [
+     "Que te gusta?",
+     "Cuantos anos tienes?",
+     "De donde eres?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo los numeros",
+    "options": [
+     {
+      "text": "seven",
+      "correct": true
+     },
+     {
+      "text": "nine",
+      "correct": true
+     },
+     {
+      "text": "diamonds",
+      "correct": false
+     },
+     {
+      "text": "forest",
+      "correct": false
+     },
+     {
+      "text": "ten",
+      "correct": true
+     },
+     {
+      "text": "village",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oracion",
+    "prompt": "Soy de Mexico.",
+    "answer": [
+     "I",
+     "am",
+     "from",
+     "Mexico"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I like to",
+    "after": ".",
+    "options": [
+     "mine",
+     "old",
+     "from"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde sobre ti",
+    "prompt": "How old are you? — I am ______ years old",
+    "accept": [
+     "i am seven years old",
+     "i am nine years old",
+     "i am ten years old",
+     "i am eight years old"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite despues del personaje",
+    "say": "Hi, I am Alex.",
+    "prompt": "Escucha y repitelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Habla de ti",
+    "say": "I am from the village.",
+    "prompt": "Di de donde eres."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequena conversacion",
+    "scenario": "Un aldeano te conoce en la plaza de la aldea de Minecraft.",
+    "objective": "Saluda, di tu nombre, cuantos anos tienes y de donde eres.",
+    "starter": "Hello! What is your name? How old are you?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/m/",
+    "options": [
+     {
+      "text": "Mexico",
+      "correct": true
+     },
+     {
+      "text": "mine",
+      "correct": true
+     },
+     {
+      "text": "village",
+      "correct": false
+     },
+     {
+      "text": "diamonds",
+      "correct": true
+     },
+     {
+      "text": "forest",
+      "correct": false
+     },
+     {
+      "text": "seven",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "Mexico, mine, diamonds",
+    "prompt": "Escucha y repite los sonidos /m/."
+   }
+  ]
+ }
+]}

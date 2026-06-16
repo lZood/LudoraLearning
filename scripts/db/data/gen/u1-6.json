@@ -1,0 +1,227 @@
+{"ext":"u1-6","lessons":[
+ {
+  "skill": "listening",
+  "title": "Listening",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Where is the chest?",
+    "options": [
+     "¿Dónde está el cofre?",
+     "¿Dónde está la oveja?",
+     "¿Dónde está la vaca?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién lo dijo?",
+    "target": "under",
+    "options": [
+     "onder",
+     "under",
+     "unter",
+     "over"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Completa la conversación",
+    "audio": "Where is the sheep?",
+    "prompt": "Elige la respuesta correcta",
+    "options": [
+     "It is next to the tree.",
+     "It is here.",
+     "Where is the cow?"
+    ],
+    "correct": 0
+   }
+  ]
+ },
+ {
+  "skill": "reading",
+  "title": "Reading",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "in",
+      "es": "dentro de / en"
+     },
+     {
+      "en": "on",
+      "es": "encima de / sobre"
+     },
+     {
+      "en": "under",
+      "es": "debajo de"
+     },
+     {
+      "en": "next to",
+      "es": "al lado de"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The cat is on the bed",
+    "options": [
+     "El gato está sobre la cama.",
+     "El gato está debajo de la cama.",
+     "El gato está al lado de la cama."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de ubicación",
+    "options": [
+     {
+      "text": "in",
+      "correct": true
+     },
+     {
+      "text": "under",
+      "correct": true
+     },
+     {
+      "text": "next to",
+      "correct": true
+     },
+     {
+      "text": "Hello",
+      "correct": false
+     },
+     {
+      "text": "Blue",
+      "correct": false
+     },
+     {
+      "text": "Pig",
+      "correct": false
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "writing",
+  "title": "Writing",
+  "xp": 15,
+  "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "El diamante está en el cofre.",
+    "answer": [
+     "The",
+     "diamond",
+     "is",
+     "in",
+     "the",
+     "chest."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "The cave is",
+    "after": "the mountain.",
+    "options": [
+     "under",
+     "on",
+     "next to"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "free_text",
+    "instruction": "Responde en inglés",
+    "prompt": "Where is the cow? — It is ______ the house.",
+    "accept": [
+     "in",
+     "it is in the house",
+     "in the house"
+    ]
+   }
+  ]
+ },
+ {
+  "skill": "speaking",
+  "title": "Speaking",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The torch is next to the door.",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Pregunta por la ubicación",
+    "say": "Where is the chest?",
+    "prompt": "Di: Where is the chest?"
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás perdido en una aldea de Minecraft y un aldeano te ayuda a encontrar tus cosas.",
+    "objective": "Pregunta dónde está el cofre y di dónde están la oveja y el cerdo usando here, there y next to.",
+    "starter": "Hello! Where is the chest?",
+    "minTurns": 3
+   }
+  ]
+ },
+ {
+  "skill": "pronunciation",
+  "title": "Pronunciation",
+  "xp": 20,
+  "exercises": [
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras con el Secret Sound",
+    "sound": "/h/",
+    "options": [
+     {
+      "text": "here",
+      "correct": true
+     },
+     {
+      "text": "house",
+      "correct": true
+     },
+     {
+      "text": "here it is",
+      "correct": true
+     },
+     {
+      "text": "under",
+      "correct": false
+     },
+     {
+      "text": "on",
+      "correct": false
+     },
+     {
+      "text": "next to",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Secret Sound Challenge",
+    "say": "It is here. The pig is here.",
+    "prompt": "Escucha y repite los sonidos /h/."
+   }
+  ]
+ }
+]}
