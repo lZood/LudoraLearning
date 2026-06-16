@@ -331,19 +331,27 @@ function SpeakCore({ instruction, model, prompt, verify, correctText, mode, froz
         let rec: any;
         try { rec = new (getSR())(); } catch { setListening(false); return; }
         recRef.current = rec;
-        rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 5; rec.continuous = false;
+        rec.lang = 'en-US'; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
         setHeard(''); setListening(true);
         let resolved = false;
         let watchdog = 0;
         const clearW = () => { if (watchdog) { clearTimeout(watchdog); watchdog = 0; } };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         rec.onresult = (event: any) => {
-            const alts: string[] = [];
-            for (let i = 0; i < event.results.length; i++) for (let j = 0; j < event.results[i].length; j++) alts.push(event.results[i][j].transcript);
-            resolved = true; clearW();
-            setHeard(alts[0] || '');
-            setListening(false);
-            onDone({ correct: verify(alts), correctText });
+            // Resultados parciales: muestra las palabras mientras el alumno habla (estilo Duolingo).
+            let interim = ''; const finalAlts: string[] = [];
+            for (let i = event.resultIndex ?? 0; i < event.results.length; i++) {
+                const res = event.results[i];
+                if (res.isFinal) { for (let j = 0; j < res.length; j++) finalAlts.push(res[j].transcript); }
+                else interim += res[0].transcript;
+            }
+            if (interim) setHeard(interim);
+            if (finalAlts.length) {
+                resolved = true; clearW();
+                setHeard(finalAlts[0] || interim);
+                setListening(false);
+                onDone({ correct: verify(finalAlts), correctText });
+            }
         };
         rec.onerror = () => { clearW(); setListening(false); };
         rec.onend = () => { clearW(); setListening(false); };

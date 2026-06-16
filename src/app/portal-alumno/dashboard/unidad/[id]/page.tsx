@@ -50,13 +50,29 @@ export default function UnitViewPage() {
   const [activities, setActivities] = useState<Act[]>([]);
   const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
   const activeRef = useRef<HTMLDivElement>(null);
+  const [showHeader, setShowHeader] = useState(true);
+  const lastY = useRef(0);
 
-  // Al volver al mapa (tras completar una actividad), enfoca la siguiente pendiente.
+  // Al cargar el mapa: empieza ARRIBA y luego baja con scroll suave hasta la actividad actual
+  // (se ve el recorrido del avance, no aparece ya posicionado).
   useEffect(() => {
     if (loading) return;
-    const t = setTimeout(() => activeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 450);
+    try { window.scrollTo({ top: 0, behavior: 'auto' }); } catch { /* noop */ }
+    const t = setTimeout(() => activeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 700);
     return () => clearTimeout(t);
-  }, [loading, currentActivityIndex]);
+  }, [loading]);
+
+  // El header se minimiza al bajar y reaparece al subir.
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      if (y < 48 || y < lastY.current - 2) setShowHeader(true);
+      else if (y > lastY.current + 6) setShowHeader(false);
+      lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -137,14 +153,15 @@ export default function UnitViewPage() {
     >
       <MobileSubHeader hideNav={true} />
 
-      <div className="md:hidden sticky top-[52px] left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-3 flex items-center gap-4 shadow-sm">
-        <Link href="/portal-alumno/dashboard/cursos" className="p-1 hover:bg-gray-100 rounded-full transition-colors active:scale-90">
-          <ArrowLeft className="w-6 h-6 text-black" />
+      <div className={`md:hidden sticky top-[52px] left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 px-4 py-3 flex items-center justify-between gap-3 shadow-sm transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-[200%]'}`}>
+        <Link href="/portal-alumno/dashboard/cursos" className="flex items-center gap-2 min-w-0 active:scale-95">
+          <span className="p-1 hover:bg-gray-100 rounded-full transition-colors"><ArrowLeft className="w-6 h-6 text-black" /></span>
+          <span className="flex flex-col min-w-0">
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mb-0.5">{levelTitle.split(':')[0]}</span>
+            <span className="text-sm font-black text-black leading-tight truncate max-w-[180px]">Unidad {unitNum} - {unitTitle}</span>
+          </span>
         </Link>
-        <div className="flex flex-col">
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest leading-none mb-0.5">{levelTitle.split(':')[0]}</span>
-          <h1 className="text-sm font-black text-black leading-tight truncate max-w-[240px]">Unidad {unitNum} - {unitTitle}</h1>
-        </div>
+        <Link href="/portal-alumno/dashboard" className="shrink-0 font-black text-[#632EB0] text-lg tracking-tight active:scale-95">Ludora</Link>
       </div>
 
       <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 lg:gap-16 items-start relative pt-8">
@@ -218,11 +235,19 @@ export default function UnitViewPage() {
                     ) : (
                       <Link href={hrefFor(activity, id)} className="relative flex items-center justify-center flex-shrink-0">
                         {isActive && <div className="absolute inset-[-8px] border-2 border-[#632EB0]/10 rounded-full z-0 animate-pulse"></div>}
-                        <div className={`w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 transition-all border-b-4 ${
-                          isCompleted ? 'bg-[#88e04f] border-[#6dc536]' : 'bg-[#632EB0] border-[#4E248B]'
-                        } active:scale-95 cursor-pointer hover:scale-105`}>
+                        {isActive && !isCompleted && (
+                          <motion.div initial={{ opacity: 0, y: 6, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.35, type: 'spring', stiffness: 300 }}
+                            className="absolute -top-7 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap bg-[#632EB0] text-white text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-lg">¡Aquí vas! ✨</motion.div>
+                        )}
+                        <motion.div
+                          initial={isActive ? { scale: 0.5 } : false}
+                          animate={isActive ? { scale: [0.5, 1.18, 1] } : {}}
+                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          className={`w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 border-b-4 ${
+                            isCompleted ? 'bg-[#88e04f] border-[#6dc536]' : 'bg-[#632EB0] border-[#4E248B]'
+                          } active:scale-95 cursor-pointer hover:scale-105`}>
                           {isCompleted ? <Check className="w-8 h-8 text-white" strokeWidth={3} /> : <ActIcon className="w-7 h-7 md:w-8 md:h-8 text-white" />}
-                        </div>
+                        </motion.div>
                       </Link>
                     )}
 
