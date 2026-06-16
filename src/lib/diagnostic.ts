@@ -84,20 +84,23 @@ export function bandTitle(band: number): string {
     return band <= 1 ? 'Iniciación Inmersiva' : band <= 2 ? 'Básico Funcional' : band <= 4 ? 'Aventurero Independiente' : band <= 6 ? 'Explorador Fluido' : 'Maestro Aventurero';
 }
 
-// Tipos de ítem que el reproductor diagnóstico sabe renderizar (v1: receptivos + construcción).
+// Tipos de ítem que el reproductor diagnóstico sabe renderizar (receptivos + construcción + habla).
 // 'who_said_it' se excluye a propósito: su `target` ES la respuesta en texto y no puede renderizarse
 // sin exponerla al cliente (no hay forma segura con el allowlist de sanitizeContent).
-export const DIAGNOSTIC_TYPES = ['text_mc', 'audio_mc', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build'];
-const ROTATION: Skill[] = ['listening', 'reading', 'writing'];
+export const DIAGNOSTIC_TYPES = ['text_mc', 'audio_mc', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build', 'speak', 'speak_repeat'];
+const SPEAK_TYPES = ['speak', 'speak_repeat']; // requieren reconocimiento de voz del navegador
+const ROTATION_BASE: Skill[] = ['listening', 'reading', 'writing'];
 
 type Item = { id: string; skill: string; difficulty: number; type: string; content: Content };
 
 // Elige el siguiente ítem no usado: prioriza la destreza objetivo (round-robin) y la
 // dificultad más cercana al theta actual (máxima información), con jitter anti-exposición.
-export function pickNext(items: Item[], theta: number, usedIds: Set<string>, answered: number): Item | null {
-    const pool = items.filter((it) => !usedIds.has(it.id) && DIAGNOSTIC_TYPES.includes(it.type));
+export function pickNext(items: Item[], theta: number, usedIds: Set<string>, answered: number, allowSpeaking = false): Item | null {
+    // Excluye los de habla si el navegador no soporta reconocimiento de voz (caps.speech del cliente).
+    const pool = items.filter((it) => !usedIds.has(it.id) && DIAGNOSTIC_TYPES.includes(it.type) && (allowSpeaking || !SPEAK_TYPES.includes(it.type)));
     if (!pool.length) return null;
-    const targetSkill = ROTATION[answered % ROTATION.length];
+    const rotation: Skill[] = allowSpeaking ? [...ROTATION_BASE, 'speaking'] : ROTATION_BASE;
+    const targetSkill = rotation[answered % rotation.length];
     const preferred = pool.filter((it) => it.skill === targetSkill);
     const cand = preferred.length ? preferred : pool;
     cand.sort((a, b) => Math.abs(a.difficulty - theta) - Math.abs(b.difficulty - theta));

@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const history: { id: string; raw: unknown }[] = Array.isArray(body.history) ? body.history.slice(0, 40) : [];
         const theta0 = normTheta0(body.theta0);
+        const allowSpeaking = !!(body.caps && body.caps.speech); // solo sirve speaking si el cliente tiene SR
 
         const { data: items, error } = await admin.from('diagnostic_items').select('id, skill, difficulty, type, content');
         if (error) throw error;
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 
         const theta = estimateTheta(theta0, graded);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const next = pickNext(items as any[], theta, used, graded.length);
+        const next = pickNext(items as any[], theta, used, graded.length, allowSpeaking);
         if (!next) return NextResponse.json({ done: true, count: graded.length, lastCorrect });
 
         return NextResponse.json({

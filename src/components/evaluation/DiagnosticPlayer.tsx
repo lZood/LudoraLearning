@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Volume2, Loader2, Check, RotateCcw, X } from 'lucide-react';
+import { Volume2, Loader2, Check, RotateCcw, X, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Mascot from '@/components/lesson/Mascot';
 import { playAudio, loadAudioManifest, stopAudio, playSfx } from '@/lib/lessonAudio';
+import { getSR } from '@/lib/speech';
 
 const say = (t: string) => playAudio(t, 'narrator'); // siempre inglés con voz narradora
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
@@ -40,7 +41,8 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }, []);
 
     async function callNext() {
-        const r = await fetch('/api/placement/next', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theta0, history: historyRef.current }) });
+        // caps.speech: el servidor solo sirve ítems de habla si el navegador soporta reconocimiento de voz.
+        const r = await fetch('/api/placement/next', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theta0, history: historyRef.current, caps: { speech: !!getSR() } }) });
         if (!r.ok) throw new Error('http ' + r.status);
         return r.json();
     }
@@ -55,9 +57,11 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
             setItem(d.item); setCount(d.count); setLoading(false); autoPlay(d.item);
         } catch { setError(true); setLoading(false); }
     }
-    async function submit() {
-        if (!canSubmit || !item || submitting) return;
-        historyRef.current = [...historyRef.current, { id: item.id, raw }];
+    async function submit(rawOverride?: unknown) {
+        const useRaw = rawOverride !== undefined ? rawOverride : raw;
+        if (rawOverride === undefined && !canSubmit) return;
+        if (!item || submitting) return;
+        historyRef.current = [...historyRef.current, { id: item.id, raw: useRaw }];
         setSubmitting(true); stopAudio();
         try {
             const d = await callNext();
@@ -92,7 +96,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }
     const e = item.content;
     const frozen = feedback !== null;
-    const canSubmit = raw !== null && !(Array.isArray(raw) && raw.length === 0);
+    const canSubmit = raw !== null && !(Array.isArray(raw) && raw.length === 0) && !(typeof raw === 'string' && raw.trim() === '');
     const optClass = (i: number) => {
         const selected = raw === i;
         if (frozen && selected) return feedback!.correct ? 'border-[#58a700] bg-[#d7ffb8] text-[#3a6b00]' : 'border-red-400 bg-red-50 text-red-600';
@@ -182,6 +186,11 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                     {(item.type === 'word_bank' || item.type === 'listen_build') && (
                         <TileBuilder key={item.id} item={item} frozen={frozen} onChange={setRaw} />
                     )}
+
+                    {/* speak / speak_repeat: leer en voz alta, verificado por el navegador (sin IA) */}
+                    {(item.type === 'speak' || item.type === 'speak_repeat') && (
+                        <SpeakCard key={item.id} text={e.say || ''} frozen={frozen} value={typeof raw === 'string' ? raw : ''} onResult={(t) => setRaw(t)} onSkip={() => submit('')} />
+                    )}
                 </motion.div>
             </AnimatePresence>
 
@@ -206,7 +215,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                     ) : (
                         <motion.div key="submit" className="border-t border-gray-100 bg-white px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                             <div className="max-w-xl mx-auto">
-                                <button onClick={submit} disabled={!canSubmit || submitting}
+                                <button onClick={() => submit()} disabled={!canSubmit || submitting}
                                     className={`w-full py-4 rounded-2xl font-black uppercase tracking-wide transition-all active:scale-[0.98] inline-flex items-center justify-center gap-2 ${!canSubmit || submitting ? 'bg-gray-100 text-gray-300' : 'bg-[#88e04f] text-[#1a1a1a] shadow-[0_4px_0_#6dc536]'}`}>
                                     {submitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Comprobar'}
                                 </button>
@@ -235,6 +244,38 @@ function TileBuilder({ item, frozen, onChange }: { item: Item; frozen: boolean; 
             <div className="flex flex-wrap gap-2">
                 {tiles.map((t) => <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => { say(t.w); set([...built, t.id]); }} className={`px-3 py-2 rounded-xl border-2 font-black ${used.has(t.id) ? 'border-gray-100 text-gray-200' : 'border-gray-200 text-gray-800'}`}>{t.w}</button>)}
             </div>
+        </div>
+    );
+}
+
+// Ítem de HABLA: muestra la frase en inglés, deja oírla, y la verifica con el reconocimiento
+// de voz del navegador (sin IA). El transcript se envía como `raw` y el servidor lo califica.
+function SpeakCard({ text, frozen, value, onResult, onSkip }: { text: string; frozen: boolean; value: string; onResult: (t: string) => void; onSkip: () => void }) {
+    const [listening, setListening] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recRef = useRef<any>(null);
+    useEffect(() => () => { try { recRef.current?.abort?.(); } catch { /* noop */ } }, []);
+    const start = () => {
+        const SR = getSR(); if (!SR || listening || frozen) return;
+        const rec = new SR(); recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1; rec.continuous = false;
+        setListening(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rec.onresult = (ev: any) => { const t = ev.results?.[0]?.[0]?.transcript || ''; setListening(false); if (t) onResult(t); };
+        rec.onerror = () => setListening(false);
+        rec.onend = () => setListening(false);
+        try { rec.start(); } catch { setListening(false); }
+    };
+    return (
+        <div className="flex flex-col items-center gap-5 text-center pt-2">
+            <button onClick={() => say(text)} className="inline-flex items-center gap-2 text-[#632EB0] font-bold"><Volume2 className="w-5 h-5" /> Escuchar</button>
+            <p className="text-3xl font-black text-gray-900 leading-snug">{text}</p>
+            <button onClick={start} disabled={frozen || listening}
+                className={`w-24 h-24 rounded-full flex items-center justify-center text-white shadow-lg disabled:opacity-60 ${listening ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0] active:scale-95'}`}>
+                <Mic className="w-10 h-10" />
+            </button>
+            <p className="text-xs font-bold text-gray-500">{listening ? 'Escuchando… habla en inglés' : value ? 'Toca para repetir' : 'Toca y lee la frase en voz alta'}</p>
+            {value && <p className="text-sm text-gray-600">Dijiste: <span className="font-bold">«{value}»</span></p>}
+            {!frozen && <button onClick={onSkip} className="text-xs font-bold text-gray-400 underline">No puedo hablar ahora</button>}
         </div>
     );
 }
