@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { Volume2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
-import { playAudio, loadAudioManifest } from '@/lib/lessonAudio';
+import { playAudio, loadAudioManifest, playPhonemeSound } from '@/lib/lessonAudio';
 import { PHONEMES, PH_GROUPS, type Phoneme } from '@/lib/phonemes';
 
-const say = (w: string) => playAudio(w, 'narrator');
+const say = (w: string) => playAudio(w, 'narrator');           // palabra completa
 
 function Highlighted({ word, part, className }: { word: string; part?: string; className: string }) {
     if (!part) return <>{word}</>;
@@ -24,7 +24,7 @@ export default function LetrasPage() {
     const [sel, setSel] = useState<Phoneme | null>(null);
     useEffect(() => { loadAudioManifest(); }, []);
 
-    const open = (p: Phoneme) => { say(p.keyword); setSel(p); };
+    const open = (p: Phoneme) => { playPhonemeSound(p.ipa, p.keyword); setSel(p); }; // tap = SONIDO del símbolo
 
     return (
         <div className="flex flex-col w-full pb-32 bg-white">
@@ -100,13 +100,16 @@ export default function LetrasPage() {
                                             <button onClick={() => setSel(null)} className="p-2 rounded-full hover:bg-gray-100 text-gray-400"><X className="w-5 h-5" /></button>
                                         </div>
 
-                                        <button onClick={() => say(sel.keyword)} className="w-full flex items-center justify-center gap-3 bg-[#632EB0] text-white font-black text-xl py-4 rounded-2xl active:scale-[0.98] mb-5">
-                                            <Volume2 className="w-6 h-6" />
-                                            <span><Highlighted word={sel.keyword} part={sel.keywordHighlight} className="underline decoration-white/60 decoration-2" /></span>
+                                        {/* PROTAGONISTA: el sonido del símbolo */}
+                                        <button onClick={() => playPhonemeSound(sel.ipa, sel.keyword)} className="w-full flex items-center justify-center gap-3 bg-[#632EB0] text-white font-black text-2xl py-5 rounded-2xl active:scale-[0.98] mb-4">
+                                            <Volume2 className="w-7 h-7" /> Sonido «{sel.ipa}»
                                         </button>
 
-                                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-wide mb-2">Ejemplos (toca para oír)</p>
+                                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-wide mb-2">Palabra y ejemplos (toca para oír)</p>
                                         <div className="flex flex-wrap gap-2">
+                                            <button onClick={() => say(sel.keyword)} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border-2 border-[#632EB0]/40 bg-purple-50 font-black text-[#632EB0] active:scale-95">
+                                                <Volume2 className="w-4 h-4" /> <Highlighted word={sel.keyword} part={sel.keywordHighlight} className="underline decoration-[#632EB0]/50 decoration-2" />
+                                            </button>
                                             {sel.examples.map((w) => (
                                                 <button key={w} onClick={() => say(w)} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border-2 border-gray-200 font-bold text-gray-800 active:scale-95 hover:border-[#632EB0]">
                                                     <Volume2 className="w-4 h-4 text-gray-400" /> {w}

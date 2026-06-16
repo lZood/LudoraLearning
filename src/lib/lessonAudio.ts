@@ -89,6 +89,22 @@ export function playAudio(text: string, role?: string) {
     ttsSpeak(text, r);
 }
 
+// Reproduce el SONIDO aislado de un fonema (clave `sound|<ipa>`). Si no hay clip,
+// cae a la palabra clave (para no dejar al usuario sin audio).
+export function playPhonemeSound(ipa: string, fallbackWord?: string) {
+    if (!manifest) { loadAudioManifest().then(() => playPhonemeSound(ipa, fallbackWord)); return; }
+    const url = manifest[`sound|${ipa}`];
+    if (url) {
+        try {
+            if (current) current.pause();
+            current = new Audio(url);
+            current.play().catch(() => { if (fallbackWord) playAudio(fallbackWord, 'narrator'); });
+            return;
+        } catch { /* fall through */ }
+    }
+    if (fallbackWord) playAudio(fallbackWord, 'narrator');
+}
+
 // Detiene cualquier audio en curso (TTS o MP3). Útil al cambiar de ejercicio/desmontar.
 export function stopAudio() {
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
