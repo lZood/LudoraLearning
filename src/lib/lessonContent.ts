@@ -67,6 +67,13 @@ export interface ExSpeak {             // Repeat After Me / Say X / Secret Sound
     say: string;                       // frase a decir/repetir (inglés)
     prompt?: string;                   // instrucción en español
 }
+export interface ExListenBuild {       // Escucha y arma la frase con fichas (sin teclado)
+    type: 'listen_build';
+    instruction?: string;
+    audio: string;                     // frase en inglés que se escucha (audio/TTS)
+    answer: string[];                  // orden correcto de las palabras (fichas)
+    prompt?: string;                   // ayuda/traducción en español, opcional
+}
 export interface ExConversation {      // Small Conversation (con IA + voz)
     type: 'conversation';
     instruction?: string;
@@ -78,7 +85,7 @@ export interface ExConversation {      // Small Conversation (con IA + voz)
 
 export type Exercise =
     | ExTextMC | ExAudioMC | ExWhoSaidIt | ExMatchPairs | ExMultiSelect
-    | ExWordBank | ExFillBlank | ExFreeText | ExSpeak | ExConversation;
+    | ExWordBank | ExFillBlank | ExFreeText | ExSpeak | ExConversation | ExListenBuild;
 
 export interface LessonContent {
     kind: 'lesson';

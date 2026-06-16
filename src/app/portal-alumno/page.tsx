@@ -1,23 +1,47 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 import LoginForm from '@/components/portal-alumno/auth/LoginForm';
 import RegisterForm from '@/components/portal-alumno/auth/RegisterForm';
 import AuthLayout from '@/components/portal-alumno/auth/AuthLayout';
 import EmailVerificationView from '@/components/portal-alumno/auth/EmailVerificationView';
+import { createClient } from '@/utils/supabase/client';
+import { getAuthDestination } from '@/lib/authDestination';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PortalAlumnoPage() {
     // Mode can be 'login', 'register', or 'verification'
     const [mode, setMode] = useState<'login' | 'register' | 'verification'>('login');
+    // Mientras comprobamos si ya hay sesión, no mostramos el formulario (evita parpadeo).
+    const [checkingSession, setCheckingSession] = useState(true);
+    const router = useRouter();
 
-    // ?mode=register abre el formulario de registro (lo usan los CTA de pricing).
+    // Sesión cacheada: si el usuario ya inició sesión antes, lo llevamos directo a su
+    // dashboard (o a la evaluación si aún no la hizo) en vez de mostrar el login.
     useEffect(() => {
-        if (typeof window === 'undefined') return;
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('mode') === 'register') {
-            setMode('register');
-        }
+        const supabase = createClient();
+        (async () => {
+            const params = new URLSearchParams(window.location.search);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const dest = await getAuthDestination(supabase, user.id);
+                router.replace(dest);
+                return; // dejamos el loader puesto durante la navegación
+            }
+            if (params.get('mode') === 'register') setMode('register');
+            setCheckingSession(false);
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    if (checkingSession) {
+        return (
+            <div className="min-h-screen bg-white flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-[#632EB0] animate-spin" />
+            </div>
+        );
+    }
     const [userEmail, setUserEmail] = useState('');
     // Password vive solo en memoria del cliente durante el flujo de registro,
     // para poder pedir el reenvío del correo de confirmación. Se descarta

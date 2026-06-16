@@ -6,22 +6,19 @@ import { useParams, useRouter } from 'next/navigation';
 import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
+import { playAudio, playSfx, loadAudioManifest } from '@/lib/lessonAudio';
 import type { LessonContent, Exercise } from '@/lib/lessonContent';
 
 type Result = { correct: boolean; correctText?: string };
+type Character = 'granjerita' | 'apicultor';
 
 // ───────────────────────── helpers ─────────────────────────
-function speak(text: string) {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    try {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text.trim());
-        u.lang = 'en-US'; u.rate = 0.92;
-        const v = window.speechSynthesis.getVoices().find((vo) => vo.lang.startsWith('en'));
-        if (v) u.voice = v;
-        window.speechSynthesis.speak(u);
-    } catch { /* noop */ }
-}
+// Reproduce inglés (audio pre-generado de ElevenLabs o TTS del navegador).
+function speak(text: string, role?: string) { playAudio(text, role ?? 'narrator'); }
+// Personaje según la destreza (le da "dueño" a cada lección).
+const charForSkill = (skill?: string): Character =>
+    skill === 'listening' || skill === 'speaking' || skill === 'pronunciation' ? 'apicultor' : 'granjerita';
+const CharacterCtx = React.createContext<Character>('granjerita');
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 
 // ───────────────────────── shared UI ─────────────────────────
@@ -59,8 +56,21 @@ function FeedbackBar({ correct, correctText, onContinue, isLast }: { correct: bo
 // Cada renderer llama onDone({correct, correctText}) cuando el alumno envía.
 type RProps = { ex: Exercise; frozen: boolean; onDone: (r: Result) => void };
 
+// El personaje presenta el ejercicio con un globo de diálogo (protagonismo).
+function MascotBubble({ text, character, mood = 'curious' }: { text: string; character: Character; mood?: 'curious' | 'happy' | 'sad' }) {
+    return (
+        <div className="flex items-start gap-3 mb-6">
+            <Mascot character={character} mood={mood} className="w-16 h-16 md:w-20 md:h-20 shrink-0 -mt-1" />
+            <div className="relative flex-1 bg-white border-2 border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-[0_2px_0_rgba(0,0,0,0.03)]">
+                <span className="absolute -left-[9px] top-4 w-3.5 h-3.5 bg-white border-l-2 border-b-2 border-gray-100 rotate-45" />
+                <p className="text-lg md:text-xl font-black text-gray-900 leading-snug">{text}</p>
+            </div>
+        </div>
+    );
+}
 function ExHeader({ text }: { text?: string }) {
-    return text ? <h2 className="text-xl md:text-2xl font-black text-gray-900 mb-6">{text}</h2> : null;
+    const character = React.useContext(CharacterCtx);
+    return text ? <MascotBubble text={text} character={character} /> : null;
 }
 function OptionBtn({ label, state, onClick, disabled }: { label: React.ReactNode; state: 'idle' | 'sel'; onClick: () => void; disabled?: boolean }) {
     return (
@@ -100,7 +110,7 @@ function WhoSaidIt({ ex, frozen, onDone }: RProps) {
             <p className="text-sm font-bold text-gray-400 mb-6">Toca cada personaje para escucharlo, luego elige el correcto.</p>
             <div className="grid grid-cols-2 gap-4">
                 {e.options.map((word, i) => (
-                    <button key={i} onClick={() => { speak(word); setSel(i); }} disabled={frozen}
+                    <button key={i} onClick={() => { speak(word, `npc${(i % 3) + 1}`); setSel(i); }} disabled={frozen}
                         className={`flex flex-col items-center gap-2 p-4 rounded-3xl border-2 transition-all ${sel === i ? 'border-[#632EB0] bg-purple-50' : 'border-gray-200 hover:border-gray-300'}`}>
                         <Mascot character="apicultor" mood="curious" className="w-20 h-20" />
                         <Volume2 className={`w-5 h-5 ${sel === i ? 'text-[#632EB0]' : 'text-gray-400'}`} />
@@ -284,6 +294,38 @@ function Speak({ ex, frozen, onDone }: RProps) {
     );
 }
 
+function ListenBuild({ ex, frozen, onDone }: RProps) {
+    const e = ex as { instruction?: string; audio: string; answer: string[]; prompt?: string };
+    const tiles = useRef(shuffle(e.answer.map((w, i) => ({ id: i, w })))).current;
+    const [built, setBuilt] = useState<number[]>([]);
+    const used = new Set(built);
+    useEffect(() => { const t = setTimeout(() => speak(e.audio), 400); return () => clearTimeout(t); }, []); // auto-reproduce al entrar
+    return (
+        <>
+            <ExHeader text={e.instruction || 'Escucha y arma la frase'} />
+            <button onClick={() => speak(e.audio)} className="mb-6 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95">
+                <Volume2 className="w-6 h-6" /> Reproducir
+            </button>
+            {e.prompt && <p className="text-sm font-bold text-gray-400 mb-4">{e.prompt}</p>}
+            <div className="min-h-[60px] border-b-2 border-gray-100 flex flex-wrap gap-2 pb-3 mb-6">
+                {built.map((id) => (
+                    <button key={id} disabled={frozen} onClick={() => setBuilt(built.filter((b) => b !== id))} className="px-3 py-2 rounded-xl bg-[#632EB0] text-white font-black">{tiles.find((t) => t.id === id)!.w}</button>
+                ))}
+            </div>
+            <div className="flex flex-wrap gap-2">
+                {tiles.map((t) => (
+                    <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => setBuilt([...built, t.id])}
+                        className={`px-3 py-2 rounded-xl border-2 font-black ${used.has(t.id) ? 'border-gray-100 text-gray-200' : 'border-gray-200 text-gray-800 bg-white'}`}>{t.w}</button>
+                ))}
+            </div>
+            <Footer label="Comprobar" disabled={built.length !== e.answer.length} onClick={() => {
+                const got = built.map((id) => tiles.find((t) => t.id === id)!.w).join(' ');
+                onDone({ correct: got === e.answer.join(' '), correctText: e.answer.join(' ') });
+            }} />
+        </>
+    );
+}
+
 function Conversation({ ex, frozen, onDone }: RProps) {
     const e = ex as { instruction?: string; scenario: string; objective: string; starter: string; minTurns?: number };
     const minTurns = e.minTurns ?? 3;
@@ -333,6 +375,7 @@ function Renderer(props: RProps) {
         case 'fill_blank': return <FillBlank {...props} />;
         case 'free_text': return <FreeText {...props} />;
         case 'speak': return <Speak {...props} />;
+        case 'listen_build': return <ListenBuild {...props} />;
         case 'conversation': return <Conversation {...props} />;
         default: return null;
     }
@@ -352,6 +395,7 @@ export default function LeccionPage() {
     const [unitExt, setUnitExt] = useState('');
     const [xp, setXp] = useState(10);
     const [exercises, setExercises] = useState<Exercise[]>([]);
+    const [skill, setSkill] = useState<string>('');
     const [idx, setIdx] = useState(0);
     const [result, setResult] = useState<Result | null>(null);
     const [correctCount, setCorrectCount] = useState(0);
@@ -359,6 +403,7 @@ export default function LeccionPage() {
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+        loadAudioManifest();
         (async () => {
             const { data: { user } } = await supabase.auth.getUser();
             setUserId(user?.id ?? null);
@@ -372,19 +417,21 @@ export default function LeccionPage() {
             setUnitId(act.unit_id as string);
             setUnitExt(unit?.external_id ?? '');
             setXp((act.xp_reward as number) ?? 10);
+            setSkill(content.skill ?? '');
             setExercises(content.exercises);
             setLoading(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activityId]);
 
-    const onDone = (r: Result) => { setResult(r); if (r.correct) setCorrectCount((c) => c + 1); };
+    const onDone = (r: Result) => { setResult(r); playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
     const onContinue = async () => {
         if (idx + 1 >= exercises.length) { await finish(); return; }
         setIdx((i) => i + 1); setResult(null);
     };
     const finish = async () => {
         setFinished(true);
+        playSfx('complete');
         if (!userId || !unitId) return;
         setSaving(true);
         try {
@@ -438,7 +485,9 @@ export default function LeccionPage() {
             </div>
 
             <div className="max-w-xl mx-auto px-4 py-6">
-                <Renderer key={idx} ex={ex} frozen={result !== null} onDone={onDone} />
+                <CharacterCtx.Provider value={charForSkill(skill)}>
+                    <Renderer key={idx} ex={ex} frozen={result !== null} onDone={onDone} />
+                </CharacterCtx.Provider>
             </div>
 
             {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} />}

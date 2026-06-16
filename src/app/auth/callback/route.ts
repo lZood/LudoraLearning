@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { getSiteUrl } from '@/lib/siteUrl';
+import { getAuthDestination } from '@/lib/authDestination';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,11 @@ export async function GET(request: NextRequest) {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         if (!error) {
-            return NextResponse.redirect(new URL(next, base));
+            // Decide el destino por placement (dashboard si ya hizo la evaluación),
+            // así un usuario que regresa con Google no cae siempre en /evaluacion.
+            const { data: { user } } = await supabase.auth.getUser();
+            const dest = user ? await getAuthDestination(supabase, user.id) : next;
+            return NextResponse.redirect(new URL(dest, base));
         }
         console.error('[auth/callback] exchangeCodeForSession error:', error.message);
     }

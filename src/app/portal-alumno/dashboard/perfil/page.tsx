@@ -16,9 +16,11 @@ import {
     BookOpen,
     PlayCircle,
     Users,
-    ArrowUp
+    ArrowUp,
+    LogOut
 } from "lucide-react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import SuscripcionContent from '@/components/dashboard/SuscripcionContent';
@@ -29,7 +31,17 @@ type RankRow = { name: string; avatar: string; xp: number; rank: number; isUser:
 
 export default function PerfilPage() {
     const supabase = createClient();
+    const router = useRouter();
     const [mounted, setMounted] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
+
+    // Cierra la sesión y vuelve al login.
+    const handleLogout = async () => {
+        setLoggingOut(true);
+        try { await supabase.auth.signOut(); } catch { /* aún así navegamos al login */ }
+        router.replace('/portal-alumno');
+        router.refresh();
+    };
     const [activeTab, setActiveTab] = useState<TabType>('cuenta');
     const hapticRef = useRef<HapticHandle>(null);
     const [userData, setUserData] = useState({ name: 'José Carlos', isPremium: false, renewalDate: 'Cargando...' });
@@ -100,6 +112,14 @@ export default function PerfilPage() {
                             </button>
                         ))}
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        disabled={loggingOut}
+                        className="bg-gray-50/50 p-4 rounded-[2.5rem] border border-gray-100 flex items-center gap-4 hover:bg-red-50 transition-all shadow-sm disabled:opacity-50"
+                    >
+                        <div className="w-10 h-10 rounded-full bg-red-100/70 flex items-center justify-center"><LogOut className="w-5 h-5 text-red-500" /></div>
+                        <span className="text-[15px] font-black text-red-500">{loggingOut ? 'Cerrando sesión…' : 'Cerrar sesión'}</span>
+                    </button>
                 </aside>
 
                 {/* --- CONTENT CENTERED IN FLEX --- */}
@@ -182,6 +202,14 @@ export default function PerfilPage() {
                                             ))}
                                         </div>
                                     </div>
+                                    {/* CERRAR SESIÓN (visible también en móvil) */}
+                                    <button
+                                        onClick={handleLogout}
+                                        disabled={loggingOut}
+                                        className="w-full flex items-center justify-center gap-3 py-4 rounded-[2rem] bg-red-50 text-red-600 font-black hover:bg-red-100 transition-all disabled:opacity-50"
+                                    >
+                                        <LogOut className="w-5 h-5" /> {loggingOut ? 'Cerrando sesión…' : 'Cerrar sesión'}
+                                    </button>
                                 </motion.div>
                             )}
                             {activeTab === 'suscripcion' && (
@@ -194,6 +222,13 @@ export default function PerfilPage() {
                                     <h3 className="text-2xl font-black text-gray-900 tracking-tight mb-4">Preferencias</h3>
                                     <p className="text-gray-400 font-bold mb-8">Configura tu experiencia en Ludora.</p>
                                     <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center"><Settings className="w-10 h-10 text-gray-300" /></div>
+                                    <button
+                                        onClick={handleLogout}
+                                        disabled={loggingOut}
+                                        className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-red-50 text-red-600 font-black hover:bg-red-100 transition-all disabled:opacity-50"
+                                    >
+                                        <LogOut className="w-5 h-5" /> {loggingOut ? 'Cerrando sesión…' : 'Cerrar sesión'}
+                                    </button>
                                 </motion.div>
                             )}
                         </AnimatePresence>
