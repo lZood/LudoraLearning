@@ -38,7 +38,12 @@ export default function MobileNavBar() {
 
   if (!mounted || typeof document === 'undefined') return null;
   
-  if (pathname.includes('/portal-alumno/dashboard/unidad')) {
+  // Ocultar la barra inferior durante el flujo de aprendizaje (mapa de unidad y lección),
+  // donde estorba con el botón "Comprobar" y el header propio de la lección.
+  if (
+    pathname.includes('/portal-alumno/dashboard/unidad') ||
+    pathname.includes('/portal-alumno/dashboard/leccion')
+  ) {
     return null;
   }
 
