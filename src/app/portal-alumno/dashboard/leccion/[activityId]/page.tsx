@@ -101,23 +101,43 @@ function ChoiceMC({ ex, frozen, onDone, audio }: RProps & { audio?: string }) {
     );
 }
 
+// 4 "aldeanos" visualmente distintos (alternan personaje + color) para que se sientan
+// hablantes diferentes aunque solo haya 2 SVGs de personaje.
+const NPC_STYLE: { char: Character; ring: string; bg: string; label: string }[] = [
+    { char: 'granjerita', ring: '#22c55e', bg: 'bg-green-50', label: 'Aldeano 1' },
+    { char: 'apicultor', ring: '#3b82f6', bg: 'bg-blue-50', label: 'Aldeano 2' },
+    { char: 'granjerita', ring: '#f59e0b', bg: 'bg-amber-50', label: 'Aldeano 3' },
+    { char: 'apicultor', ring: '#ec4899', bg: 'bg-pink-50', label: 'Aldeano 4' },
+];
 function WhoSaidIt({ ex, frozen, onDone }: RProps) {
     const e = ex as { instruction?: string; target: string; options: string[]; correct: number };
     const [sel, setSel] = useState<number | null>(null);
+    const norm = (s: string) => s.trim().toLowerCase();
     return (
         <>
-            <ExHeader text={e.instruction || `¿Quién dijo "${e.target}"?`} />
-            <p className="text-sm font-bold text-gray-400 mb-6">Toca cada personaje para escucharlo, luego elige el correcto.</p>
-            <div className="grid grid-cols-2 gap-4">
-                {e.options.map((word, i) => (
-                    <button key={i} onClick={() => { speak(word, `npc${(i % 3) + 1}`); setSel(i); }} disabled={frozen}
-                        className={`flex flex-col items-center gap-2 p-4 rounded-3xl border-2 transition-all ${sel === i ? 'border-[#632EB0] bg-purple-50' : 'border-gray-200 hover:border-gray-300'}`}>
-                        <Mascot character="apicultor" mood="curious" className="w-20 h-20" />
-                        <Volume2 className={`w-5 h-5 ${sel === i ? 'text-[#632EB0]' : 'text-gray-400'}`} />
-                    </button>
-                ))}
+            <ExHeader text={e.instruction || '¿Quién lo dijo?'} />
+            <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm font-bold text-gray-400">Busca quién dijo:</span>
+                <span className="inline-flex items-center gap-2 bg-[#632EB0]/10 text-[#632EB0] font-black px-3 py-1.5 rounded-xl">{e.target}</span>
             </div>
-            <Footer label="Comprobar" disabled={sel === null} onClick={() => onDone({ correct: sel === e.correct, correctText: e.target })} />
+            <p className="text-sm font-bold text-gray-400 mb-6">Toca cada aldeano para escucharlo, luego elige el correcto.</p>
+            <div className="grid grid-cols-2 gap-4">
+                {e.options.map((word, i) => {
+                    const npc = NPC_STYLE[i % NPC_STYLE.length];
+                    const active = sel === i;
+                    return (
+                        <button key={i} onClick={() => { speak(word, `npc${(i % 3) + 1}`); setSel(i); }} disabled={frozen}
+                            className={`flex flex-col items-center gap-2 p-4 rounded-3xl border-2 transition-all ${active ? 'border-[#632EB0] bg-purple-50' : `border-transparent ${npc.bg} hover:brightness-95`}`}>
+                            <div className="rounded-full p-1" style={{ boxShadow: `0 0 0 3px ${active ? '#632EB0' : npc.ring}` }}>
+                                <Mascot character={npc.char} mood="curious" className="w-16 h-16" />
+                            </div>
+                            <span className="text-[11px] font-black text-gray-500">{npc.label}</span>
+                            <Volume2 className={`w-5 h-5 ${active ? 'text-[#632EB0]' : 'text-gray-400'}`} />
+                        </button>
+                    );
+                })}
+            </div>
+            <Footer label="Comprobar" disabled={sel === null} onClick={() => onDone({ correct: sel !== null && norm(e.options[sel]) === norm(e.target), correctText: e.target })} />
         </>
     );
 }
