@@ -212,7 +212,7 @@ export default function EvaluacionYBanda() {
 
                     if (evalData) {
                         setFinalCategoryLevels(evalData.category_levels);
-                        setEvaluationHistory(evalData.evaluation_history || []);
+                        setEvaluationHistory(Array.isArray(evalData.evaluation_history) ? evalData.evaluation_history : []);
                         setAiOracleVerdict(evalData.ai_oracle_verdict);
                         setEarnedAchievements(evalData.achievements || []);
                         setShowResults(true);

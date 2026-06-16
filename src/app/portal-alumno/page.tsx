@@ -16,6 +16,11 @@ export default function PortalAlumnoPage() {
     // Mientras comprobamos si ya hay sesión, no mostramos el formulario (evita parpadeo).
     const [checkingSession, setCheckingSession] = useState(true);
     const router = useRouter();
+    // Estos hooks DEBEN declararse antes de cualquier return condicional (reglas de hooks).
+    const [userEmail, setUserEmail] = useState('');
+    // Password vive solo en memoria del cliente durante el flujo de registro, para poder
+    // pedir el reenvío del correo de confirmación. Se descarta al salir de "verification".
+    const [userPassword, setUserPassword] = useState('');
 
     // Sesión cacheada: si el usuario ya inició sesión antes, lo llevamos directo a su
     // dashboard (o a la evaluación si aún no la hizo) en vez de mostrar el login.
@@ -42,11 +47,6 @@ export default function PortalAlumnoPage() {
             </div>
         );
     }
-    const [userEmail, setUserEmail] = useState('');
-    // Password vive solo en memoria del cliente durante el flujo de registro,
-    // para poder pedir el reenvío del correo de confirmación. Se descarta
-    // cuando el usuario sale del modo "verification".
-    const [userPassword, setUserPassword] = useState('');
 
     const handleRegisterSuccess = (email: string, password: string) => {
         setUserEmail(email);
