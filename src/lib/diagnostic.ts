@@ -146,7 +146,10 @@ export function sanitizeContent(type: string, content: Content): Content {
             // Cloze para mostrar en pantalla: la oración con la palabra correcta en BLANCO (no revela).
             const ans = strOrText(opts[src.correct]);
             if (typeof src.audio === 'string' && ans) {
-                out.display = src.audio.replace(new RegExp('\\b' + escapeRe(String(ans)) + '\\b', 'i'), '_____');
+                // 'gi': borra TODAS las apariciones; si no se encontró la palabra, NO mostramos cloze
+                // (mostrar la oración completa filtraría la respuesta).
+                const d = src.audio.replace(new RegExp('\\b' + escapeRe(String(ans).trim()) + '\\b', 'gi'), '_____');
+                if (d !== src.audio) out.display = d;
             }
             break;
         }

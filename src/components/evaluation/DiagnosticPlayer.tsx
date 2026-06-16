@@ -31,12 +31,14 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     const [feedback, setFeedback] = useState<{ correct: boolean; msg: string } | null>(null);
     const historyRef = useRef<Answer[]>([]);
     const stagedRef = useRef<Staged | null>(null);
+    const inFlight = useRef(false);                                   // guard síncrono anti doble-submit
+    const autoPlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const APPROX = 10;
 
     useEffect(() => {
         loadAudioManifest();
         void start();
-        return () => stopAudio();
+        return () => { stopAudio(); if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current); };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -47,7 +49,8 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
         return r.json();
     }
     function autoPlay(it: Item | null) {
-        if (it && AUDIO_TYPES.includes(it.type) && it.content?.audio) setTimeout(() => say(it.content.audio), 350);
+        if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current);
+        if (it && AUDIO_TYPES.includes(it.type) && it.content?.audio) autoPlayTimer.current = setTimeout(() => say(it.content.audio), 350);
     }
     async function start() {
         setLoading(true); setError(false); stopAudio();
@@ -60,7 +63,9 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     async function submit(rawOverride?: unknown) {
         const useRaw = rawOverride !== undefined ? rawOverride : raw;
         if (rawOverride === undefined && !canSubmit) return;
-        if (!item || submitting) return;
+        if (!item || inFlight.current) return; // ref síncrono: bloquea un 2º click en el mismo tick
+        inFlight.current = true;
+        if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current);
         historyRef.current = [...historyRef.current, { id: item.id, raw: useRaw }];
         setSubmitting(true); stopAudio();
         try {
@@ -70,7 +75,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
             playSfx(correct ? 'correct' : 'wrong');
             setFeedback({ correct, msg: (correct ? OK : NO)[Math.floor((historyRef.current.length * 7) % (correct ? OK.length : NO.length))] });
         } catch { setError(true); }
-        finally { setSubmitting(false); }
+        finally { setSubmitting(false); inFlight.current = false; }
     }
     function continueNext() {
         const staged = stagedRef.current;
@@ -127,7 +132,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
 
                     {/* Audio (auto-reproduce; el botón permite repetir) */}
                     {(AUDIO_TYPES.includes(item.type) && e.audio) && (
-                        <button onClick={() => say(e.audio)} className="mb-5 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95 shadow-[0_4px_0_#4a2088]">
+                        <button onClick={() => say(e.audio)} disabled={frozen} className="mb-5 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95 shadow-[0_4px_0_#4a2088] disabled:opacity-50">
                             <Volume2 className="w-6 h-6" /> Escuchar de nuevo
                         </button>
                     )}
@@ -252,28 +257,35 @@ function TileBuilder({ item, frozen, onChange }: { item: Item; frozen: boolean; 
 // de voz del navegador (sin IA). El transcript se envía como `raw` y el servidor lo califica.
 function SpeakCard({ text, frozen, value, onResult, onSkip }: { text: string; frozen: boolean; value: string; onResult: (t: string) => void; onSkip: () => void }) {
     const [listening, setListening] = useState(false);
+    const [hint, setHint] = useState(''); // mic denegado / no se escuchó
+    const listeningRef = useRef(false); // guard síncrono (no depende del estado)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recRef = useRef<any>(null);
     useEffect(() => () => { try { recRef.current?.abort?.(); } catch { /* noop */ } }, []);
     const start = () => {
-        const SR = getSR(); if (!SR || listening || frozen) return;
+        const SR = getSR(); if (!SR || listeningRef.current || frozen) return;
+        try { recRef.current?.abort?.(); } catch { /* noop */ } // aborta un reconocedor previo (reentrancia)
+        setHint('');
         const rec = new SR(); recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1; rec.continuous = false;
-        setListening(true);
+        let got = false;
+        listeningRef.current = true; setListening(true);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        rec.onresult = (ev: any) => { const t = ev.results?.[0]?.[0]?.transcript || ''; setListening(false); if (t) onResult(t); };
-        rec.onerror = () => setListening(false);
-        rec.onend = () => setListening(false);
-        try { rec.start(); } catch { setListening(false); }
+        rec.onresult = (ev: any) => { const t = ev.results?.[0]?.[0]?.transcript || ''; got = !!t; listeningRef.current = false; setListening(false); if (t) onResult(t); };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rec.onerror = (ev: any) => { listeningRef.current = false; setListening(false); setHint(ev?.error === 'not-allowed' || ev?.error === 'service-not-allowed' ? 'No pudimos usar el micrófono. Revisa los permisos o usa «No puedo hablar ahora».' : 'Hubo un problema, intenta de nuevo.'); };
+        rec.onend = () => { listeningRef.current = false; setListening(false); if (!got && !value) setHint((h) => h || 'No te escuché. Intenta de nuevo, más cerca del micrófono.'); };
+        try { rec.start(); } catch { listeningRef.current = false; setListening(false); }
     };
     return (
         <div className="flex flex-col items-center gap-5 text-center pt-2">
-            <button onClick={() => say(text)} className="inline-flex items-center gap-2 text-[#632EB0] font-bold"><Volume2 className="w-5 h-5" /> Escuchar</button>
+            <button onClick={() => say(text)} disabled={frozen} className="inline-flex items-center gap-2 text-[#632EB0] font-bold disabled:opacity-50"><Volume2 className="w-5 h-5" /> Escuchar</button>
             <p className="text-3xl font-black text-gray-900 leading-snug">{text}</p>
             <button onClick={start} disabled={frozen || listening}
                 className={`w-24 h-24 rounded-full flex items-center justify-center text-white shadow-lg disabled:opacity-60 ${listening ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0] active:scale-95'}`}>
                 <Mic className="w-10 h-10" />
             </button>
             <p className="text-xs font-bold text-gray-500">{listening ? 'Escuchando… habla en inglés' : value ? 'Toca para repetir' : 'Toca y lee la frase en voz alta'}</p>
+            {hint && <p className="text-xs font-bold text-red-500 max-w-xs">{hint}</p>}
             {value && <p className="text-sm text-gray-600">Dijiste: <span className="font-bold">«{value}»</span></p>}
             {!frozen && <button onClick={onSkip} className="text-xs font-bold text-gray-400 underline">No puedo hablar ahora</button>}
         </div>
