@@ -76,11 +76,13 @@ export default function UnitViewPage() {
 
   useEffect(() => {
     setMounted(true);
+    let active = true; // evita setState tras desmontar / cambiar de [id] (race)
     const mainEl = document.querySelector('main');
     if (mainEl) { mainEl.style.overflow = 'visible'; mainEl.style.overflowX = 'visible'; }
 
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!active) return;
       setUserId(user?.id ?? null);
 
       const { data: unit } = await supabase
@@ -88,6 +90,7 @@ export default function UnitViewPage() {
         .select('id, title, level_id')
         .eq('external_id', id)
         .maybeSingle();
+      if (!active) return;
       if (!unit) { setMissing(true); setLoading(false); return; }
       setUnitId(unit.id);
       setUnitTitle(unit.title);
@@ -119,13 +122,14 @@ export default function UnitViewPage() {
         xp_reward: (a.xp_reward as number) ?? 10,
         completed: progressIds.has(a.id as string),
       }));
+      if (!active) return;
       setActivities(mapped);
       const firstIncomplete = mapped.findIndex((a) => !a.completed);
       setCurrentActivityIndex(firstIncomplete === -1 ? mapped.length : firstIncomplete);
       setLoading(false);
     })();
 
-    return () => { if (mainEl) { mainEl.style.overflow = ''; mainEl.style.overflowX = ''; } };
+    return () => { active = false; if (mainEl) { mainEl.style.overflow = ''; mainEl.style.overflowX = ''; } };
   }, [id]);
 
   if (loading) {

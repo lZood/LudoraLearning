@@ -23,6 +23,10 @@ export default function ActivityPlayerPage() {
     const [content, setContent] = useState<ActivityContent | null>(null);
     const [done, setDone] = useState(false);
     const [saving, setSaving] = useState(false);
+    const alreadyCompletedRef = useRef(false); // si ya estaba completada, no se vuelve a otorgar XP
+
+    // Corta el TTS del navegador al salir de la actividad (evita que siga hablando en otra pantalla).
+    useEffect(() => () => { try { window.speechSynthesis?.cancel(); } catch { /* noop */ } }, []);
 
     useEffect(() => {
         (async () => {
@@ -39,6 +43,10 @@ export default function ActivityPlayerPage() {
             setXp((act.xp_reward as number) ?? 10);
             setTitle(act.title as string);
             setContent(act.content as ActivityContent);
+            if (user) {
+                const { data: prog } = await supabase.from('user_activity_progress').select('completed_at').eq('user_id', user.id).eq('activity_id', activityId).maybeSingle();
+                alreadyCompletedRef.current = !!prog?.completed_at;
+            }
             setLoading(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +60,7 @@ export default function ActivityPlayerPage() {
                 { user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1 },
                 { onConflict: 'user_id,activity_id' }
             );
-            await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
+            if (!alreadyCompletedRef.current) await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
             const total = ids.length || 1;

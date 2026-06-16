@@ -463,21 +463,28 @@ function Conversation({ ex, frozen, onDone }: RProps) {
     const [listening, setListening] = useState(false);
     const turns = messages.filter((m) => m.role === 'user').length;
     const endRef = useRef<HTMLDivElement>(null);
+    const mountedRef = useRef(true); // ignora respuestas tardías de la IA tras desmontar
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recRef = useRef<any>(null);
     const hasSR = !!getSR();
     useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
     useEffect(() => { const t = setTimeout(() => speak(e.starter, voice ? 'apicultor' : 'narrator'), 400); return () => clearTimeout(t); }, []); // auto-reproduce el saludo
+    // Al desmontar (avanzar/salir): marca no-montado y corta cualquier voz del personaje en curso.
+    useEffect(() => () => { mountedRef.current = false; stopAudio(); }, []);
     const send = async (textArg?: string) => {
         const text = (textArg ?? input).trim(); if (!text || busy) return;
         const next = [...messages, { role: 'user' as const, text }]; setMessages(next); setInput(''); setBusy(true);
+        const ctrl = new AbortController();
+        const to = setTimeout(() => ctrl.abort(), 15000); // evita que "El personaje piensa…" quede colgado
         try {
-            const r = await fetch('/api/lesson-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scenario: e.scenario, objective: e.objective, messages: next }) });
-            const d = await r.json(); const reply = r.ok ? d.reply : 'Try again.';
+            const r = await fetch('/api/lesson-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scenario: e.scenario, objective: e.objective, messages: next }), signal: ctrl.signal });
+            const d = await r.json().catch(() => ({}));
+            if (!mountedRef.current) return;
+            const reply = r.ok && d.reply ? d.reply : 'Try again.';
             setMessages((m) => [...m, { role: 'npc', text: reply }]);
             if (voice) speak(reply, 'apicultor'); // auto-reproduce la respuesta hablada
-        } catch { setMessages((m) => [...m, { role: 'npc', text: 'Try again.' }]); }
-        setBusy(false);
+        } catch { if (mountedRef.current) setMessages((m) => [...m, { role: 'npc', text: 'Try again.' }]); }
+        finally { clearTimeout(to); if (mountedRef.current) setBusy(false); }
     };
     const startVoice = () => {
         const SR = getSR(); if (!SR || busy) return;
@@ -929,6 +936,7 @@ export default function LeccionPage() {
     const [finished, setFinished] = useState(false);
     const [saving, setSaving] = useState(false);
     const alreadyCompletedRef = useRef(false); // si ya estaba completada, no se vuelve a otorgar XP
+    const finishingRef = useRef(false);         // evita que finish() corra dos veces (doble-toque -> XP duplicado)
 
     useEffect(() => {
         loadAudioManifest();
@@ -950,6 +958,7 @@ export default function LeccionPage() {
             setExercises(content.exercises);
             setIdx(0); // reinicia por si se reutiliza la instancia al cambiar de lección
             alreadyCompletedRef.current = false;
+            finishingRef.current = false;
             // Retomar donde se quedó (si la lección no está completada).
             if (user) {
                 const { data: prog } = await supabase
@@ -981,6 +990,8 @@ export default function LeccionPage() {
         }
     };
     const finish = async () => {
+        if (finishingRef.current) return; // guard anti-reentrada (doble-toque en "Terminar")
+        finishingRef.current = true;
         setFinished(true);
         playSfx('complete');
         if (!userId || !unitId) return;
@@ -1032,7 +1043,8 @@ export default function LeccionPage() {
             <div className="sticky top-0 z-20 bg-white px-4 py-3 flex items-center gap-3">
                 <Link href={unitExt ? `/portal-alumno/dashboard/unidad/${unitExt}` : '/portal-alumno/dashboard/cursos'} className="p-1 text-gray-400 hover:text-gray-700"><X className="w-7 h-7" /></Link>
                 <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#88e04f] rounded-full transition-all duration-300" style={{ width: `${(idx / exercises.length) * 100}%` }} />
+                    {/* Se llena al RESPONDER cada ejercicio (incluye el actual si ya hay resultado) -> llega a 100% en el último. */}
+                    <div className="h-full bg-[#88e04f] rounded-full transition-all duration-300" style={{ width: `${((idx + (result ? 1 : 0)) / exercises.length) * 100}%` }} />
                 </div>
                 <span className="text-xs font-black text-gray-400 tabular-nums">{idx + 1}/{exercises.length}</span>
             </div>

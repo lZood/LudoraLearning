@@ -83,6 +83,7 @@ function ttsSpeak(text: string, role: string) {
 }
 
 let current: HTMLAudioElement | null = null;
+let audioEpoch = 0; // se incrementa en stopAudio; cancela reproducciones diferidas (reintentos de manifest)
 
 // Reproduce la frase con la voz del personaje (role). Si no se pasa role, usa la voz de la lección.
 // Usa el MP3 pre-generado de ESE personaje; si no existe, TTS con el tono del personaje
@@ -90,11 +91,12 @@ let current: HTMLAudioElement | null = null;
 export function playAudio(text: string, role?: string) {
     if (!text) return;
     const r = role || defaultVoice;
+    const epoch = audioEpoch; // si stopAudio() corre durante el await, no reproducimos audio viejo
     // Si el manifest aún no cargó, espéralo para no caer a TTS robótico en las primeras frases.
     // Pero si YA intentamos y falló (manifest sigue null), no reintentamos en bucle: usamos TTS
     // ahora y disparamos una recarga en segundo plano para que las próximas frases se recuperen.
     if (!manifest) {
-        if (!manifestTried) { loadAudioManifest().then(() => playAudio(text, r)); return; }
+        if (!manifestTried) { loadAudioManifest().then(() => { if (epoch === audioEpoch) playAudio(text, r); }); return; }
         void loadAudioManifest();
         ttsSpeak(text, r);
         return;
@@ -116,8 +118,9 @@ export function playAudio(text: string, role?: string) {
 // Reproduce el SONIDO aislado de un fonema (clave `sound|<ipa>`). Si no hay clip,
 // cae a la palabra clave (para no dejar al usuario sin audio).
 export function playPhonemeSound(ipa: string, fallbackWord?: string) {
+    const epoch = audioEpoch;
     if (!manifest) {
-        if (!manifestTried) { loadAudioManifest().then(() => playPhonemeSound(ipa, fallbackWord)); return; }
+        if (!manifestTried) { loadAudioManifest().then(() => { if (epoch === audioEpoch) playPhonemeSound(ipa, fallbackWord); }); return; }
         void loadAudioManifest();
         if (fallbackWord) playAudio(fallbackWord, 'narrator');
         return;
@@ -136,6 +139,7 @@ export function playPhonemeSound(ipa: string, fallbackWord?: string) {
 
 // Detiene cualquier audio en curso (TTS o MP3). Útil al cambiar de ejercicio/desmontar.
 export function stopAudio() {
+    audioEpoch++; // invalida reproducciones diferidas pendientes (reintentos de manifest)
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
     try { if (current) current.pause(); } catch { /* noop */ }
 }

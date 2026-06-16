@@ -48,6 +48,14 @@ export default function PerfilPage() {
     const [stats, setStats] = useState({ streak: 0, xp: 0, coins: 0, level: '—' });
     const [ranking, setRanking] = useState<RankRow[]>([]);
 
+    // Respeta el ?tab= con el que enlaza el layout (p. ej. "Mi suscripción" -> ?tab=suscripcion).
+    useEffect(() => {
+        try {
+            const t = new URLSearchParams(window.location.search).get('tab');
+            if (t === 'cuenta' || t === 'suscripcion' || t === 'preferencias') setActiveTab(t);
+        } catch { /* noop */ }
+    }, []);
+
     useEffect(() => {
         setMounted(true);
         let active = true;

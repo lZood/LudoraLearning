@@ -27,7 +27,9 @@ export async function POST(req: NextRequest) {
 
         const body = await req.json();
         let { questionType, questionText, gradingRubric, expectedKeywords } = body;
-        const { questionId, userAnswerText, audioBase64, audioMimeType } = body;
+        const { questionId, audioBase64, audioMimeType } = body;
+        // Tope de longitud del texto libre del alumno (acota costo/abuso hacia Gemini).
+        const answerText = String(body.userAnswerText ?? '').slice(0, 1000);
 
         // Fuente autoritativa: si llega questionId, tomamos tipo/texto/rúbrica/keywords de la BD
         // (no confiamos en lo que mande el cliente, que ya no las recibe vía get_exam_questions).
@@ -48,7 +50,7 @@ export async function POST(req: NextRequest) {
         if (!questionText) {
             return NextResponse.json({ error: 'Falta questionText' }, { status: 400 });
         }
-        if (questionType === 'text-input' && !userAnswerText) {
+        if (questionType === 'text-input' && !answerText) {
             return NextResponse.json({ error: 'Falta userAnswerText' }, { status: 400 });
         }
 
@@ -76,7 +78,7 @@ export async function POST(req: NextRequest) {
         `;
 
         if (questionType === 'text-input') {
-            prompt += `\nEl estudiante ha escrito la siguiente respuesta: "${userAnswerText}"\n`;
+            prompt += `\nEl estudiante ha escrito la siguiente respuesta: "${answerText}"\n`;
         } else if (questionType === 'audio-record') {
             prompt += `\nEscucha el siguiente audio grabado por el estudiante.\n`;
         }
@@ -138,8 +140,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ ...jsonResult, raw: responseText }, { status: 200 });
     } catch (err: unknown) {
         const message = err instanceof Error ? err.message : 'Error interno evaluando respuesta';
-        console.error('Error en Gemini Evaluation API:', message);
+        console.error('Error en Gemini Evaluation API:', message); // detalle solo en el servidor
         // IMPORTANTE: NO devolvemos isCorrect aquí; el cliente marca needs_human_review.
-        return NextResponse.json({ error: message }, { status: 500 });
+        // No exponemos el mensaje crudo del SDK al cliente (evita fuga de internos).
+        return NextResponse.json({ error: 'No se pudo evaluar la respuesta.' }, { status: 500 });
     }
 }

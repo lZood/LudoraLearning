@@ -76,13 +76,17 @@ export async function POST(req: NextRequest) {
                     break;
                 }
 
-                // Safely convert conversion timestamps to ISO strings
-                const startDate = subscription.current_period_start
-                    ? new Date(subscription.current_period_start * 1000).toISOString()
+                // En las versiones nuevas de la API de Stripe, current_period_start/end ya NO son
+                // top-level de la suscripción sino del item; leemos del item con fallback al top-level.
+                const subItem = subscription.items?.data?.[0];
+                const periodStart = subItem?.current_period_start ?? subscription.current_period_start;
+                const periodEnd = subItem?.current_period_end ?? subscription.current_period_end;
+                const startDate = periodStart
+                    ? new Date(periodStart * 1000).toISOString()
                     : new Date().toISOString();
 
-                const endDate = subscription.current_period_end
-                    ? new Date(subscription.current_period_end * 1000).toISOString()
+                const endDate = periodEnd
+                    ? new Date(periodEnd * 1000).toISOString()
                     : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // Default +30 days
 
                 // Insert or update subscription in Supabase

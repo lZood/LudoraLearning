@@ -67,6 +67,17 @@ function deriveMeta(category: string | null, ctaUrl: string | null) {
   return { type: 'new_content', badge: category || 'Anuncio', cta: ctaUrl ? 'Explorar ahora' : 'Leer más' };
 }
 
+// ¿La noticia cae bajo la pestaña activa? Compara por palabra clave (no por igualdad exacta
+// label==category), porque las categorías de la BD son crudas (p. ej. "evento", "tiktok").
+function tabMatches(activeLabel: string, category: string | null): boolean {
+  if (activeLabel === 'Recientes') return true;
+  const cat = (category ?? '').toLowerCase();
+  if (activeLabel === 'Eventos') return cat.includes('evento');
+  if (activeLabel === 'Redes') return cat.includes('redes') || cat.includes('tiktok');
+  if (activeLabel === 'Logros') return cat.includes('logro');
+  return false;
+}
+
 export default function NoticiasPage() {
   const [activeTab, setActiveTab] = useState('Recientes');
   const [mounted, setMounted] = useState(false);
@@ -229,8 +240,8 @@ export default function NoticiasPage() {
                     <div className="w-10 h-10 border-4 border-gray-100 border-t-[#632EB0] rounded-full animate-spin mb-4" />
                     <p className="text-sm font-bold">Cargando novedades...</p>
                   </div>
-                ) : news.filter(n => activeTab === 'Recientes' || n.category === activeTab).length > 0 ? (
-                  news.filter(n => activeTab === 'Recientes' || n.category === activeTab).map((item) => (
+                ) : news.filter(n => tabMatches(activeTab, n.category)).length > 0 ? (
+                  news.filter(n => tabMatches(activeTab, n.category)).map((item) => (
                     <div key={item.id} className="group cursor-pointer w-full" onClick={triggerHaptic}>
                       <div className="bg-[#F8F9FB] rounded-[2.5rem] overflow-hidden border border-gray-100/50 transition-all hover:bg-gray-50 group flex flex-col">
                             {/* Image Area */}
