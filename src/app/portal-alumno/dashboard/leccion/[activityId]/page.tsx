@@ -10,7 +10,7 @@ import { playAudio, playSfx, loadAudioManifest } from '@/lib/lessonAudio';
 import { speechMatches, getSR } from '@/lib/speech';
 import type { LessonContent, Exercise } from '@/lib/lessonContent';
 
-type Result = { correct: boolean; correctText?: string };
+type Result = { correct: boolean; correctText?: string; skipped?: boolean };
 type Character = 'granjerita' | 'apicultor';
 
 // ───────────────────────── helpers ─────────────────────────
@@ -43,7 +43,7 @@ function Footer({ label, disabled, onClick }: { label: string; disabled?: boolea
     );
 }
 
-function FeedbackBar({ correct, correctText, onContinue, isLast, question }: { correct: boolean; correctText?: string; onContinue: () => void; isLast: boolean; question?: string }) {
+function FeedbackBar({ correct, correctText, onContinue, isLast, question, skipped }: { correct: boolean; correctText?: string; onContinue: () => void; isLast: boolean; question?: string; skipped?: boolean }) {
     const [msgs, setMsgs] = useState<{ role: 'user' | 'tutor'; text: string }[]>([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -59,16 +59,16 @@ function FeedbackBar({ correct, correctText, onContinue, isLast, question }: { c
         setLoading(false);
     };
     return (
-        <div className={`fixed bottom-0 inset-x-0 z-40 ${correct ? 'bg-[#d7ffb8]' : 'bg-[#ffdfe0]'} border-t-2 ${correct ? 'border-[#88e04f]' : 'border-red-300'} px-4 py-4 animate-in slide-in-from-bottom-4`}>
+        <div className={`fixed bottom-0 inset-x-0 z-40 ${skipped ? 'bg-amber-50' : correct ? 'bg-[#d7ffb8]' : 'bg-[#ffdfe0]'} border-t-2 ${skipped ? 'border-amber-300' : correct ? 'border-[#88e04f]' : 'border-red-300'} px-4 py-4 animate-in slide-in-from-bottom-4`}>
             <div className="max-w-xl mx-auto">
                 <div className="flex items-center gap-4">
-                    <Mascot mood={correct ? 'happy' : 'sad'} className="w-14 h-14 shrink-0" />
+                    <Mascot mood={skipped ? 'curious' : correct ? 'happy' : 'sad'} className="w-14 h-14 shrink-0" />
                     <div className="flex-1 min-w-0">
-                        <p className={`text-lg font-black ${correct ? 'text-[#4a8a1f]' : 'text-red-600'}`}>{correct ? '¡Muy bien!' : 'Casi…'}</p>
-                        {!correct && correctText && <p className="text-sm font-bold text-red-600/90 truncate">Respuesta: {correctText}</p>}
+                        <p className={`text-lg font-black ${skipped ? 'text-amber-600' : correct ? 'text-[#4a8a1f]' : 'text-red-600'}`}>{skipped ? 'Saltado' : correct ? '¡Muy bien!' : 'Casi…'}</p>
+                        {!correct && correctText && <p className={`text-sm font-bold truncate ${skipped ? 'text-amber-600/90' : 'text-red-600/90'}`}>Respuesta: {correctText}</p>}
                     </div>
-                    {!correct && !open && <button onClick={() => ask()} className="shrink-0 px-3 py-2 rounded-xl bg-white/70 text-red-600 font-black text-xs active:scale-95">¿Por qué?</button>}
-                    <button onClick={onContinue} className={`shrink-0 px-6 py-3 rounded-2xl font-black uppercase tracking-wide text-white active:scale-95 ${correct ? 'bg-[#58a700] shadow-[0_4px_0_#4a8a1f]' : 'bg-red-500 shadow-[0_4px_0_#c43d3d]'}`}>
+                    {!correct && !skipped && !open && <button onClick={() => ask()} className="shrink-0 px-3 py-2 rounded-xl bg-white/70 text-red-600 font-black text-xs active:scale-95">¿Por qué?</button>}
+                    <button onClick={onContinue} className={`shrink-0 px-6 py-3 rounded-2xl font-black uppercase tracking-wide text-white active:scale-95 ${skipped ? 'bg-amber-500' : correct ? 'bg-[#58a700] shadow-[0_4px_0_#4a8a1f]' : 'bg-red-500 shadow-[0_4px_0_#c43d3d]'}`}>
                         {isLast ? 'Terminar' : 'Continuar'}
                     </button>
                 </div>
@@ -256,7 +256,7 @@ function WordBank({ ex, frozen, onDone }: RProps) {
             </div>
             <div className="flex flex-wrap gap-2">
                 {tiles.map((t) => (
-                    <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => setBuilt([...built, t.id])}
+                    <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => { speak(t.w); setBuilt([...built, t.id]); }}
                         className={`px-3 py-2 rounded-xl border-2 font-black ${used.has(t.id) ? 'border-gray-100 text-gray-200' : 'border-gray-200 text-gray-800 bg-white'}`}>{t.w}</button>
                 ))}
             </div>
@@ -320,26 +320,36 @@ function SpeakCore({ instruction, model, prompt, verify, correctText, mode, froz
     const recRef = useRef<any>(null);
     const hasSR = !!getSR();
     useEffect(() => { const t = setTimeout(() => speak(model), 350); return () => clearTimeout(t); }, []); // auto-reproduce al entrar
+    // Limpia el reconocedor al desmontar: evita que una sesión colgada bloquee el siguiente ejercicio.
+    useEffect(() => () => { try { recRef.current?.abort?.(); } catch { /* noop */ } recRef.current = null; }, []);
 
     const startSR = () => {
-        try {
-            const rec = new (getSR())(); recRef.current = rec;
-            rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 5; rec.continuous = false;
-            setHeard(''); setListening(true);
-            let resolved = false;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            rec.onresult = (event: any) => {
-                const alts: string[] = [];
-                for (let i = 0; i < event.results.length; i++) for (let j = 0; j < event.results[i].length; j++) alts.push(event.results[i][j].transcript);
-                resolved = true;
-                setHeard(alts[0] || '');
-                setListening(false);
-                onDone({ correct: verify(alts), correctText });
-            };
-            rec.onerror = () => { setListening(false); };
-            rec.onend = () => { setListening(false); if (!resolved) setHeard(''); };
-            rec.start();
-        } catch { onDone({ correct: true, correctText }); }
+        if (listening) return;
+        try { window.speechSynthesis?.cancel(); } catch { /* noop */ } // no competir con el TTS del modelo
+        try { recRef.current?.abort?.(); } catch { /* noop */ }        // libera cualquier sesión previa colgada
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let rec: any;
+        try { rec = new (getSR())(); } catch { setListening(false); return; }
+        recRef.current = rec;
+        rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 5; rec.continuous = false;
+        setHeard(''); setListening(true);
+        let resolved = false;
+        let watchdog = 0;
+        const clearW = () => { if (watchdog) { clearTimeout(watchdog); watchdog = 0; } };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rec.onresult = (event: any) => {
+            const alts: string[] = [];
+            for (let i = 0; i < event.results.length; i++) for (let j = 0; j < event.results[i].length; j++) alts.push(event.results[i][j].transcript);
+            resolved = true; clearW();
+            setHeard(alts[0] || '');
+            setListening(false);
+            onDone({ correct: verify(alts), correctText });
+        };
+        rec.onerror = () => { clearW(); setListening(false); };
+        rec.onend = () => { clearW(); setListening(false); };
+        try { rec.start(); } catch { setListening(false); return; }
+        // Watchdog: si en 8s no llega resultado, corta para no quedar "esperando" y permitir reintentar.
+        watchdog = window.setTimeout(() => { if (!resolved) { try { rec.stop(); } catch { /* noop */ } setListening(false); } }, 8000);
     };
     const stopSR = () => { try { recRef.current?.stop(); } catch { /* noop */ } };
 
@@ -390,7 +400,7 @@ function SpeakCore({ instruction, model, prompt, verify, correctText, mode, froz
                 </button>
                 <p className="text-sm font-bold text-gray-500">{status}</p>
                 {heard && <p className="text-xs font-bold text-gray-400">Te escuché: “{heard}”</p>}
-                {!frozen && <button onClick={() => onDone({ correct: true, correctText })} className="text-xs font-bold text-gray-400 underline">Saltar</button>}
+                {!frozen && <button onClick={() => { try { recRef.current?.abort?.(); } catch { /* noop */ } onDone({ correct: false, correctText, skipped: true }); }} className="text-xs font-bold text-gray-400 underline">Saltar</button>}
             </div>
         </>
     );
@@ -424,7 +434,7 @@ function ListenBuild({ ex, frozen, onDone }: RProps) {
             </div>
             <div className="flex flex-wrap gap-2">
                 {tiles.map((t) => (
-                    <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => setBuilt([...built, t.id])}
+                    <button key={t.id} disabled={frozen || used.has(t.id)} onClick={() => { speak(t.w); setBuilt([...built, t.id]); }}
                         className={`px-3 py-2 rounded-xl border-2 font-black ${used.has(t.id) ? 'border-gray-100 text-gray-200' : 'border-gray-200 text-gray-800 bg-white'}`}>{t.w}</button>
                 ))}
             </div>
@@ -818,7 +828,7 @@ export default function LeccionPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activityId]);
 
-    const onDone = (r: Result) => { setResult(r); playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
+    const onDone = (r: Result) => { setResult(r); if (!r.skipped) playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
     const onContinue = async () => {
         if (idx + 1 >= exercises.length) { await finish(); return; }
         const next = idx + 1;
@@ -891,7 +901,7 @@ export default function LeccionPage() {
                 </CharacterCtx.Provider>
             </div>
 
-            {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} question={ex ? exQuestion(ex) : undefined} />}
+            {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} question={ex ? exQuestion(ex) : undefined} skipped={result.skipped} />}
         </div>
     );
 }

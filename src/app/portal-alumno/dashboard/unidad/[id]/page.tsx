@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2, MessagesSquare } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -49,6 +49,14 @@ export default function UnitViewPage() {
   const [levelTitle, setLevelTitle] = useState('');
   const [activities, setActivities] = useState<Act[]>([]);
   const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
+  const activeRef = useRef<HTMLDivElement>(null);
+
+  // Al volver al mapa (tras completar una actividad), enfoca la siguiente pendiente.
+  useEffect(() => {
+    if (loading) return;
+    const t = setTimeout(() => activeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 450);
+    return () => clearTimeout(t);
+  }, [loading, currentActivityIndex]);
 
   useEffect(() => {
     setMounted(true);
@@ -191,7 +199,7 @@ export default function UnitViewPage() {
               const offsetClass = isEven ? '-translate-x-3 sm:-translate-x-12 lg:-translate-x-24' : 'translate-x-3 sm:translate-x-12 lg:translate-x-24';
 
               return (
-                <div key={activity.id} className="relative flex flex-col items-center w-full min-h-[140px] md:min-h-[180px]">
+                <div key={activity.id} ref={index === currentActivityIndex ? activeRef : null} className="relative flex flex-col items-center w-full min-h-[140px] md:min-h-[180px]">
                   <div className={`flex items-center gap-4 md:gap-6 w-full justify-center relative z-10 ${offsetClass}`}>
                     {isEven && <div className="flex-1 flex justify-end opacity-0 pointer-events-none hidden md:flex"></div>}
                     {!isEven && (
