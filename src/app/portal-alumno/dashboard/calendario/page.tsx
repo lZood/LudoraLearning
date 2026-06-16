@@ -89,7 +89,7 @@ export default function CalendarioPage() {
             return;
         }
 
-        const [{ data: liveClasses }, { data: myBookings }, { data: gamification }] = await Promise.all([
+        const [{ data: liveClasses }, { data: myBookings }, { data: gamification }, { data: bookingCounts }] = await Promise.all([
             supabase
                 .from('live_classes')
                 .select('*')
@@ -104,24 +104,17 @@ export default function CalendarioPage() {
                 .select('coins')
                 .eq('user_id', user.id)
                 .maybeSingle(),
+            // Conteo GLOBAL de reservas activas por clase (RPC agregada; no limitado por RLS).
+            supabase.rpc('class_booking_counts'),
         ]);
 
-        // Conteo de reservas por clase (para calcular cupos) y set de mis reservas activas.
         const takenByClass = new Map<string, number>();
         const bookedByMe = new Set<string>();
         ((myBookings as Array<{ class_id: string; status: string }> | null) ?? []).forEach((b) => {
             if (b.status === 'booked') bookedByMe.add(b.class_id);
         });
-
-        // Cupos: usamos la cuenta global de reservas activas si está disponible vía RLS;
-        // como fallback restamos solo si la clase es mía. Para máxima fidelidad pedimos el
-        // conteo agregado de reservas activas por clase.
-        const { data: activeBookings } = await supabase
-            .from('class_bookings')
-            .select('class_id')
-            .eq('status', 'booked');
-        ((activeBookings as Array<{ class_id: string }> | null) ?? []).forEach((b) => {
-            takenByClass.set(b.class_id, (takenByClass.get(b.class_id) ?? 0) + 1);
+        ((bookingCounts as Array<{ class_id: string; taken: number }> | null) ?? []).forEach((b) => {
+            takenByClass.set(b.class_id, Number(b.taken));
         });
 
         const processed: LiveClass[] = ((liveClasses as Array<{

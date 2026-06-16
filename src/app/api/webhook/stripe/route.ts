@@ -1,20 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/utils/stripe/client';
-import { createClient } from '@supabase/supabase-js';
+import { createAdminClient } from '@/utils/supabase/admin';
 
 export const dynamic = 'force-dynamic';
-
-// We must use the Service Role Key here because webhooks run outside of a user's session,
-// and we need to bypass Row Level Security to update the subscriptions table.
-const supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321', // Use placeholder for build
-    process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder'
-);
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(req: NextRequest) {
     try {
+        // Sin el secret no se puede verificar la firma: fallar explícito (no degradar silenciosamente).
+        if (!webhookSecret) {
+            console.error('[Webhook] Falta STRIPE_WEBHOOK_SECRET');
+            return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 });
+        }
         const body = await req.text();
         const signature = req.headers.get('stripe-signature');
 
@@ -22,6 +20,9 @@ export async function POST(req: NextRequest) {
             console.error('No stripe-signature header found');
             return NextResponse.json({ error: 'No signature' }, { status: 400 });
         }
+
+        // Service role para escribir subscriptions (bypassa RLS). createAdminClient valida las env.
+        const supabaseAdmin = createAdminClient();
 
         let event;
 

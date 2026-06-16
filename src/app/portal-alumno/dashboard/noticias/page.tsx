@@ -91,18 +91,20 @@ export default function NoticiasPage() {
 
       const rows = posts ?? [];
 
-      // 2) Traer todos los likes para contar por post y saber cuáles dio el usuario.
-      const { data: likeRows } = await supabase
-        .from('post_likes')
-        .select('post_id, user_id');
+      // 2) Conteo de likes por post (RPC agregada; no trae todas las filas ni depende de RLS)
+      //    + los likes del propio usuario (para saber cuáles marcó).
+      const myLikesQ = user ? supabase.from('post_likes').select('post_id').eq('user_id', user.id) : null;
+      const [{ data: likeCountRows }, myLikesRes] = await Promise.all([
+        supabase.rpc('post_like_counts'),
+        myLikesQ ?? Promise.resolve({ data: [] as { post_id: string }[] }),
+      ]);
 
       const likeCounts = new Map<string, number>();
-      const userLiked = new Set<string>();
-      (likeRows ?? []).forEach((l) => {
-        const pid = l.post_id as string;
-        likeCounts.set(pid, (likeCounts.get(pid) ?? 0) + 1);
-        if (user && l.user_id === user.id) userLiked.add(pid);
+      ((likeCountRows as Array<{ post_id: string; likes: number }> | null) ?? []).forEach((r) => {
+        likeCounts.set(r.post_id, Number(r.likes));
       });
+      const userLiked = new Set<string>();
+      ((myLikesRes?.data as Array<{ post_id: string }> | null) ?? []).forEach((l) => userLiked.add(l.post_id));
 
       const mapped: NewsItem[] = rows.map((p) => {
         const meta = deriveMeta(p.category as string | null, p.cta_url as string | null);
