@@ -1,0 +1,65 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
+import { gradeItem, estimateTheta, thetaToBand, bandToCefr, bandTitle } from '@/lib/diagnostic';
+
+export const dynamic = 'force-dynamic';
+
+// Calcula la ubicación de nivel SERVER-SIDE (el cliente nunca escribe english_level):
+// re-califica las respuestas crudas contra el banco, estima theta (Elo anclado a dificultad),
+// mapea a Banda y persiste users.english_level + evaluations. Se llama tras el registro.
+export async function POST(req: NextRequest) {
+    try {
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+
+        const admin = createAdminClient();
+        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `placement:${user.id}`, p_max: 10, p_window: 600 });
+        if (rlOk === false) return NextResponse.json({ error: 'Demasiadas solicitudes.' }, { status: 429 });
+
+        const body = await req.json();
+        const answers: { id: string; raw: unknown }[] = Array.isArray(body.answers) ? body.answers.slice(0, 40) : [];
+        const theta0 = typeof body.theta0 === 'number' ? Math.max(1, Math.min(6, body.theta0)) : 2.0;
+        if (!answers.length) return NextResponse.json({ error: 'Sin respuestas' }, { status: 400 });
+
+        const ids = [...new Set(answers.map((a) => a.id).filter((x) => typeof x === 'string'))];
+        const { data: items } = await admin.from('diagnostic_items').select('id, skill, difficulty, type, content').in('id', ids);
+        const byId = new Map((items || []).map((it) => [it.id, it]));
+
+        const graded: { difficulty: number; correct: boolean }[] = [];
+        const perSkill: Record<string, { c: number; n: number }> = {};
+        for (const a of answers) {
+            const it = byId.get(a.id);
+            if (!it) continue;
+            const correct = gradeItem(it.type as string, it.content, a.raw);
+            graded.push({ difficulty: it.difficulty as number, correct });
+            const s = it.skill as string;
+            (perSkill[s] ||= { c: 0, n: 0 }).n++;
+            if (correct) perSkill[s].c++;
+        }
+        if (!graded.length) return NextResponse.json({ error: 'Ítems inválidos' }, { status: 400 });
+
+        const theta = estimateTheta(theta0, graded);
+        const band = thetaToBand(theta);
+        const cefr = bandToCefr(band);
+        const englishLevel = `Banda ${band}`;
+
+        // Persistencia autoritativa server-side (admin = service role).
+        await admin.from('users').update({ english_level: englishLevel, has_completed_evaluation: true }).eq('id', user.id);
+        await admin.from('evaluations').insert({
+            user_id: user.id,
+            status: 'completed',
+            category_levels: { cefr, theta: Math.round(theta * 100) / 100, band },
+            evaluation_history: graded,
+        }).then(() => {}, () => {});
+        // XP por completar (como el alumno, no admin: grant_progress usa auth.uid()).
+        supabase.rpc('grant_progress', { p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
+
+        const skills = Object.fromEntries(Object.entries(perSkill).map(([s, v]) => [s, Math.round((v.c / Math.max(1, v.n)) * 100)]));
+        return NextResponse.json({ band, bandTitle: bandTitle(band), cefr, englishLevel, perSkill: skills });
+    } catch (e) {
+        console.error('[placement/finalize]', e instanceof Error ? e.message : e);
+        return NextResponse.json({ error: 'Error' }, { status: 500 });
+    }
+}
