@@ -151,9 +151,12 @@ export default async function AlumnoDetailPage({ params }: { params: Promise<Par
         }
     }
 
-    // URLs firmadas para el audio (bucket privado, generadas en server con admin client)
+    // URLs firmadas para el audio (bucket privado, generadas en server con admin client).
+    // SEGURIDAD: solo firmar rutas que pertenezcan a la carpeta del propio alumno (`${id}/...`).
+    // audio_path lo controla el cliente al guardar el resultado; sin esta validación un alumno
+    // podría apuntar a la carpeta de otro y exponer su grabación al firmar con service_role.
     const signedUrlByResultId: Record<string, string> = {};
-    const resultsWithAudio = results.filter((r) => !!r.audio_path);
+    const resultsWithAudio = results.filter((r) => typeof r.audio_path === 'string' && (r.audio_path as string).startsWith(`${id}/`));
     if (resultsWithAudio.length > 0) {
         const admin = createAdminClient();
         await Promise.all(

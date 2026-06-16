@@ -86,9 +86,11 @@ export default async function RevisionPage() {
 
     // 3. Generar URLs firmadas para los audios (bucket privado student_audios).
     //    Se usa el cliente admin solo en server-side.
+    // SEGURIDAD: solo firmar rutas dentro de la carpeta del propio alumno dueño del registro
+    // (audio_path lo controla el cliente; evita IDOR a audios de otros alumnos al firmar con service_role).
     const signedUrlByPath = new Map<string, string>();
     const audioPaths = Array.from(
-        new Set(rows.map((r) => r.audio_path).filter((p): p is string => !!p))
+        new Set(rows.filter((r) => typeof r.audio_path === 'string' && (r.audio_path as string).startsWith(`${r.user_id}/`)).map((r) => r.audio_path as string))
     );
 
     if (audioPaths.length > 0) {
