@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Volume2, Loader2, Check } from 'lucide-react';
+import { Volume2, Loader2, Check, RotateCcw } from 'lucide-react';
 import Mascot from '@/components/lesson/Mascot';
-import { playAudio, loadAudioManifest } from '@/lib/lessonAudio';
+import { playAudio, loadAudioManifest, stopAudio } from '@/lib/lessonAudio';
 
 const say = (t: string) => playAudio(t, 'narrator');
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
@@ -20,19 +20,21 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [raw, setRaw] = useState<unknown>(null); // respuesta cruda actual
+    const [error, setError] = useState(false); // fallo de red/servidor (≠ diagnóstica terminada)
     const historyRef = useRef<Answer[]>([]);
     const APPROX = 10; // ítems aproximados (para la barra)
 
-    useEffect(() => { loadAudioManifest(); void fetchNext(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
+    useEffect(() => { loadAudioManifest(); void fetchNext(); return () => stopAudio(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
 
     async function fetchNext() {
-        setLoading(true); setRaw(null);
+        setLoading(true); setRaw(null); setError(false); stopAudio();
         try {
             const r = await fetch('/api/placement/next', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theta0, history: historyRef.current }) });
+            if (!r.ok) { setError(true); setLoading(false); return; } // 429/500: NO es "terminado"
             const d = await r.json();
-            if (d.done || !d.item) { onFinish(historyRef.current); return; }
+            if (d.done === true || !d.item) { onFinish(historyRef.current); return; } // solo termina si el servidor lo dice
             setItem(d.item); setCount(d.count); setLoading(false);
-        } catch { onFinish(historyRef.current); }
+        } catch { setError(true); setLoading(false); } // error de red: ofrecer reintento, no finalizar con datos incompletos
     }
     function submit() {
         if (raw === null || (Array.isArray(raw) && !raw.length) || !item) return;
@@ -40,6 +42,18 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
         void fetchNext();
     }
 
+    if (error) {
+        return (
+            <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-5 text-center px-6">
+                <Mascot character="apicultor" mood="sad" className="w-24 h-24" />
+                <p className="text-lg font-black text-gray-900">Se nos cayó la conexión</p>
+                <p className="text-sm font-bold text-gray-400 max-w-xs -mt-3">No te preocupes, tu progreso está a salvo.</p>
+                <button onClick={() => void fetchNext()} className="inline-flex items-center gap-2 bg-[#632EB0] text-white font-black px-8 py-3.5 rounded-2xl active:scale-95">
+                    <RotateCcw className="w-5 h-5" /> Reintentar
+                </button>
+            </div>
+        );
+    }
     if (loading || !item) {
         return <div className="min-h-screen bg-white flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#632EB0] animate-spin" /></div>;
     }
@@ -49,10 +63,11 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     return (
         <div className="min-h-screen bg-white pb-28">
             <div className="sticky top-0 bg-white px-4 py-3 flex items-center gap-3">
-                <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#88e04f] rounded-full transition-all" style={{ width: `${Math.min(100, (count / APPROX) * 100)}%` }} />
+                <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow={count} aria-valuemin={0} aria-valuemax={APPROX}>
+                    {/* Se capa al 95% hasta que el servidor confirma el fin (el total real es 8–12). */}
+                    <div className="h-full bg-[#88e04f] rounded-full transition-all" style={{ width: `${Math.min(95, Math.round((count / APPROX) * 100))}%` }} />
                 </div>
-                <span className="text-xs font-black text-gray-400">{count + 1}</span>
+                <span className="text-xs font-black text-gray-400" aria-live="polite">Pregunta {count + 1}</span>
             </div>
 
             <div className="max-w-xl mx-auto px-4 py-6">

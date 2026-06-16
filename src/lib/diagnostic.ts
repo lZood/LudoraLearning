@@ -9,6 +9,14 @@ type Content = any;
 
 const clamp = (x: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, x));
 
+// theta0 (autoubicación) solo puede ser uno de los priors legítimos del enum SELF del cliente.
+// Se ajusta al más cercano para que un cliente no pueda arrancar con un prior arbitrario alto.
+const THETA0_PRIORS = [1.5, 3.0, 4.0];
+export function normTheta0(x: unknown): number {
+    const v = typeof x === 'number' && isFinite(x) ? x : 3.0;
+    return THETA0_PRIORS.reduce((best, p) => (Math.abs(p - v) < Math.abs(best - v) ? p : best), THETA0_PRIORS[0]);
+}
+
 // --- Comparación de texto tolerante (para speak), sin depender de APIs del navegador ---
 const norm = (s: string) => String(s).toLowerCase().replace(/[^a-z0-9'\s]/g, ' ').replace(/\s+/g, ' ').trim();
 function textMatch(transcript: string, target: string): boolean {
@@ -77,7 +85,9 @@ export function bandTitle(band: number): string {
 }
 
 // Tipos de ítem que el reproductor diagnóstico sabe renderizar (v1: receptivos + construcción).
-export const DIAGNOSTIC_TYPES = ['text_mc', 'audio_mc', 'who_said_it', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build'];
+// 'who_said_it' se excluye a propósito: su `target` ES la respuesta en texto y no puede renderizarse
+// sin exponerla al cliente (no hay forma segura con el allowlist de sanitizeContent).
+export const DIAGNOSTIC_TYPES = ['text_mc', 'audio_mc', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build'];
 const ROTATION: Skill[] = ['listening', 'reading', 'writing'];
 
 type Item = { id: string; skill: string; difficulty: number; type: string; content: Content };
@@ -107,20 +117,34 @@ export function placementDone(theta0: number, graded: { difficulty: number; corr
     return false;
 }
 
-// Quita las respuestas del contenido antes de enviarlo al cliente (no se puede hacer trampa).
+// Construye el contenido que se envía al cliente con ALLOWLIST por tipo: solo los campos
+// estrictamente necesarios para renderizar. Cualquier campo de respuesta (correct, accept,
+// answer, target, …) o de tipos no contemplados queda fuera por defecto (falla cerrado).
+// NOTA (residual v1): para los tipos de listening el campo `audio` es texto y se necesita para
+// la reproducción/TTS; un atacante que lea la respuesta de red puede derivar la respuesta. El
+// cierre completo requiere pre-renderizar el audio y servir un audioUrl opaco (follow-up).
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 export function sanitizeContent(type: string, content: Content): Content {
-    const c = JSON.parse(JSON.stringify(content));
-    // Quitar SIEMPRE cualquier campo de respuesta (denylist defensiva, cubre tipos nuevos).
-    delete c.correct;
-    delete c.accept;
-    if (type === 'multi_select' && Array.isArray(c.options)) {
-        c.options = c.options.map((o: Content) => ({ text: o.text }));
+    const src = content || {};
+    const out: Content = { instruction: src.instruction };
+    const opts = Array.isArray(src.options) ? src.options : [];
+    switch (type) {
+        case 'text_mc':
+            out.prompt = src.prompt; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+        case 'audio_mc':
+        case 'listen_missing_word':
+        case 'minimal_pairs':
+            out.audio = src.audio; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+        case 'fill_blank':
+            out.before = src.before; out.after = src.after; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+        case 'multi_select':
+            out.options = opts.map((o: Content) => ({ text: o?.text })); break;
+        case 'word_bank':
+            out.prompt = src.prompt; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
+        case 'listen_build':
+            out.prompt = src.prompt; out.audio = src.audio; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
+        default:
+            break; // tipo no contemplado: solo instruction (falla cerrado)
     }
-    // word_bank/listen_build: el cliente solo recibe las fichas BARAJADAS, nunca el orden correcto.
-    if ((type === 'word_bank' || type === 'listen_build') && Array.isArray(c.answer)) {
-        c.tiles = shuffle(c.answer);
-        delete c.answer;
-    }
-    return c;
+    return out;
 }

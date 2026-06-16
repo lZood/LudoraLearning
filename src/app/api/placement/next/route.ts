@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { gradeItem, estimateTheta, pickNext, placementDone, sanitizeContent } from '@/lib/diagnostic';
+import { gradeItem, estimateTheta, pickNext, placementDone, sanitizeContent, normTheta0 } from '@/lib/diagnostic';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         const body = await req.json();
         const history: { id: string; raw: unknown }[] = Array.isArray(body.history) ? body.history.slice(0, 40) : [];
-        const theta0 = typeof body.theta0 === 'number' ? Math.max(1, Math.min(6, body.theta0)) : 2.0;
+        const theta0 = normTheta0(body.theta0);
 
         const { data: items, error } = await admin.from('diagnostic_items').select('id, skill, difficulty, type, content');
         if (error) throw error;

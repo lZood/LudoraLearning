@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, ChevronDown, ArrowRight, Sparkles, Plane, GraduationCap, Briefcase, Gamepad2 } from 'lucide-react';
+import { Loader2, ChevronDown, ArrowRight, Sparkles, Plane, GraduationCap, Briefcase, Gamepad2, RotateCcw } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
 import DiagnosticPlayer from '@/components/evaluation/DiagnosticPlayer';
 
-type Step = 'loading' | 'welcome' | 'objective' | 'placement' | 'diagnostic' | 'gate' | 'finishing' | 'result';
+type Step = 'loading' | 'welcome' | 'objective' | 'placement' | 'diagnostic' | 'gate' | 'finishing' | 'result' | 'finalizeError';
 type Result = { band: number; bandTitle: string; cefr: string; perSkill: Record<string, number> };
 type Answer = { id: string; raw: unknown };
 const PENDING_KEY = 'ludora_pending_placement';
@@ -38,6 +38,8 @@ export default function EvaluacionPage() {
     const [authed, setAuthed] = useState(false);
     const [result, setResult] = useState<Result | null>(null);
     const [showBreakdown, setShowBreakdown] = useState(false);
+    const finalizingRef = useRef(false);                                  // guard anti doble-finalize
+    const pendingRef = useRef<{ theta0: number; history: Answer[] } | null>(null); // para reintentar
 
     // Al cargar: si el invitado ya hizo la diagnóstica y ahora vuelve autenticado (tras registrarse),
     // se finaliza el placement pendiente guardado en localStorage. Si no hay nada pendiente, empieza el flujo.
@@ -51,20 +53,29 @@ export default function EvaluacionPage() {
                 await finalize(pending.history, pending.theta0);
                 return;
             }
+            if (user) {
+                // Autenticado sin pendiente: si ya está ubicado, al dashboard (no repetir la diagnóstica).
+                const { data } = await supabase.from('users').select('has_completed_evaluation, english_level').eq('id', user.id).maybeSingle();
+                if (data?.has_completed_evaluation || data?.english_level) { router.replace('/portal-alumno/dashboard'); return; }
+            }
             setStep('welcome');
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function finalize(history: Answer[], t0: number) {
+        if (finalizingRef.current) return; // evita doble disparo (StrictMode / re-render)
+        finalizingRef.current = true;
+        pendingRef.current = { theta0: t0, history };
         setStep('finishing');
-        try { localStorage.removeItem(PENDING_KEY); } catch { /* noop */ }
         try {
             const r = await fetch('/api/placement/finalize', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: history, theta0: t0 }) });
             const d = await r.json();
-            if (r.ok) { setResult(d); setStep('result'); }
-            else { router.replace('/portal-alumno/dashboard'); }
-        } catch { router.replace('/portal-alumno/dashboard'); }
+            if (r.ok) {
+                try { localStorage.removeItem(PENDING_KEY); } catch { /* noop */ } // solo se borra tras ÉXITO
+                setResult(d); setStep('result');
+            } else { finalizingRef.current = false; setStep('finalizeError'); }
+        } catch { finalizingRef.current = false; setStep('finalizeError'); }
     }
 
     const onFinish = async (history: Answer[]) => {
@@ -142,6 +153,21 @@ export default function EvaluacionPage() {
                         </button>
                     ))}
                 </div>
+            </Shell>
+        );
+    }
+
+    if (step === 'finalizeError') {
+        return (
+            <Shell>
+                <Mascot character="apicultor" mood="sad" className="w-24 h-24" />
+                <div>
+                    <h1 className="text-xl font-black text-gray-900">No pudimos guardar tu nivel</h1>
+                    <p className="text-gray-500 font-bold text-sm mt-1 max-w-xs">Tu progreso está a salvo. Intentémoslo de nuevo.</p>
+                </div>
+                <Cta onClick={() => { const p = pendingRef.current; if (p) void finalize(p.history, p.theta0); }}>
+                    <RotateCcw className="w-5 h-5" /> Reintentar
+                </Cta>
             </Shell>
         );
     }
