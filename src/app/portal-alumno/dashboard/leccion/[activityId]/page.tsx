@@ -84,6 +84,7 @@ function OptionBtn({ label, state, onClick, disabled }: { label: React.ReactNode
 function ChoiceMC({ ex, frozen, onDone, audio }: RProps & { audio?: string }) {
     const e = ex as { instruction?: string; prompt?: string; options: string[]; correct: number };
     const [sel, setSel] = useState<number | null>(null);
+    useEffect(() => { if (!audio) return; const t = setTimeout(() => speak(audio), 350); return () => clearTimeout(t); }, []); // auto-reproduce al entrar
     return (
         <>
             <ExHeader text={(ex as { instruction?: string }).instruction || 'Elige la opción correcta'} />
@@ -273,6 +274,7 @@ function Speak({ ex, frozen, onDone }: RProps) {
     const [rec, setRec] = useState(false);
     const [busy, setBusy] = useState(false);
     const mrRef = useRef<MediaRecorder | null>(null);
+    useEffect(() => { const t = setTimeout(() => speak(e.say), 350); return () => clearTimeout(t); }, []); // auto-reproduce el modelo al entrar
     const start = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -354,6 +356,7 @@ function Conversation({ ex, frozen, onDone }: RProps) {
     const turns = messages.filter((m) => m.role === 'user').length;
     const endRef = useRef<HTMLDivElement>(null);
     useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+    useEffect(() => { const t = setTimeout(() => speak(e.starter), 400); return () => clearTimeout(t); }, []); // auto-reproduce el saludo del NPC al entrar
     const send = async () => {
         const text = input.trim(); if (!text || busy) return;
         const next = [...messages, { role: 'user' as const, text }]; setMessages(next); setInput(''); setBusy(true);
