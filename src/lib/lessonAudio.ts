@@ -30,7 +30,9 @@ export function loadAudioManifest(): Promise<void> {
     if (loading) return loading;
     loading = (async () => {
         try {
-            const r = await fetch(MANIFEST_URL, { cache: 'force-cache' });
+            // 'no-cache' revalida (ETag) en cada carga: así los audios nuevos aparecen sin
+            // quedar pegados a una copia vieja del manifest cacheada por el navegador.
+            const r = await fetch(MANIFEST_URL, { cache: 'no-cache' });
             manifest = r.ok ? await r.json() : {};
         } catch {
             manifest = {};
