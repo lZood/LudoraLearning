@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
-import { playAudio, playSfx, loadAudioManifest } from '@/lib/lessonAudio';
+import { playAudio, playSfx, loadAudioManifest, setDefaultVoice } from '@/lib/lessonAudio';
 import { speechMatches, getSR } from '@/lib/speech';
 import type { LessonContent, Exercise } from '@/lib/lessonContent';
 
@@ -14,8 +14,8 @@ type Result = { correct: boolean; correctText?: string; skipped?: boolean };
 type Character = 'granjerita' | 'apicultor';
 
 // ───────────────────────── helpers ─────────────────────────
-// Reproduce inglés (audio pre-generado de ElevenLabs o TTS del navegador).
-function speak(text: string, role?: string) { playAudio(text, role ?? 'narrator'); }
+// Reproduce inglés con la voz del personaje (si no se da role, usa la voz de la lección).
+function speak(text: string, role?: string) { playAudio(text, role); }
 // Personaje según la destreza (le da "dueño" a cada lección).
 const charForSkill = (skill?: string): Character =>
     skill === 'listening' || skill === 'speaking' || skill === 'pronunciation' ? 'apicultor' : 'granjerita';
@@ -164,7 +164,7 @@ function WhoSaidIt({ ex, frozen, onDone }: RProps) {
                     const npc = NPC_STYLE[i % NPC_STYLE.length];
                     const active = sel === i;
                     return (
-                        <button key={i} onClick={() => { speak(word, `npc${(i % 3) + 1}`); setSel(i); }} disabled={frozen}
+                        <button key={i} onClick={() => { speak(word, NPC_STYLE[i % NPC_STYLE.length].char); setSel(i); }} disabled={frozen}
                             className={`flex flex-col items-center gap-2 p-4 rounded-3xl border-2 transition-all ${active ? 'border-[#632EB0] bg-purple-50' : `border-transparent ${npc.bg} hover:brightness-95`}`}>
                             <div className="rounded-full p-1" style={{ boxShadow: `0 0 0 3px ${active ? '#632EB0' : npc.ring}` }}>
                                 <Mascot character={npc.char} mood="curious" className="w-16 h-16" />
@@ -945,6 +945,7 @@ export default function LeccionPage() {
             setUnitExt(unit?.external_id ?? '');
             setXp((act.xp_reward as number) ?? 10);
             setSkill(content.skill ?? '');
+            setDefaultVoice(charForSkill(content.skill)); // todo el audio de la lección usa la voz del personaje dueño
             setExercises(content.exercises);
             // Retomar donde se quedó (si la lección no está completada).
             if (user) {

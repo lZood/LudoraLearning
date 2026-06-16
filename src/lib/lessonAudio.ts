@@ -1,6 +1,6 @@
 // Reproducción de audio de lecciones.
-// Usa audios pre-generados (ElevenLabs) servidos desde Supabase Storage; si una frase
-// no tiene audio, cae a TTS del navegador (en-US). También reproduce efectos de sonido.
+// Cada personaje tiene UNA voz fija: usa el MP3 pre-generado (ElevenLabs) de ese personaje
+// y, si no existe, cae a TTS del navegador diferenciando el personaje por tono/voz.
 
 const SUPA = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const BASE = SUPA ? `${SUPA}/storage/v1/object/public/lesson-audio` : '';
@@ -10,8 +10,20 @@ let manifest: Record<string, string> | null = null;
 let loading: Promise<void> | null = null;
 
 // Roles de voz (deben coincidir con scripts/audio/generate-audio.mjs)
-export const VOICE_ROLES = ['narrator', 'granjerita', 'apicultor', 'npc1', 'npc2', 'npc3'] as const;
-export type VoiceRole = (typeof VOICE_ROLES)[number];
+export const VOICE_ROLES = ['granjerita', 'apicultor', 'narrator'] as const;
+export type VoiceRole = (typeof VOICE_ROLES)[number] | string;
+
+// Voz "por defecto" de la lección actual (el personaje dueño). La fija el player al cargar.
+let defaultVoice: string = 'narrator';
+export function setDefaultVoice(role: string) { defaultVoice = role || 'narrator'; }
+
+// Ajuste de TTS por personaje para que cada uno suene distinto aunque no haya MP3.
+const TTS: Record<string, { pitch: number; rate: number; female?: boolean }> = {
+    granjerita: { pitch: 1.4, rate: 1.0, female: true },   // niña alegre (aguda)
+    apicultor: { pitch: 0.78, rate: 0.95, female: false }, // adulto cálido (grave)
+    narrator: { pitch: 1.05, rate: 0.95 },
+};
+const ttsFor = (role: string) => TTS[role] || TTS.narrator;
 
 export function loadAudioManifest(): Promise<void> {
     if (manifest) return Promise.resolve();
@@ -27,14 +39,25 @@ export function loadAudioManifest(): Promise<void> {
     return loading;
 }
 
-function ttsSpeak(text: string) {
+function pickVoice(role: string): SpeechSynthesisVoice | undefined {
+    const voices = window.speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().startsWith('en'));
+    if (!voices.length) return undefined;
+    const has = (kws: string[]) => voices.find((v) => kws.some((k) => v.name.toLowerCase().includes(k)));
+    const cfg = ttsFor(role);
+    if (cfg.female === true) return has(['female', 'samantha', 'victoria', 'zira', 'karen', 'tessa', 'female']) || voices.find((v) => !/male|david|daniel|alex|fred|mark/i.test(v.name)) || voices[0];
+    if (cfg.female === false) return has(['male', 'daniel', 'david', 'alex', 'fred', 'mark', 'rishi']) || voices[0];
+    return voices[0];
+}
+
+function ttsSpeak(text: string, role: string) {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
     try {
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text.trim());
         u.lang = 'en-US';
-        u.rate = 0.92;
-        const v = window.speechSynthesis.getVoices().find((vo) => vo.lang.startsWith('en'));
+        const cfg = ttsFor(role);
+        u.rate = cfg.rate; u.pitch = cfg.pitch;
+        const v = pickVoice(role);
         if (v) u.voice = v;
         window.speechSynthesis.speak(u);
     } catch {
@@ -44,21 +67,24 @@ function ttsSpeak(text: string) {
 
 let current: HTMLAudioElement | null = null;
 
-// Reproduce la frase: usa el MP3 pre-generado para (role, text) o (narrator, text); si no, TTS.
-export function playAudio(text: string, role: VoiceRole | string = 'narrator') {
+// Reproduce la frase con la voz del personaje (role). Si no se pasa role, usa la voz de la lección.
+// Usa el MP3 pre-generado de ESE personaje; si no existe, TTS con el tono del personaje
+// (nunca cae a la voz de otro personaje, para mantener voces únicas).
+export function playAudio(text: string, role?: string) {
     if (!text) return;
-    const url = manifest ? manifest[`${role}|${text}`] || manifest[`narrator|${text}`] : undefined;
+    const r = role || defaultVoice;
+    const url = manifest ? manifest[`${r}|${text}`] : undefined;
     if (url) {
         try {
             if (current) current.pause();
             current = new Audio(url);
-            current.play().catch(() => ttsSpeak(text));
+            current.play().catch(() => ttsSpeak(text, r));
             return;
         } catch {
             /* fall through a TTS */
         }
     }
-    ttsSpeak(text);
+    ttsSpeak(text, r);
 }
 
 // Efectos de sonido (acierto/error/completado). Silencioso si el archivo no existe.

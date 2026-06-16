@@ -79,16 +79,28 @@ async function pool(items, n, fn) {
   return out;
 }
 
-// Extrae las frases en inglés (con su rol de voz) de una lección.
+// Cada destreza tiene un personaje dueño -> su voz. (Debe coincidir con charForSkill del player.)
+const charOf = (skill) => (skill === 'reading' || skill === 'writing' || skill === 'simple') ? 'granjerita' : 'apicultor';
+// "Who said it": los 4 aldeanos alternan personaje (debe coincidir con NPC_STYLE del player).
+const NPC_AUDIO = ['granjerita', 'apicultor', 'granjerita', 'apicultor'];
+
+// Extrae las frases en inglés (con la voz del personaje) de una lección.
 function extract(content) {
   const tasks = [];
+  const ch = charOf(content.skill);
   for (const e of content.exercises || []) {
-    if (e.type === 'audio_mc' && e.audio) tasks.push(['narrator', e.audio]);
-    else if (e.type === 'listen_build' && e.audio) tasks.push(['narrator', e.audio]);
-    else if (e.type === 'speak' && e.say) tasks.push(['narrator', e.say]);
-    else if (e.type === 'conversation' && e.starter) tasks.push(['narrator', e.starter]);
-    else if (e.type === 'who_said_it' && Array.isArray(e.options)) e.options.forEach((o, i) => tasks.push([`npc${(i % 3) + 1}`, o]));
-    else if (e.type === 'match_pairs' && Array.isArray(e.pairs)) e.pairs.forEach((p) => tasks.push(['narrator', p.en]));
+    if (e.type === 'audio_mc' && e.audio) tasks.push([ch, e.audio]);
+    else if (e.type === 'listen_build' && e.audio) tasks.push([ch, e.audio]);
+    else if (e.type === 'listen_missing_word') { if (e.audio) tasks.push([ch, e.audio]); (e.options || []).forEach((o) => tasks.push([ch, o])); }
+    else if (e.type === 'minimal_pairs') { if (e.audio) tasks.push([ch, e.audio]); (e.options || []).forEach((o) => tasks.push([ch, o])); }
+    else if (e.type === 'speak' && e.say) tasks.push([ch, e.say]);
+    else if (e.type === 'speak_repeat' && e.say) tasks.push([ch, e.say]);
+    else if (e.type === 'speak_answer' && e.question) tasks.push([ch, e.question]);
+    else if (e.type === 'conversation' && e.starter) tasks.push(['apicultor', e.starter]);
+    else if (e.type === 'dialogue' && Array.isArray(e.turns)) e.turns.forEach((t) => t.npc && tasks.push(['apicultor', t.npc]));
+    else if (e.type === 'who_said_it' && Array.isArray(e.options)) e.options.forEach((o, i) => tasks.push([NPC_AUDIO[i % NPC_AUDIO.length], o]));
+    else if (e.type === 'tap_pairs_audio' && Array.isArray(e.pairs)) e.pairs.forEach((p) => p.audio && tasks.push([ch, p.audio]));
+    else if (e.type === 'match_pairs' && Array.isArray(e.pairs)) e.pairs.forEach((p) => tasks.push([ch, p.en]));
   }
   return tasks;
 }
