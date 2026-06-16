@@ -34,7 +34,6 @@ export default function UnitViewPage() {
   const [levelTitle, setLevelTitle] = useState('');
   const [activities, setActivities] = useState<Act[]>([]);
   const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
-  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -88,33 +87,6 @@ export default function UnitViewPage() {
 
     return () => { if (mainEl) { mainEl.style.overflow = ''; mainEl.style.overflowX = ''; } };
   }, [id]);
-
-  const handleStart = async () => {
-    const act = activities[currentActivityIndex];
-    if (!act || !userId || !unitId || busy) return;
-    setBusy(true);
-    try {
-      await supabase.from('user_activity_progress').upsert(
-        { user_id: userId, activity_id: act.id, completed_at: new Date().toISOString(), attempts: 1 },
-        { onConflict: 'user_id,activity_id' }
-      );
-      await supabase.rpc('grant_progress', { p_xp: act.xp_reward, p_coins: 0, p_source: 'actividad' });
-
-      const completedCount = currentActivityIndex + 1;
-      const pct = Math.round((completedCount / activities.length) * 100);
-      await supabase.from('user_progress').upsert(
-        { user_id: userId, unit_id: unitId, progress_pct: pct, status: pct >= 100 ? 'completed' : 'in_progress', last_accessed_at: new Date().toISOString() },
-        { onConflict: 'user_id,unit_id' }
-      );
-
-      setActivities((prev) => prev.map((a, i) => (i === currentActivityIndex ? { ...a, completed: true } : a)));
-      setCurrentActivityIndex((i) => Math.min(i + 1, activities.length));
-    } catch (e) {
-      console.error('completar actividad:', e);
-    } finally {
-      setBusy(false);
-    }
-  };
 
   if (loading) {
     return <div className="min-h-screen bg-white flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#632EB0] animate-spin" /></div>;
@@ -180,14 +152,13 @@ export default function UnitViewPage() {
               <span className="text-sm font-bold text-black text-center">
                 {allDone ? '¡Unidad completada! 🎉' : currentActivity?.title}
               </span>
-              <button
-                onClick={handleStart}
-                disabled={allDone || busy}
-                className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 rounded-2xl transition-colors active:scale-95 shadow-lg shadow-purple-500/10 disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                {allDone ? 'Completada' : 'Empezar'}
-              </button>
+              {allDone ? (
+                <button disabled className="w-full bg-gray-100 text-gray-400 font-semibold py-3 rounded-2xl">Completada ✓</button>
+              ) : currentActivity ? (
+                <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${currentActivity.id}`} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 rounded-2xl transition-colors active:scale-95 shadow-lg shadow-purple-500/10 text-center block">
+                  Empezar
+                </Link>
+              ) : null}
             </div>
           </div>
         </div>
@@ -214,14 +185,22 @@ export default function UnitViewPage() {
                       </div>
                     )}
 
-                    <div className="relative flex items-center justify-center flex-shrink-0">
-                      {isActive && <div className="absolute inset-[-8px] border-2 border-[#632EB0]/10 rounded-full z-0 animate-pulse"></div>}
-                      <div className={`w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 transition-all border-b-4 ${
-                        isCompleted ? 'bg-[#88e04f] border-[#6dc536]' : isActive ? 'bg-[#632EB0] border-[#4E248B]' : 'bg-gray-100 border-gray-200'
-                      } active:scale-95 cursor-pointer`}>
-                        {isCompleted ? <Check className="w-8 h-8 text-white" strokeWidth={3} /> : <ActIcon className={`w-7 h-7 md:w-8 md:h-8 ${isLocked ? 'text-gray-300' : 'text-white'}`} />}
+                    {isLocked ? (
+                      <div className="relative flex items-center justify-center flex-shrink-0">
+                        <div className="w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 border-b-4 bg-gray-100 border-gray-200">
+                          <ActIcon className="w-7 h-7 md:w-8 md:h-8 text-gray-300" />
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${activity.id}`} className="relative flex items-center justify-center flex-shrink-0">
+                        {isActive && <div className="absolute inset-[-8px] border-2 border-[#632EB0]/10 rounded-full z-0 animate-pulse"></div>}
+                        <div className={`w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 transition-all border-b-4 ${
+                          isCompleted ? 'bg-[#88e04f] border-[#6dc536]' : 'bg-[#632EB0] border-[#4E248B]'
+                        } active:scale-95 cursor-pointer hover:scale-105`}>
+                          {isCompleted ? <Check className="w-8 h-8 text-white" strokeWidth={3} /> : <ActIcon className="w-7 h-7 md:w-8 md:h-8 text-white" />}
+                        </div>
+                      </Link>
+                    )}
 
                     {isEven && (
                       <div className="flex-1 flex flex-col items-start text-left pl-2">
@@ -243,9 +222,9 @@ export default function UnitViewPage() {
           <div className="w-full max-w-[1200px] flex md:justify-end justify-center px-4 sm:px-6">
             <div className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-[2rem] p-4 shadow-[0_8px_40px_rgba(0,0,0,0.15)] pointer-events-auto flex flex-col items-center justify-center gap-3 w-full max-w-[350px] mr-0 md:mr-16 lg:mr-24">
               <h3 className="text-black font-bold text-[15px] text-center">{currentActivity.title}</h3>
-              <button onClick={handleStart} disabled={busy} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 px-8 rounded-2xl text-[15px] transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
-                {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null} Empezar
-              </button>
+              <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${currentActivity.id}`} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 px-8 rounded-2xl text-[15px] transition-colors text-center block">
+                Empezar
+              </Link>
             </div>
           </div>
         </div>,
