@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export const dynamic = 'force-dynamic';
@@ -10,9 +11,12 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 export async function POST(req: NextRequest) {
     try {
         if (!process.env.GEMINI_API_KEY) return NextResponse.json({ error: 'Gemini no configurado' }, { status: 500 });
-        const ip = (req.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown').trim();
+        // Requiere sesión (evita abuso de costo de IA por anónimos).
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
         const admin = createAdminClient();
-        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `explain:${ip}`, p_max: 40, p_window: 60 });
+        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `explain:${user.id}`, p_max: 40, p_window: 60 });
         if (rlOk === false) return NextResponse.json({ error: 'Espera un momento.' }, { status: 429 });
 
         const body = await req.json();

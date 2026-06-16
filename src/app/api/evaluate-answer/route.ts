@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 // Instanciar SDK
@@ -13,10 +14,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Gemini API key is not configured.' }, { status: 500 });
         }
 
-        // Rate-limit por IP (anti-abuso/costos de IA): 40 req/min.
-        const ip = (req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown').trim();
+        // Requiere sesión (evita abuso de costo de IA por anónimos).
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+        // Rate-limit por usuario (no por IP, que es falsificable): 40 req/min.
         const admin = createAdminClient();
-        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `eval:${ip}`, p_max: 40, p_window: 60 });
+        const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `eval:${user.id}`, p_max: 40, p_window: 60 });
         if (rlOk === false) {
             return NextResponse.json({ error: 'Demasiadas solicitudes, intenta en un momento.' }, { status: 429 });
         }
