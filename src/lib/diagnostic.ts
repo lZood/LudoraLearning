@@ -133,16 +133,19 @@ export function sanitizeContent(type: string, content: Content): Content {
     const src = content || {};
     const out: Content = { instruction: src.instruction };
     const opts = Array.isArray(src.options) ? src.options : [];
+    // Audio opaco: enviamos la URL pre-generada (no el texto-respuesta). Solo si falta, caemos al
+    // texto como red de seguridad (degradación con la fuga conocida, pero el item suena igual).
+    const audioOut = () => { if (src.audioUrl) out.audioUrl = src.audioUrl; else out.audio = src.audio; };
     switch (type) {
         case 'text_mc':
             out.prompt = src.prompt; out.options = opts.map(strOrText); break;
         case 'audio_mc':
             // prompt = la PREGUNTA (se muestra); options = traducciones en español (NO se hablan).
-            out.audio = src.audio; out.prompt = src.prompt; out.options = opts.map(strOrText); break;
+            audioOut(); out.prompt = src.prompt; out.options = opts.map(strOrText); break;
         case 'minimal_pairs':
-            out.audio = src.audio; out.options = opts.map(strOrText); break;
+            audioOut(); out.options = opts.map(strOrText); break;
         case 'listen_missing_word': {
-            out.audio = src.audio; out.options = opts.map(strOrText);
+            audioOut(); out.options = opts.map(strOrText);
             // Cloze para mostrar en pantalla: la oración con la palabra correcta en BLANCO (no revela).
             const ans = strOrText(opts[src.correct]);
             if (typeof src.audio === 'string' && ans) {
@@ -160,7 +163,7 @@ export function sanitizeContent(type: string, content: Content): Content {
         case 'word_bank':
             out.prompt = src.prompt; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
         case 'listen_build':
-            out.prompt = src.prompt; out.audio = src.audio; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
+            audioOut(); out.prompt = src.prompt; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
         case 'speak':
         case 'speak_repeat':
             // Leer en voz alta el texto mostrado (`say`); se verifica por similitud en el navegador.

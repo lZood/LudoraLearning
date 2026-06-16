@@ -115,6 +115,17 @@ export function playAudio(text: string, role?: string) {
     ttsSpeak(text, r);
 }
 
+// Reproduce un MP3 por URL directa (audio opaco pre-generado). Se usa en la diagnóstica para
+// no exponer el texto-respuesta al cliente: el navegador suena la URL sin saber qué dice.
+export function playUrl(url: string) {
+    if (!url) return;
+    try {
+        if (current) current.pause();
+        current = new Audio(url);
+        current.play().catch(() => { /* autoplay bloqueado: el usuario puede tocar "Escuchar" */ });
+    } catch { /* noop */ }
+}
+
 // Reproduce el SONIDO aislado de un fonema (clave `sound|<ipa>`). Si no hay clip,
 // cae a la palabra clave (para no dejar al usuario sin audio).
 export function playPhonemeSound(ipa: string, fallbackWord?: string) {

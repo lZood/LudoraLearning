@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Volume2, Loader2, Check, RotateCcw, X, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Mascot from '@/components/lesson/Mascot';
-import { playAudio, loadAudioManifest, stopAudio, playSfx } from '@/lib/lessonAudio';
+import { playAudio, playUrl, loadAudioManifest, stopAudio, playSfx } from '@/lib/lessonAudio';
 import { getSR } from '@/lib/speech';
 
 const say = (t: string) => playAudio(t, 'narrator'); // siempre inglés con voz narradora
+// Reproduce el prompt de audio: URL opaca pre-generada si existe (no expone el texto), si no, TTS.
+const playPrompt = (content: { audioUrl?: string; audio?: string }) => { if (content?.audioUrl) playUrl(content.audioUrl); else if (content?.audio) say(content.audio); };
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,7 +52,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }
     function autoPlay(it: Item | null) {
         if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current);
-        if (it && AUDIO_TYPES.includes(it.type) && it.content?.audio) autoPlayTimer.current = setTimeout(() => say(it.content.audio), 350);
+        if (it && AUDIO_TYPES.includes(it.type) && (it.content?.audioUrl || it.content?.audio)) autoPlayTimer.current = setTimeout(() => playPrompt(it.content), 350);
     }
     async function start() {
         setLoading(true); setError(false); stopAudio();
@@ -131,8 +133,8 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                     </div>
 
                     {/* Audio (auto-reproduce; el botón permite repetir) */}
-                    {(AUDIO_TYPES.includes(item.type) && e.audio) && (
-                        <button onClick={() => say(e.audio)} disabled={frozen} className="mb-5 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95 shadow-[0_4px_0_#4a2088] disabled:opacity-50">
+                    {(AUDIO_TYPES.includes(item.type) && (e.audioUrl || e.audio)) && (
+                        <button onClick={() => playPrompt(e)} disabled={frozen} className="mb-5 inline-flex items-center gap-3 bg-[#632EB0] text-white font-black px-6 py-4 rounded-2xl active:scale-95 shadow-[0_4px_0_#4a2088] disabled:opacity-50">
                             <Volume2 className="w-6 h-6" /> Escuchar de nuevo
                         </button>
                     )}
