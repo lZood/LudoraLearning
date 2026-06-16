@@ -19,7 +19,7 @@ export default async function DashboardIndex() {
         .from('users')
         .select('english_level')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
     if (!userData || !userData.english_level) {
         redirect('/portal-alumno/evaluacion');
@@ -37,23 +37,43 @@ export default async function DashboardIndex() {
     const bandaNumber = userData.english_level.replace('Banda ', '');
     const bandaTitle = bandaNumber === '1' ? 'Iniciación Inmersiva' : bandaNumber === '2' ? 'Básico Funcional' : 'Aventurero Independiente';
 
+    // Unidad para "continuar": la última accedida; si no hay, la primera del curso.
+    const { data: lastProg } = await supabase
+        .from('user_progress')
+        .select('progress_pct, last_accessed_at, unit:units!user_progress_unit_id_fkey(external_id, title)')
+        .eq('user_id', user.id)
+        .order('last_accessed_at', { ascending: false, nullsFirst: false })
+        .limit(1)
+        .maybeSingle();
+    const luRaw = lastProg?.unit as { external_id?: string; title?: string } | { external_id?: string; title?: string }[] | null;
+    const luObj = Array.isArray(luRaw) ? luRaw[0] : luRaw;
+    let lastUnit: { id: string; title: string; progress: number };
+    if (luObj?.external_id) {
+        lastUnit = { id: luObj.external_id, title: luObj.title ?? 'Unidad', progress: (lastProg?.progress_pct as number) ?? 0 };
+    } else {
+        const { data: firstUnit } = await supabase.from('units').select('external_id, title').eq('external_id', 'u1-1').maybeSingle();
+        lastUnit = { id: firstUnit?.external_id ?? 'u1-1', title: firstUnit?.title ?? 'Bienvenido', progress: 0 };
+    }
+
     return (
         <div className="w-full">
             {/* MOBILE VIEW (vistas pequeñas) */}
             <div className="md:hidden">
-              <MobileDashboardContent 
-                bandaNumber={bandaNumber} 
-                bandaTitle={bandaTitle} 
-                isPremium={isPremium} 
+              <MobileDashboardContent
+                bandaNumber={bandaNumber}
+                bandaTitle={bandaTitle}
+                isPremium={isPremium}
+                lastUnit={lastUnit}
               />
             </div>
 
             {/* DESKTOP VIEW (vistas medianas/grandes) */}
             <div className="hidden md:flex flex-col w-full max-w-7xl mx-auto">
-                <DesktopDashboardContent 
-                    bandaNumber={bandaNumber} 
-                    bandaTitle={bandaTitle} 
-                    isPremium={isPremium} 
+                <DesktopDashboardContent
+                    bandaNumber={bandaNumber}
+                    bandaTitle={bandaTitle}
+                    isPremium={isPremium}
+                    lastUnit={lastUnit}
                 />
             </div>
 

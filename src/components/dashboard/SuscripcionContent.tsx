@@ -24,6 +24,7 @@ import {
 import { motion } from "framer-motion";
 import UpgradeButton from './UpgradeButton';
 import ManageSuscripcionButton from './ManageSuscripcionButton';
+import { createClient } from '@/utils/supabase/client';
 
 interface SuscripcionContentProps {
     isPremium: boolean;
@@ -35,11 +36,25 @@ export default function SuscripcionContent({ isPremium: initialIsPremium, renewa
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
     const [isDevMode, setIsDevMode] = useState(false);
     const [devIsPremium, setDevIsPremium] = useState(initialIsPremium);
+    const [plan, setPlan] = useState<{ name: string; price_cents: number | null; currency: string; interval: string } | null>(null);
 
     // Sync devIsPremium with initialIsPremium but allow toggle
     useEffect(() => {
         setDevIsPremium(initialIsPremium);
     }, [initialIsPremium]);
+
+    // Plan real desde la tabla plans (reemplaza el precio hardcodeado)
+    useEffect(() => {
+        (async () => {
+            const supabase = createClient();
+            const { data } = await supabase.from('plans').select('name, price_cents, currency, interval').order('order_index').limit(1).maybeSingle();
+            if (data) setPlan(data as { name: string; price_cents: number | null; currency: string; interval: string });
+        })();
+    }, []);
+
+    const planPrice = plan?.price_cents != null
+        ? `$${(plan.price_cents / 100).toLocaleString('es-MX')} ${plan.currency}/${plan.interval === 'month' ? 'mes' : 'año'}`
+        : '—';
 
     const isUserPremium = isDevMode ? devIsPremium : initialIsPremium;
 
@@ -122,7 +137,7 @@ export default function SuscripcionContent({ isPremium: initialIsPremium, renewa
                     <div className="flex items-start justify-between group">
                         <div className="space-y-1">
                             <h5 className="text-[11px] font-black uppercase tracking-widest text-gray-400">Plan actual</h5>
-                            <p className="text-lg font-black text-gray-900">Plan Maestro Anual (Suscrito)</p>
+                            <p className="text-lg font-black text-gray-900">{plan?.name ?? 'Plan'} (Suscrito)</p>
                         </div>
                         <ManageSuscripcionButton />
                     </div>
@@ -131,7 +146,7 @@ export default function SuscripcionContent({ isPremium: initialIsPremium, renewa
                     <div className="space-y-2">
                         <h5 className="text-[11px] font-black uppercase tracking-widest text-gray-400">Próxima fecha de cobro</h5>
                         <p className="text-sm text-gray-500 font-bold leading-relaxed">
-                            Tu próximo cargo de <span className="text-gray-900">$14,280 MXN</span> más impuestos aplicables será el <span className="text-gray-900 font-black">{renewalDate}</span>.
+                            Tu próximo cargo de <span className="text-gray-900">{planPrice}</span> más impuestos aplicables será el <span className="text-gray-900 font-black">{renewalDate}</span>.
                         </p>
                     </div>
 

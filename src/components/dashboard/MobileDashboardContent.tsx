@@ -14,12 +14,14 @@ interface MobileDashboardContentProps {
   bandaNumber: string;
   bandaTitle: string;
   isPremium: boolean;
+  lastUnit: { id: string; title: string; progress: number };
 }
 
-export default function MobileDashboardContent({ 
-  bandaNumber, 
-  bandaTitle, 
-  isPremium 
+export default function MobileDashboardContent({
+  bandaNumber,
+  bandaTitle,
+  isPremium,
+  lastUnit: propLastUnit
 }: MobileDashboardContentProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -29,11 +31,11 @@ export default function MobileDashboardContent({
   }, []);
 
   const lastUnit = {
-    id: 'u1-2',
-    title: 'Colores',
+    id: propLastUnit.id,
+    title: propLastUnit.title,
     level: `NIVEL ${bandaNumber}`,
-    progress: 65,
-    activity: 'Conversaciones de audio'
+    progress: propLastUnit.progress,
+    activity: 'Continuar unidad'
   };
 
   return (

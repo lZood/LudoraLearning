@@ -20,12 +20,14 @@ interface DesktopDashboardContentProps {
   bandaNumber: string;
   bandaTitle: string;
   isPremium: boolean;
+  lastUnit: { id: string; title: string; progress: number };
 }
 
-export default function DesktopDashboardContent({ 
-  bandaNumber, 
-  bandaTitle, 
-  isPremium 
+export default function DesktopDashboardContent({
+  bandaNumber,
+  bandaTitle,
+  isPremium,
+  lastUnit: propLastUnit
 }: DesktopDashboardContentProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -34,14 +36,13 @@ export default function DesktopDashboardContent({
     setMounted(true);
   }, []);
 
-  // Datos simulados (deberían venir de props o BD en producción)
   const lastUnit = {
-    id: 'u1-2',
-    title: 'Colores y Emociones',
+    id: propLastUnit.id,
+    title: propLastUnit.title,
     level: `NIVEL ${bandaNumber}`,
-    progress: 65,
-    activity: 'Conversaciones de audio',
-    description: 'Aprende a expresar cómo te sientes y a describir el mundo vibrante que te rodea.'
+    progress: propLastUnit.progress,
+    activity: 'Continuar',
+    description: 'Continúa donde lo dejaste y sigue sumando XP en tu aventura.'
   };
 
   const nextClass = {
