@@ -2,49 +2,119 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "I am eight years old.",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I am Alex",
     "options": [
-     "Tengo ocho anos",
-     "Tengo diez anos",
-     "Soy de Mexico"
+     "Yo soy Alex",
+     "Hola Alex",
+     "Adiós Alex"
     ],
     "correct": 0
    },
    {
     "type": "who_said_it",
-    "instruction": "Quien lo dijo?",
-    "target": "village",
+    "instruction": "¿Quién dijo el número nueve?",
+    "target": "nine",
     "options": [
-     "village",
-     "villach",
-     "villege",
-     "diamond"
+     "nain",
+     "nine",
+     "nime",
+     "ten"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I am from Mexico",
+    "options": [
+     "Me gustan los diamantes",
+     "Soy de México",
+     "Tengo ocho años"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "My name is Steve",
+    "answer": [
+     "My",
+     "name",
+     "is",
+     "Steve"
+    ],
+    "prompt": "Mi nombre es Steve."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I like to mine",
+    "options": [
+     "Me gusta construir",
+     "Me gusta minar",
+     "Me gustan los diamantes"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo el número siete?",
+    "target": "seven",
+    "options": [
+     "seven",
+     "sefen",
+     "sesen",
+     "ten"
     ],
     "correct": 0
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversacion",
-    "audio": "Where are you from?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige el significado",
+    "audio": "How old are you?",
     "options": [
-     "I am from Mexico.",
-     "I am eight years old.",
-     "I like to mine."
+     "¿De dónde eres?",
+     "¿Qué te gusta?",
+     "¿Cuántos años tienes?"
     ],
-    "correct": 0
+    "correct": 2
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "I am from the forest",
+    "answer": [
+     "I",
+     "am",
+     "from",
+     "the",
+     "forest"
+    ],
+    "prompt": "Soy del bosque."
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo el saludo?",
+    "target": "Hello",
+    "options": [
+     "Hallo",
+     "Helu",
+     "Hello",
+     "Hill"
+    ],
+    "correct": 2
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
@@ -56,44 +126,55 @@
      },
      {
       "en": "How old are you?",
-      "es": "Cuantos anos tienes?"
-     },
-     {
-      "en": "I am from the forest",
-      "es": "Soy del bosque"
+      "es": "¿Cuántos años tienes?"
      },
      {
       "en": "I like to build",
       "es": "Me gusta construir"
+     },
+     {
+      "en": "Where are you from?",
+      "es": "¿De dónde eres?"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "What do you like?",
+    "instruction": "Lee y elige el significado",
+    "prompt": "I am eight years old.",
     "options": [
-     "Que te gusta?",
-     "Cuantos anos tienes?",
-     "De donde eres?"
+     "Tengo ocho años",
+     "Tengo diez años",
+     "Tengo siete años"
     ],
     "correct": 0
    },
    {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "I am from the village.",
+    "options": [
+     "Soy del bosque",
+     "Soy de la aldea",
+     "Soy de México"
+    ],
+    "correct": 1
+   },
+   {
     "type": "multi_select",
-    "instruction": "Selecciona solo los numeros",
+    "instruction": "Selecciona solo los números",
     "options": [
      {
       "text": "seven",
       "correct": true
      },
      {
-      "text": "nine",
-      "correct": true
-     },
-     {
       "text": "diamonds",
       "correct": false
+     },
+     {
+      "text": "nine",
+      "correct": true
      },
      {
       "text": "forest",
@@ -108,18 +189,125 @@
       "correct": false
      }
     ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la respuesta correcta",
+    "prompt": "What do you like?",
+    "options": [
+     "I like diamonds",
+     "I am nine",
+     "Hello"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "My name is Steve.",
+    "options": [
+     "Soy de México",
+     "Mi nombre es Steve",
+     "Me gusta minar"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "seven",
+      "es": "siete"
+     },
+     {
+      "en": "nine",
+      "es": "nueve"
+     },
+     {
+      "en": "ten",
+      "es": "diez"
+     },
+     {
+      "en": "Hi",
+      "es": "Hola"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la respuesta correcta",
+    "prompt": "Where are you from?",
+    "options": [
+     "I am from Mexico",
+     "I like to mine",
+     "I am ten"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo lo que te gusta hacer",
+    "options": [
+     {
+      "text": "I like to mine",
+      "correct": true
+     },
+     {
+      "text": "I am from Mexico",
+      "correct": false
+     },
+     {
+      "text": "I like to build",
+      "correct": true
+     },
+     {
+      "text": "How old are you?",
+      "correct": false
+     },
+     {
+      "text": "I like diamonds",
+      "correct": true
+     },
+     {
+      "text": "My name is Steve",
+      "correct": false
+     }
+    ]
    }
   ]
  },
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
-    "instruction": "Ordena la oracion",
-    "prompt": "Soy de Mexico.",
+    "instruction": "Ordena la oración",
+    "prompt": "Yo soy Alex.",
+    "answer": [
+     "I",
+     "am",
+     "Alex"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I am eight years",
+    "after": ".",
+    "options": [
+     "old",
+     "from",
+     "like"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Soy de México.",
     "answer": [
      "I",
      "am",
@@ -131,50 +319,106 @@
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
     "before": "I like to",
-    "after": ".",
+    "after": "diamonds.",
     "options": [
      "mine",
-     "old",
-     "from"
+     "name",
+     "old"
     ],
     "correct": 0
    },
    {
-    "type": "free_text",
-    "instruction": "Responde sobre ti",
-    "prompt": "How old are you? — I am ______ years old",
-    "accept": [
-     "i am seven years old",
-     "i am nine years old",
-     "i am ten years old",
-     "i am eight years old"
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "I like to build",
+    "answer": [
+     "I",
+     "like",
+     "to",
+     "build"
+    ],
+    "prompt": "Me gusta construir."
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la pregunta",
+    "prompt": "¿Cuántos años tienes?",
+    "answer": [
+     "How",
+     "old",
+     "are",
+     "you?"
     ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I am from the",
+    "after": ".",
+    "options": [
+     "village",
+     "old",
+     "you"
+    ],
+    "correct": 0
    }
   ]
  },
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
-    "instruction": "Repite despues del personaje",
-    "say": "Hi, I am Alex.",
-    "prompt": "Escucha y repitelo."
+    "instruction": "Repite después del personaje",
+    "say": "Hello! My name is Steve",
+    "prompt": "Salúdate y di tu nombre."
    },
    {
     "type": "speak",
-    "instruction": "Habla de ti",
-    "say": "I am from the village.",
-    "prompt": "Di de donde eres."
+    "instruction": "Repite después del personaje",
+    "say": "I am eight years old",
+    "prompt": "Di tu edad."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I am from Mexico",
+    "prompt": "Di de dónde eres."
    },
    {
     "type": "conversation",
-    "instruction": "Pequena conversacion",
-    "scenario": "Un aldeano te conoce en la plaza de la aldea de Minecraft.",
-    "objective": "Saluda, di tu nombre, cuantos anos tienes y de donde eres.",
-    "starter": "Hello! What is your name? How old are you?",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te encuentra cerca de la aldea y quiere conocerte.",
+    "objective": "Saluda, di tu nombre y di cuántos años tienes.",
+    "starter": "Hello! What is your name?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I like to mine",
+    "prompt": "Di lo que te gusta hacer."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite la pregunta",
+    "say": "Where are you from?",
+    "prompt": "Pregunta de dónde es alguien."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I like diamonds",
+    "prompt": "Di lo que te gusta."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás minando en una cueva y otro jugador aparece en el chat.",
+    "objective": "Pregunta su nombre, di de dónde eres y di qué te gusta hacer.",
+    "starter": "Hi! Where are you from?",
     "minTurns": 3
    }
   ]
@@ -182,31 +426,68 @@
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/m/",
+    "instruction": "Selecciona solo las palabras con el sonido /aɪ/",
+    "sound": "/aɪ/",
     "options": [
      {
-      "text": "Mexico",
+      "text": "Hi",
       "correct": true
      },
      {
-      "text": "mine",
+      "text": "I",
       "correct": true
+     },
+     {
+      "text": "Steve",
+      "correct": false
+     },
+     {
+      "text": "like",
+      "correct": true
+     },
+     {
+      "text": "forest",
+      "correct": false
+     },
+     {
+      "text": "ten",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /aɪ/",
+    "say": "I like to mine",
+    "prompt": "Sonido largo en I, like, mine."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /f/",
+    "sound": "/f/",
+    "options": [
+     {
+      "text": "from",
+      "correct": true
+     },
+     {
+      "text": "forest",
+      "correct": true
+     },
+     {
+      "text": "diamonds",
+      "correct": false
      },
      {
       "text": "village",
       "correct": false
      },
      {
-      "text": "diamonds",
-      "correct": true
-     },
-     {
-      "text": "forest",
+      "text": "Alex",
       "correct": false
      },
      {
@@ -217,9 +498,15 @@
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Mexico, mine, diamonds",
-    "prompt": "Escucha y repite los sonidos /m/."
+    "instruction": "Repite y cuida el sonido /f/",
+    "say": "I am from the forest",
+    "prompt": "Sonido /f/ en from y forest."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con buen ritmo",
+    "say": "How old are you?",
+    "prompt": "Sube el tono al final de la pregunta."
    }
   ]
  }

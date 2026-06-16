@@ -1,226 +1,511 @@
 {"ext":"u5-1","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "Can you help me?",
-    "options": [
-     "¿Puedes ayudarme?",
-     "Tengo un problema.",
-     "Necesito más madera."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién dijo la palabra correcta?",
-    "target": "broken",
-    "options": [
-     "brokan",
-     "broken",
-     "brokin",
-     "wooden"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "I have a problem. Can you help me?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "Yes, I can help you.",
-     "We found diamonds in the cave.",
-     "First I dug, then I placed torches."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada frase con su significado",
-    "pairs": [
-     {
-      "en": "I have a problem.",
-      "es": "Tengo un problema."
-     },
-     {
-      "en": "My tools are broken.",
-      "es": "Mis herramientas están rotas."
-     },
-     {
-      "en": "I need more wood.",
-      "es": "Necesito más madera."
-     },
-     {
-      "en": "I built a new shelter.",
-      "es": "Construí un refugio nuevo."
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "A creeper exploded near my house.",
-    "options": [
-     "Un creeper explotó cerca de mi casa.",
-     "Un zombi atacó de noche.",
-     "Encontramos diamantes en la cueva."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las frases sobre resolver problemas",
-    "options": [
-     {
-      "text": "I have a problem.",
-      "correct": true
-     },
-     {
-      "text": "Can you help me?",
-      "correct": true
-     },
-     {
-      "text": "Hello, my name is Steve.",
-      "correct": false
-     },
-     {
-      "text": "My tools are broken.",
-      "correct": true
-     },
-     {
-      "text": "The sky is blue.",
-      "correct": false
-     },
-     {
-      "text": "I like the color red.",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "Necesito más madera.",
-    "answer": [
-     "I",
-     "need",
-     "more",
-     "wood."
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "Iron is",
-    "after": "than wood.",
-    "options": [
-     "better",
-     "broken",
-     "hungry"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Pide ayuda",
-    "prompt": "Tienes un problema. ¿Cómo pides ayuda en inglés?",
-    "accept": [
-     "can you help me",
-     "can you help me?",
-     "i have a problem",
-     "i need help"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "I have a problem. Can you help me?",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Describe lo que pasó",
-    "say": "A creeper exploded near my house.",
-    "prompt": "Di la frase con voz clara."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Estás en el chat del servidor y un aldeano nota que tus herramientas están rotas.",
-    "objective": "Di que tienes un problema, pide ayuda y explica que tus herramientas están rotas.",
-    "starter": "Hi! You look worried. Do you have a problem?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/b/",
-    "options": [
-     {
-      "text": "broken",
-      "correct": true
-     },
-     {
-      "text": "better",
-      "correct": true
-     },
-     {
-      "text": "wood",
-      "correct": false
-     },
-     {
-      "text": "built",
-      "correct": true
-     },
-     {
-      "text": "help",
-      "correct": false
-     },
-     {
-      "text": "iron",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "broken, better, built",
-    "prompt": "Escucha y repite los sonidos /b/."
-   }
-  ]
- }
+{
+ "skill": "listening",
+ "title": "Listening",
+ "xp": 20,
+ "exercises": [
+  {
+   "type": "audio_mc",
+   "instruction": "Escucha y elige",
+   "audio": "I have a problem.",
+   "options": [
+    "Tengo un problema.",
+    "Necesito más madera.",
+    "Construí un refugio nuevo."
+   ],
+   "correct": 0
+  },
+  {
+   "type": "audio_mc",
+   "instruction": "Escucha y elige la traducción",
+   "audio": "Can you help me?",
+   "options": [
+    "¿Encontraste diamantes?",
+    "¿Puedes ayudarme?",
+    "¿Está roto?"
+   ],
+   "correct": 1
+  },
+  {
+   "type": "who_said_it",
+   "instruction": "¿Quién dijo \"broken\"?",
+   "target": "broken",
+   "options": [
+    "broaken",
+    "broken",
+    "brocan",
+    "wood"
+   ],
+   "correct": 1
+  },
+  {
+   "type": "audio_mc",
+   "instruction": "Escucha y elige",
+   "audio": "I need more wood.",
+   "options": [
+    "Mis herramientas están rotas.",
+    "Encontramos diamantes.",
+    "Necesito más madera."
+   ],
+   "correct": 2
+  },
+  {
+   "type": "listen_build",
+   "instruction": "Escucha y arma la frase",
+   "audio": "I built a new shelter.",
+   "answer": [
+    "I",
+    "built",
+    "a",
+    "new",
+    "shelter."
+   ],
+   "prompt": "Construí un refugio nuevo."
+  },
+  {
+   "type": "audio_mc",
+   "instruction": "Escucha y elige la traducción",
+   "audio": "We found diamonds in the cave.",
+   "options": [
+    "Encontramos diamantes en la cueva.",
+    "El zombi atacó de noche.",
+    "Necesito más madera."
+   ],
+   "correct": 0
+  },
+  {
+   "type": "who_said_it",
+   "instruction": "¿Quién dijo \"diamonds\"?",
+   "target": "diamonds",
+   "options": [
+    "daimonds",
+    "diamons",
+    "diamonds",
+    "zombie"
+   ],
+   "correct": 2
+  },
+  {
+   "type": "audio_mc",
+   "instruction": "Escucha y elige",
+   "audio": "The zombie attacked at night.",
+   "options": [
+    "Encontramos diamantes en la cueva.",
+    "El zombi atacó de noche.",
+    "Mis herramientas están rotas."
+   ],
+   "correct": 1
+  },
+  {
+   "type": "listen_build",
+   "instruction": "Escucha y ordena las palabras",
+   "audio": "My tools are broken.",
+   "answer": [
+    "My",
+    "tools",
+    "are",
+    "broken."
+   ],
+   "prompt": "Mis herramientas están rotas."
+  }
+ ]
+},
+{
+ "skill": "reading",
+ "title": "Reading",
+ "xp": 20,
+ "exercises": [
+  {
+   "type": "match_pairs",
+   "instruction": "Une cada frase con su significado",
+   "pairs": [
+    {
+     "en": "I have a problem.",
+     "es": "Tengo un problema."
+    },
+    {
+     "en": "Can you help me?",
+     "es": "¿Puedes ayudarme?"
+    },
+    {
+     "en": "I need more wood.",
+     "es": "Necesito más madera."
+    },
+    {
+     "en": "My tools are broken.",
+     "es": "Mis herramientas están rotas."
+    }
+   ]
+  },
+  {
+   "type": "text_mc",
+   "instruction": "Lee y elige",
+   "prompt": "A creeper exploded near my house.",
+   "options": [
+    "Un creeper explotó cerca de mi casa.",
+    "Construí un refugio nuevo.",
+    "Encontramos diamantes en la cueva."
+   ],
+   "correct": 0
+  },
+  {
+   "type": "text_mc",
+   "instruction": "Lee y elige",
+   "prompt": "Iron is better than wood.",
+   "options": [
+    "El hierro es mejor que la madera.",
+    "El zombi atacó de noche.",
+    "Necesito más madera."
+   ],
+   "correct": 0
+  },
+  {
+   "type": "multi_select",
+   "instruction": "Selecciona solo las palabras de problemas y soluciones",
+   "options": [
+    {
+     "text": "problem",
+     "correct": true
+    },
+    {
+     "text": "help",
+     "correct": true
+    },
+    {
+     "text": "banana",
+     "correct": false
+    },
+    {
+     "text": "broken",
+     "correct": true
+    },
+    {
+     "text": "yellow",
+     "correct": false
+    },
+    {
+     "text": "Monday",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "type": "text_mc",
+   "instruction": "Lee y elige la traducción",
+   "prompt": "This cave is bigger than that one.",
+   "options": [
+    "Un escudo es más útil de noche.",
+    "Esta cueva es más grande que aquella.",
+    "Una espada de diamante es más fuerte."
+   ],
+   "correct": 1
+  },
+  {
+   "type": "text_mc",
+   "instruction": "Lee y elige",
+   "prompt": "A shield is more useful at night.",
+   "options": [
+    "Un escudo es más útil de noche.",
+    "Necesito más madera.",
+    "Tengo un problema."
+   ],
+   "correct": 0
+  },
+  {
+   "type": "match_pairs",
+   "instruction": "Une cada oración con su significado",
+   "pairs": [
+    {
+     "en": "I built a new shelter.",
+     "es": "Construí un refugio nuevo."
+    },
+    {
+     "en": "The zombie attacked at night.",
+     "es": "El zombi atacó de noche."
+    },
+    {
+     "en": "We found diamonds in the cave.",
+     "es": "Encontramos diamantes en la cueva."
+    },
+    {
+     "en": "A creeper exploded near my house.",
+     "es": "Un creeper explotó cerca de mi casa."
+    }
+   ]
+  },
+  {
+   "type": "text_mc",
+   "instruction": "Lee y elige la traducción",
+   "prompt": "A diamond sword is stronger than a stone sword.",
+   "options": [
+    "El hierro es mejor que la madera.",
+    "Una espada de diamante es más fuerte que una de piedra.",
+    "Esta cueva es más grande que aquella."
+   ],
+   "correct": 1
+  },
+  {
+   "type": "multi_select",
+   "instruction": "Selecciona solo las palabras comparativas",
+   "options": [
+    {
+     "text": "stronger",
+     "correct": true
+    },
+    {
+     "text": "better",
+     "correct": true
+    },
+    {
+     "text": "table",
+     "correct": false
+    },
+    {
+     "text": "bigger",
+     "correct": true
+    },
+    {
+     "text": "happy",
+     "correct": false
+    },
+    {
+     "text": "music",
+     "correct": false
+    }
+   ]
+  }
+ ]
+},
+{
+ "skill": "writing",
+ "title": "Writing",
+ "xp": 20,
+ "exercises": [
+  {
+   "type": "word_bank",
+   "instruction": "Ordena la oración",
+   "prompt": "Tengo un problema.",
+   "answer": [
+    "I",
+    "have",
+    "a",
+    "problem."
+   ]
+  },
+  {
+   "type": "fill_blank",
+   "instruction": "Completa la palabra que falta",
+   "before": "Can you",
+   "after": "me?",
+   "options": [
+    "help",
+    "wood",
+    "cave"
+   ],
+   "correct": 0
+  },
+  {
+   "type": "word_bank",
+   "instruction": "Ordena la oración",
+   "prompt": "Necesito más madera.",
+   "answer": [
+    "I",
+    "need",
+    "more",
+    "wood."
+   ]
+  },
+  {
+   "type": "fill_blank",
+   "instruction": "Completa la palabra que falta",
+   "before": "My tools are",
+   "after": ".",
+   "options": [
+    "broken",
+    "night",
+    "help"
+   ],
+   "correct": 0
+  },
+  {
+   "type": "free_text",
+   "instruction": "Pide ayuda en el chat",
+   "prompt": "Tienes un problema y quieres pedir ayuda. Escribe en inglés:",
+   "accept": [
+    "can you help me?",
+    "can you help me",
+    "i have a problem",
+    "i have a problem."
+   ]
+  },
+  {
+   "type": "fill_blank",
+   "instruction": "Completa la palabra que falta",
+   "before": "I built a new",
+   "after": ".",
+   "options": [
+    "shelter",
+    "problem",
+    "zombie"
+   ],
+   "correct": 0
+  },
+  {
+   "type": "free_text",
+   "instruction": "Cuenta lo que encontraste",
+   "prompt": "Encontraron diamantes en la cueva. Escríbelo en inglés:",
+   "accept": [
+    "we found diamonds in the cave",
+    "we found diamonds in the cave.",
+    "i found diamonds in the cave"
+   ]
+  }
+ ]
+},
+{
+ "skill": "speaking",
+ "title": "Speaking",
+ "xp": 25,
+ "exercises": [
+  {
+   "type": "speak",
+   "instruction": "Repite después del personaje",
+   "say": "I have a problem.",
+   "prompt": "Pide ayuda con calma."
+  },
+  {
+   "type": "speak",
+   "instruction": "Repite la pregunta",
+   "say": "Can you help me?",
+   "prompt": "Pídelo amablemente."
+  },
+  {
+   "type": "speak",
+   "instruction": "Repite después del personaje",
+   "say": "My tools are broken.",
+   "prompt": "Explica tu problema."
+  },
+  {
+   "type": "conversation",
+   "instruction": "Pequeña conversación",
+   "scenario": "Un aldeano te ve preocupado junto a tu casa destruida en el servidor.",
+   "objective": "Di que tienes un problema, explica que un creeper explotó y pide ayuda.",
+   "starter": "Hey! What happened to your house?",
+   "minTurns": 3
+  },
+  {
+   "type": "speak",
+   "instruction": "Repite después del personaje",
+   "say": "I need more wood.",
+   "prompt": "Di qué necesitas."
+  },
+  {
+   "type": "speak",
+   "instruction": "Repite la oración",
+   "say": "I built a new shelter.",
+   "prompt": "Cuenta lo que hiciste."
+  },
+  {
+   "type": "speak",
+   "instruction": "Repite después del personaje",
+   "say": "We found diamonds in the cave.",
+   "prompt": "Comparte la buena noticia."
+  },
+  {
+   "type": "conversation",
+   "instruction": "Pequeña conversación",
+   "scenario": "Estás en una cueva con un amigo buscando recursos en Minecraft.",
+   "objective": "Di que necesitas más madera, pide ayuda y cuenta que encontraron diamantes.",
+   "starter": "Look! It's so dark in this cave. Do you need anything?",
+   "minTurns": 3
+  }
+ ]
+},
+{
+ "skill": "pronunciation",
+ "title": "Pronunciation",
+ "xp": 25,
+ "exercises": [
+  {
+   "type": "multi_select",
+   "instruction": "Selecciona solo las palabras con el sonido /b/",
+   "sound": "/b/",
+   "options": [
+    {
+     "text": "broken",
+     "correct": true
+    },
+    {
+     "text": "built",
+     "correct": true
+    },
+    {
+     "text": "night",
+     "correct": false
+    },
+    {
+     "text": "bigger",
+     "correct": true
+    },
+    {
+     "text": "cave",
+     "correct": false
+    },
+    {
+     "text": "wood",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "type": "speak",
+   "instruction": "Practica el sonido /b/",
+   "say": "My tools are broken.",
+   "prompt": "Marca bien la b en \"broken\"."
+  },
+  {
+   "type": "multi_select",
+   "instruction": "Selecciona solo las palabras con el sonido /h/",
+   "sound": "/h/",
+   "options": [
+    {
+     "text": "help",
+     "correct": true
+    },
+    {
+     "text": "have",
+     "correct": true
+    },
+    {
+     "text": "diamonds",
+     "correct": false
+    },
+    {
+     "text": "house",
+     "correct": true
+    },
+    {
+     "text": "wood",
+     "correct": false
+    },
+    {
+     "text": "shelter",
+     "correct": false
+    }
+   ]
+  },
+  {
+   "type": "speak",
+   "instruction": "Practica el sonido /h/",
+   "say": "Can you help me?",
+   "prompt": "Aspira la h en \"help\"."
+  },
+  {
+   "type": "speak",
+   "instruction": "Practica el sonido /d/",
+   "say": "We found diamonds in the cave.",
+   "prompt": "Marca la d en \"diamonds\"."
+  }
+ ]
+}
 ]}

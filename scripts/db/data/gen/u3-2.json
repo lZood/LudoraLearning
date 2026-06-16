@@ -1,224 +1,324 @@
 {"ext":"u3-2","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "I like diamonds",
-    "options": [
-     "Me gustan los diamantes",
-     "No me gustan los diamantes",
-     "Mi diamante favorito"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "like",
-    "options": [
-     "lake",
-     "like",
-     "leek",
-     "lock"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Do you like pigs?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "Yes, I do.",
-     "My name is Steve.",
-     "I like the rain."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada frase con su significado",
-    "pairs": [
-     {
-      "en": "I like cats",
-      "es": "Me gustan los gatos"
-     },
-     {
-      "en": "I don't like zombies",
-      "es": "No me gustan los zombies"
-     },
-     {
-      "en": "Do you like...?",
-      "es": "¿Te gusta...?"
-     },
-     {
-      "en": "My favorite",
-      "es": "Mi favorito/a"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "My favorite block is gold.",
-    "options": [
-     "Mi bloque favorito es el oro.",
-     "No me gusta el oro.",
-     "¿Te gusta el oro?"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las frases sobre gustos",
-    "options": [
-     {
-      "text": "I like",
-      "correct": true
-     },
-     {
-      "text": "I don't like",
-      "correct": true
-     },
-     {
-      "text": "Goodbye",
-      "correct": false
-     },
-     {
-      "text": "Blue",
-      "correct": false
-     },
-     {
-      "text": "My favorite",
-      "correct": true
-     },
-     {
-      "text": "Hello",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "Me gustan los diamantes.",
-    "answer": [
-     "I",
-     "like",
-     "diamonds"
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "My favorite animal is the",
-    "after": ".",
-    "options": [
-     "wolf",
-     "rain",
-     "TNT"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Responde sobre tus gustos",
-    "prompt": "Do you like pigs? — Yes, ______",
-    "accept": [
-     "i do",
-     "yes i do",
-     "i like pigs"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "I like cats",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Di lo que no te gusta",
-    "say": "I don't like zombies",
-    "prompt": "Di: I don't like zombies."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Un aldeano te pregunta sobre tus gustos en el chat del servidor.",
-    "objective": "Di lo que te gusta, lo que no te gusta y cuál es tu bloque favorito.",
-    "starter": "Do you like the Nether?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/l/",
-    "options": [
-     {
-      "text": "like",
-      "correct": true
-     },
-     {
-      "text": "wolf",
-      "correct": true
-     },
-     {
-      "text": "gold",
-      "correct": true
-     },
-     {
-      "text": "cats",
-      "correct": false
-     },
-     {
-      "text": "apple",
-      "correct": true
-     },
-     {
-      "text": "TNT",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "I like gold and wolf",
-    "prompt": "Escucha y repite los sonidos /l/."
-   }
-  ]
- }
+{
+ "skill":"listening",
+ "title":"Listening",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige qué le gusta",
+   "audio":"I like diamonds",
+   "options":["Me gustan los diamantes","No me gustan los zombies","Mi bloque favorito es el oro"],
+   "correct":0
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha bien y elige",
+   "audio":"I don't like zombies",
+   "options":["Me gustan los gatos","No me gustan los zombies","Te gustan los cerdos?"],
+   "correct":1
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"¿Quién dijo \"like\"?",
+   "target":"like",
+   "options":["lake","like","lick","leek"],
+   "correct":1
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha la pregunta y elige",
+   "audio":"Do you like pigs?",
+   "options":["Te gustan los cerdos?","Me gusta el Nether","Mi animal favorito es el lobo"],
+   "correct":0
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la oración",
+   "audio":"I like cats",
+   "answer":["I","like","cats"],
+   "prompt":"Me gustan los gatos."
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige la respuesta",
+   "audio":"Yes, I do",
+   "options":["No, no me gusta","Sí, me gusta","No me gusta"],
+   "correct":1
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"¿Quién dijo \"gold\"?",
+   "target":"gold",
+   "options":["gould","cold","gold","goad"],
+   "correct":2
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige qué NO le gusta",
+   "audio":"I don't like the rain",
+   "options":["No me gusta la lluvia","Me gusta el Nether","Me gustan los diamantes"],
+   "correct":0
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y ordena las fichas",
+   "audio":"My favorite block is gold",
+   "answer":["My","favorite","block","is","gold"],
+   "prompt":"Mi bloque favorito es el oro."
+  }
+ ]
+},
+{
+ "skill":"reading",
+ "title":"Reading",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada frase con su significado",
+   "pairs":[
+    {"en":"I like","es":"Me gusta"},
+    {"en":"I don't like","es":"No me gusta"},
+    {"en":"My favorite","es":"Mi favorito/a"},
+    {"en":"Do you like...?","es":"Te gusta...?"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"I like diamonds",
+   "options":["Me gustan los diamantes","No me gustan los diamantes","Mi diamante favorito"],
+   "correct":0
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"I don't like TNT",
+   "options":["Me gusta el TNT","No me gusta el TNT","Te gusta el TNT?"],
+   "correct":1
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo las cosas que te gustan (con \"I like\")",
+   "options":[
+    {"text":"I like cats","correct":true},
+    {"text":"I like diamonds","correct":true},
+    {"text":"I don't like zombies","correct":false},
+    {"text":"I don't like the rain","correct":false},
+    {"text":"I like the Nether","correct":true},
+    {"text":"I don't like TNT","correct":false}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige la respuesta correcta",
+   "prompt":"Do you like pigs? — No, ______",
+   "options":["I do","I don't","I like"],
+   "correct":1
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"My favorite animal is the wolf",
+   "options":["Mi animal favorito es el lobo","Mi comida favorita es una manzana","Mi bloque favorito es el oro"],
+   "correct":0
+  },
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada oración con su traducción",
+   "pairs":[
+    {"en":"I like the Nether","es":"Me gusta el Nether"},
+    {"en":"I don't like zombies","es":"No me gustan los zombies"},
+    {"en":"My favorite food is an apple","es":"Mi comida favorita es una manzana"},
+    {"en":"Yes, I do","es":"Sí, me gusta"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"My favorite block is gold",
+   "options":["Mi bloque favorito es el oro","Mi animal favorito es el lobo","No me gusta el oro"],
+   "correct":0
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo las cosas que NO te gustan (con \"I don't like\")",
+   "options":[
+    {"text":"I don't like zombies","correct":true},
+    {"text":"I don't like the rain","correct":true},
+    {"text":"I like cats","correct":false},
+    {"text":"My favorite is gold","correct":false},
+    {"text":"I don't like TNT","correct":true},
+    {"text":"I like diamonds","correct":false}
+   ]
+  }
+ ]
+},
+{
+ "skill":"writing",
+ "title":"Writing",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración con las fichas",
+   "prompt":"Me gustan los gatos.",
+   "answer":["I","like","cats"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"I don't",
+   "after":"zombies.",
+   "options":["like","favorite","gold"],
+   "correct":0
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración con las fichas",
+   "prompt":"Mi animal favorito es el lobo.",
+   "answer":["My","favorite","animal","is","the","wolf"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la pregunta",
+   "before":"Do you",
+   "after":"pigs?",
+   "options":["like","don't","favorite"],
+   "correct":0
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la oración con fichas",
+   "audio":"I like the Nether",
+   "answer":["I","like","the","Nether"],
+   "prompt":"Me gusta el Nether."
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración con las fichas",
+   "prompt":"No me gusta la lluvia.",
+   "answer":["I","don't","like","the","rain"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la oración",
+   "before":"My favorite food is an",
+   "after":".",
+   "options":["apple","wolf","gold"],
+   "correct":0
+  }
+ ]
+},
+{
+ "skill":"speaking",
+ "title":"Speaking",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"I like diamonds",
+   "prompt":"Me gustan los diamantes."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite con buena pronunciación",
+   "say":"I don't like zombies",
+   "prompt":"No me gustan los zombies."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite la pregunta",
+   "say":"Do you like pigs?",
+   "prompt":"Te gustan los cerdos?"
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Un aldeano te pregunta sobre tus gustos en el chat del servidor.",
+   "objective":"Responde si te gustan los cerdos y di tu bloque favorito.",
+   "starter":"Do you like pigs?",
+   "minTurns":3
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"My favorite block is gold",
+   "prompt":"Mi bloque favorito es el oro."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite y responde con seguridad",
+   "say":"Yes, I do",
+   "prompt":"Sí, me gusta."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"I like the Nether",
+   "prompt":"Me gusta el Nether."
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Steve quiere saber qué te gusta para minar contigo.",
+   "objective":"Di qué te gusta y qué no te gusta usando \"I like\" y \"I don't like\".",
+   "starter":"Do you like diamonds?",
+   "minTurns":3
+  }
+ ]
+},
+{
+ "skill":"pronunciation",
+ "title":"Pronunciation",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras con el sonido /l/",
+   "sound":"/l/",
+   "options":[
+    {"text":"like","correct":true},
+    {"text":"gold","correct":true},
+    {"text":"wolf","correct":true},
+    {"text":"Nether","correct":false},
+    {"text":"zombies","correct":false},
+    {"text":"diamonds","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite cuidando el sonido /l/",
+   "say":"I like cats",
+   "prompt":"Me gustan los gatos."
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras con el sonido /d/",
+   "sound":"/d/",
+   "options":[
+    {"text":"diamonds","correct":true},
+    {"text":"don't","correct":true},
+    {"text":"do","correct":true},
+    {"text":"pigs","correct":false},
+    {"text":"wolf","correct":false},
+    {"text":"apple","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite cuidando el sonido /d/",
+   "say":"Do you like diamonds?",
+   "prompt":"Te gustan los diamantes?"
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite la oración completa",
+   "say":"My favorite food is an apple",
+   "prompt":"Mi comida favorita es una manzana."
+  }
+ ]
+}
 ]}

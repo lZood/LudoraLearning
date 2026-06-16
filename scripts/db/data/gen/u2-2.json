@@ -1,224 +1,324 @@
 {"ext":"u2-2","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "The diamond is blue.",
-    "options": [
-     "El diamante es azul.",
-     "El diamante es rojo.",
-     "El diamante es grande."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "green",
-    "options": [
-     "Grin",
-     "green",
-     "Greem",
-     "small"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "What color is it?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "It is red.",
-     "It is big.",
-     "Look!"
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada palabra con su significado",
-    "pairs": [
-     {
-      "en": "green",
-      "es": "verde"
-     },
-     {
-      "en": "blue",
-      "es": "azul"
-     },
-     {
-      "en": "big",
-      "es": "grande"
-     },
-     {
-      "en": "small",
-      "es": "pequeño"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "The Creeper is big.",
-    "options": [
-     "El Creeper es grande.",
-     "El Creeper es pequeño.",
-     "El Creeper es verde."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo los colores",
-    "options": [
-     {
-      "text": "green",
-      "correct": true
-     },
-     {
-      "text": "blue",
-      "correct": true
-     },
-     {
-      "text": "big",
-      "correct": false
-     },
-     {
-      "text": "small",
-      "correct": false
-     },
-     {
-      "text": "red",
-      "correct": true
-     },
-     {
-      "text": "block",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "El diamante es azul.",
-    "answer": [
-     "The",
-     "diamond",
-     "is",
-     "blue"
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "The chicken is",
-    "after": ".",
-    "options": [
-     "small",
-     "blue",
-     "block"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Describe el color",
-    "prompt": "What color is the grass block? — It is ______",
-    "accept": [
-     "green",
-     "it is green"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "The Creeper is big.",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Describe el objeto",
-    "say": "It is a small green slime.",
-    "prompt": "Di: It is a small green slime."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Encuentras un bloque nuevo mientras minas con un aldeano.",
-    "objective": "Pregunta de qué color es y describe su tamaño usando big o small.",
-    "starter": "Look! What color is it?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/b/",
-    "options": [
-     {
-      "text": "blue",
-      "correct": true
-     },
-     {
-      "text": "big",
-      "correct": true
-     },
-     {
-      "text": "block",
-      "correct": true
-     },
-     {
-      "text": "green",
-      "correct": false
-     },
-     {
-      "text": "red",
-      "correct": false
-     },
-     {
-      "text": "small",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Blue, big, block.",
-    "prompt": "Escucha y repite los sonidos /b/."
-   }
-  ]
- }
+{
+ "skill":"listening",
+ "title":"Listening",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el color",
+   "audio":"green",
+   "options":["verde","azul","rojo"],
+   "correct":0
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige",
+   "audio":"The diamond is blue",
+   "options":["El diamante es azul","El bloque es verde","El Creeper es grande"],
+   "correct":0
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"¿Quién dijo 'blue'?",
+   "target":"blue",
+   "options":["Bluh","blue","Gloo","blew"],
+   "correct":1
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el tamaño",
+   "audio":"big",
+   "options":["pequeño","grande","café"],
+   "correct":1
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la frase",
+   "audio":"The Creeper is big",
+   "answer":["The","Creeper","is","big"],
+   "prompt":"El Creeper es grande."
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige",
+   "audio":"The chicken is small",
+   "options":["El pollo es pequeño","El pollo es grande","El diamante es azul"],
+   "correct":0
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"¿Quién dijo 'red'?",
+   "target":"red",
+   "options":["Rad","Ret","red","Reed"],
+   "correct":2
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha el color del bloque",
+   "audio":"yellow",
+   "options":["amarillo","café","verde"],
+   "correct":0
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la frase",
+   "audio":"It is a green grass block",
+   "answer":["It","is","a","green","grass","block"],
+   "prompt":"Es un bloque de césped verde."
+  }
+ ]
+},
+{
+ "skill":"reading",
+ "title":"Reading",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada color con su significado",
+   "pairs":[
+    {"en":"green","es":"verde"},
+    {"en":"blue","es":"azul"},
+    {"en":"red","es":"rojo"},
+    {"en":"yellow","es":"amarillo"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige",
+   "prompt":"The diamond is blue",
+   "options":["El diamante es azul","El diamante es verde","El diamante es grande"],
+   "correct":0
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige",
+   "prompt":"What color is it?",
+   "options":["¿De qué color es?","¿De qué tamaño es?","¿Qué es esto?"],
+   "correct":0
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo los colores",
+   "options":[
+    {"text":"green","correct":true},
+    {"text":"red","correct":true},
+    {"text":"big","correct":false},
+    {"text":"chicken","correct":false},
+    {"text":"yellow","correct":true},
+    {"text":"small","correct":false}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige",
+   "prompt":"a big red block",
+   "options":["un bloque rojo grande","un slime verde pequeño","un bloque azul grande"],
+   "correct":0
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige",
+   "prompt":"The chicken is small",
+   "options":["El pollo es pequeño","El pollo es grande","El pollo es café"],
+   "correct":0
+  },
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada palabra con su significado",
+   "pairs":[
+    {"en":"big","es":"grande"},
+    {"en":"small","es":"pequeño"},
+    {"en":"brown","es":"café"},
+    {"en":"grass block","es":"bloque de césped"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige",
+   "prompt":"a small green slime",
+   "options":["un slime verde pequeño","un slime verde grande","un bloque rojo grande"],
+   "correct":0
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo las palabras de tamaño",
+   "options":[
+    {"text":"big","correct":true},
+    {"text":"small","correct":true},
+    {"text":"blue","correct":false},
+    {"text":"grass","correct":false},
+    {"text":"red","correct":false},
+    {"text":"green","correct":false}
+   ]
+  }
+ ]
+},
+{
+ "skill":"writing",
+ "title":"Writing",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"El diamante es azul.",
+   "answer":["The","diamond","is","blue"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"The Creeper is",
+   "after":".",
+   "options":["big","blue","grass"],
+   "correct":0
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"El pollo es pequeño.",
+   "answer":["The","chicken","is","small"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"It is a",
+   "after":"grass block.",
+   "options":["green","big","red"],
+   "correct":0
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la frase",
+   "audio":"a big red block",
+   "answer":["a","big","red","block"],
+   "prompt":"un bloque rojo grande."
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"un slime verde pequeño.",
+   "answer":["a","small","green","slime"]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"What",
+   "after":"is it?",
+   "options":["color","big","small"],
+   "correct":0
+  }
+ ]
+},
+{
+ "skill":"speaking",
+ "title":"Speaking",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"The diamond is blue",
+   "prompt":"Escucha y repítelo."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"Look! It is green",
+   "prompt":"Señala el bloque de césped."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"The Creeper is big",
+   "prompt":"Habla fuerte."
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Un aldeano te muestra un cofre con bloques de colores.",
+   "objective":"Pregunta el color y describe un bloque usando 'It is...'.",
+   "starter":"Look! What color is it?",
+   "minTurns":3
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"The chicken is small",
+   "prompt":"Escucha y repítelo."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"It is a big red block",
+   "prompt":"Describe el bloque."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"a small green slime",
+   "prompt":"Habla con calma."
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Estás minando y encuentras un slime verde pequeño.",
+   "objective":"Describe el slime por color y tamaño en inglés.",
+   "starter":"Hey! Look at that slime. What color is it?",
+   "minTurns":3
+  }
+ ]
+},
+{
+ "skill":"pronunciation",
+ "title":"Pronunciation",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras con el sonido /b/",
+   "sound":"/b/",
+   "options":[
+    {"text":"blue","correct":true},
+    {"text":"big","correct":true},
+    {"text":"block","correct":true},
+    {"text":"green","correct":false},
+    {"text":"red","correct":false},
+    {"text":"small","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite y cuida el sonido /b/",
+   "say":"a big blue block",
+   "prompt":"Marca la 'b' al inicio."
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras con el sonido /r/",
+   "sound":"/r/",
+   "options":[
+    {"text":"red","correct":true},
+    {"text":"brown","correct":true},
+    {"text":"green","correct":true},
+    {"text":"blue","correct":false},
+    {"text":"small","correct":false},
+    {"text":"yellow","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite y cuida el sonido /r/",
+   "say":"a big red block",
+   "prompt":"Haz vibrar suave la 'r'."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite y cuida el sonido /s/",
+   "say":"a small green slime",
+   "prompt":"Marca la 's' en small y slime."
+  }
+ ]
+}
 ]}

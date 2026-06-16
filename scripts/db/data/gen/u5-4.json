@@ -1,228 +1,75 @@
 {"ext":"u5-4","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige el significado",
-    "audio": "The chest is on the left.",
-    "options": [
-     "El cofre está a la izquierda.",
-     "El cofre está a la derecha.",
-     "El cofre está lejos."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién dijo la palabra correcta?",
-    "target": "right",
-    "options": [
-     "rite",
-     "right",
-     "right",
-     "left"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha la pregunta y elige la respuesta",
-    "audio": "How do I get to the village?",
-    "prompt": "Elige la indicación correcta",
-    "options": [
-     "Go straight to the mine.",
-     "The chest is on the left.",
-     "I found diamonds."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada palabra con su significado",
-    "pairs": [
-     {
-      "en": "left",
-      "es": "izquierda"
-     },
-     {
-      "en": "right",
-      "es": "derecha"
-     },
-     {
-      "en": "near",
-      "es": "cerca"
-     },
-     {
-      "en": "far",
-      "es": "lejos"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige el significado",
-    "prompt": "The Creeper is behind you.",
-    "options": [
-     "El Creeper está detrás de ti.",
-     "El Creeper está al lado de ti.",
-     "El Creeper está enfrente de ti."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las palabras de direcciones y ubicaciones",
-    "options": [
-     {
-      "text": "left",
-      "correct": true
-     },
-     {
-      "text": "near",
-      "correct": true
-     },
-     {
-      "text": "Pig",
-      "correct": false
-     },
-     {
-      "text": "Red",
-      "correct": false
-     },
-     {
-      "text": "behind",
-      "correct": true
-     },
-     {
-      "text": "Hello",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "El horno está al lado del cofre.",
-    "answer": [
-     "The",
-     "furnace",
-     "is",
-     "next",
-     "to",
-     "the",
-     "chest."
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "Go",
-    "after": "to the mine.",
-    "options": [
-     "straight",
-     "behind",
-     "near"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Pregunta cómo llegar a un lugar",
-    "prompt": "¿Cómo preguntas el camino a la aldea? — ______ the village?",
-    "accept": [
-     "how do i get to",
-     "how do i get to the village",
-     "how do i get to the village?"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "Turn left at the river.",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Da una indicación",
-    "say": "First go straight, then turn left.",
-    "prompt": "Di la indicación en voz alta."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Estás perdido en el bioma del bosque y un aldeano aparece para ayudarte a encontrar la aldea.",
-    "objective": "Pregunta cómo llegar a la aldea y entiende las direcciones (left, right, straight).",
-    "starter": "Hello! Are you lost? How do I help you?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/r/",
-    "options": [
-     {
-      "text": "right",
-      "correct": true
-     },
-     {
-      "text": "river",
-      "correct": true
-     },
-     {
-      "text": "across",
-      "correct": true
-     },
-     {
-      "text": "left",
-      "correct": false
-     },
-     {
-      "text": "near",
-      "correct": true
-     },
-     {
-      "text": "behind",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Turn right at the river.",
-    "prompt": "Escucha y repite los sonidos /r/."
-   }
-  ]
- }
+{
+"skill":"listening",
+"title":"Listening",
+"xp":20,
+"exercises":[
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"The chest is on the left.","options":["El cofre está a la izquierda.","El cofre está a la derecha.","El cofre está lejos."],"correct":0},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"Go straight to the mine.","options":["Gira a la izquierda en la mina.","Ve recto hacia la mina.","La mina está cerca."],"correct":1},
+{"type":"who_said_it","instruction":"¿Quién dijo la palabra correcta?","target":"right","options":["right","rite","wright","behind"],"correct":0},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"The Creeper is behind you.","options":["El Creeper está enfrente de ti.","El Creeper está al lado de ti.","El Creeper está detrás de ti."],"correct":2},
+{"type":"listen_build","instruction":"Escucha y arma la frase","audio":"Turn left at the river.","answer":["Turn","left","at","the","river."],"prompt":"Gira a la izquierda en el río."},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"The furnace is next to the chest.","options":["El horno está al lado del cofre.","El horno está entre los cofres.","El horno está lejos del cofre."],"correct":0},
+{"type":"who_said_it","instruction":"¿Quién dijo la palabra correcta?","target":"near","options":["knee","nir","near","far"],"correct":2},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"The cave is closer than the village.","options":["La cueva está más lejos que la aldea.","La cueva está más cerca que la aldea.","La cueva está al lado de la aldea."],"correct":1},
+{"type":"listen_build","instruction":"Escucha y arma la frase","audio":"The temple is on your right.","answer":["The","temple","is","on","your","right."],"prompt":"El templo está a tu derecha."}
+]
+},
+{
+"skill":"reading",
+"title":"Reading",
+"xp":20,
+"exercises":[
+{"type":"match_pairs","instruction":"Une cada palabra con su significado","pairs":[{"en":"left","es":"izquierda"},{"en":"right","es":"derecha"},{"en":"near","es":"cerca"},{"en":"far","es":"lejos"}]},
+{"type":"text_mc","instruction":"Lee y elige la traducción","prompt":"The furnace is next to the chest.","options":["El horno está al lado del cofre.","El horno está detrás del cofre.","El horno está enfrente del cofre."],"correct":0},
+{"type":"text_mc","instruction":"Lee y elige la traducción","prompt":"How do I get to the village?","options":["¿Dónde está la mina?","¿Cómo llego a la aldea?","¿Qué tan lejos está?"],"correct":1},
+{"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"next to","es":"al lado de"},{"en":"between","es":"entre"},{"en":"in front of","es":"enfrente de"},{"en":"behind","es":"detrás de"}]},
+{"type":"text_mc","instruction":"Lee y elige la traducción","prompt":"First go straight, then turn left.","options":["Primero gira a la derecha, luego ve recto.","Primero ve recto, luego gira a la izquierda.","Primero gira a la izquierda, luego para."],"correct":1},
+{"type":"multi_select","instruction":"Selecciona solo las palabras de direcciones","options":[{"text":"left","correct":true},{"text":"right","correct":true},{"text":"pig","correct":false},{"text":"straight","correct":true},{"text":"apple","correct":false},{"text":"red","correct":false}]},
+{"type":"text_mc","instruction":"Lee y elige la traducción","prompt":"The cave is closer than the village.","options":["La cueva está más lejos que la aldea.","La cueva está más cerca que la aldea.","La cueva está más rápido que la aldea."],"correct":1},
+{"type":"text_mc","instruction":"Lee y elige la traducción","prompt":"Turn right at the big tree.","options":["Gira a la derecha en el árbol grande.","Gira a la izquierda en el árbol grande.","Ve recto al árbol grande."],"correct":0},
+{"type":"multi_select","instruction":"Selecciona solo las palabras de ubicación","options":[{"text":"between","correct":true},{"text":"behind","correct":true},{"text":"sword","correct":false},{"text":"across from","correct":true},{"text":"blue","correct":false},{"text":"cow","correct":false}]}
+]
+},
+{
+"skill":"writing",
+"title":"Writing",
+"xp":20,
+"exercises":[
+{"type":"word_bank","instruction":"Ordena la oración","prompt":"El cofre está a la izquierda.","answer":["The","chest","is","on","the","left."]},
+{"type":"fill_blank","instruction":"Completa la palabra que falta","before":"Go straight to the","after":".","options":["mine","left","near"],"correct":0},
+{"type":"word_bank","instruction":"Ordena la oración","prompt":"El horno está al lado del cofre.","answer":["The","furnace","is","next","to","the","chest."]},
+{"type":"fill_blank","instruction":"Completa la palabra que falta","before":"The Creeper is","after":"you.","options":["behind","near","left"],"correct":0},
+{"type":"free_text","instruction":"Responde la pregunta","prompt":"How do I get to the village? — Turn ______ at the river.","accept":["left","right","turn left","turn right"]},
+{"type":"word_bank","instruction":"Ordena la oración","prompt":"Gira a la derecha en el árbol grande.","answer":["Turn","right","at","the","big","tree."]},
+{"type":"free_text","instruction":"Escribe una dirección","prompt":"Dile a Steve dónde ir: First go straight, then ______","accept":["turn left","turn right","go straight","turn left."]}
+]
+},
+{
+"skill":"speaking",
+"title":"Speaking",
+"xp":25,
+"exercises":[
+{"type":"speak","instruction":"Repite después del personaje","say":"The chest is on the left.","prompt":"Escucha y repítelo."},
+{"type":"speak","instruction":"Repite después del personaje","say":"Go straight to the mine.","prompt":"Escucha y repítelo."},
+{"type":"speak","instruction":"Repite después del personaje","say":"Turn right at the big tree.","prompt":"Escucha y repítelo."},
+{"type":"conversation","instruction":"Pequeña conversación","scenario":"Estás perdido en el bioma y un aldeano te ayuda en el chat.","objective":"Pregunta cómo llegar a la aldea y agradece.","starter":"Hello! How do I get to the village?","minTurns":3},
+{"type":"speak","instruction":"Repite después del personaje","say":"The Creeper is behind you.","prompt":"Escucha y repítelo."},
+{"type":"speak","instruction":"Repite después del personaje","say":"The cave is closer than the village.","prompt":"Escucha y repítelo."},
+{"type":"conversation","instruction":"Pequeña conversación","scenario":"Un amigo te pregunta dónde está el cofre en tu base.","objective":"Explica dónde está el cofre usando 'left', 'right' o 'next to'.","starter":"Hey! Where is the chest?","minTurns":3},
+{"type":"speak","instruction":"Repite después del personaje","say":"After that, the temple is on your right.","prompt":"Escucha y repítelo."}
+]
+},
+{
+"skill":"pronunciation",
+"title":"Pronunciation",
+"xp":25,
+"exercises":[
+{"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /r/","sound":"/r/","options":[{"text":"right","correct":true},{"text":"river","correct":true},{"text":"left","correct":false},{"text":"straight","correct":true},{"text":"chest","correct":false},{"text":"near","correct":true}]},
+{"type":"speak","instruction":"Repite cuidando el sonido /r/","say":"right","prompt":"Pronuncia la R."},
+{"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /f/","sound":"/f/","options":[{"text":"far","correct":true},{"text":"furnace","correct":true},{"text":"left","correct":true},{"text":"behind","correct":false},{"text":"near","correct":false},{"text":"in front of","correct":true}]},
+{"type":"speak","instruction":"Repite cuidando el sonido /str/","say":"straight","prompt":"Pronuncia bien 'str'."},
+{"type":"speak","instruction":"Repite cuidando el sonido /n/","say":"next to","prompt":"Pronuncia la N."}
+]
+}
 ]}

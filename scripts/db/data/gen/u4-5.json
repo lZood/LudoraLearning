@@ -2,7 +2,7 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
@@ -10,67 +10,150 @@
     "audio": "Let's build a house together.",
     "options": [
      "Construyamos una casa juntos.",
+     "Juguemos esta noche.",
+     "Exploremos la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige la traduccion",
+    "audio": "Do you want to play tonight?",
+    "options": [
      "Quieres jugar esta noche?",
-     "Que tal explorar la cueva?"
+     "Quieres minar manana?",
+     "Quieres construir una casa?"
     ],
     "correct": 0
    },
    {
     "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "Build",
+    "instruction": "Tres aldeanos lo dicen. Cual dijo 'cave'?",
+    "target": "cave",
     "options": [
-     "Bild",
-     "Build",
-     "Buld",
-     "Mine"
+     "cape",
+     "cave",
+     "gave",
+     "house"
     ],
     "correct": 1
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Do you want to play tonight?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige",
+    "audio": "Yesterday I mined ten diamonds.",
     "options": [
-     "Sure, that sounds great!",
-     "Yesterday I mined ten diamonds.",
-     "She found gold in the cave."
+     "Ayer mine diez diamantes.",
+     "Ayer pelee con un creeper.",
+     "Anoche construimos un castillo."
     ],
     "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "She found gold in the cave.",
+    "answer": [
+     "She",
+     "found",
+     "gold",
+     "in",
+     "the",
+     "cave."
+    ],
+    "prompt": "Ella encontro oro en la cueva."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Diamonds are stronger than iron.",
+    "options": [
+     "Los diamantes son mas fuertes que el hierro.",
+     "Mi casa es mas grande que la tuya.",
+     "La noche es mas peligrosa que el dia."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "Cual aldeano dijo 'night'?",
+    "target": "night",
+    "options": [
+     "nite",
+     "knight",
+     "night",
+     "torch"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "How about exploring the cave?",
+    "options": [
+     "Que tal explorar la cueva?",
+     "Claro, eso suena genial!",
+     "Quieres jugar esta noche?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "First we mine, then we build.",
+    "answer": [
+     "First",
+     "we",
+     "mine,",
+     "then",
+     "we",
+     "build."
+    ],
+    "prompt": "Primero minamos, luego construimos."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
     "instruction": "Une cada frase con su significado",
     "pairs": [
      {
+      "en": "Let's build a house together.",
+      "es": "Construyamos una casa juntos."
+     },
+     {
       "en": "How about exploring the cave?",
       "es": "Que tal explorar la cueva?"
      },
      {
-      "en": "We built a big castle last night.",
-      "es": "Construimos un gran castillo anoche."
+      "en": "Sure, that sounds great!",
+      "es": "Claro, eso suena genial!"
      },
      {
-      "en": "Diamonds are stronger than iron.",
-      "es": "Los diamantes son mas fuertes que el hierro."
-     },
-     {
-      "en": "First we mine, then we build.",
-      "es": "Primero minamos, luego construimos."
+      "en": "Do you want to play tonight?",
+      "es": "Quieres jugar esta noche?"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige",
+    "instruction": "Lee y elige el significado",
+    "prompt": "We built a big castle last night.",
+    "options": [
+     "Construimos un gran castillo anoche.",
+     "Construyamos una casa juntos.",
+     "Ayer mine diez diamantes."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
     "prompt": "My house is bigger than yours.",
     "options": [
      "Mi casa es mas grande que la tuya.",
@@ -81,30 +164,115 @@
    },
    {
     "type": "multi_select",
-    "instruction": "Selecciona solo las frases para hacer planes",
+    "instruction": "Selecciona solo las palabras del tema (planes y aventura)",
     "options": [
      {
-      "text": "Let's build a house together.",
+      "text": "build",
       "correct": true
      },
      {
-      "text": "Do you want to play tonight?",
+      "text": "explore",
       "correct": true
      },
      {
-      "text": "Hello, my name is Steve.",
+      "text": "banana",
       "correct": false
      },
      {
-      "text": "The pig is pink.",
-      "correct": false
-     },
-     {
-      "text": "How about exploring the cave?",
+      "text": "play",
       "correct": true
      },
      {
-      "text": "I have five apples.",
+      "text": "sock",
+      "correct": false
+     },
+     {
+      "text": "umbrella",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la respuesta correcta",
+    "prompt": "Do you want to play tonight?",
+    "options": [
+     "Sure, that sounds great!",
+     "Yesterday I mined ten diamonds.",
+     "She found gold in the cave."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "A creeper is faster than a zombie.",
+    "options": [
+     "Un creeper es mas rapido que un zombie.",
+     "Un zombie es mas rapido que un creeper.",
+     "Un creeper es mas fuerte que un zombie."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "I fought a creeper near my house.",
+      "es": "Pelee con un creeper cerca de mi casa."
+     },
+     {
+      "en": "She found gold in the cave.",
+      "es": "Ella encontro oro en la cueva."
+     },
+     {
+      "en": "We built a big castle last night.",
+      "es": "Construimos un gran castillo anoche."
+     },
+     {
+      "en": "Yesterday I mined ten diamonds.",
+      "es": "Ayer mine diez diamantes."
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "It's dark, so we need torches.",
+    "options": [
+     "Esta oscuro, asi que necesitamos antorchas.",
+     "Esta oscuro, pero no necesitamos antorchas.",
+     "Es de dia, asi que apagamos las antorchas."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo lo que hay en una cueva de Minecraft",
+    "options": [
+     {
+      "text": "gold",
+      "correct": true
+     },
+     {
+      "text": "diamonds",
+      "correct": true
+     },
+     {
+      "text": "pizza",
+      "correct": false
+     },
+     {
+      "text": "iron",
+      "correct": true
+     },
+     {
+      "text": "car",
+      "correct": false
+     },
+     {
+      "text": "phone",
       "correct": false
      }
     ]
@@ -114,11 +282,11 @@
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
-    "instruction": "Ordena la oración",
+    "instruction": "Ordena la oracion",
     "prompt": "Construyamos una casa juntos.",
     "answer": [
      "Let's",
@@ -131,24 +299,72 @@
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
-    "before": "Diamonds are",
-    "after": "than iron.",
+    "before": "Do you want to",
+    "after": "tonight?",
     "options": [
+     "play",
+     "house",
+     "gold"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oracion",
+    "prompt": "Los diamantes son mas fuertes que el hierro.",
+    "answer": [
+     "Diamonds",
+     "are",
      "stronger",
-     "faster",
-     "darker"
+     "than",
+     "iron."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la comparacion",
+    "before": "My house is",
+    "after": "than yours.",
+    "options": [
+     "bigger",
+     "big",
+     "biggest"
     ],
     "correct": 0
    },
    {
     "type": "free_text",
-    "instruction": "Propón un plan",
-    "prompt": "Invita a tu amigo a jugar esta noche en inglés.",
+    "instruction": "Responde la invitacion para esta noche",
+    "prompt": "Do you want to play tonight? — Responde aceptando.",
     "accept": [
-     "do you want to play tonight?",
-     "do you want to play tonight",
-     "let's play tonight",
-     "let's play tonight."
+     "sure",
+     "sure, that sounds great!",
+     "yes",
+     "yes i do"
+    ]
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oracion",
+    "prompt": "Esta oscuro, asi que necesitamos antorchas.",
+    "answer": [
+     "It's",
+     "dark,",
+     "so",
+     "we",
+     "need",
+     "torches."
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Propon un plan para explorar",
+    "prompt": "Invita a tu amigo a explorar la cueva.",
+    "accept": [
+     "how about exploring the cave?",
+     "how about exploring the cave",
+     "let's explore the cave",
+     "lets explore the cave"
     ]
    }
   ]
@@ -156,26 +372,58 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "How about exploring the cave?",
-    "prompt": "Escucha y repítelo."
+    "instruction": "Repite despues del personaje",
+    "say": "Let's build a house together.",
+    "prompt": "Invita a tu amigo a construir."
    },
    {
     "type": "speak",
-    "instruction": "Acepta el plan",
+    "instruction": "Repite despues del personaje",
+    "say": "How about exploring the cave?",
+    "prompt": "Propon un plan."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con energia",
     "say": "Sure, that sounds great!",
-    "prompt": "Di que el plan te parece genial."
+    "prompt": "Acepta el plan."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite despues del personaje",
+    "say": "Yesterday I mined ten diamonds.",
+    "prompt": "Cuenta lo que hiciste ayer."
    },
    {
     "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Un amigo te escribe en el chat del servidor para organizar la noche.",
-    "objective": "Propón un plan, acepta su idea y di qué haréis primero.",
+    "instruction": "Pequena conversacion",
+    "scenario": "Un amigo te escribe en el chat del servidor al anochecer.",
+    "objective": "Acepta jugar esta noche y propon construir una casa juntos.",
     "starter": "Do you want to play tonight?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite despues del personaje",
+    "say": "Diamonds are stronger than iron.",
+    "prompt": "Compara los materiales."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite despues del personaje",
+    "say": "First we mine, then we build.",
+    "prompt": "Explica el plan paso a paso."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequena conversacion",
+    "scenario": "Estas en la entrada de una cueva oscura con un aldeano.",
+    "objective": "Propon explorar la cueva y di que necesitan antorchas.",
+    "starter": "How about exploring the cave?",
     "minTurns": 3
    }
   ]
@@ -183,11 +431,11 @@
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
+    "instruction": "Selecciona las palabras que tienen el sonido /b/",
     "sound": "/b/",
     "options": [
      {
@@ -195,7 +443,7 @@
       "correct": true
      },
      {
-      "text": "bigger",
+      "text": "big",
       "correct": true
      },
      {
@@ -203,24 +451,67 @@
       "correct": false
      },
      {
-      "text": "night",
+      "text": "castle",
       "correct": false
      },
      {
-      "text": "because",
+      "text": "bigger",
       "correct": true
      },
      {
-      "text": "torches",
+      "text": "gold",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Build, bigger, because",
-    "prompt": "Escucha y repite los sonidos /b/."
+    "instruction": "Repite y cuida el sonido /b/",
+    "say": "Let's build a big house.",
+    "prompt": "Marca bien la 'b'."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona las palabras que tienen el sonido /d/",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "diamonds",
+      "correct": true
+     },
+     {
+      "text": "dark",
+      "correct": true
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "dangerous",
+      "correct": true
+     },
+     {
+      "text": "play",
+      "correct": false
+     },
+     {
+      "text": "house",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /d/",
+    "say": "Diamonds are stronger than iron.",
+    "prompt": "Pronuncia clara la 'd'."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /t/",
+    "say": "It's dark, so we need torches.",
+    "prompt": "Marca bien la 't'."
    }
   ]
  }

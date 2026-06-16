@@ -50,6 +50,10 @@ function validateExercise(e) {
     case 'speak':
       if (!isStr(e.say)) return 'speak.say';
       return null;
+    case 'listen_build':
+      if (!isStr(e.audio)) return 'listen_build.audio';
+      if (!Array.isArray(e.answer) || e.answer.length < 2 || !e.answer.every(isStr)) return 'listen_build.answer';
+      return null;
     case 'conversation':
       if (!isStr(e.scenario) || !isStr(e.objective) || !isStr(e.starter)) return 'conversation campos';
       return null;
@@ -76,7 +80,7 @@ function validateUnit(data) {
   return null;
 }
 
-const XP = { listening: 15, reading: 15, writing: 15, speaking: 20, pronunciation: 20 };
+const XP = { listening: 20, reading: 20, writing: 20, speaking: 25, pronunciation: 25 };
 
 const dir = './scripts/db/data/gen';
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));

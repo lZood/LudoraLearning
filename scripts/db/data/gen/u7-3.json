@@ -1,225 +1,75 @@
 {"ext":"u7-3","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "I think we should craft armor.",
-    "options": [
-     "Creo que deberíamos fabricar armadura.",
-     "No estoy de acuerdo contigo.",
-     "Construyamos un refugio."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "Agree",
-    "options": [
-     "Agreh",
-     "Agree",
-     "Egree",
-     "Build"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Why don't we explore the cave?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "Good idea!",
-     "My name is Alex.",
-     "Goodbye."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada frase con su significado",
-    "pairs": [
-     {
-      "en": "I think...",
-      "es": "Creo que..."
-     },
-     {
-      "en": "Good idea!",
-      "es": "¡Buena idea!"
-     },
-     {
-      "en": "I agree with you.",
-      "es": "Estoy de acuerdo contigo."
-     },
-     {
-      "en": "Let's build a shelter.",
-      "es": "Construyamos un refugio."
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "What do you think we should do?",
-    "options": [
-     "¿Qué crees que deberíamos hacer?",
-     "¿Estás de acuerdo conmigo?",
-     "¿Por qué no exploramos la cueva?"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las frases de opinión o sugerencia",
-    "options": [
-     {
-      "text": "In my opinion...",
-      "correct": true
-     },
-     {
-      "text": "I believe that...",
-      "correct": true
-     },
-     {
-      "text": "Good idea!",
-      "correct": true
-     },
-     {
-      "text": "Pig",
-      "correct": false
-     },
-     {
-      "text": "Blue",
-      "correct": false
-     },
-     {
-      "text": "Hello",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "Deberíamos fabricar armadura.",
-    "answer": [
-     "We",
-     "should",
-     "craft",
-     "armor."
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "I",
-    "after": "with you.",
-    "options": [
-     "agree",
-     "build",
-     "cave"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Da tu opinión",
-    "prompt": "Expresa una opinión: ______ we should craft armor.",
-    "accept": [
-     "i think",
-     "i believe that",
-     "in my opinion"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "Let's build a shelter.",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Haz una sugerencia",
-    "say": "Why don't we explore the cave?",
-    "prompt": "Di la sugerencia en voz alta."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Está anocheciendo en el servidor y tu compañero te pregunta qué hacer antes de que aparezcan los mobs.",
-    "objective": "Da tu opinión, haz una sugerencia y muestra acuerdo o desacuerdo.",
-    "starter": "It's getting dark. What do you think we should do?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/ɪ/",
-    "options": [
-     {
-      "text": "think",
-      "correct": true
-     },
-     {
-      "text": "build",
-      "correct": true
-     },
-     {
-      "text": "if",
-      "correct": true
-     },
-     {
-      "text": "cave",
-      "correct": false
-     },
-     {
-      "text": "share",
-      "correct": false
-     },
-     {
-      "text": "agree",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "I think we should build it.",
-    "prompt": "Escucha y repite los sonidos /ɪ/."
-   }
-  ]
- }
+{
+ "skill":"listening",
+ "title":"Listening",
+ "xp":20,
+ "exercises":[
+  {"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"I think we should craft armor.","options":["Creo que deberíamos fabricar armadura.","En mi opinión deberíamos comer.","No estoy de acuerdo contigo."],"correct":0},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Good idea!","options":["¡Buena idea!","No estoy seguro.","¿Qué tal el trigo?"],"correct":0},
+  {"type":"who_said_it","instruction":"¿Quién dijo \"agree\"?","target":"agree","options":["aggry","agree","argee","explore"],"correct":1},
+  {"type":"audio_mc","instruction":"Escucha la sugerencia y elige","audio":"Let's build a shelter.","options":["Construyamos un refugio.","Plantemos trigo.","Exploremos la cueva."],"correct":0},
+  {"type":"listen_build","instruction":"Escucha y arma la frase","audio":"I agree with you.","answer":["I","agree","with","you."],"prompt":"Estoy de acuerdo contigo."},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Why don't we explore the cave?","options":["¿Por qué no exploramos la cueva?","¿Qué tal si plantamos trigo?","Deberíamos fabricar armadura."],"correct":0},
+  {"type":"who_said_it","instruction":"¿Quién dijo \"believe\"?","target":"believe","options":["beleeve","believe","bilив","opinion"],"correct":1},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"I'm not sure about that.","options":["No estoy seguro de eso.","Estoy de acuerdo contigo.","Creo que sí."],"correct":0},
+  {"type":"listen_build","instruction":"Escucha y arma la sugerencia","audio":"How about planting wheat?","answer":["How","about","planting","wheat?"],"prompt":"¿Qué tal si plantamos trigo?"}
+ ]
+},
+{
+ "skill":"reading",
+ "title":"Reading",
+ "xp":20,
+ "exercises":[
+  {"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"I think...","es":"Creo que..."},{"en":"In my opinion...","es":"En mi opinión..."},{"en":"Good idea!","es":"¡Buena idea!"},{"en":"I agree with you.","es":"Estoy de acuerdo contigo."}]},
+  {"type":"text_mc","instruction":"Lee y elige el significado","prompt":"We should craft armor.","options":["Deberíamos fabricar armadura.","Construyamos un refugio.","No estoy de acuerdo."],"correct":0},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"I disagree, because...","options":["No estoy de acuerdo, porque...","Estoy de acuerdo contigo.","Si me preguntas..."],"correct":0},
+  {"type":"multi_select","instruction":"Selecciona solo las formas de dar una opinión","prompt":"Toca las que sirven para opinar.","options":[{"text":"I think...","correct":true},{"text":"In my opinion...","correct":true},{"text":"If you ask me...","correct":true},{"text":"Pig","correct":false},{"text":"Diamond","correct":false},{"text":"Sword","correct":false}]},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"If it gets dark, mobs will appear.","options":["Si oscurece, aparecerán los mobs.","Si comes, recuperarás corazones.","Si compartimos, todos sobreviven."],"correct":0},
+  {"type":"match_pairs","instruction":"Une cada sugerencia con su significado","pairs":[{"en":"Let's build a shelter.","es":"Construyamos un refugio."},{"en":"How about planting wheat?","es":"¿Qué tal si plantamos trigo?"},{"en":"Why don't we explore the cave?","es":"¿Por qué no exploramos la cueva?"},{"en":"I'm not sure about that.","es":"No estoy seguro de eso."}]},
+  {"type":"text_mc","instruction":"Lee la pregunta y elige","prompt":"What do you think we should do?","options":["¿Qué crees que deberíamos hacer?","¿Por qué no exploramos?","¿Qué tal si plantamos trigo?"],"correct":0},
+  {"type":"multi_select","instruction":"Selecciona solo las frases de acuerdo o desacuerdo","prompt":"Toca las que muestran si estás de acuerdo o no.","options":[{"text":"I agree with you.","correct":true},{"text":"I disagree, because...","correct":true},{"text":"Good idea!","correct":true},{"text":"Cave","correct":false},{"text":"Wheat","correct":false},{"text":"Armor","correct":false}]},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"If you eat, you will get more hearts.","options":["Si comes, recuperarás más corazones.","Si oscurece, aparecerán los mobs.","Si compartimos, todos sobreviven."],"correct":0}
+ ]
+},
+{
+ "skill":"writing",
+ "title":"Writing",
+ "xp":20,
+ "exercises":[
+  {"type":"word_bank","instruction":"Ordena la oración","prompt":"Estoy de acuerdo contigo.","answer":["I","agree","with","you."]},
+  {"type":"fill_blank","instruction":"Completa la palabra que falta","before":"In my","after":", we should craft armor.","options":["opinion","cave","wheat"],"correct":0},
+  {"type":"word_bank","instruction":"Ordena la sugerencia","prompt":"Construyamos un refugio.","answer":["Let's","build","a","shelter."]},
+  {"type":"fill_blank","instruction":"Completa la pregunta","before":"Why don't we","after":"the cave?","options":["explore","plant","craft"],"correct":0},
+  {"type":"word_bank","instruction":"Ordena la oración condicional","prompt":"Si compartimos recursos, todos sobrevivirán.","answer":["If","we","share","resources,","everyone","will","survive."]},
+  {"type":"free_text","instruction":"Da tu opinión en inglés","prompt":"Comienza tu opinión: ______ we should craft armor.","accept":["i think","in my opinion","i believe that","if you ask me"]},
+  {"type":"free_text","instruction":"Responde con una sugerencia en inglés","prompt":"What do you think we should do? — ______","accept":["let's build a shelter","we should craft armor","how about planting wheat","why don't we explore the cave"]}
+ ]
+},
+{
+ "skill":"speaking",
+ "title":"Speaking",
+ "xp":25,
+ "exercises":[
+  {"type":"speak","instruction":"Repite después del personaje","say":"I think we should craft armor.","prompt":"Da tu opinión."},
+  {"type":"speak","instruction":"Repite la sugerencia","say":"Let's build a shelter.","prompt":"Sugiere una idea."},
+  {"type":"speak","instruction":"Repite","say":"I agree with you.","prompt":"Muestra que estás de acuerdo."},
+  {"type":"conversation","instruction":"Pequeña conversación","scenario":"Estás en una cueva con un aldeano y se hace de noche.","objective":"Sugiere construir un refugio y di que estás de acuerdo con su idea.","starter":"It's getting dark. What do you think we should do?","minTurns":3},
+  {"type":"speak","instruction":"Repite la pregunta","say":"Why don't we explore the cave?","prompt":"Haz una sugerencia."},
+  {"type":"speak","instruction":"Repite","say":"In my opinion, we should plant wheat.","prompt":"Comparte tu opinión."},
+  {"type":"conversation","instruction":"Pequeña conversación","scenario":"Tu amigo quiere fabricar armadura antes de pelear con los mobs.","objective":"Di tu opinión, muestra acuerdo o desacuerdo y propón un plan.","starter":"I believe that we should craft armor. Do you agree?","minTurns":3},
+  {"type":"speak","instruction":"Repite la oración condicional","say":"If we share resources, everyone will survive.","prompt":"Anima a tu equipo."}
+ ]
+},
+{
+ "skill":"pronunciation",
+ "title":"Pronunciation",
+ "xp":25,
+ "exercises":[
+  {"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /b/","sound":"/b/","options":[{"text":"build","correct":true},{"text":"believe","correct":true},{"text":"about","correct":true},{"text":"think","correct":false},{"text":"share","correct":false},{"text":"explore","correct":false}]},
+  {"type":"speak","instruction":"Repite y cuida el sonido /θ/","say":"I think we should explore.","prompt":"Saca la lengua para la 'th'."},
+  {"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /s/","sound":"/s/","options":[{"text":"shelter","correct":true},{"text":"resources","correct":true},{"text":"survive","correct":true},{"text":"build","correct":false},{"text":"wheat","correct":false},{"text":"agree","correct":false}]},
+  {"type":"speak","instruction":"Repite y cuida el sonido /r/","say":"We should craft armor.","prompt":"Marca bien la 'r'."},
+  {"type":"speak","instruction":"Repite y cuida el sonido /aɪ/","say":"In my opinion, I agree.","prompt":"Pronuncia clara la 'i' larga."}
+ ]
+}
 ]}

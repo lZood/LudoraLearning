@@ -1,229 +1,371 @@
 {"ext":"u7-6","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige la traducción correcta",
-    "audio": "First, I mined some stone and built a house.",
-    "options": [
-     "Primero, extraje piedra y construí una casa.",
-     "Luego fui a la cueva y encontré hierro.",
-     "Finalmente, luché contra el Ender Dragon y gané."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién dijo la palabra correcta?",
-    "target": "Creeper",
-    "options": [
-     "Creepa",
-     "Creeper",
-     "Greeper",
-     "Zombie"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha la condición y elige el resultado",
-    "audio": "If it gets dark, zombies will appear.",
-    "prompt": "Elige la traducción correcta",
-    "options": [
-     "Si oscurece, aparecerán zombis.",
-     "Si cavas hacia abajo, caerás en la lava.",
-     "Si trabajamos juntos, venceremos al jefe."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada conector con su significado",
-    "pairs": [
-     {
-      "en": "First",
-      "es": "Primero"
-     },
-     {
-      "en": "Then",
-      "es": "Luego"
-     },
-     {
-      "en": "After that",
-      "es": "Después de eso"
-     },
-     {
-      "en": "Finally",
-      "es": "Finalmente"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige el significado",
-    "prompt": "In my opinion, diamonds are the best material.",
-    "options": [
-     "En mi opinión, los diamantes son el mejor material.",
-     "Creo que el bioma de la jungla es el más hermoso.",
-     "No creo que las herramientas de madera sean muy útiles."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las palabras para dar tu opinión",
-    "options": [
-     {
-      "text": "I think",
-      "correct": true
-     },
-     {
-      "text": "I believe",
-      "correct": true
-     },
-     {
-      "text": "Stone",
-      "correct": false
-     },
-     {
-      "text": "Cave",
-      "correct": false
-     },
-     {
-      "text": "In my opinion",
-      "correct": true
-     },
-     {
-      "text": "Iron",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "Si oscurece, aparecerán zombis.",
-    "answer": [
-     "If",
-     "it",
-     "gets",
-     "dark,",
-     "zombies",
-     "will",
-     "appear."
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "Finally, I fought the Ender Dragon and",
-    "after": ".",
-    "options": [
-     "won",
-     "built",
-     "mined"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Da tu opinión",
-    "prompt": "¿Cuál es el mejor material? Empieza con: In my opinion, ...",
-    "accept": [
-     "in my opinion, diamonds are the best material",
-     "in my opinion diamonds are the best material",
-     "i think diamonds are the best material",
-     "in my opinion, diamonds are the best"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite tu opinión",
-    "say": "I think the jungle biome is the most beautiful.",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Repite la condición",
-    "say": "If we work together, we will defeat the boss.",
-    "prompt": "Di la oración completa en inglés."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Tu amigo y tú planean explorar una cueva peligrosa en el servidor de Minecraft.",
-    "objective": "Da tu opinión, usa una condición con 'if' y propón un plan para sobrevivir la noche.",
-    "starter": "I think we should build a shelter before night. What do you believe?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/f/",
-    "options": [
-     {
-      "text": "First",
-      "correct": true
-     },
-     {
-      "text": "Finally",
-      "correct": true
-     },
-     {
-      "text": "Stone",
-      "correct": false
-     },
-     {
-      "text": "Fight",
-      "correct": true
-     },
-     {
-      "text": "Cave",
-      "correct": false
-     },
-     {
-      "text": "Dragon",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "First, Finally, Fight!",
-    "prompt": "Escucha y repite los sonidos /f/."
-   }
-  ]
- }
+{
+ "skill":"listening",
+ "title":"Listening",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el significado",
+   "audio":"In my opinion, diamonds are the best material.",
+   "options":[
+    "En mi opinión, los diamantes son el mejor material.",
+    "Creo que la madera es el mejor material.",
+    "Los diamantes son peligrosos."
+   ],
+   "correct":0
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el significado",
+   "audio":"If it gets dark, zombies will appear.",
+   "options":[
+    "Si trabajamos juntos, ganaremos.",
+    "Si oscurece, aparecerán zombis.",
+    "Si cavas hacia abajo, caerás en la lava."
+   ],
+   "correct":1
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"Escuchaste \"creeper\". ¿Quién lo dijo?",
+   "target":"creeper",
+   "options":[
+    "creeber",
+    "creeper",
+    "cribber",
+    "village"
+   ],
+   "correct":1
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el significado",
+   "audio":"First, I mined some stone and built a house.",
+   "options":[
+    "Luego fui a la cueva y encontré hierro.",
+    "Finalmente, luché contra el Ender Dragon.",
+    "Primero, extraje piedra y construí una casa."
+   ],
+   "correct":2
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la frase",
+   "audio":"Then I went to the cave and found iron.",
+   "answer":["Then","I","went","to","the","cave","and","found","iron."],
+   "prompt":"Luego fui a la cueva y encontré hierro."
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el significado",
+   "audio":"If I had an Elytra, I would fly everywhere.",
+   "options":[
+    "Si tuviera una Elytra, volaría a todos lados.",
+    "Si yo fuera el rey, construiría un castillo.",
+    "Si trabajamos juntos, venceremos al jefe."
+   ],
+   "correct":0
+  },
+  {
+   "type":"who_said_it",
+   "instruction":"Escuchaste \"village\". ¿Quién lo dijo?",
+   "target":"village",
+   "options":[
+    "villain",
+    "vintage",
+    "village",
+    "diamond"
+   ],
+   "correct":2
+  },
+  {
+   "type":"audio_mc",
+   "instruction":"Escucha y elige el significado",
+   "audio":"I think we should build a shelter before night.",
+   "options":[
+    "Creo que deberíamos comerciar con un aldeano.",
+    "Creo que deberíamos construir un refugio antes de la noche.",
+    "Creo que los creepers son los mobs más peligrosos."
+   ],
+   "correct":1
+  },
+  {
+   "type":"listen_build",
+   "instruction":"Escucha y arma la frase",
+   "audio":"If we work together, we will defeat the boss.",
+   "answer":["If","we","work","together,","we","will","defeat","the","boss."],
+   "prompt":"Si trabajamos juntos, venceremos al jefe."
+  }
+ ]
+},
+{
+ "skill":"reading",
+ "title":"Reading",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada frase con su significado",
+   "pairs":[
+    {"en":"First","es":"Primero"},
+    {"en":"Then","es":"Luego"},
+    {"en":"After that","es":"Después de eso"},
+    {"en":"Finally","es":"Finalmente"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"I believe creepers are the most dangerous mobs.",
+   "options":[
+    "Creo que los creepers son los mobs más peligrosos.",
+    "Creo que los creepers son muy útiles.",
+    "Creo que el bioma de la jungla es el más hermoso."
+   ],
+   "correct":0
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"If you dig straight down, you will fall into lava.",
+   "options":[
+    "Si oscurece, aparecerán zombis.",
+    "Si cavas hacia abajo, caerás en la lava.",
+    "Si trabajamos juntos, venceremos al jefe."
+   ],
+   "correct":1
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo las palabras de orden (secuencia)",
+   "options":[
+    {"text":"First","correct":true},
+    {"text":"Then","correct":true},
+    {"text":"diamond","correct":false},
+    {"text":"zombie","correct":false},
+    {"text":"Finally","correct":true},
+    {"text":"jungle","correct":false}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"Yesterday I explored a village and traded with a villager.",
+   "options":[
+    "Ayer exploré una aldea y comercié con un aldeano.",
+    "Ayer luché contra el Ender Dragon y gané.",
+    "Ayer extraje piedra y construí una casa."
+   ],
+   "correct":0
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"I don't think wooden tools are very useful.",
+   "options":[
+    "Creo que las herramientas de madera son las mejores.",
+    "No creo que las herramientas de madera sean muy útiles.",
+    "En mi opinión, los diamantes son el mejor material."
+   ],
+   "correct":1
+  },
+  {
+   "type":"match_pairs",
+   "instruction":"Une cada frase con su significado",
+   "pairs":[
+    {"en":"the best material","es":"el mejor material"},
+    {"en":"the most beautiful","es":"el más hermoso"},
+    {"en":"the most dangerous","es":"el más peligroso"},
+    {"en":"very useful","es":"muy útil"}
+   ]
+  },
+  {
+   "type":"text_mc",
+   "instruction":"Lee y elige el significado",
+   "prompt":"Would you help me if I gave you some food?",
+   "options":[
+    "¿Me ayudarías si te diera algo de comida?",
+    "¿Construirías un castillo enorme?",
+    "¿Volarías a todos lados con una Elytra?"
+   ],
+   "correct":0
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona solo las palabras que dan una opinión",
+   "options":[
+    {"text":"I think","correct":true},
+    {"text":"I believe","correct":true},
+    {"text":"cave","correct":false},
+    {"text":"iron","correct":false},
+    {"text":"In my opinion","correct":true},
+    {"text":"lava","correct":false}
+   ]
+  }
+ ]
+},
+{
+ "skill":"writing",
+ "title":"Writing",
+ "xp":20,
+ "exercises":[
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"En mi opinión, los diamantes son el mejor material.",
+   "answer":["In","my","opinion,","diamonds","are","the","best","material."]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"If it gets dark,",
+   "after":"will appear.",
+   "options":["zombies","diamonds","villages"],
+   "correct":0
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"Finalmente, luché contra el Ender Dragon y gané.",
+   "answer":["Finally,","I","fought","the","Ender","Dragon","and","won."]
+  },
+  {
+   "type":"fill_blank",
+   "instruction":"Completa la palabra que falta",
+   "before":"I think we should build a",
+   "after":"before night.",
+   "options":["shelter","creeper","jungle"],
+   "correct":0
+  },
+  {
+   "type":"free_text",
+   "instruction":"Escribe tu opinión en inglés",
+   "prompt":"¿Cuál es el mejor material? — In my opinion, ______",
+   "accept":["in my opinion","i think","i believe"]
+  },
+  {
+   "type":"word_bank",
+   "instruction":"Ordena la oración",
+   "prompt":"Si trabajamos juntos, venceremos al jefe.",
+   "answer":["If","we","work","together,","we","will","defeat","the","boss."]
+  },
+  {
+   "type":"free_text",
+   "instruction":"Completa la condición en inglés",
+   "prompt":"Si oscurece, ¿qué pasa? — If it gets dark, ______",
+   "accept":["zombies will appear","zombies appear","they will appear"]
+  }
+ ]
+},
+{
+ "skill":"speaking",
+ "title":"Speaking",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"I think the jungle biome is the most beautiful.",
+   "prompt":"Da tu opinión con confianza."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"First, I mined some stone and built a house.",
+   "prompt":"Cuenta tu historia paso a paso."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"After that, a creeper exploded near me!",
+   "prompt":"Pon emoción en la frase."
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Estás en una cueva con un amigo y debes decidir qué hacer antes de que anochezca.",
+   "objective":"Da tu opinión y propón construir un refugio antes de la noche.",
+   "starter":"It's getting late. What should we do now?",
+   "minTurns":3
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"If I were the king, I would build a huge castle.",
+   "prompt":"Imagina y dilo en voz alta."
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"Yesterday I explored a village and traded with a villager.",
+   "prompt":"Habla del pasado."
+  },
+  {
+   "type":"conversation",
+   "instruction":"Pequeña conversación",
+   "scenario":"Un aldeano te pide ayuda para vencer al jefe del End.",
+   "objective":"Acepta ayudar y di que si trabajan juntos vencerán al jefe.",
+   "starter":"Would you help me if I gave you some food?",
+   "minTurns":3
+  },
+  {
+   "type":"speak",
+   "instruction":"Repite después del personaje",
+   "say":"If you dig straight down, you will fall into lava.",
+   "prompt":"Advierte a tu amigo con firmeza."
+  }
+ ]
+},
+{
+ "skill":"pronunciation",
+ "title":"Pronunciation",
+ "xp":25,
+ "exercises":[
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras que tienen el sonido /d/",
+   "sound":"/d/",
+   "options":[
+    {"text":"diamond","correct":true},
+    {"text":"dangerous","correct":true},
+    {"text":"stone","correct":false},
+    {"text":"dragon","correct":true},
+    {"text":"cave","correct":false},
+    {"text":"night","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Pronuncia con cuidado el sonido /d/",
+   "say":"In my opinion, diamonds are the best material.",
+   "prompt":"Marca bien la d de diamonds."
+  },
+  {
+   "type":"multi_select",
+   "instruction":"Selecciona las palabras que tienen el sonido /b/",
+   "sound":"/b/",
+   "options":[
+    {"text":"build","correct":true},
+    {"text":"boss","correct":true},
+    {"text":"iron","correct":false},
+    {"text":"beautiful","correct":true},
+    {"text":"lava","correct":false},
+    {"text":"creeper","correct":false}
+   ]
+  },
+  {
+   "type":"speak",
+   "instruction":"Pronuncia con cuidado el sonido /b/",
+   "say":"I think we should build a shelter before night.",
+   "prompt":"Resalta la b de build y before."
+  },
+  {
+   "type":"speak",
+   "instruction":"Pronuncia con cuidado el sonido /r/",
+   "say":"I believe creepers are the most dangerous mobs.",
+   "prompt":"Cuida la r de creepers y dangerous."
+  }
+ ]
+}
 ]}

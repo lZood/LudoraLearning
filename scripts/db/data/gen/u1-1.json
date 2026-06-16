@@ -1,0 +1,50 @@
+{"ext":"u1-1","lessons":[
+{"skill":"listening","title":"Listening","xp":20,"exercises":[
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"Hello!","options":["Hola","Adiós","Gracias"],"correct":0},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"Good morning","options":["Buenas noches","Buenos días","Hasta luego"],"correct":1},
+{"type":"who_said_it","instruction":"¿Quién dijo \"Bye\"?","target":"Bye","options":["Bai","Buy","Bye","Pie"],"correct":2},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"Thank you","options":["Gracias","Hola","Adiós"],"correct":0},
+{"type":"listen_build","instruction":"Escucha y arma la frase","audio":"My name is Steve","answer":["My","name","is","Steve"],"prompt":"Me llamo Steve."},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"How are you?","options":["¿Cómo te llamas?","¿Cómo estás?","¿Qué tal el día?"],"correct":1},
+{"type":"who_said_it","instruction":"¿Quién dijo \"Hi\"?","target":"Hi","options":["Ai","High","Hi","Hey"],"correct":2},
+{"type":"audio_mc","instruction":"Escucha y elige el significado","audio":"Nice to meet you","options":["Mucho gusto","Buenos días","Estoy bien"],"correct":0},
+{"type":"who_said_it","instruction":"¿Quién dijo \"Hey\"?","target":"Hey","options":["Hay","Hey","Heigh","Bye"],"correct":1}
+]},
+{"skill":"reading","title":"Reading","xp":20,"exercises":[
+{"type":"match_pairs","instruction":"Une cada saludo con su significado","pairs":[{"en":"Hello","es":"Hola"},{"en":"Good morning","es":"Buenos días"},{"en":"Goodbye","es":"Adiós"},{"en":"Thank you","es":"Gracias"}]},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"What is your name?","options":["¿Cómo te llamas?","¿Cómo estás?","¿De dónde eres?"],"correct":0},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"How are you?","options":["¿Cómo estás?","¿Cómo te llamas?","¿Qué hora es?"],"correct":0},
+{"type":"multi_select","instruction":"Selecciona solo los saludos","options":[{"text":"Hello","correct":true},{"text":"Hi","correct":true},{"text":"Pig","correct":false},{"text":"Hey","correct":true},{"text":"Tree","correct":false},{"text":"Stone","correct":false}]},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"See you later","options":["Hasta luego","Mucho gusto","Buenos días"],"correct":0},
+{"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"Nice to meet you","es":"Mucho gusto"},{"en":"My name is","es":"Me llamo"},{"en":"How are you?","es":"¿Cómo estás?"},{"en":"I'm good","es":"Estoy bien"}]},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"I'm good","options":["Estoy bien","Soy bueno jugando","Buenos días"],"correct":0},
+{"type":"multi_select","instruction":"Selecciona solo las despedidas","options":[{"text":"Goodbye","correct":true},{"text":"Bye","correct":true},{"text":"Hello","correct":false},{"text":"See you later","correct":true},{"text":"Thank you","correct":false},{"text":"Good morning","correct":false}]},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"Bye","options":["Adiós","Hola","Gracias"],"correct":0}
+]},
+{"skill":"writing","title":"Writing","xp":20,"exercises":[
+{"type":"word_bank","instruction":"Ordena la oración","prompt":"Me llamo Steve.","answer":["My","name","is","Steve"]},
+{"type":"fill_blank","instruction":"Completa la frase","before":"Good","after":", friend!","options":["morning","name","later"],"correct":0},
+{"type":"word_bank","instruction":"Ordena la pregunta","prompt":"¿Cómo te llamas?","answer":["What","is","your","name?"]},
+{"type":"fill_blank","instruction":"Completa la frase","before":"Nice to","after":"you.","options":["meet","name","morning"],"correct":0},
+{"type":"listen_build","instruction":"Escucha y arma la frase","audio":"How are you","answer":["How","are","you"],"prompt":"¿Cómo estás?"},
+{"type":"word_bank","instruction":"Ordena la frase","prompt":"Hasta luego.","answer":["See","you","later"]},
+{"type":"fill_blank","instruction":"Completa la frase","before":"Thank","after":"very much!","options":["you","name","bye"],"correct":0}
+]},
+{"skill":"speaking","title":"Speaking","xp":25,"exercises":[
+{"type":"speak","instruction":"Repite después del personaje","say":"Hello! How are you?","prompt":"Saluda con energía."},
+{"type":"speak","instruction":"Repite después del personaje","say":"My name is Steve","prompt":"Di tu nombre claro."},
+{"type":"speak","instruction":"Repite después del personaje","say":"Nice to meet you","prompt":"Sonríe al decirlo."},
+{"type":"conversation","instruction":"Pequeña conversación","scenario":"Un aldeano te saluda en el chat del servidor.","objective":"Saluda, di tu nombre y responde \"Nice to meet you\".","starter":"Hello! What is your name?","minTurns":3},
+{"type":"speak","instruction":"Repite después del personaje","say":"Good morning!","prompt":"Salúdalo por la mañana."},
+{"type":"speak","instruction":"Repite después del personaje","say":"I'm good, thank you","prompt":"Responde con calma."},
+{"type":"conversation","instruction":"Pequeña conversación","scenario":"Te despides de un amigo antes de salir del mundo.","objective":"Despídete y di \"See you later\".","starter":"Bye! How are you?","minTurns":3},
+{"type":"speak","instruction":"Repite después del personaje","say":"See you later!","prompt":"Despídete amablemente."}
+]},
+{"skill":"pronunciation","title":"Pronunciation","xp":25,"exercises":[
+{"type":"multi_select","instruction":"Selecciona las palabras con el sonido /h/","sound":"/h/","options":[{"text":"Hello","correct":true},{"text":"Hi","correct":true},{"text":"Bye","correct":false},{"text":"Hey","correct":true},{"text":"Name","correct":false},{"text":"Good","correct":false}]},
+{"type":"speak","instruction":"Repite cuidando el sonido /h/","say":"Hello, hi, hey","prompt":"Sopla la H suave."},
+{"type":"multi_select","instruction":"Selecciona las palabras con el sonido /n/","sound":"/n/","options":[{"text":"Name","correct":true},{"text":"Nice","correct":true},{"text":"Morning","correct":true},{"text":"Bye","correct":false},{"text":"Good","correct":false},{"text":"Hi","correct":false}]},
+{"type":"speak","instruction":"Repite cuidando el sonido /n/","say":"My name is nice","prompt":"Marca la N."},
+{"type":"speak","instruction":"Repite la frase completa","say":"Good morning, nice to meet you","prompt":"Habla despacio y claro."}
+]}
+]}

@@ -2,53 +2,123 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
-    "instruction": "Escucha y elige la traducción",
+    "instruction": "Escucha y elige el significado",
     "audio": "Yesterday I built a house",
     "options": [
      "Ayer construí una casa",
-     "Voy a construir un castillo mañana",
-     "Encontré tres diamantes en la cueva"
+     "Mañana construiré una casa",
+     "Hoy compré una casa"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I found three diamonds in the cave",
+    "options": [
+     "Perdí tres diamantes en la cueva",
+     "Encontré tres diamantes en la cueva",
+     "Vendí tres diamantes en la mina"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Dragon",
+    "options": [
+     "Draggin",
+     "Dragon",
+     "Drahon",
+     "Dranok"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "We are going to explore the Nether",
+    "options": [
+     "Vamos a explorar el Nether",
+     "Salimos del Nether",
+     "No iremos al Nether"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "She crafted a diamond sword",
+    "answer": [
+     "She",
+     "crafted",
+     "a",
+     "diamond",
+     "sword"
+    ],
+    "prompt": "Ella fabricó una espada de diamante."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "I will help you fight the zombies",
+    "options": [
+     "Te ayudaré a luchar contra los zombis",
+     "Luché contra los zombis ayer",
+     "No quiero pelear con los zombis"
     ],
     "correct": 0
    },
    {
     "type": "who_said_it",
     "instruction": "¿Quién dijo la palabra correcta?",
-    "target": "Diamonds",
+    "target": "Lava",
     "options": [
-     "Daimonds",
-     "Diamonds",
-     "Diamins",
-     "Dragons"
+     "Lahva",
+     "Larva",
+     "Lava",
+     "Lova"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "They are going to plant wheat",
+    "options": [
+     "Ellos cortaron el trigo",
+     "Ellos van a plantar trigo",
+     "Ellos comen pan"
     ],
     "correct": 1
    },
    {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "We are going to explore the Nether",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "I will help you fight the zombies.",
-     "Yesterday I built a house.",
-     "She crafted a diamond sword."
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "We defeated the Ender Dragon",
+    "answer": [
+     "We",
+     "defeated",
+     "the",
+     "Ender",
+     "Dragon"
     ],
-    "correct": 0
+    "prompt": "Derrotamos al Dragón del End."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
-    "instruction": "Une cada oración con su significado",
+    "instruction": "Une cada frase con su significado",
     "pairs": [
      {
       "en": "Yesterday I built a house",
@@ -59,62 +129,147 @@
       "es": "Derrotamos al Dragón del End"
      },
      {
-      "en": "I'm going to build a castle tomorrow",
-      "es": "Voy a construir un castillo mañana"
+      "en": "She crafted a diamond sword",
+      "es": "Ella fabricó una espada de diamante"
      },
      {
-      "en": "First, I mined some stone",
-      "es": "Primero, miné algo de piedra"
+      "en": "They are going to plant wheat",
+      "es": "Ellos van a plantar trigo"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige la traducción",
+    "instruction": "Lee y elige el significado",
+    "prompt": "I'm going to build a castle tomorrow",
+    "options": [
+     "Voy a construir un castillo mañana",
+     "Construí un castillo ayer",
+     "No me gusta el castillo"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "In my opinion, the Nether is dangerous",
+    "options": [
+     "El Nether es seguro",
+     "En mi opinión, el Nether es peligroso",
+     "Nunca he ido al Nether"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
     "prompt": "If you dig down, you will find lava",
     "options": [
      "Si cavas hacia abajo, encontrarás lava",
-     "Si oscurece, aparecerán los monstruos",
-     "En mi opinión, el Nether es peligroso"
+     "Si subes, encontrarás agua",
+     "No caves nunca hacia abajo"
     ],
     "correct": 0
    },
    {
     "type": "multi_select",
-    "instruction": "Selecciona solo las oraciones sobre planes futuros",
+    "instruction": "Selecciona solo las acciones del pasado",
     "options": [
      {
-      "text": "I'm going to build a castle tomorrow",
+      "text": "I built a house",
       "correct": true
      },
      {
-      "text": "We are going to explore the Nether",
+      "text": "I found three diamonds",
       "correct": true
      },
      {
-      "text": "They are going to plant wheat",
-      "correct": true
-     },
-     {
-      "text": "Yesterday I built a house",
+      "text": "I will build a castle",
       "correct": false
      },
      {
-      "text": "I found three diamonds in the cave",
+      "text": "They are going to plant",
       "correct": false
      },
      {
-      "text": "We defeated the Ender Dragon",
+      "text": "She crafted a sword",
+      "correct": true
+     },
+     {
+      "text": "We are going to explore",
       "correct": false
      }
     ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "I think diamonds are better than iron",
+    "options": [
+     "Creo que el hierro es mejor que los diamantes",
+     "Creo que los diamantes son mejores que el hierro",
+     "No tengo diamantes ni hierro"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "First, I mined some stone",
+    "options": [
+     "Primero, miné algo de piedra",
+     "Luego, fabriqué un pico",
+     "Finalmente, gané el juego"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras de orden secuencial",
+    "options": [
+     {
+      "text": "First",
+      "correct": true
+     },
+     {
+      "text": "Then",
+      "correct": true
+     },
+     {
+      "text": "Diamond",
+      "correct": false
+     },
+     {
+      "text": "Finally",
+      "correct": true
+     },
+     {
+      "text": "Zombie",
+      "correct": false
+     },
+     {
+      "text": "Cave",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "If it gets dark, monsters will appear",
+    "options": [
+     "Si oscurece, aparecerán los monstruos",
+     "Cuando amanece, los monstruos se van",
+     "Los monstruos nunca aparecen"
+    ],
+    "correct": 0
    }
   ]
  },
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
@@ -131,23 +286,72 @@
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
-    "before": "We defeated the Ender",
+    "before": "I found three",
+    "after": "in the cave.",
+    "options": [
+     "diamonds",
+     "houses",
+     "zombies"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Vamos a explorar el Nether.",
+    "answer": [
+     "We",
+     "are",
+     "going",
+     "to",
+     "explore",
+     "the",
+     "Nether"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "I will help you fight the",
     "after": ".",
     "options": [
-     "Dragon",
-     "house",
+     "zombies",
+     "diamonds",
      "wheat"
     ],
     "correct": 0
    },
    {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Luego, fabriqué un pico.",
+    "answer": [
+     "Then",
+     "I",
+     "crafted",
+     "a",
+     "pickaxe"
+    ]
+   },
+   {
     "type": "free_text",
-    "instruction": "Escribe sobre un plan futuro",
-    "prompt": "¿Qué vas a hacer mañana? — I'm going to ______",
+    "instruction": "Cuenta algo que hiciste ayer en Minecraft",
+    "prompt": "Yesterday I ______ (¿qué construiste o encontraste?)",
     "accept": [
-     "i'm going to build a castle tomorrow",
-     "i am going to build a castle tomorrow",
+     "yesterday i built a house",
+     "yesterday i found diamonds",
+     "i built a house",
+     "i found three diamonds"
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe un plan para mañana",
+    "prompt": "I'm going to ______ tomorrow (¿qué vas a construir?)",
+    "accept": [
      "i'm going to build a castle",
+     "im going to build a castle",
+     "i am going to build a castle",
      "going to build a castle"
     ]
    }
@@ -156,46 +360,74 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
     "instruction": "Repite después del personaje",
-    "say": "I found three diamonds in the cave",
-    "prompt": "Escucha y repítelo."
+    "say": "Yesterday I built a house",
+    "prompt": "Cuenta lo que hiciste ayer."
    },
    {
     "type": "speak",
-    "instruction": "Narra tu plan",
-    "say": "We are going to explore the Nether",
-    "prompt": "Di la oración en voz alta."
+    "instruction": "Repite después del personaje",
+    "say": "We defeated the Ender Dragon",
+    "prompt": "Habla de tu gran victoria."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I'm going to build a castle tomorrow",
+    "prompt": "Cuenta tu plan para mañana."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Un aldeano te pregunta en el chat del servidor qué hiciste ayer y qué planeas hacer.",
-    "objective": "Cuenta una experiencia pasada y un plan futuro usando 'Yesterday I...' y 'I'm going to...'.",
-    "starter": "Hi! What did you do yesterday, and what are you going to do tomorrow?",
+    "scenario": "Un amigo te pregunta qué hiciste en el servidor ayer.",
+    "objective": "Cuenta una experiencia del pasado usando \"Yesterday I...\" y \"I found...\".",
+    "starter": "Hi! What did you do yesterday in the game?",
     "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I will help you fight the zombies",
+    "prompt": "Ofrécele tu ayuda a tu amigo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I think diamonds are better than iron",
+    "prompt": "Da tu opinión con confianza."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Estás planeando una aventura al Nether con un aldeano.",
+    "objective": "Comparte tus planes usando \"We are going to...\" y \"I will...\".",
+    "starter": "Are you ready? We are going to explore the Nether!",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "First, I mined some stone",
+    "prompt": "Narra el primer paso de tu plan."
    }
   ]
  },
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
+    "instruction": "Selecciona solo las palabras con el sonido /d/",
     "sound": "/d/",
     "options": [
      {
-      "text": "Diamonds",
-      "correct": true
-     },
-     {
-      "text": "Defeated",
+      "text": "Diamond",
       "correct": true
      },
      {
@@ -203,7 +435,11 @@
       "correct": true
      },
      {
-      "text": "House",
+      "text": "Dig",
+      "correct": true
+     },
+     {
+      "text": "Stone",
       "correct": false
      },
      {
@@ -211,16 +447,59 @@
       "correct": false
      },
      {
+      "text": "Castle",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /b/",
+    "sound": "/b/",
+    "options": [
+     {
+      "text": "Built",
+      "correct": true
+     },
+     {
+      "text": "Build",
+      "correct": true
+     },
+     {
+      "text": "Boss",
+      "correct": true
+     },
+     {
+      "text": "Lava",
+      "correct": false
+     },
+     {
       "text": "Nether",
+      "correct": false
+     },
+     {
+      "text": "Iron",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Diamonds, defeated, Dragon",
-    "prompt": "Escucha y repite los sonidos /d/."
+    "instruction": "Repite con cuidado el sonido /d/",
+    "say": "I found three diamonds",
+    "prompt": "Marca bien la 'd' de diamonds."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con cuidado el sonido /th/",
+    "say": "I think the Nether is dangerous",
+    "prompt": "Cuida la 'th' de think y Nether."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con cuidado el sonido /b/",
+    "say": "We built a shelter",
+    "prompt": "Marca bien la 'b' de built."
    }
   ]
  }

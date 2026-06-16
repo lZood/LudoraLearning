@@ -1,229 +1,75 @@
 {"ext":"u8-2","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "I think we should build near the river.",
-    "options": [
-     "Creo que deberíamos construir cerca del río.",
-     "Creo que la cueva es demasiado peligrosa.",
-     "En mi opinión, los diamantes son mejores."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "think",
-    "options": [
-     "thunk",
-     "think",
-     "thing",
-     "tink"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Why do you prefer building at night?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "Because mobs teach us to fight.",
-     "Yesterday I mined a lot of coal.",
-     "We found a village and traded with a villager."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada frase con su significado",
-    "pairs": [
-     {
-      "en": "In my opinion",
-      "es": "En mi opinión"
-     },
-     {
-      "en": "I believe",
-      "es": "Creo"
-     },
-     {
-      "en": "I prefer",
-      "es": "Prefiero"
-     },
-     {
-      "en": "Let me explain",
-      "es": "Déjame explicar"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "I believe the cave is too dangerous.",
-    "options": [
-     "Creo que la cueva es demasiado peligrosa.",
-     "Creo que la cueva es muy bonita.",
-     "En mi opinión, la cueva es segura."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las frases para explicar ideas",
-    "options": [
-     {
-      "text": "I think",
-      "correct": true
-     },
-     {
-      "text": "In my opinion",
-      "correct": true
-     },
-     {
-      "text": "Pig",
-      "correct": false
-     },
-     {
-      "text": "Blue",
-      "correct": false
-     },
-     {
-      "text": "I believe",
-      "correct": true
-     },
-     {
-      "text": "Sword",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "Creo que deberíamos construir cerca del río.",
-    "answer": [
-     "I",
-     "think",
-     "we",
-     "should",
-     "build",
-     "near",
-     "the",
-     "river."
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "We need torches because creepers",
-    "after": "in the dark.",
-    "options": [
-     "explode",
-     "sleep",
-     "swim"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Da tu opinión",
-    "prompt": "Empieza tu opinión: ¿cómo dices \"Creo que...\" en inglés?",
-    "accept": [
-     "i think",
-     "in my opinion",
-     "i believe"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "In my opinion, diamonds are better than iron.",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Explica tu plan",
-    "say": "Let me explain why this plan works.",
-    "prompt": "Di la frase con seguridad."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Tu equipo discute dónde construir la base en el servidor de Minecraft.",
-    "objective": "Da tu opinión usando \"I think\" o \"In my opinion\" y explica por qué.",
-    "starter": "Where should we build our base?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/th/",
-    "options": [
-     {
-      "text": "think",
-      "correct": true
-     },
-     {
-      "text": "the",
-      "correct": true
-     },
-     {
-      "text": "river",
-      "correct": false
-     },
-     {
-      "text": "than",
-      "correct": true
-     },
-     {
-      "text": "coal",
-      "correct": false
-     },
-     {
-      "text": "cave",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "I think the diamonds are better than iron.",
-    "prompt": "Escucha y repite los sonidos /th/."
-   }
-  ]
- }
+{
+"skill":"listening",
+"title":"Listening",
+"xp":20,
+"exercises":[
+{"type":"audio_mc","instruction":"Escucha y elige la traduccion","audio":"I think we should build near the river.","options":["Creo que deberiamos construir cerca del rio.","Creo que la cueva es demasiado peligrosa.","Prefiero construir de noche."],"correct":0},
+{"type":"audio_mc","instruction":"Escucha bien y elige","audio":"In my opinion, diamonds are better than iron.","options":["En mi opinion, los diamantes son mejores que el hierro.","En mi opinion, el hierro es mejor que los diamantes.","Creo que deberiamos montar caballos."],"correct":0},
+{"type":"who_said_it","instruction":"Tres aldeanos hablan. Toca quien dijo el objetivo","target":"opinion","options":["opinion","appiñon","obinion","river"],"correct":0},
+{"type":"audio_mc","instruction":"Escucha y elige","audio":"I believe the cave is too dangerous.","options":["Creo que la cueva es demasiado peligrosa.","Creo que el rio es muy bonito.","Me gusta el desierto."],"correct":0},
+{"type":"listen_build","instruction":"Escucha y arma la frase en ingles","audio":"We need torches because creepers explode in the dark.","answer":["We","need","torches","because","creepers","explode","in","the","dark."],"prompt":"Necesitamos antorchas porque los creepers explotan en la oscuridad."},
+{"type":"audio_mc","instruction":"Escucha y elige","audio":"The base is far, so we should ride horses.","options":["La base esta lejos, asi que deberiamos montar caballos.","La base esta cerca, asi que caminaremos.","Si cavas hacia abajo, encontraras lava."],"correct":0},
+{"type":"who_said_it","instruction":"Toca al mob que dijo el objetivo","target":"prefer","options":["prefair","prefer","prefur","river"],"correct":1},
+{"type":"audio_mc","instruction":"Escucha con atencion y elige","audio":"I like the desert, but there is not enough water.","options":["Me gusta el desierto, pero no hay suficiente agua.","Me gusta el rio, pero esta muy lejos.","Prefiero la montaña porque es segura."],"correct":0},
+{"type":"listen_build","instruction":"Escucha y ordena las palabras","audio":"Let me explain why this plan works.","answer":["Let","me","explain","why","this","plan","works."],"prompt":"Dejame explicar por que este plan funciona."}
+]
+},
+{
+"skill":"reading",
+"title":"Reading",
+"xp":20,
+"exercises":[
+{"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"I think","es":"Creo que"},{"en":"In my opinion","es":"En mi opinion"},{"en":"I believe","es":"Yo creo"},{"en":"I prefer","es":"Prefiero"}]},
+{"type":"text_mc","instruction":"Lee y elige la traduccion","prompt":"Yesterday I mined a lot of coal.","options":["Ayer mine mucho carbon.","Hoy fabrique una espada.","Mañana explorare la cueva."],"correct":0},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"We found a village and traded with a villager.","options":["Encontramos una aldea y comerciamos con un aldeano.","Construimos un muro contra los zombis.","Montamos caballos hacia la base."],"correct":0},
+{"type":"multi_select","instruction":"Selecciona solo las frases que dan una opinion","options":[{"text":"I think","correct":true},{"text":"In my opinion","correct":true},{"text":"a lot of coal","correct":false},{"text":"a villager","correct":false},{"text":"I believe","correct":true},{"text":"a wall","correct":false}]},
+{"type":"text_mc","instruction":"Lee y elige la traduccion","prompt":"A zombie attacked, so I built a wall.","options":["Un zombi ataco, asi que construi un muro.","Un creeper exploto en la oscuridad.","Alimente al lobo y se volvio mi mascota."],"correct":0},
+{"type":"text_mc","instruction":"Lee y elige el significado","prompt":"First we explored the cave, then we crafted swords.","options":["Primero exploramos la cueva, luego fabricamos espadas.","Primero montamos caballos, luego comerciamos.","Primero construimos un refugio, luego dormimos."],"correct":0},
+{"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"If you dig down","es":"Si cavas hacia abajo"},{"en":"you will find lava","es":"encontraras lava"},{"en":"If you feed the wolf","es":"Si alimentas al lobo"},{"en":"it will become your pet","es":"se volvera tu mascota"}]},
+{"type":"text_mc","instruction":"Lee y elige la traduccion","prompt":"If we build a shelter, we will be safe at night.","options":["Si construimos un refugio, estaremos seguros de noche.","Si exploramos la cueva, encontraremos diamantes.","Si montamos caballos, llegaremos a la base."],"correct":0},
+{"type":"multi_select","instruction":"Selecciona solo lo que paso AYER (pasado)","options":[{"text":"I mined coal","correct":true},{"text":"we traded with a villager","correct":true},{"text":"you will find lava","correct":false},{"text":"we should ride horses","correct":false},{"text":"a zombie attacked","correct":true},{"text":"we will be safe","correct":false}]}
+]
+},
+{
+"skill":"writing",
+"title":"Writing",
+"xp":20,
+"exercises":[
+{"type":"word_bank","instruction":"Ordena la oracion en ingles","prompt":"Creo que deberiamos construir cerca del rio.","answer":["I","think","we","should","build","near","the","river."]},
+{"type":"fill_blank","instruction":"Completa la palabra que falta","before":"In my","after":", diamonds are better than iron.","options":["opinion","river","wall"],"correct":0},
+{"type":"word_bank","instruction":"Ordena la oracion en ingles","prompt":"Creo que la cueva es demasiado peligrosa.","answer":["I","believe","the","cave","is","too","dangerous."]},
+{"type":"fill_blank","instruction":"Completa la conjuncion que falta","before":"We need torches","after":"creepers explode in the dark.","options":["because","river","horse"],"correct":0},
+{"type":"free_text","instruction":"Da tu opinion en ingles","prompt":"Empieza tu opinion: ______ we should build near the river.","accept":["i think","in my opinion","i believe"]},
+{"type":"word_bank","instruction":"Ordena la oracion en ingles","prompt":"Si cavas hacia abajo, encontraras lava.","answer":["If","you","dig","down,","you","will","find","lava."]},
+{"type":"free_text","instruction":"Explica tu idea en ingles","prompt":"Completa: Let me ______ why this plan works.","accept":["explain"]}
+]
+},
+{
+"skill":"speaking",
+"title":"Speaking",
+"xp":25,
+"exercises":[
+{"type":"speak","instruction":"Repite despues del personaje","say":"I think we should build near the river.","prompt":"Da tu opinion con confianza."},
+{"type":"speak","instruction":"Repite la frase en ingles","say":"In my opinion, diamonds are better than iron.","prompt":"Explica tu preferencia."},
+{"type":"speak","instruction":"Repite despues del aldeano","say":"I prefer building at night because mobs teach us to fight.","prompt":"Di por que prefieres algo."},
+{"type":"conversation","instruction":"Pequeña conversacion","scenario":"Estas en una mesa de crafteo con tu amigo planeando la base.","objective":"Da tu opinion sobre donde construir y explica por que.","starter":"Where should we build our base?","minTurns":3},
+{"type":"speak","instruction":"Repite la frase en ingles","say":"We need torches because creepers explode in the dark.","prompt":"Explica una razon."},
+{"type":"speak","instruction":"Repite despues del personaje","say":"If we build a shelter, we will be safe at night.","prompt":"Habla sobre una consecuencia."},
+{"type":"conversation","instruction":"Pequeña conversacion","scenario":"Un aldeano duda si entrar a la cueva oscura.","objective":"Convence al aldeano: explica por que es peligrosa y que necesitan.","starter":"Should we go inside the cave now?","minTurns":3},
+{"type":"speak","instruction":"Repite despues del lider","say":"I would choose the mountain if I were the leader.","prompt":"Explica tu eleccion."}
+]
+},
+{
+"skill":"pronunciation",
+"title":"Pronunciation",
+"xp":25,
+"exercises":[
+{"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /r/","sound":"/r/","options":[{"text":"river","correct":true},{"text":"prefer","correct":true},{"text":"build","correct":false},{"text":"horse","correct":true},{"text":"cave","correct":false},{"text":"night","correct":false}]},
+{"type":"speak","instruction":"Repite y cuida el sonido /th/","say":"I think the cave is dangerous.","prompt":"Saca la lengua suave en 'think' y 'the'."},
+{"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /b/","sound":"/b/","options":[{"text":"build","correct":true},{"text":"believe","correct":true},{"text":"river","correct":false},{"text":"base","correct":true},{"text":"explain","correct":false},{"text":"night","correct":false}]},
+{"type":"speak","instruction":"Repite y cuida el sonido /v/","say":"In my opinion, diamonds are better than iron.","prompt":"Muerde el labio suave en 'opinion' y 'better'... siente la /v/ en 'believe'."},
+{"type":"speak","instruction":"Repite con buena entonacion","say":"Let me explain why this plan works.","prompt":"Habla claro y seguro, como un lider."}
+]
+}
 ]}

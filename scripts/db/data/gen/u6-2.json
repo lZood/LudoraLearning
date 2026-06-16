@@ -2,11 +2,11 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
-    "instruction": "Escucha y elige el significado",
+    "instruction": "Escucha y elige",
     "audio": "Let's go mining!",
     "options": [
      "Vamos a minar.",
@@ -16,35 +16,104 @@
     "correct": 0
    },
    {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "The zombie is more dangerous than the pig.",
+    "options": [
+     "El zombie es más peligroso que el cerdo.",
+     "El zombie es más rápido que el cerdo.",
+     "El cerdo es mejor que el zombie."
+    ],
+    "correct": 0
+   },
+   {
     "type": "who_said_it",
-    "instruction": "¿Quién dijo la palabra correcta?",
+    "instruction": "¿Quién dijo \"decide\"?",
+    "target": "decide",
+    "options": [
+     "deside",
+     "decide",
+     "decode",
+     "design"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "I think the cave is dangerous.",
+    "options": [
+     "Yo creo que la cueva es peligrosa.",
+     "Yo elegí la cueva primero.",
+     "Construí un refugio en la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "I chose the cave",
+    "answer": [
+     "I",
+     "chose",
+     "the",
+     "cave"
+    ],
+    "prompt": "Elegí la cueva."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "Did you craft a sword?",
+    "options": [
+     "¿Hiciste una espada?",
+     "¿Fuiste a minar?",
+     "¿Elegiste la cueva?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo \"choose\"?",
     "target": "choose",
     "options": [
      "chews",
      "choose",
-     "chooz",
+     "chooze",
      "cheese"
     ],
     "correct": 1
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Did you craft a sword?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige",
+    "audio": "The diamond sword is stronger than the wood sword.",
     "options": [
-     "Yes, I went mining first.",
-     "I am blue.",
-     "The pig is fast."
+     "La espada de diamante es más fuerte que la de madera.",
+     "La espada de madera es mejor que la de diamante.",
+     "La espada de diamante es más rápida que la de madera."
     ],
     "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "First I built a shelter",
+    "answer": [
+     "First",
+     "I",
+     "built",
+     "a",
+     "shelter"
+    ],
+    "prompt": "Primero construí un refugio."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
@@ -63,48 +132,144 @@
       "es": "más fuerte que"
      },
      {
-      "en": "better than",
-      "es": "mejor que"
+      "en": "faster than",
+      "es": "más rápido que"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige el significado",
-    "prompt": "I think the cave is more dangerous than the forest.",
+    "instruction": "Lee y elige",
+    "prompt": "I think the cave is better than the forest.",
     "options": [
-     "Creo que la cueva es más peligrosa que el bosque.",
-     "Creo que la cueva es más segura que el bosque.",
-     "Creo que el bosque es más fuerte que la cueva."
+     "Yo creo que la cueva es mejor que el bosque.",
+     "Yo creo que el bosque es peor que la cueva.",
+     "Yo elegí la cueva y el bosque."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Why did you go mining? Because I need iron.",
+    "options": [
+     "¿Por qué fuiste a minar? Porque necesito hierro.",
+     "¿Cuándo fuiste a minar? Porque tengo hierro.",
+     "¿Dónde fuiste a minar? Porque quiero oro."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada palabra con su significado",
+    "pairs": [
+     {
+      "en": "first",
+      "es": "primero"
+     },
+     {
+      "en": "then",
+      "es": "luego"
+     },
+     {
+      "en": "because",
+      "es": "porque"
+     },
+     {
+      "en": "but",
+      "es": "pero"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "I chose the cave, but I didn't dig down.",
+    "options": [
+     "Elegí la cueva, pero no cavé hacia abajo.",
+     "Elegí la cueva, así que cavé hacia abajo.",
+     "Elegí la cueva, porque cavé hacia abajo."
     ],
     "correct": 0
    },
    {
     "type": "multi_select",
-    "instruction": "Selecciona solo las palabras para tomar decisiones",
+    "instruction": "Selecciona solo las palabras para comparar",
     "options": [
      {
-      "text": "decide",
+      "text": "stronger than",
       "correct": true
      },
      {
-      "text": "choose",
+      "text": "faster than",
       "correct": true
      },
      {
-      "text": "pig",
+      "text": "better than",
+      "correct": true
+     },
+     {
+      "text": "shelter",
       "correct": false
      },
      {
-      "text": "blue",
+      "text": "mining",
       "correct": false
      },
      {
-      "text": "because",
+      "text": "sword",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Let's craft a sword, then let's go mining.",
+    "options": [
+     "Vamos a hacer una espada, luego vamos a minar.",
+     "Vamos a minar, luego vamos a hacer una espada.",
+     "Vamos a construir un refugio, luego a elegir."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The creeper is worse than the spider.",
+    "options": [
+     "El creeper es peor que la araña.",
+     "El creeper es mejor que la araña.",
+     "La araña es más fuerte que el creeper."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo los conectores de orden y causa",
+    "options": [
+     {
+      "text": "first",
       "correct": true
      },
      {
-      "text": "sheep",
+      "text": "then",
+      "correct": true
+     },
+     {
+      "text": "so",
+      "correct": true
+     },
+     {
+      "text": "diamond",
+      "correct": false
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "zombie",
       "correct": false
      }
     ]
@@ -114,30 +279,69 @@
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
     "instruction": "Ordena la oración",
-    "prompt": "Elegí la cueva.",
+    "prompt": "Yo creo que la cueva es mejor.",
     "answer": [
      "I",
-     "chose",
+     "think",
      "the",
-     "cave"
+     "cave",
+     "is",
+     "better."
     ]
    },
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
-    "before": "A diamond sword is",
-    "after": "than a stone sword.",
+    "before": "The diamond sword is",
+    "after": "than the wood sword.",
     "options": [
      "stronger",
-     "because",
-     "first"
+     "shelter",
+     "because"
     ],
     "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Vamos a construir un refugio.",
+    "answer": [
+     "Let's",
+     "build",
+     "a",
+     "shelter."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "First I went mining,",
+    "after": "I built a shelter.",
+    "options": [
+     "then",
+     "but",
+     "why"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Elegí la cueva porque es más segura.",
+    "answer": [
+     "I",
+     "chose",
+     "the",
+     "cave",
+     "because",
+     "it's",
+     "safer."
+    ]
    },
    {
     "type": "free_text",
@@ -146,8 +350,19 @@
     "accept": [
      "because it is safer",
      "because it is better",
-     "safer",
-     "better"
+     "it is safer",
+     "stronger"
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Di qué vas a hacer primero",
+    "prompt": "What did you do first? — First I ______",
+    "accept": [
+     "first i went mining",
+     "i went mining",
+     "first i built a shelter",
+     "i built a shelter"
     ]
    }
   ]
@@ -155,39 +370,71 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
     "instruction": "Repite después del personaje",
-    "say": "Let's build a shelter first.",
+    "say": "Let's go mining!",
     "prompt": "Escucha y repítelo."
    },
    {
     "type": "speak",
-    "instruction": "Di tu decisión",
-    "say": "I think the cave is better than the forest.",
-    "prompt": "Di por qué eliges la cueva."
+    "instruction": "Repite después del personaje",
+    "say": "I think the cave is better.",
+    "prompt": "Di tu opinión."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The zombie is more dangerous than the pig.",
+    "prompt": "Compara los mobs."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Tu amigo y tú deben decidir qué hacer al caer la noche en el servidor.",
-    "objective": "Propón una idea con \"Let's...\", explica con \"because\" y compara usando \"better than\".",
-    "starter": "It's getting dark. What should we do first?",
+    "scenario": "Estás con un amigo en el chat decidiendo qué hacer al caer la noche en Minecraft.",
+    "objective": "Propón una idea con \"Let's...\", da una razón con \"because\" y decide juntos.",
+    "starter": "It's getting dark. What do we do first?",
     "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "First I built a shelter, then I went mining.",
+    "prompt": "Cuenta tu plan en orden."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I chose the cave because it's safer.",
+    "prompt": "Explica tu decisión."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un aldeano te pregunta por qué elegiste minar en vez de construir.",
+    "objective": "Responde con \"I chose...\", usa \"because\" y compara con \"better than\".",
+    "starter": "Why did you go mining? Why not build?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The diamond sword is stronger than the iron sword.",
+    "prompt": "Compara las espadas."
    }
   ]
  },
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/ch/",
+    "instruction": "Selecciona solo las palabras con el sonido /ch/",
+    "sound": "/tʃ/",
     "options": [
      {
       "text": "choose",
@@ -198,28 +445,71 @@
       "correct": true
      },
      {
-      "text": "stronger",
+      "text": "craft",
       "correct": false
      },
      {
-      "text": "craft",
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "cheese",
       "correct": true
      },
      {
-      "text": "better",
-      "correct": false
-     },
-     {
-      "text": "decide",
+      "text": "shelter",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Choose, chose, craft a sword.",
-    "prompt": "Escucha y repite los sonidos /ch/."
+    "instruction": "Repite y cuida el sonido /ch/",
+    "say": "I choose to dig down.",
+    "prompt": "Marca bien \"choose\"."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /s/",
+    "sound": "/s/",
+    "options": [
+     {
+      "text": "stronger",
+      "correct": true
+     },
+     {
+      "text": "faster",
+      "correct": true
+     },
+     {
+      "text": "shelter",
+      "correct": false
+     },
+     {
+      "text": "safer",
+      "correct": true
+     },
+     {
+      "text": "cave",
+      "correct": false
+     },
+     {
+      "text": "then",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /r/",
+    "say": "Stronger and faster than before.",
+    "prompt": "Vibra suave la \"r\"."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /th/",
+    "say": "I think this one is better.",
+    "prompt": "Saca la lengua en \"think\" y \"this\"."
    }
   ]
  }

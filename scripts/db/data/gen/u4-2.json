@@ -2,11 +2,11 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
-    "instruction": "Escucha y elige",
+    "instruction": "Escucha y elige el significado",
     "audio": "Where is the village?",
     "options": [
      "¿Dónde está la aldea?",
@@ -16,40 +16,116 @@
     "correct": 0
    },
    {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "Help",
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Can you help me?",
     "options": [
-     "Hep",
-     "Help",
-     "Halp",
-     "Sell"
+     "¿Sabes el camino?",
+     "¿Puedes ayudarme?",
+     "¿Dónde está la aldea?"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo \"sell\"?",
+    "target": "sell",
+    "options": [
+     "cell",
+     "sell",
+     "bell",
+     "help"
     ],
     "correct": 1
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Did you find the diamonds?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Do you know the way?",
     "options": [
-     "Yes, I found them in the cave.",
-     "Where is the village?",
-     "What do you sell?"
+     "¿Sabes el camino?",
+     "¿Encontraste los diamantes?",
+     "¿Puedes ayudarme?"
     ],
     "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la pregunta",
+    "audio": "Did you find the diamonds?",
+    "answer": [
+     "Did",
+     "you",
+     "find",
+     "the",
+     "diamonds?"
+    ],
+    "prompt": "¿Encontraste los diamantes?"
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Netherite is better than diamond.",
+    "options": [
+     "El diamante es más fuerte que el hierro.",
+     "La netherita es mejor que el diamante.",
+     "Un pico es más útil que un palo."
+    ],
+    "correct": 1
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo \"way\"?",
+    "target": "way",
+    "options": [
+     "wai",
+     "way",
+     "weigh",
+     "stay"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Where did you go yesterday?",
+    "options": [
+     "¿Cómo construiste la casa?",
+     "¿Adónde fuiste ayer?",
+     "¿Qué hizo el creeper?"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "Zombies come when the sun goes down.",
+    "answer": [
+     "Zombies",
+     "come",
+     "when",
+     "the",
+     "sun",
+     "goes",
+     "down."
+    ],
+    "prompt": "Los zombis vienen cuando el sol se oculta."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
-    "instruction": "Une cada oración con su significado",
+    "instruction": "Une cada pregunta con su significado",
     "pairs": [
+     {
+      "en": "Where is the village?",
+      "es": "¿Dónde está la aldea?"
+     },
      {
       "en": "What do you sell?",
       "es": "¿Qué vendes?"
@@ -61,23 +137,30 @@
      {
       "en": "Do you know the way?",
       "es": "¿Sabes el camino?"
-     },
-     {
-      "en": "How did you build the house?",
-      "es": "¿Cómo construiste la casa?"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "Where did you go yesterday?",
+    "instruction": "Lee y elige el significado",
+    "prompt": "Did you find the diamonds?",
     "options": [
-     "¿Adónde fuiste ayer?",
-     "¿Dónde está la aldea?",
+     "¿Encontraste los diamantes?",
+     "¿Cómo construiste la casa?",
      "¿Qué hizo el creeper?"
     ],
     "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "Diamond is stronger than iron.",
+    "options": [
+     "El oro es más duro que la piedra.",
+     "El diamante es más fuerte que el hierro.",
+     "Un pico es más útil que un palo."
+    ],
+    "correct": 1
    },
    {
     "type": "multi_select",
@@ -92,33 +175,130 @@
       "correct": true
      },
      {
+      "text": "I had a sword.",
+      "correct": false
+     },
+     {
       "text": "Do you know the way?",
       "correct": true
      },
      {
-      "text": "I built a shelter.",
+      "text": "It was dark.",
       "correct": false
      },
      {
       "text": "Zombies come at night.",
       "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "How did you build the house?",
+    "options": [
+     "¿Adónde fuiste ayer?",
+     "¿Cómo construiste la casa?",
+     "¿Sabes el camino?"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige la respuesta correcta",
+    "prompt": "Is gold harder than stone?",
+    "options": [
+     "¿Es el oro más duro que la piedra?",
+     "¿Es la piedra más fuerte que el hierro?",
+     "¿Es el pico más útil que el palo?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "A pickaxe is more useful than a stick.",
+    "options": [
+     "La netherita es mejor que el diamante.",
+     "Un pico es más útil que un palo.",
+     "El diamante es más fuerte que el hierro."
+    ],
+    "correct": 1
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las oraciones que comparan cosas",
+    "options": [
+     {
+      "text": "Diamond is stronger than iron.",
+      "correct": true
      },
      {
-      "text": "I lost my sword.",
+      "text": "Netherite is better than diamond.",
+      "correct": true
+     },
+     {
+      "text": "Where is the village?",
+      "correct": false
+     },
+     {
+      "text": "A pickaxe is more useful than a stick.",
+      "correct": true
+     },
+     {
+      "text": "Can you help me?",
+      "correct": false
+     },
+     {
+      "text": "What do you sell?",
       "correct": false
      }
     ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "What did the creeper do?",
+    "options": [
+     "¿Qué hizo el creeper?",
+     "¿Qué vendes?",
+     "¿Dónde está la aldea?"
+    ],
+    "correct": 0
    }
   ]
  },
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
-    "instruction": "Ordena la oración",
+    "instruction": "Ordena la pregunta",
+    "prompt": "¿Dónde está la aldea?",
+    "answer": [
+     "Where",
+     "is",
+     "the",
+     "village?"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Can you",
+    "after": "me?",
+    "options": [
+     "help",
+     "sell",
+     "find"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la pregunta",
     "prompt": "¿Sabes el camino?",
     "answer": [
      "Do",
@@ -130,24 +310,44 @@
    },
    {
     "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "Can you",
-    "after": "me?",
+    "instruction": "Completa la oración",
+    "before": "Netherite is",
+    "after": "than diamond.",
     "options": [
-     "help",
-     "sell",
-     "build"
+     "better",
+     "stronger",
+     "harder"
     ],
     "correct": 0
    },
    {
     "type": "free_text",
-    "instruction": "Pide información",
-    "prompt": "Pregunta dónde está la aldea: Where is the ______?",
+    "instruction": "Escribe en inglés",
+    "prompt": "Escribe la pregunta: ¿Qué vendes?",
     "accept": [
-     "village",
-     "where is the village",
-     "where is the village?"
+     "what do you sell?",
+     "what do you sell"
+    ]
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "El diamante es más fuerte que el hierro.",
+    "answer": [
+     "Diamond",
+     "is",
+     "stronger",
+     "than",
+     "iron."
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe en inglés",
+    "prompt": "Escribe la pregunta: ¿Puedes ayudarme?",
+    "accept": [
+     "can you help me?",
+     "can you help me"
     ]
    }
   ]
@@ -155,26 +355,58 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
     "instruction": "Repite después del personaje",
     "say": "Where is the village?",
-    "prompt": "Escucha y repítelo."
+    "prompt": "Pregunta por la aldea."
    },
    {
     "type": "speak",
-    "instruction": "Pide ayuda",
+    "instruction": "Repite después del personaje",
+    "say": "What do you sell?",
+    "prompt": "Pregúntale al aldeano."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
     "say": "Can you help me?",
-    "prompt": "Di: Can you help me?"
+    "prompt": "Pide ayuda."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Estás perdido en el bioma y un aldeano aparece en el chat del servidor.",
-    "objective": "Pregunta dónde está la aldea, pide ayuda y pregunta si sabe el camino.",
-    "starter": "Hi traveler! Are you lost? How can I help you?",
+    "scenario": "Te pierdes en el bosque y encuentras a un aldeano.",
+    "objective": "Pregúntale dónde está la aldea y si sabe el camino.",
+    "starter": "Hello, traveler! Are you lost?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Do you know the way?",
+    "prompt": "Pregunta por el camino."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Did you find the diamonds?",
+    "prompt": "Pregunta por los diamantes."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Netherite is better than diamond.",
+    "prompt": "Compara los materiales."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un comerciante abre su tienda en la aldea.",
+    "objective": "Pregúntale qué vende y pide ayuda para encontrar diamantes.",
+    "starter": "Welcome! Do you need something?",
     "minTurns": 3
    }
   ]
@@ -182,44 +414,87 @@
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/w/",
+    "instruction": "Selecciona solo las palabras con el sonido /h/",
+    "sound": "/h/",
     "options": [
      {
-      "text": "Where",
+      "text": "help",
       "correct": true
      },
      {
-      "text": "Way",
+      "text": "house",
       "correct": true
      },
      {
-      "text": "What",
-      "correct": true
-     },
-     {
-      "text": "Sell",
+      "text": "village",
       "correct": false
      },
      {
-      "text": "Diamond",
+      "text": "how",
+      "correct": true
+     },
+     {
+      "text": "sell",
       "correct": false
      },
      {
-      "text": "Help",
+      "text": "diamond",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Where, Way, What do you want?",
-    "prompt": "Escucha y repite los sonidos /w/."
+    "instruction": "Repite y cuida el sonido /h/",
+    "say": "Can you help me?",
+    "prompt": "Pronuncia bien la 'h' de help."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /d/",
+    "sound": "/d/",
+    "options": [
+     {
+      "text": "diamond",
+      "correct": true
+     },
+     {
+      "text": "did",
+      "correct": true
+     },
+     {
+      "text": "down",
+      "correct": true
+     },
+     {
+      "text": "sell",
+      "correct": false
+     },
+     {
+      "text": "way",
+      "correct": false
+     },
+     {
+      "text": "help",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /d/",
+    "say": "Did you find the diamonds?",
+    "prompt": "Marca bien la 'd' de did y diamonds."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /w/",
+    "say": "Do you know the way?",
+    "prompt": "Pronuncia bien la 'w' de way."
    }
   ]
  }

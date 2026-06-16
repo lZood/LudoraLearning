@@ -1,226 +1,75 @@
 {"ext":"u2-6","lessons":[
- {
-  "skill": "listening",
-  "title": "Listening",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "audio_mc",
-    "instruction": "Escucha y elige",
-    "audio": "Can you help me?",
-    "options": [
-     "¿Puedes ayudarme?",
-     "Necesito madera.",
-     "Aquí tienes."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "Help",
-    "options": [
-     "Hilp",
-     "Help",
-     "Halp",
-     "Wood"
-    ],
-    "correct": 1
-   },
-   {
-    "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Can you help me?",
-    "prompt": "Elige la respuesta correcta",
-    "options": [
-     "Yes, I can help!",
-     "Thank you!",
-     "I need a torch."
-    ],
-    "correct": 0
-   }
-  ]
- },
- {
-  "skill": "reading",
-  "title": "Reading",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "match_pairs",
-    "instruction": "Une cada frase con su significado",
-    "pairs": [
-     {
-      "en": "Help me!",
-      "es": "¡Ayúdame!"
-     },
-     {
-      "en": "I need help.",
-      "es": "Necesito ayuda."
-     },
-     {
-      "en": "Here you are.",
-      "es": "Aquí tienes."
-     },
-     {
-      "en": "Don't worry!",
-      "es": "¡No te preocupes!"
-     }
-    ]
-   },
-   {
-    "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "I need a sword.",
-    "options": [
-     "Necesito una espada.",
-     "Necesito madera.",
-     "Necesito una antorcha."
-    ],
-    "correct": 0
-   },
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona solo las frases para pedir ayuda",
-    "options": [
-     {
-      "text": "Help me!",
-      "correct": true
-     },
-     {
-      "text": "Can you help me?",
-      "correct": true
-     },
-     {
-      "text": "Hello",
-      "correct": false
-     },
-     {
-      "text": "Blue",
-      "correct": false
-     },
-     {
-      "text": "I need help.",
-      "correct": true
-     },
-     {
-      "text": "Goodbye",
-      "correct": false
-     }
-    ]
-   }
-  ]
- },
- {
-  "skill": "writing",
-  "title": "Writing",
-  "xp": 15,
-  "exercises": [
-   {
-    "type": "word_bank",
-    "instruction": "Ordena la oración",
-    "prompt": "¿Puedes ayudarme?",
-    "answer": [
-     "Can",
-     "you",
-     "help",
-     "me?"
-    ]
-   },
-   {
-    "type": "fill_blank",
-    "instruction": "Completa la palabra que falta",
-    "before": "I need a",
-    "after": ".",
-    "options": [
-     "sword",
-     "help",
-     "worry"
-    ],
-    "correct": 0
-   },
-   {
-    "type": "free_text",
-    "instruction": "Pide ayuda",
-    "prompt": "Pide ayuda en inglés. — ______",
-    "accept": [
-     "help me",
-     "help me!",
-     "can you help me",
-     "can you help me?"
-    ]
-   }
-  ]
- },
- {
-  "skill": "speaking",
-  "title": "Speaking",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "speak",
-    "instruction": "Repite después del personaje",
-    "say": "Help me, please!",
-    "prompt": "Escucha y repítelo."
-   },
-   {
-    "type": "speak",
-    "instruction": "Pide lo que necesitas",
-    "say": "I need a sword.",
-    "prompt": "Di: I need a sword."
-   },
-   {
-    "type": "conversation",
-    "instruction": "Pequeña conversación",
-    "scenario": "Es de noche y los zombies se acercan a tu base. Un aldeano amigo está cerca en el chat del servidor.",
-    "objective": "Pide ayuda, di que necesitas una espada y da las gracias.",
-    "starter": "Yes, I can help! What do you need?",
-    "minTurns": 3
-   }
-  ]
- },
- {
-  "skill": "pronunciation",
-  "title": "Pronunciation",
-  "xp": 20,
-  "exercises": [
-   {
-    "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/h/",
-    "options": [
-     {
-      "text": "Help",
-      "correct": true
-     },
-     {
-      "text": "Here",
-      "correct": true
-     },
-     {
-      "text": "Sword",
-      "correct": false
-     },
-     {
-      "text": "Wood",
-      "correct": false
-     },
-     {
-      "text": "Hello",
-      "correct": true
-     },
-     {
-      "text": "Please",
-      "correct": false
-     }
-    ]
-   },
-   {
-    "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Help, Here, Hello",
-    "prompt": "Escucha y repite los sonidos /h/."
-   }
-  ]
- }
+{
+ "skill":"listening",
+ "title":"Listening",
+ "xp":20,
+ "exercises":[
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Can you help me?","options":["¿Puedes ayudarme?","Necesito madera.","¡Gracias!"],"correct":0},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"I need a sword.","options":["Necesito una antorcha.","Necesito una espada.","Necesito madera."],"correct":1},
+  {"type":"who_said_it","instruction":"¿Quién lo dijo? Toca la palabra correcta","target":"Help","options":["Hellp","Help","Helt","Wood"],"correct":1},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Thank you!","options":["¡Por favor!","¡No te preocupes!","¡Gracias!"],"correct":2},
+  {"type":"listen_build","instruction":"Escucha y arma la frase","audio":"I need wood.","answer":["I","need","wood."],"prompt":"Necesito madera."},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Here you are.","options":["Aquí tienes.","Por favor.","¡Ayúdame!"],"correct":0},
+  {"type":"who_said_it","instruction":"¿Quién lo dijo? Toca la palabra correcta","target":"Please","options":["Pleese","Please","Pleace","Torch"],"correct":1},
+  {"type":"audio_mc","instruction":"Escucha y elige","audio":"Don't worry!","options":["¡No te preocupes!","Necesito ayuda.","¡Sí, puedo ayudar!"],"correct":0},
+  {"type":"listen_build","instruction":"Escucha y arma la frase","audio":"Help me, please!","answer":["Help","me,","please!"],"prompt":"¡Ayúdame, por favor!"}
+ ]
+},
+{
+ "skill":"reading",
+ "title":"Reading",
+ "xp":20,
+ "exercises":[
+  {"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"Help me!","es":"¡Ayúdame!"},{"en":"I need help.","es":"Necesito ayuda."},{"en":"Please.","es":"Por favor."},{"en":"Thank you!","es":"¡Gracias!"}]},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"Can you help me?","options":["¿Puedes ayudarme?","¿Necesitas una espada?","¿Dónde está la madera?"],"correct":0},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"I need a torch.","options":["Necesito una espada.","Necesito una antorcha.","Necesito madera."],"correct":1},
+  {"type":"multi_select","instruction":"Selecciona solo las formas de pedir ayuda","options":[{"text":"Help me!","correct":true},{"text":"Can you help me?","correct":true},{"text":"Red","correct":false},{"text":"Pig","correct":false},{"text":"I need help.","correct":true},{"text":"Blue","correct":false}]},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"Here you are.","options":["Aquí tienes.","No te preocupes.","Por favor."],"correct":0},
+  {"type":"match_pairs","instruction":"Une cada frase con su significado","pairs":[{"en":"I need a sword.","es":"Necesito una espada."},{"en":"I need wood.","es":"Necesito madera."},{"en":"Yes, I can help!","es":"¡Sí, puedo ayudar!"},{"en":"Don't worry!","es":"¡No te preocupes!"}]},
+  {"type":"text_mc","instruction":"Lee y elige","prompt":"Yes, I can help!","options":["¡Sí, puedo ayudar!","¡No te preocupes!","¡Gracias!"],"correct":0},
+  {"type":"text_mc","instruction":"Lee y elige la respuesta","prompt":"\"Thank you!\"","options":["Here you are.","I need wood.","Help me!"],"correct":0},
+  {"type":"multi_select","instruction":"Selecciona solo las cosas que puedes pedir","options":[{"text":"sword","correct":true},{"text":"wood","correct":true},{"text":"sun","correct":false},{"text":"cat","correct":false},{"text":"torch","correct":true},{"text":"door","correct":false}]}
+ ]
+},
+{
+ "skill":"writing",
+ "title":"Writing",
+ "xp":20,
+ "exercises":[
+  {"type":"word_bank","instruction":"Ordena la oración","prompt":"¿Puedes ayudarme?","answer":["Can","you","help","me?"]},
+  {"type":"fill_blank","instruction":"Completa la palabra que falta","before":"I need a","after":".","options":["sword","help","worry"],"correct":0},
+  {"type":"word_bank","instruction":"Ordena la oración","prompt":"Necesito madera.","answer":["I","need","wood."]},
+  {"type":"fill_blank","instruction":"Completa la palabra que falta","before":"Help me,","after":"!","options":["please","wood","torch"],"correct":0},
+  {"type":"listen_build","instruction":"Escucha y arma la frase","audio":"Yes, I can help!","answer":["Yes,","I","can","help!"],"prompt":"¡Sí, puedo ayudar!"},
+  {"type":"word_bank","instruction":"Ordena la oración","prompt":"Aquí tienes.","answer":["Here","you","are."]},
+  {"type":"fill_blank","instruction":"Completa la palabra que falta","before":"I need a","after":".","options":["torch","please","worry"],"correct":0}
+ ]
+},
+{
+ "skill":"speaking",
+ "title":"Speaking",
+ "xp":25,
+ "exercises":[
+  {"type":"speak","instruction":"Repite después del personaje","say":"Help me!","prompt":"Pide ayuda con fuerza."},
+  {"type":"speak","instruction":"Repite después del personaje","say":"Can you help me?","prompt":"Pregunta con amabilidad."},
+  {"type":"speak","instruction":"Repite después del personaje","say":"I need a sword.","prompt":"Di lo que necesitas."},
+  {"type":"speak","instruction":"Repite después del personaje","say":"Thank you!","prompt":"Da las gracias."},
+  {"type":"conversation","instruction":"Pequeña conversación","scenario":"Estás perdido en una cueva y un aldeano aparece en el chat.","objective":"Pide ayuda, di qué necesitas y agradece.","starter":"Hello! Do you need help?","minTurns":3},
+  {"type":"speak","instruction":"Repite después del personaje","say":"I need wood.","prompt":"Pide madera."},
+  {"type":"speak","instruction":"Repite después del personaje","say":"Help me, please!","prompt":"Pide ayuda muy amable."},
+  {"type":"conversation","instruction":"Pequeña conversación","scenario":"Un amigo tiene espadas extra en su cofre.","objective":"Pide una espada usando \"please\" y responde \"Thank you!\".","starter":"Hi! What do you need?","minTurns":3}
+ ]
+},
+{
+ "skill":"pronunciation",
+ "title":"Pronunciation",
+ "xp":25,
+ "exercises":[
+  {"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /h/","sound":"/h/","options":[{"text":"Help","correct":true},{"text":"Here","correct":true},{"text":"wood","correct":false},{"text":"sword","correct":false},{"text":"Hello","correct":true},{"text":"torch","correct":false}]},
+  {"type":"speak","instruction":"Repite y cuida el sonido /h/","say":"Help me, please!","prompt":"La H suena fuerte: 'Help'."},
+  {"type":"multi_select","instruction":"Selecciona solo las palabras con el sonido /n/","sound":"/n/","options":[{"text":"need","correct":true},{"text":"can","correct":true},{"text":"help","correct":false},{"text":"torch","correct":false},{"text":"don't","correct":true},{"text":"wood","correct":false}]},
+  {"type":"speak","instruction":"Repite y cuida el sonido /n/","say":"I need a torch.","prompt":"Marca la N: 'need'."},
+  {"type":"speak","instruction":"Repite con buena entonación","say":"Thank you!","prompt":"Sonríe al decir 'Thank you'."}
+ ]
+}
 ]}

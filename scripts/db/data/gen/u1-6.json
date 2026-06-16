@@ -2,25 +2,36 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
     "instruction": "Escucha y elige",
-    "audio": "Where is the chest?",
+    "audio": "It is here",
     "options": [
-     "¿Dónde está el cofre?",
-     "¿Dónde está la oveja?",
-     "¿Dónde está la vaca?"
+     "Está aquí",
+     "Está allí",
+     "Está dentro"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "The diamond is in the chest",
+    "options": [
+     "El diamante está en el cofre",
+     "El gato está sobre la cama",
+     "La cueva está debajo de la montaña"
     ],
     "correct": 0
    },
    {
     "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
+    "instruction": "¿Quién dijo la palabra correcta?",
     "target": "under",
     "options": [
-     "onder",
+     "ander",
      "under",
      "unter",
      "over"
@@ -29,22 +40,81 @@
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "Where is the sheep?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige",
+    "audio": "The cat is on the bed",
     "options": [
-     "It is next to the tree.",
-     "It is here.",
-     "Where is the cow?"
+     "El gato está sobre la cama",
+     "El cerdo está aquí",
+     "La aldea está allí"
     ],
     "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "The pig is here",
+    "answer": [
+     "The",
+     "pig",
+     "is",
+     "here"
+    ],
+    "prompt": "El cerdo está aquí."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "It is next to the tree",
+    "options": [
+     "Está al lado del árbol",
+     "Está debajo del árbol",
+     "Está dentro del árbol"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Where",
+    "options": [
+     "Wear",
+     "Were",
+     "Where",
+     "Here"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige",
+    "audio": "The torch is next to the door",
+    "options": [
+     "La antorcha está al lado de la puerta",
+     "La antorcha está debajo de la puerta",
+     "La antorcha está sobre la puerta"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "The cave is under the mountain",
+    "answer": [
+     "The",
+     "cave",
+     "is",
+     "under",
+     "the",
+     "mountain"
+    ],
+    "prompt": "La cueva está debajo de la montaña."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
@@ -52,11 +122,11 @@
     "pairs": [
      {
       "en": "in",
-      "es": "dentro de / en"
+      "es": "dentro de"
      },
      {
       "en": "on",
-      "es": "encima de / sobre"
+      "es": "encima de"
      },
      {
       "en": "under",
@@ -71,11 +141,22 @@
    {
     "type": "text_mc",
     "instruction": "Lee y elige",
-    "prompt": "The cat is on the bed",
+    "prompt": "Where is the chest?",
     "options": [
-     "El gato está sobre la cama.",
-     "El gato está debajo de la cama.",
-     "El gato está al lado de la cama."
+     "¿Dónde está el cofre?",
+     "¿Dónde está la oveja?",
+     "¿Dónde está la vaca?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "The cow is in the house",
+    "options": [
+     "La vaca está en la casa",
+     "La vaca está al lado de la casa",
+     "La vaca está debajo de la casa"
     ],
     "correct": 0
    },
@@ -92,7 +173,88 @@
       "correct": true
      },
      {
+      "text": "cat",
+      "correct": false
+     },
+     {
+      "text": "blue",
+      "correct": false
+     },
+     {
       "text": "next to",
+      "correct": true
+     },
+     {
+      "text": "pig",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "It is there",
+    "options": [
+     "Está allí",
+     "Está aquí",
+     "Está dentro"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "Where is the sheep?",
+    "options": [
+     "¿Dónde está la oveja?",
+     "¿Dónde está el cerdo?",
+     "¿Dónde está el cofre?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "It is here",
+      "es": "Está aquí"
+     },
+     {
+      "en": "It is there",
+      "es": "Está allí"
+     },
+     {
+      "en": "The pig is here",
+      "es": "El cerdo está aquí"
+     },
+     {
+      "en": "The village is there",
+      "es": "La aldea está allí"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige",
+    "prompt": "It is next to the tree",
+    "options": [
+     "Está al lado del árbol",
+     "Está debajo del árbol",
+     "Está sobre el árbol"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las preguntas de ubicación",
+    "options": [
+     {
+      "text": "Where is the cow?",
+      "correct": true
+     },
+     {
+      "text": "Where is the sheep?",
       "correct": true
      },
      {
@@ -100,11 +262,15 @@
       "correct": false
      },
      {
-      "text": "Blue",
+      "text": "My name is Steve",
       "correct": false
      },
      {
-      "text": "Pig",
+      "text": "Where is the chest?",
+      "correct": true
+     },
+     {
+      "text": "Nice to meet you",
       "correct": false
      }
     ]
@@ -114,7 +280,7 @@
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
@@ -126,56 +292,138 @@
      "is",
      "in",
      "the",
-     "chest."
+     "chest"
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "The cat is",
+    "after": "the bed",
+    "options": [
+     "on",
+     "under",
+     "next to"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "El cerdo está aquí.",
+    "answer": [
+     "The",
+     "pig",
+     "is",
+     "here"
     ]
    },
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
     "before": "The cave is",
-    "after": "the mountain.",
+    "after": "the mountain",
     "options": [
      "under",
      "on",
-     "next to"
+     "in"
     ],
     "correct": 0
    },
    {
-    "type": "free_text",
-    "instruction": "Responde en inglés",
-    "prompt": "Where is the cow? — It is ______ the house.",
-    "accept": [
-     "in",
-     "it is in the house",
-     "in the house"
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "The village is there",
+    "answer": [
+     "The",
+     "village",
+     "is",
+     "there"
+    ],
+    "prompt": "La aldea está allí."
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Está al lado del árbol.",
+    "answer": [
+     "It",
+     "is",
+     "next",
+     "to",
+     "the",
+     "tree"
     ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "The torch is next to the",
+    "after": ".",
+    "options": [
+     "door",
+     "chest",
+     "tree"
+    ],
+    "correct": 0
    }
   ]
  },
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
     "instruction": "Repite después del personaje",
-    "say": "The torch is next to the door.",
+    "say": "Where is the chest?",
     "prompt": "Escucha y repítelo."
    },
    {
     "type": "speak",
-    "instruction": "Pregunta por la ubicación",
-    "say": "Where is the chest?",
-    "prompt": "Di: Where is the chest?"
+    "instruction": "Repite después del personaje",
+    "say": "It is here",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The diamond is in the chest",
+    "prompt": "Di dónde está el diamante."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Estás perdido en una aldea de Minecraft y un aldeano te ayuda a encontrar tus cosas.",
-    "objective": "Pregunta dónde está el cofre y di dónde están la oveja y el cerdo usando here, there y next to.",
-    "starter": "Hello! Where is the chest?",
+    "scenario": "Un aldeano perdió a su oveja cerca de tu base en Minecraft.",
+    "objective": "Pregunta dónde está la oveja y di que está al lado del árbol.",
+    "starter": "Where is the sheep?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The cat is on the bed",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The cave is under the mountain",
+    "prompt": "Di dónde está la cueva."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The village is there",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un amigo busca su cofre con diamantes en la mina.",
+    "objective": "Pregunta dónde está el cofre y responde que está aquí.",
+    "starter": "Where is the chest?",
     "minTurns": 3
    }
   ]
@@ -183,44 +431,87 @@
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
-    "sound": "/h/",
+    "instruction": "Selecciona solo las palabras con el sonido /r/",
+    "sound": "/r/",
     "options": [
      {
-      "text": "here",
+      "text": "Where",
       "correct": true
      },
      {
-      "text": "house",
+      "text": "there",
       "correct": true
      },
      {
-      "text": "here it is",
+      "text": "tree",
       "correct": true
      },
      {
-      "text": "under",
+      "text": "cat",
       "correct": false
      },
      {
-      "text": "on",
+      "text": "bed",
       "correct": false
      },
      {
-      "text": "next to",
+      "text": "in",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "It is here. The pig is here.",
-    "prompt": "Escucha y repite los sonidos /h/."
+    "instruction": "Repite y cuida el sonido",
+    "say": "Where is the cow?",
+    "prompt": "Pronuncia bien la /w/ de Where."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /n/",
+    "sound": "/n/",
+    "options": [
+     {
+      "text": "in",
+      "correct": true
+     },
+     {
+      "text": "under",
+      "correct": true
+     },
+     {
+      "text": "next",
+      "correct": true
+     },
+     {
+      "text": "bed",
+      "correct": false
+     },
+     {
+      "text": "chest",
+      "correct": false
+     },
+     {
+      "text": "tree",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido",
+    "say": "It is under the mountain",
+    "prompt": "Marca la /n/ de under y mountain."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido",
+    "say": "It is next to the tree",
+    "prompt": "Pronuncia bien la /t/ de next to."
    }
   ]
  }

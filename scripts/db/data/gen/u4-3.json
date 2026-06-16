@@ -2,11 +2,11 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
-    "instruction": "Escucha y elige",
+    "instruction": "Escucha y elige el significado",
     "audio": "Turn left",
     "options": [
      "Gira a la izquierda",
@@ -16,36 +16,203 @@
     "correct": 0
    },
    {
-    "type": "who_said_it",
-    "instruction": "¿Quién lo dijo?",
-    "target": "Bridge",
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Go straight ahead",
     "options": [
-     "Brij",
-     "Bridge",
-     "Bruge",
-     "River"
+     "Detrás del horno",
+     "Sigue derecho",
+     "Cerca del río"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "Right",
+    "options": [
+     "Rite",
+     "Right",
+     "Wright",
+     "Tree"
     ],
     "correct": 1
    },
    {
     "type": "audio_mc",
-    "instruction": "Completa la conversación",
-    "audio": "First go straight, then turn right.",
-    "prompt": "Elige la traducción correcta",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Across the bridge",
     "options": [
-     "Primero ve recto, luego gira a la derecha.",
-     "Primero gira a la izquierda, luego ve recto.",
-     "Primero cruza el puente, luego gira."
+     "Junto a la aldea",
+     "Frente a la puerta",
+     "Al otro lado del puente"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "I turned left at the well",
+    "answer": [
+     "I",
+     "turned",
+     "left",
+     "at",
+     "the",
+     "well"
+    ],
+    "prompt": "Giré a la izquierda en el pozo."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Behind the furnace",
+    "options": [
+     "Detrás del horno",
+     "Entre los dos árboles",
+     "A la derecha"
     ],
     "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "¿Quién dijo la palabra correcta?",
+    "target": "River",
+    "options": [
+     "Rivver",
+     "Liver",
+     "River",
+     "Door"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Next to the village",
+    "options": [
+     "Cerca del río",
+     "Junto a la aldea",
+     "Entre los dos árboles"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "We walked across the bridge",
+    "answer": [
+     "We",
+     "walked",
+     "across",
+     "the",
+     "bridge"
+    ],
+    "prompt": "Caminamos al otro lado del puente."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Turn right",
+      "es": "Gira a la derecha"
+     },
+     {
+      "en": "Near the river",
+      "es": "Cerca del río"
+     },
+     {
+      "en": "In front of the door",
+      "es": "Frente a la puerta"
+     },
+     {
+      "en": "Behind the furnace",
+      "es": "Detrás del horno"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "Between the two trees",
+    "options": [
+     "Entre los dos árboles",
+     "Junto a la aldea",
+     "A la derecha"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "She went straight to the cave",
+    "options": [
+     "Ella giró en el pozo",
+     "Ella fue derecho a la cueva",
+     "Ella cruzó el puente"
+    ],
+    "correct": 1
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las indicaciones para dar direcciones",
+    "options": [
+     {
+      "text": "Turn left",
+      "correct": true
+     },
+     {
+      "text": "Go straight ahead",
+      "correct": true
+     },
+     {
+      "text": "Apple",
+      "correct": false
+     },
+     {
+      "text": "Across the bridge",
+      "correct": true
+     },
+     {
+      "text": "Hello",
+      "correct": false
+     },
+     {
+      "text": "Blue",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "This path is shorter than that one",
+    "options": [
+     "Este camino es más corto que aquel",
+     "La cueva está más lejos que la aldea",
+     "Este puente es más largo que aquel"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "On the right",
+    "options": [
+     "Cerca del río",
+     "A la derecha",
+     "Detrás del horno"
+    ],
+    "correct": 1
+   },
    {
     "type": "match_pairs",
     "instruction": "Une cada frase con su significado",
@@ -59,52 +226,52 @@
       "es": "Gira a la izquierda"
      },
      {
-      "en": "Across the bridge",
-      "es": "Al otro lado del puente"
+      "en": "Next to the village",
+      "es": "Junto a la aldea"
      },
      {
-      "en": "Near the river",
-      "es": "Cerca del río"
+      "en": "Across the bridge",
+      "es": "Al otro lado del puente"
      }
     ]
    },
    {
     "type": "text_mc",
-    "instruction": "Lee y elige",
-    "prompt": "The cave is farther than the village.",
+    "instruction": "Lee y elige el significado",
+    "prompt": "They found the chest near the tree",
     "options": [
-     "La cueva está más lejos que la aldea.",
-     "La cueva está más cerca que la aldea.",
-     "La aldea está detrás de la cueva."
+     "Encontraron el cofre cerca del árbol",
+     "Encontraron la cueva cerca del río",
+     "Encontraron el pozo cerca de la aldea"
     ],
     "correct": 0
    },
    {
     "type": "multi_select",
-    "instruction": "Selecciona solo las direcciones",
+    "instruction": "Selecciona solo los lugares de referencia",
     "options": [
      {
-      "text": "Turn right",
+      "text": "The village",
       "correct": true
      },
      {
-      "text": "Go straight ahead",
+      "text": "The river",
       "correct": true
      },
      {
-      "text": "Across the bridge",
-      "correct": true
-     },
-     {
-      "text": "Red apple",
+      "text": "Sword",
       "correct": false
      },
      {
-      "text": "My name is Steve",
+      "text": "The bridge",
+      "correct": true
+     },
+     {
+      "text": "Green",
       "correct": false
      },
      {
-      "text": "Good morning",
+      "text": "Cookie",
       "correct": false
      }
     ]
@@ -114,8 +281,32 @@
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Gira a la izquierda en el pozo.",
+    "answer": [
+     "Turn",
+     "left",
+     "at",
+     "the",
+     "well."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Go straight",
+    "after": ".",
+    "options": [
+     "ahead",
+     "river",
+     "left"
+    ],
+    "correct": 0
+   },
    {
     "type": "word_bank",
     "instruction": "Ordena la oración",
@@ -125,29 +316,52 @@
      "walked",
      "across",
      "the",
-     "bridge"
+     "bridge."
     ]
    },
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
-    "before": "Turn",
-    "after": "at the well.",
+    "before": "Turn left because the lava is",
+    "after": ".",
     "options": [
-     "left",
-     "river",
+     "dangerous",
+     "shorter",
      "behind"
     ],
     "correct": 0
    },
    {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Primero ve recto, luego gira a la derecha.",
+    "answer": [
+     "First",
+     "go",
+     "straight,",
+     "then",
+     "turn",
+     "right."
+    ]
+   },
+   {
     "type": "free_text",
-    "instruction": "Da una indicación",
+    "instruction": "Escribe cómo le dices a alguien que gire a la derecha",
     "prompt": "¿Cómo dices \"Gira a la derecha\" en inglés?",
     "accept": [
      "turn right",
      "turn right.",
-     "on the right"
+     "go right"
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Escribe la indicación en inglés",
+    "prompt": "El cofre está cerca del río. ¿Cómo dices \"cerca del río\"?",
+    "accept": [
+     "near the river",
+     "near the river.",
+     "by the river"
     ]
    }
   ]
@@ -155,7 +369,7 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
@@ -165,28 +379,60 @@
    },
    {
     "type": "speak",
-    "instruction": "Da una indicación",
-    "say": "Turn left because the lava is dangerous",
-    "prompt": "Di la frase en inglés."
+    "instruction": "Repite después del personaje",
+    "say": "Turn left and turn right",
+    "prompt": "Escucha y repítelo."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Un aldeano perdido en el servidor te pregunta cómo llegar a la aldea.",
-    "objective": "Dale indicaciones: ve recto, gira a la derecha y cruza el puente.",
-    "starter": "Excuse me! How do I get to the village?",
+    "scenario": "Un aldeano perdido te pregunta por el camino a la cueva en el servidor.",
+    "objective": "Dile que siga derecho, luego gire a la derecha y cruce el puente.",
+    "starter": "Excuse me, how do I get to the cave?",
     "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "The chest is near the river",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Turn left because the lava is dangerous",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Go across the bridge to the village",
+    "prompt": "Escucha y repítelo."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Tu amigo busca el cofre escondido detrás del horno en tu base.",
+    "objective": "Indícale que vaya recto y que el cofre está detrás del horno.",
+    "starter": "Where did you hide the chest?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "First go straight, then turn right",
+    "prompt": "Escucha y repítelo."
    }
   ]
  },
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
+    "instruction": "Selecciona solo las palabras con el sonido /r/",
     "sound": "/r/",
     "options": [
      {
@@ -206,7 +452,7 @@
       "correct": false
      },
      {
-      "text": "Cave",
+      "text": "Door",
       "correct": false
      },
      {
@@ -217,9 +463,52 @@
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Turn right across the river bridge",
-    "prompt": "Escucha y repite los sonidos /r/."
+    "instruction": "Repite con buena pronunciación",
+    "say": "Turn right",
+    "prompt": "Cuida el sonido de la R."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras con el sonido /t/",
+    "sound": "/t/",
+    "options": [
+     {
+      "text": "Turn",
+      "correct": true
+     },
+     {
+      "text": "Straight",
+      "correct": true
+     },
+     {
+      "text": "Left",
+      "correct": true
+     },
+     {
+      "text": "River",
+      "correct": false
+     },
+     {
+      "text": "Bridge",
+      "correct": false
+     },
+     {
+      "text": "Door",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con buena pronunciación",
+    "say": "Across the bridge",
+    "prompt": "Cuida el sonido de la J en bridge."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite con buena pronunciación",
+    "say": "Behind the furnace",
+    "prompt": "Cuida el sonido de la F."
    }
   ]
  }

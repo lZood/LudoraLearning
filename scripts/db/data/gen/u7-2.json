@@ -2,7 +2,7 @@
  {
   "skill": "listening",
   "title": "Listening",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "audio_mc",
@@ -10,41 +10,118 @@
     "audio": "Go straight ahead and then turn left.",
     "options": [
      "Sigue recto y luego gira a la izquierda.",
-     "Cruza el puente a la derecha.",
-     "Camina hasta que llegues al río."
+     "Gira a la derecha y sube la colina.",
+     "Cruza el puente y baja la escalera."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha la pregunta y elige",
+    "audio": "Could you tell me how to get to the village?",
+    "options": [
+     "¿Podrías decirme cómo llegar a la aldea?",
+     "¿Sabes el camino al portal del Nether?",
+     "¿Hacia dónde está la fortaleza más cercana?"
     ],
     "correct": 0
    },
    {
     "type": "who_said_it",
-    "instruction": "¿Quién dijo la palabra correcta?",
-    "target": "bridge",
+    "instruction": "Escucha y elige quién dijo \"village\"",
+    "target": "village",
     "options": [
-     "bredge",
-     "bridge",
-     "brigde",
+     "villach",
+     "village",
+     "villish",
      "river"
     ],
     "correct": 1
    },
    {
     "type": "audio_mc",
-    "instruction": "Escucha la pregunta y elige la respuesta",
-    "audio": "Could you tell me how to get to the village?",
-    "prompt": "Elige la respuesta correcta",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Walk until you reach the river.",
     "options": [
-     "Go straight ahead and then turn left.",
-     "My base is between the two mountains.",
-     "If it gets dark, mobs will spawn."
+     "Camina hasta que llegues al río.",
+     "Excava aquí hasta llegar a la cueva.",
+     "Espera junto al horno toda la noche."
     ],
     "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "Cross the bridge and take the second path on the right.",
+    "answer": [
+     "Cross",
+     "the",
+     "bridge",
+     "and",
+     "take",
+     "the",
+     "second",
+     "path",
+     "on",
+     "the",
+     "right."
+    ],
+    "prompt": "Cruza el puente y toma el segundo camino a la derecha."
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "If you turn right, you'll find the safe path.",
+    "options": [
+     "Si giras a la derecha, encontrarás el camino seguro.",
+     "Si oscurece, aparecerán monstruos a tu alrededor.",
+     "Si excavas aquí, no llegarás a la cueva."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "who_said_it",
+    "instruction": "Escucha y elige quién dijo \"bridge\"",
+    "target": "bridge",
+    "options": [
+     "bredge",
+     "brish",
+     "bridge",
+     "mountain"
+    ],
+    "correct": 2
+   },
+   {
+    "type": "audio_mc",
+    "instruction": "Escucha y elige el significado",
+    "audio": "Your base is between the two mountains.",
+    "options": [
+     "Tu base está entre las dos montañas.",
+     "El cofre está junto al horno, enfrente de la cama.",
+     "Está como veinte bloques pasando el roble."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "listen_build",
+    "instruction": "Escucha y arma la frase",
+    "audio": "Walk until you reach the river.",
+    "answer": [
+     "Walk",
+     "until",
+     "you",
+     "reach",
+     "the",
+     "river."
+    ],
+    "prompt": "Camina hasta que llegues al río."
    }
   ]
  },
  {
   "skill": "reading",
   "title": "Reading",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "match_pairs",
@@ -55,101 +132,234 @@
       "es": "Sigue recto"
      },
      {
-      "en": "Turn left",
-      "es": "Gira a la izquierda"
+      "en": "turn left",
+      "es": "gira a la izquierda"
      },
      {
       "en": "Cross the bridge",
       "es": "Cruza el puente"
      },
      {
-      "en": "Walk until you reach the river",
-      "es": "Camina hasta que llegues al río"
+      "en": "the upper road",
+      "es": "el camino de arriba"
      }
     ]
    },
    {
     "type": "text_mc",
     "instruction": "Lee y elige el significado",
-    "prompt": "Which way is the nearest stronghold?",
+    "prompt": "Excuse me, how do I reach the diamond cave?",
     "options": [
-     "¿Hacia dónde está la fortaleza más cercana?",
-     "¿Sabes el camino al portal del Nether?",
-     "¿Cómo llego a la cueva de diamantes?"
+     "Disculpa, ¿cómo llego a la cueva de diamantes?",
+     "Disculpa, ¿dónde está la aldea?",
+     "Disculpa, ¿cuántos bloques faltan?"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "It's about twenty blocks past the oak tree.",
+    "options": [
+     "Está como veinte bloques pasando el roble.",
+     "Está justo antes del puente de piedra.",
+     "Está dentro de la cueva más profunda."
     ],
     "correct": 0
    },
    {
     "type": "multi_select",
-    "instruction": "Selecciona solo las frases para dar direcciones",
+    "instruction": "Selecciona solo las frases para pedir direcciones",
     "options": [
      {
-      "text": "Turn left",
+      "text": "Which way is the nearest stronghold?",
       "correct": true
      },
      {
-      "text": "Go straight ahead",
+      "text": "Do you know the way to the Nether portal?",
       "correct": true
      },
      {
-      "text": "My name is Alex",
+      "text": "I like apples for breakfast.",
       "correct": false
      },
      {
-      "text": "I like blue",
-      "correct": false
-     },
-     {
-      "text": "Cross the bridge",
+      "text": "Could you tell me how to get to the village?",
       "correct": true
      },
      {
-      "text": "Feed the pig",
+      "text": "The cat is sleeping on the bed.",
+      "correct": false
+     },
+     {
+      "text": "My favorite color is green.",
       "correct": false
      }
     ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "If it gets dark, mobs will spawn around you.",
+    "options": [
+     "Si oscurece, aparecerán monstruos a tu alrededor.",
+     "Si llueve, el río crecerá rápido.",
+     "Si corres, llegarás antes a la aldea."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "The chest is next to the furnace, opposite the bed.",
+    "options": [
+     "El cofre está junto al horno, enfrente de la cama.",
+     "El cofre está debajo del puente, junto al río.",
+     "El cofre está dentro de la cueva de diamantes."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "match_pairs",
+    "instruction": "Une cada frase con su significado",
+    "pairs": [
+     {
+      "en": "Walk until you reach the river",
+      "es": "Camina hasta que llegues al río"
+     },
+     {
+      "en": "between the two mountains",
+      "es": "entre las dos montañas"
+     },
+     {
+      "en": "next to the furnace",
+      "es": "junto al horno"
+     },
+     {
+      "en": "the second path on the right",
+      "es": "el segundo camino a la derecha"
+     }
+    ]
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "In my opinion, the fastest way is through the cave.",
+    "options": [
+     "En mi opinión, el camino más rápido es por la cueva.",
+     "Creo que deberías tomar el camino de arriba.",
+     "Mejor sigue el río; es más seguro."
+    ],
+    "correct": 0
+   },
+   {
+    "type": "text_mc",
+    "instruction": "Lee y elige el significado",
+    "prompt": "You'd better follow the river; it's safer.",
+    "options": [
+     "Mejor sigue el río; es más seguro.",
+     "Mejor excava aquí; es más rápido.",
+     "Mejor espera la noche; es más tranquilo."
+    ],
+    "correct": 0
    }
   ]
  },
  {
   "skill": "writing",
   "title": "Writing",
-  "xp": 15,
+  "xp": 20,
   "exercises": [
    {
     "type": "word_bank",
     "instruction": "Ordena la oración",
-    "prompt": "Camina hasta que llegues al río.",
+    "prompt": "Sigue recto y luego gira a la izquierda.",
     "answer": [
-     "Walk",
-     "until",
-     "you",
-     "reach",
-     "the",
-     "river."
+     "Go",
+     "straight",
+     "ahead",
+     "and",
+     "then",
+     "turn",
+     "left."
     ]
    },
    {
     "type": "fill_blank",
     "instruction": "Completa la palabra que falta",
-    "before": "Cross the bridge and take the second path on the",
+    "before": "Walk until you reach the",
     "after": ".",
     "options": [
-     "right",
      "river",
-     "furnace"
+     "left",
+     "twenty"
+    ],
+    "correct": 0
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Cruza el puente y toma el segundo camino a la derecha.",
+    "answer": [
+     "Cross",
+     "the",
+     "bridge",
+     "and",
+     "take",
+     "the",
+     "second",
+     "path",
+     "on",
+     "the",
+     "right."
+    ]
+   },
+   {
+    "type": "fill_blank",
+    "instruction": "Completa la palabra que falta",
+    "before": "Your base is",
+    "after": "the two mountains.",
+    "options": [
+     "between",
+     "until",
+     "opposite"
     ],
     "correct": 0
    },
    {
     "type": "free_text",
-    "instruction": "Pregunta por una dirección",
-    "prompt": "Pregunta cómo llegar a la aldea (village).",
+    "instruction": "Pregunta cómo llegar a la aldea",
+    "prompt": "Pide direcciones a la aldea en inglés. Could you tell me how to get to the ______?",
     "accept": [
-     "could you tell me how to get to the village?",
      "could you tell me how to get to the village",
-     "how do i get to the village",
-     "how do i reach the village"
+     "could you tell me how to get to the village?",
+     "how to get to the village"
+    ]
+   },
+   {
+    "type": "word_bank",
+    "instruction": "Ordena la oración",
+    "prompt": "Si giras a la derecha, encontrarás el camino seguro.",
+    "answer": [
+     "If",
+     "you",
+     "turn",
+     "right,",
+     "you'll",
+     "find",
+     "the",
+     "safe",
+     "path."
+    ]
+   },
+   {
+    "type": "free_text",
+    "instruction": "Da tu opinión sobre el mejor camino",
+    "prompt": "Di tu opinión en inglés. In my opinion, the fastest way is through the ______.",
+    "accept": [
+     "in my opinion, the fastest way is through the cave",
+     "in my opinion the fastest way is through the cave",
+     "the fastest way is through the cave"
     ]
    }
   ]
@@ -157,38 +367,70 @@
  {
   "skill": "speaking",
   "title": "Speaking",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "speak",
     "instruction": "Repite después del personaje",
-    "say": "Go straight ahead and then turn left.",
-    "prompt": "Escucha y repítelo."
+    "say": "Could you tell me how to get to the village?",
+    "prompt": "Pide direcciones a la aldea."
    },
    {
     "type": "speak",
-    "instruction": "Pide una dirección",
-    "say": "Excuse me, how do I reach the diamond cave?",
-    "prompt": "Di la frase con voz clara."
+    "instruction": "Repite después del personaje",
+    "say": "Go straight ahead and then turn left.",
+    "prompt": "Da una indicación clara."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Which way is the nearest stronghold?",
+    "prompt": "Pregunta por la fortaleza."
    },
    {
     "type": "conversation",
     "instruction": "Pequeña conversación",
-    "scenario": "Estás perdido en el bosque y un aldeano aparece en el chat del servidor.",
-    "objective": "Pregunta el camino a la aldea y sigue las indicaciones que te dé.",
-    "starter": "Excuse me! Do you know the way to the Nether portal?",
+    "scenario": "Estás perdido en el servidor y un aldeano aparece junto al puente.",
+    "objective": "Pregunta cómo llegar a la aldea y agradece la ayuda.",
+    "starter": "Hello, traveler! Are you looking for the village?",
     "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "Cross the bridge and take the second path on the right.",
+    "prompt": "Explica el camino a un amigo."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "I think you should take the upper road.",
+    "prompt": "Da una sugerencia amable."
+   },
+   {
+    "type": "conversation",
+    "instruction": "Pequeña conversación",
+    "scenario": "Un jugador nuevo quiere encontrar el portal del Nether antes de que oscurezca.",
+    "objective": "Indícale el camino y advierte que si oscurece aparecerán monstruos.",
+    "starter": "Do you know the way to the Nether portal?",
+    "minTurns": 3
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite después del personaje",
+    "say": "You'd better follow the river; it's safer.",
+    "prompt": "Recomienda el camino seguro."
    }
   ]
  },
  {
   "skill": "pronunciation",
   "title": "Pronunciation",
-  "xp": 20,
+  "xp": 25,
   "exercises": [
    {
     "type": "multi_select",
-    "instruction": "Selecciona las palabras con el Secret Sound",
+    "instruction": "Selecciona solo las palabras que tienen el sonido /r/",
     "sound": "/r/",
     "options": [
      {
@@ -200,28 +442,71 @@
       "correct": true
      },
      {
-      "text": "reach",
-      "correct": true
-     },
-     {
       "text": "left",
       "correct": false
+     },
+     {
+      "text": "reach",
+      "correct": true
      },
      {
       "text": "village",
       "correct": false
      },
      {
-      "text": "bed",
+      "text": "ahead",
       "correct": false
      }
     ]
    },
    {
     "type": "speak",
-    "instruction": "Secret Sound Challenge",
-    "say": "Right, river, reach the river.",
-    "prompt": "Escucha y repite los sonidos /r/."
+    "instruction": "Repite y cuida el sonido /r/",
+    "say": "Turn right and cross the river.",
+    "prompt": "Marca bien la R."
+   },
+   {
+    "type": "multi_select",
+    "instruction": "Selecciona solo las palabras que tienen el sonido /s/",
+    "sound": "/s/",
+    "options": [
+     {
+      "text": "straight",
+      "correct": true
+     },
+     {
+      "text": "safe",
+      "correct": true
+     },
+     {
+      "text": "second",
+      "correct": true
+     },
+     {
+      "text": "bridge",
+      "correct": false
+     },
+     {
+      "text": "mountain",
+      "correct": false
+     },
+     {
+      "text": "village",
+      "correct": false
+     }
+    ]
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite y cuida el sonido /s/",
+    "say": "Go straight to the safe path.",
+    "prompt": "Pronuncia clara la S."
+   },
+   {
+    "type": "speak",
+    "instruction": "Repite la frase completa",
+    "say": "Walk until you reach the river.",
+    "prompt": "Habla despacio y claro."
    }
   ]
  }
