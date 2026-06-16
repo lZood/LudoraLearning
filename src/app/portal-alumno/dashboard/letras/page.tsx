@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Volume2, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
-import { playAudio, loadAudioManifest, playPhonemeSound } from '@/lib/lessonAudio';
+import { playAudio, loadAudioManifest, playPhonemeSound, stopAudio } from '@/lib/lessonAudio';
 import { PHONEMES, PH_GROUPS, type Phoneme } from '@/lib/phonemes';
 
 const say = (w: string) => playAudio(w, 'narrator');           // palabra completa
@@ -22,9 +22,10 @@ function Highlighted({ word, part, className }: { word: string; part?: string; c
 
 export default function LetrasPage() {
     const [sel, setSel] = useState<Phoneme | null>(null);
-    useEffect(() => { loadAudioManifest(); }, []);
+    useEffect(() => { loadAudioManifest(); return () => stopAudio(); }, []); // corta el audio al salir de la página
 
     const open = (p: Phoneme) => { playPhonemeSound(p.ipa, p.keyword); setSel(p); }; // tap = SONIDO del símbolo
+    const close = () => { stopAudio(); setSel(null); }; // al cerrar la hoja también se corta el audio
 
     return (
         <div className="flex flex-col w-full pb-32 bg-white">
@@ -80,7 +81,7 @@ export default function LetrasPage() {
             <AnimatePresence>
                 {sel && (
                     <>
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSel(null)} className="fixed inset-0 bg-black/40 z-[60]" />
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={close} className="fixed inset-0 bg-black/40 z-[60]" />
                         <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 30, stiffness: 320 }}
                             className="fixed bottom-0 inset-x-0 z-[70] bg-white rounded-t-[2.5rem] p-6 pb-10 shadow-2xl max-w-lg mx-auto">
                             {(() => {
@@ -97,7 +98,7 @@ export default function LetrasPage() {
                                                     {g.badge && <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-gray-100 text-gray-500`}>{g.badge}</span>}
                                                 </div>
                                             </div>
-                                            <button onClick={() => setSel(null)} className="p-2 rounded-full hover:bg-gray-100 text-gray-400"><X className="w-5 h-5" /></button>
+                                            <button onClick={close} className="p-2 rounded-full hover:bg-gray-100 text-gray-400"><X className="w-5 h-5" /></button>
                                         </div>
 
                                         {/* PROTAGONISTA: el sonido del símbolo */}

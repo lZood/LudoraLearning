@@ -40,7 +40,7 @@ export function gradeItem(type: string, content: Content, raw: unknown): boolean
             return Array.isArray(raw) && Array.isArray(content.answer) && (raw as string[]).join(' ').trim() === content.answer.join(' ').trim();
         case 'match_pairs':
         case 'tap_pairs_audio':
-            return raw === true; // el player solo completa con emparejamientos correctos
+            return false; // no calificable de forma segura aquí (no se usan en la diagnóstica)
         case 'speak':
         case 'speak_repeat':
             return typeof raw === 'string' && textMatch(raw, content.say || '');
@@ -76,15 +76,51 @@ export function bandTitle(band: number): string {
     return band <= 1 ? 'Iniciación Inmersiva' : band <= 2 ? 'Básico Funcional' : band <= 4 ? 'Aventurero Independiente' : band <= 6 ? 'Explorador Fluido' : 'Maestro Aventurero';
 }
 
+// Tipos de ítem que el reproductor diagnóstico sabe renderizar (v1: receptivos + construcción).
+export const DIAGNOSTIC_TYPES = ['text_mc', 'audio_mc', 'who_said_it', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build'];
+const ROTATION: Skill[] = ['listening', 'reading', 'writing'];
+
+type Item = { id: string; skill: string; difficulty: number; type: string; content: Content };
+
+// Elige el siguiente ítem no usado: prioriza la destreza objetivo (round-robin) y la
+// dificultad más cercana al theta actual (máxima información), con jitter anti-exposición.
+export function pickNext(items: Item[], theta: number, usedIds: Set<string>, answered: number): Item | null {
+    const pool = items.filter((it) => !usedIds.has(it.id) && DIAGNOSTIC_TYPES.includes(it.type));
+    if (!pool.length) return null;
+    const targetSkill = ROTATION[answered % ROTATION.length];
+    const preferred = pool.filter((it) => it.skill === targetSkill);
+    const cand = preferred.length ? preferred : pool;
+    cand.sort((a, b) => Math.abs(a.difficulty - theta) - Math.abs(b.difficulty - theta));
+    const top = cand.slice(0, Math.min(3, cand.length)); // jitter: uno de los 3 más cercanos
+    return top[Math.floor(Math.random() * top.length)];
+}
+
+// Regla de paro del staircase (confianza): mínimo 8, máximo 12; antes si la banda se estabiliza.
+export function placementDone(theta0: number, graded: { difficulty: number; correct: boolean }[]): boolean {
+    const n = graded.length;
+    if (n >= 12) return true;
+    if (n >= 8) {
+        const band = thetaToBand(estimateTheta(theta0, graded));
+        const prevBand = thetaToBand(estimateTheta(theta0, graded.slice(0, -2)));
+        if (band === prevBand) return true; // estable 2 pasos
+    }
+    return false;
+}
+
 // Quita las respuestas del contenido antes de enviarlo al cliente (no se puede hacer trampa).
+function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 export function sanitizeContent(type: string, content: Content): Content {
     const c = JSON.parse(JSON.stringify(content));
-    if (['text_mc', 'audio_mc', 'who_said_it', 'listen_missing_word', 'minimal_pairs', 'fill_blank'].includes(type)) {
-        delete c.correct;
-    }
+    // Quitar SIEMPRE cualquier campo de respuesta (denylist defensiva, cubre tipos nuevos).
+    delete c.correct;
+    delete c.accept;
     if (type === 'multi_select' && Array.isArray(c.options)) {
         c.options = c.options.map((o: Content) => ({ text: o.text }));
     }
-    if (type === 'speak_answer') delete c.accept;
+    // word_bank/listen_build: el cliente solo recibe las fichas BARAJADAS, nunca el orden correcto.
+    if ((type === 'word_bank' || type === 'listen_build') && Array.isArray(c.answer)) {
+        c.tiles = shuffle(c.answer);
+        delete c.answer;
+    }
     return c;
 }

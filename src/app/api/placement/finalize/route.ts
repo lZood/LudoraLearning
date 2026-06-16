@@ -45,16 +45,25 @@ export async function POST(req: NextRequest) {
         const cefr = bandToCefr(band);
         const englishLevel = `Banda ${band}`;
 
-        // Persistencia autoritativa server-side (admin = service role).
-        await admin.from('users').update({ english_level: englishLevel, has_completed_evaluation: true }).eq('id', user.id);
-        await admin.from('evaluations').insert({
+        // ¿Primera vez? Solo así se otorga XP (evita farmear monedas reejecutando finalize).
+        const { data: existing } = await admin.from('users').select('has_completed_evaluation').eq('id', user.id).maybeSingle();
+        const firstTime = !existing?.has_completed_evaluation;
+
+        // Persistencia autoritativa server-side (admin = service role). Si falla, no devolvemos éxito.
+        const { error: upErr } = await admin.from('users').update({ english_level: englishLevel, has_completed_evaluation: true }).eq('id', user.id);
+        if (upErr) {
+            console.error('[placement/finalize] users.update', upErr.message);
+            return NextResponse.json({ error: 'No se pudo guardar tu nivel.' }, { status: 500 });
+        }
+        const { error: evErr } = await admin.from('evaluations').insert({
             user_id: user.id,
             status: 'completed',
             category_levels: { cefr, theta: Math.round(theta * 100) / 100, band },
             evaluation_history: graded,
-        }).then(() => {}, () => {});
-        // XP por completar (como el alumno, no admin: grant_progress usa auth.uid()).
-        supabase.rpc('grant_progress', { p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
+        });
+        if (evErr) console.error('[placement/finalize] evaluations.insert', evErr.message);
+        // XP por completar SOLO la primera vez (como el alumno, no admin: grant_progress usa auth.uid()).
+        if (firstTime) supabase.rpc('grant_progress', { p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
 
         const skills = Object.fromEntries(Object.entries(perSkill).map(([s, v]) => [s, Math.round((v.c / Math.max(1, v.n)) * 100)]));
         return NextResponse.json({ band, bandTitle: bandTitle(band), cefr, englishLevel, perSkill: skills });

@@ -8,6 +8,7 @@ const MANIFEST_URL = BASE ? `${BASE}/manifest.json` : '';
 
 let manifest: Record<string, string> | null = null;
 let loading: Promise<void> | null = null;
+let manifestTried = false; // ya intentamos cargar al menos una vez (aunque haya fallado)
 
 // Roles de voz (deben coincidir con scripts/audio/generate-audio.mjs)
 export const VOICE_ROLES = ['granjerita', 'apicultor', 'narrator'] as const;
@@ -25,6 +26,15 @@ const TTS: Record<string, { pitch: number; rate: number; female?: boolean }> = {
 };
 const ttsFor = (role: string) => TTS[role] || TTS.narrator;
 
+// Chrome/Edge devuelven getVoices() vacío hasta que dispara 'voiceschanged'. Lo precargamos
+// para que pickVoice no pierda la voz por personaje en la primera frase de la sesión.
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+    try {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.addEventListener('voiceschanged', () => { try { window.speechSynthesis.getVoices(); } catch { /* noop */ } });
+    } catch { /* noop */ }
+}
+
 export function loadAudioManifest(): Promise<void> {
     if (manifest) return Promise.resolve();
     if (loading) return loading;
@@ -33,9 +43,14 @@ export function loadAudioManifest(): Promise<void> {
             // 'no-cache' revalida (ETag) en cada carga: así los audios nuevos aparecen sin
             // quedar pegados a una copia vieja del manifest cacheada por el navegador.
             const r = await fetch(MANIFEST_URL, { cache: 'no-cache' });
-            manifest = r.ok ? await r.json() : {};
+            if (r.ok) manifest = await r.json();
+            // Si falla, NO fijamos manifest={} permanente: queda null para reintentar y no
+            // condenar toda la sesión a TTS robótico por un fallo de red puntual.
         } catch {
-            manifest = {};
+            /* deja manifest en null para reintentar en la próxima llamada */
+        } finally {
+            manifestTried = true;
+            loading = null; // permite reintentar la carga más adelante
         }
     })();
     return loading;
@@ -76,7 +91,14 @@ export function playAudio(text: string, role?: string) {
     if (!text) return;
     const r = role || defaultVoice;
     // Si el manifest aún no cargó, espéralo para no caer a TTS robótico en las primeras frases.
-    if (!manifest) { loadAudioManifest().then(() => playAudio(text, r)); return; }
+    // Pero si YA intentamos y falló (manifest sigue null), no reintentamos en bucle: usamos TTS
+    // ahora y disparamos una recarga en segundo plano para que las próximas frases se recuperen.
+    if (!manifest) {
+        if (!manifestTried) { loadAudioManifest().then(() => playAudio(text, r)); return; }
+        void loadAudioManifest();
+        ttsSpeak(text, r);
+        return;
+    }
     const url = manifest[`${r}|${text}`];
     if (url) {
         try {
@@ -94,7 +116,12 @@ export function playAudio(text: string, role?: string) {
 // Reproduce el SONIDO aislado de un fonema (clave `sound|<ipa>`). Si no hay clip,
 // cae a la palabra clave (para no dejar al usuario sin audio).
 export function playPhonemeSound(ipa: string, fallbackWord?: string) {
-    if (!manifest) { loadAudioManifest().then(() => playPhonemeSound(ipa, fallbackWord)); return; }
+    if (!manifest) {
+        if (!manifestTried) { loadAudioManifest().then(() => playPhonemeSound(ipa, fallbackWord)); return; }
+        void loadAudioManifest();
+        if (fallbackWord) playAudio(fallbackWord, 'narrator');
+        return;
+    }
     const url = manifest[`sound|${ipa}`];
     if (url) {
         try {
