@@ -73,7 +73,9 @@ let current: HTMLAudioElement | null = null;
 export function playAudio(text: string, role?: string) {
     if (!text) return;
     const r = role || defaultVoice;
-    const url = manifest ? manifest[`${r}|${text}`] : undefined;
+    // Si el manifest aún no cargó, espéralo para no caer a TTS robótico en las primeras frases.
+    if (!manifest) { loadAudioManifest().then(() => playAudio(text, r)); return; }
+    const url = manifest[`${r}|${text}`];
     if (url) {
         try {
             if (current) current.pause();
@@ -85,6 +87,12 @@ export function playAudio(text: string, role?: string) {
         }
     }
     ttsSpeak(text, r);
+}
+
+// Detiene cualquier audio en curso (TTS o MP3). Útil al cambiar de ejercicio/desmontar.
+export function stopAudio() {
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    try { if (current) current.pause(); } catch { /* noop */ }
 }
 
 // Efectos de sonido (acierto/error/completado). Silencioso si el archivo no existe.

@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
-import { playAudio, playSfx, loadAudioManifest, setDefaultVoice } from '@/lib/lessonAudio';
+import { playAudio, playSfx, loadAudioManifest, setDefaultVoice, stopAudio } from '@/lib/lessonAudio';
 import { speechMatches, getSR } from '@/lib/speech';
 import type { LessonContent, Exercise } from '@/lib/lessonContent';
 
@@ -376,12 +376,12 @@ function SpeakCore({ instruction, model, prompt, verify, correctText, mode, froz
                     const b64: string = await new Promise((res) => { const r = new FileReader(); r.onloadend = () => res(r.result as string); r.readAsDataURL(blob); });
                     const resp = await fetch('/api/evaluate-answer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ questionType: 'audio-record', questionText: qText, gradingRubric: rubric, audioBase64: b64.split(',')[1], audioMimeType: 'audio/webm' }) });
                     const data = await resp.json();
-                    onDone({ correct: resp.ok ? !!data.isCorrect : true, correctText });
-                } catch { onDone({ correct: true, correctText }); }
+                    onDone(resp.ok ? { correct: !!data.isCorrect, correctText } : { correct: false, correctText, skipped: true });
+                } catch { onDone({ correct: false, correctText, skipped: true }); }
                 setBusy(false);
             };
             mr.start(); setRecording(true);
-        } catch { onDone({ correct: true, correctText }); }
+        } catch { onDone({ correct: false, correctText, skipped: true }); }
     };
 
     const active = listening || recording;
@@ -928,6 +928,7 @@ export default function LeccionPage() {
     const [correctCount, setCorrectCount] = useState(0);
     const [finished, setFinished] = useState(false);
     const [saving, setSaving] = useState(false);
+    const alreadyCompletedRef = useRef(false); // si ya estaba completada, no se vuelve a otorgar XP
 
     useEffect(() => {
         loadAudioManifest();
@@ -947,12 +948,15 @@ export default function LeccionPage() {
             setSkill(content.skill ?? '');
             setDefaultVoice(charForSkill(content.skill)); // todo el audio de la lección usa la voz del personaje dueño
             setExercises(content.exercises);
+            setIdx(0); // reinicia por si se reutiliza la instancia al cambiar de lección
+            alreadyCompletedRef.current = false;
             // Retomar donde se quedó (si la lección no está completada).
             if (user) {
                 const { data: prog } = await supabase
                     .from('user_activity_progress')
                     .select('last_index, completed_at')
                     .eq('user_id', user.id).eq('activity_id', activityId).maybeSingle();
+                alreadyCompletedRef.current = !!prog?.completed_at;
                 const li = (prog?.last_index as number) ?? 0;
                 if (prog && !prog.completed_at && li > 0 && li < content.exercises.length) setIdx(li);
             }
@@ -960,6 +964,9 @@ export default function LeccionPage() {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activityId]);
+
+    // Detiene el audio del ejercicio anterior al avanzar o al salir de la lección.
+    useEffect(() => () => stopAudio(), [idx]);
 
     const onDone = (r: Result) => { setResult(r); if (!r.skipped) playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
     const onContinue = async () => {
@@ -980,7 +987,8 @@ export default function LeccionPage() {
         setSaving(true);
         try {
             await supabase.from('user_activity_progress').upsert({ user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1, score: Math.round((correctCount / exercises.length) * 100), last_index: exercises.length }, { onConflict: 'user_id,activity_id' });
-            await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
+            // Solo otorga XP la PRIMERA vez (evita farmear repitiendo una lección ya completada).
+            if (!alreadyCompletedRef.current) await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
             const { data: doneRows } = await supabase.from('user_activity_progress').select('activity_id').eq('user_id', userId).in('activity_id', ids).not('completed_at', 'is', null);
@@ -1017,6 +1025,7 @@ export default function LeccionPage() {
     }
 
     const ex = exercises[idx];
+    if (!ex) return <div className="min-h-screen bg-white" />; // evita crash si idx queda fuera de rango
     return (
         <div className="min-h-screen bg-white pb-28">
             {/* top bar */}

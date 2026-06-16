@@ -12,25 +12,22 @@ export default function MobileNavBar() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
   const hapticRef = useRef<HapticHandle>(null);
 
   useEffect(() => {
     setMounted(true);
-    
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < lastScrollY || currentScrollY < 50) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      }
-      setLastScrollY(currentScrollY);
+      const y = window.scrollY;
+      if (y < lastScrollY.current || y < 50) setIsVisible(true);
+      else if (y > lastScrollY.current && y > 100) setIsVisible(false);
+      lastScrollY.current = y;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const triggerHaptic = () => {
     hapticRef.current?.trigger();
