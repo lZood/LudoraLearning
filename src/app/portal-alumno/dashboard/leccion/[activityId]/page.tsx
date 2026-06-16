@@ -21,6 +21,25 @@ const charForSkill = (skill?: string): Character =>
 const CharacterCtx = React.createContext<Character>('granjerita');
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 
+// Reconocimiento de voz del navegador (instantáneo, sin servidor) para verificar el habla.
+function normSpeech(s: string) { return s.toLowerCase().replace(/[^a-z0-9'\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function speechMatches(transcripts: string[], target: string): boolean {
+    const g = normSpeech(target);
+    const gw = g.split(' ').filter(Boolean);
+    if (!gw.length) return true;
+    for (const tr of transcripts) {
+        const t = normSpeech(tr);
+        if (!t) continue;
+        if (t === g || t.includes(g) || g.includes(t)) return true;
+        const tw = new Set(t.split(' '));
+        const hit = gw.filter((w) => tw.has(w)).length;
+        if (hit / gw.length >= 0.6) return true; // dijo la mayoría de las palabras objetivo
+    }
+    return false;
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getSR = (): any => (typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null);
+
 // ───────────────────────── shared UI ─────────────────────────
 function Footer({ label, disabled, onClick }: { label: string; disabled?: boolean; onClick: () => void }) {
     return (
@@ -271,17 +290,47 @@ function FreeText({ ex, frozen, onDone }: RProps) {
 
 function Speak({ ex, frozen, onDone }: RProps) {
     const e = ex as { instruction?: string; say: string; prompt?: string };
-    const [rec, setRec] = useState(false);
+    const [listening, setListening] = useState(false);
+    const [recording, setRecording] = useState(false);
     const [busy, setBusy] = useState(false);
+    const [heard, setHeard] = useState('');
     const mrRef = useRef<MediaRecorder | null>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recRef = useRef<any>(null);
+    const hasSR = !!getSR();
     useEffect(() => { const t = setTimeout(() => speak(e.say), 350); return () => clearTimeout(t); }, []); // auto-reproduce el modelo al entrar
-    const start = async () => {
+
+    // Camino rápido: reconocimiento de voz del navegador, instantáneo y sin servidor.
+    const startSR = () => {
+        try {
+            const rec = new (getSR())(); recRef.current = rec;
+            rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 5; rec.continuous = false;
+            setHeard(''); setListening(true);
+            let resolved = false;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            rec.onresult = (event: any) => {
+                const alts: string[] = [];
+                for (let i = 0; i < event.results.length; i++) for (let j = 0; j < event.results[i].length; j++) alts.push(event.results[i][j].transcript);
+                resolved = true;
+                setHeard(alts[0] || '');
+                setListening(false);
+                onDone({ correct: speechMatches(alts, e.say), correctText: e.say });
+            };
+            rec.onerror = () => { setListening(false); };
+            rec.onend = () => { setListening(false); if (!resolved) setHeard(''); };
+            rec.start();
+        } catch { onDone({ correct: true, correctText: e.say }); }
+    };
+    const stopSR = () => { try { recRef.current?.stop(); } catch { /* noop */ } };
+
+    // Fallback (navegadores sin SpeechRecognition, p.ej. Firefox): graba y evalúa con IA.
+    const startRec = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             const mr = new MediaRecorder(stream); mrRef.current = mr; const chunks: BlobPart[] = [];
             mr.ondataavailable = (ev) => ev.data.size && chunks.push(ev.data);
             mr.onstop = async () => {
-                stream.getTracks().forEach((t) => t.stop()); setRec(false); setBusy(true);
+                stream.getTracks().forEach((t) => t.stop()); setRecording(false); setBusy(true);
                 const blob = new Blob(chunks, { type: 'audio/webm' });
                 try {
                     const b64: string = await new Promise((res) => { const r = new FileReader(); r.onloadend = () => res(r.result as string); r.readAsDataURL(blob); });
@@ -291,9 +340,17 @@ function Speak({ ex, frozen, onDone }: RProps) {
                 } catch { onDone({ correct: true, correctText: e.say }); }
                 setBusy(false);
             };
-            mr.start(); setRec(true);
+            mr.start(); setRecording(true);
         } catch { onDone({ correct: true, correctText: e.say }); }
     };
+
+    const active = listening || recording;
+    const onMic = () => {
+        if (frozen || busy) return;
+        if (hasSR) { listening ? stopSR() : startSR(); }
+        else { recording ? mrRef.current?.stop() : startRec(); }
+    };
+    const status = busy ? 'Evaluando…' : listening ? 'Escuchando… habla ahora' : recording ? 'Grabando… toca para terminar' : 'Toca y di la frase';
     return (
         <>
             <ExHeader text={e.instruction || 'Habla'} />
@@ -305,11 +362,12 @@ function Speak({ ex, frozen, onDone }: RProps) {
                 <p className="text-xs font-bold text-gray-400">Toca el botón y repítelo.</p>
             </div>
             <div className="flex flex-col items-center gap-3">
-                <button onClick={rec ? () => mrRef.current?.stop() : start} disabled={busy || frozen}
-                    className={`w-24 h-24 rounded-full flex items-center justify-center text-white ${rec ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0]'} disabled:opacity-50`}>
+                <button onClick={onMic} disabled={busy || frozen}
+                    className={`w-24 h-24 rounded-full flex items-center justify-center text-white ${active ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0]'} disabled:opacity-50`}>
                     {busy ? <Loader2 className="w-10 h-10 animate-spin" /> : <Mic className="w-10 h-10" />}
                 </button>
-                <p className="text-sm font-bold text-gray-500">{busy ? 'Evaluando…' : rec ? 'Grabando… toca para terminar' : 'Toca para grabar'}</p>
+                <p className="text-sm font-bold text-gray-500">{status}</p>
+                {heard && <p className="text-xs font-bold text-gray-400">Te escuché: “{heard}”</p>}
                 {!frozen && <button onClick={() => onDone({ correct: true, correctText: e.say })} className="text-xs font-bold text-gray-400 underline">Saltar</button>}
             </div>
         </>
@@ -442,6 +500,15 @@ export default function LeccionPage() {
             setXp((act.xp_reward as number) ?? 10);
             setSkill(content.skill ?? '');
             setExercises(content.exercises);
+            // Retomar donde se quedó (si la lección no está completada).
+            if (user) {
+                const { data: prog } = await supabase
+                    .from('user_activity_progress')
+                    .select('last_index, completed_at')
+                    .eq('user_id', user.id).eq('activity_id', activityId).maybeSingle();
+                const li = (prog?.last_index as number) ?? 0;
+                if (prog && !prog.completed_at && li > 0 && li < content.exercises.length) setIdx(li);
+            }
             setLoading(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -450,7 +517,14 @@ export default function LeccionPage() {
     const onDone = (r: Result) => { setResult(r); playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
     const onContinue = async () => {
         if (idx + 1 >= exercises.length) { await finish(); return; }
-        setIdx((i) => i + 1); setResult(null);
+        const next = idx + 1;
+        setIdx(next); setResult(null);
+        // Guarda el avance para poder retomar después.
+        if (userId) {
+            supabase.from('user_activity_progress')
+                .upsert({ user_id: userId, activity_id: activityId, last_index: next, attempts: 1 }, { onConflict: 'user_id,activity_id' })
+                .then(() => {}, () => {});
+        }
     };
     const finish = async () => {
         setFinished(true);
@@ -458,7 +532,7 @@ export default function LeccionPage() {
         if (!userId || !unitId) return;
         setSaving(true);
         try {
-            await supabase.from('user_activity_progress').upsert({ user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1, score: Math.round((correctCount / exercises.length) * 100) }, { onConflict: 'user_id,activity_id' });
+            await supabase.from('user_activity_progress').upsert({ user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1, score: Math.round((correctCount / exercises.length) * 100), last_index: exercises.length }, { onConflict: 'user_id,activity_id' });
             await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
