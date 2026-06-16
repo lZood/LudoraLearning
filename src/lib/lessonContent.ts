@@ -129,6 +129,13 @@ export type ReadingQuestion =
     | { kind: 'main_idea'; prompt?: string; options: string[]; correct: number }
     | { kind: 'title'; prompt?: string; options: string[]; correct: number };
 
+export interface ExMatchMadness {      // Juego: emparejar contra reloj (solo en actividad simple)
+    type: 'match_madness';
+    instruction?: string;
+    pool: { en: string; es: string }[];
+    seconds?: number;
+}
+
 export interface ExReadingPassage {
     type: 'reading_passage';
     instruction?: string;
@@ -142,7 +149,7 @@ export type Exercise =
     | ExTextMC | ExAudioMC | ExWhoSaidIt | ExListenMissingWord | ExTapPairsAudio
     | ExMatchPairs | ExMultiSelect | ExWordBank | ExFillBlank | ExFreeText
     | ExSpeak | ExSpeakRepeat | ExSpeakAnswer | ExMinimalPairs | ExListenBuild
-    | ExConversation | ExReadingPassage;
+    | ExConversation | ExReadingPassage | ExMatchMadness;
 
 export interface LessonContent {
     kind: 'lesson';

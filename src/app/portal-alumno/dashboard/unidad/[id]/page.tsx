@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2 } from 'lucide-react';
+import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2, MessagesSquare } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
@@ -24,6 +24,8 @@ const SKILL_META: Record<string, { icon: React.ElementType; subtitle: string }> 
   writing: { icon: PenTool, subtitle: 'Writing' },
   speaking: { icon: Mic, subtitle: 'Speaking' },
   pronunciation: { icon: Volume2, subtitle: 'Pronunciation' },
+  conversation: { icon: MessagesSquare, subtitle: 'Conversación' },
+  simple: { icon: Gamepad2, subtitle: 'Repaso y juego' },
 };
 
 type Act = { id: string; type: string; skill?: string | null; title: string; xp_reward: number; completed: boolean };

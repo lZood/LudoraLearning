@@ -6,7 +6,15 @@ import pg from 'pg';
 import { readFileSync, readdirSync } from 'node:fs';
 
 const url = readFileSync('.env.local', 'utf8').split(/\r?\n/).find((l) => l.startsWith('SUPABASE_DB_URL=')).slice('SUPABASE_DB_URL='.length);
-const SKILLS = ['listening', 'reading', 'writing', 'speaking', 'pronunciation'];
+const SKILLS = ['listening', 'reading', 'writing', 'speaking', 'pronunciation', 'conversation'];
+const WHITELIST = {
+  listening: ['audio_mc', 'who_said_it', 'listen_build', 'listen_missing_word', 'tap_pairs_audio'],
+  reading: ['text_mc', 'match_pairs', 'multi_select', 'reading_passage'],
+  writing: ['word_bank', 'fill_blank', 'free_text'],
+  speaking: ['speak', 'speak_repeat', 'speak_answer'],
+  pronunciation: ['multi_select', 'speak', 'minimal_pairs'],
+  conversation: ['conversation'],
+};
 const isStr = (x) => typeof x === 'string' && x.trim().length > 0;
 const inRange = (i, arr) => Number.isInteger(i) && i >= 0 && Array.isArray(arr) && i < arr.length;
 
@@ -54,6 +62,45 @@ function validateExercise(e) {
       if (!isStr(e.audio)) return 'listen_build.audio';
       if (!Array.isArray(e.answer) || e.answer.length < 2 || !e.answer.every(isStr)) return 'listen_build.answer';
       return null;
+    case 'listen_missing_word':
+      if (!isStr(e.audio)) return 'listen_missing_word.audio';
+      if (!Array.isArray(e.options) || e.options.length < 2 || !e.options.every(isStr)) return 'listen_missing_word.options';
+      if (!inRange(e.correct, e.options)) return 'listen_missing_word.correct';
+      return null;
+    case 'tap_pairs_audio':
+      if (!Array.isArray(e.pairs) || e.pairs.length < 2 || !e.pairs.every((p) => p && isStr(p.audio) && isStr(p.word))) return 'tap_pairs_audio.pairs';
+      return null;
+    case 'minimal_pairs':
+      if (!isStr(e.audio)) return 'minimal_pairs.audio';
+      if (!Array.isArray(e.options) || e.options.length < 2 || !e.options.every(isStr)) return 'minimal_pairs.options';
+      if (!inRange(e.correct, e.options)) return 'minimal_pairs.correct';
+      return null;
+    case 'speak_repeat':
+      if (!isStr(e.say)) return 'speak_repeat.say';
+      return null;
+    case 'speak_answer':
+      if (!isStr(e.question)) return 'speak_answer.question';
+      if (!Array.isArray(e.accept) || e.accept.length < 1 || !e.accept.every(isStr)) return 'speak_answer.accept';
+      return null;
+    case 'reading_passage': {
+      if (!Array.isArray(e.sentences) || e.sentences.length < 1 || !e.sentences.every((s) => s && Number.isInteger(s.id) && isStr(s.text))) return 'reading_passage.sentences';
+      if (!Array.isArray(e.questions) || e.questions.length < 1) return 'reading_passage.questions';
+      const ids = new Set(e.sentences.map((s) => s.id));
+      const gapIds = new Set(e.sentences.filter((s) => s.gapId != null).map((s) => s.gapId));
+      for (const q of e.questions) {
+        if (q.kind === 'cloze') {
+          if (!gapIds.has(q.gapId)) return 'reading_passage cloze.gapId sin oración';
+          if (!Array.isArray(q.options) || !inRange(q.correct, q.options)) return 'reading_passage cloze.options/correct';
+        } else if (q.kind === 'insert_sentence') {
+          if (!Array.isArray(q.options) || !inRange(q.correct, q.options)) return 'reading_passage insert.options/correct';
+        } else if (q.kind === 'highlight') {
+          if (!ids.has(q.correctSentenceId) || !isStr(q.prompt)) return 'reading_passage highlight';
+        } else if (q.kind === 'main_idea' || q.kind === 'title') {
+          if (!Array.isArray(q.options) || !inRange(q.correct, q.options)) return 'reading_passage ' + q.kind;
+        } else return 'reading_passage pregunta kind desconocido: ' + q.kind;
+      }
+      return null;
+    }
     case 'conversation':
       if (!isStr(e.scenario) || !isStr(e.objective) || !isStr(e.starter)) return 'conversation campos';
       return null;
@@ -64,7 +111,7 @@ function validateExercise(e) {
 
 function validateUnit(data) {
   if (!data || !isStr(data.ext)) return 'falta ext';
-  if (!Array.isArray(data.lessons) || data.lessons.length !== 5) return 'deben ser 5 lecciones';
+  if (!Array.isArray(data.lessons) || data.lessons.length !== 6) return 'deben ser 6 lecciones';
   const skills = new Set();
   for (const l of data.lessons) {
     if (!SKILLS.includes(l.skill)) return 'skill invalido: ' + l.skill;
@@ -72,15 +119,18 @@ function validateUnit(data) {
     if (!isStr(l.title)) return l.skill + ': falta title';
     if (!Array.isArray(l.exercises) || l.exercises.length < 1) return l.skill + ': sin ejercicios';
     for (let i = 0; i < l.exercises.length; i++) {
-      const err = validateExercise(l.exercises[i]);
+      const e = l.exercises[i];
+      const err = validateExercise(e);
       if (err) return l.skill + '.ej[' + i + ']: ' + err;
+      // Pureza: el tipo debe pertenecer a la destreza (salvo lección mixta).
+      if (!data.mixed && !l.mixed && e && !WHITELIST[l.skill].includes(e.type)) return `${l.skill}.ej[${i}]: tipo ${e.type} no permitido en ${l.skill}`;
     }
   }
-  if (skills.size !== 5) return 'faltan destrezas (debe haber las 5)';
+  if (skills.size !== 6) return 'faltan destrezas (debe haber las 6, incluida conversation)';
   return null;
 }
 
-const XP = { listening: 20, reading: 20, writing: 20, speaking: 25, pronunciation: 25 };
+const XP = { listening: 20, reading: 25, writing: 20, speaking: 25, pronunciation: 20, conversation: 25 };
 
 const dir = './scripts/db/data/gen';
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));

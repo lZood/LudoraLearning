@@ -7,6 +7,7 @@ import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
 import { playAudio, playSfx, loadAudioManifest } from '@/lib/lessonAudio';
+import { speechMatches, getSR } from '@/lib/speech';
 import type { LessonContent, Exercise } from '@/lib/lessonContent';
 
 type Result = { correct: boolean; correctText?: string };
@@ -20,25 +21,13 @@ const charForSkill = (skill?: string): Character =>
     skill === 'listening' || skill === 'speaking' || skill === 'pronunciation' ? 'apicultor' : 'granjerita';
 const CharacterCtx = React.createContext<Character>('granjerita');
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
-
-// Reconocimiento de voz del navegador (instantáneo, sin servidor) para verificar el habla.
-function normSpeech(s: string) { return s.toLowerCase().replace(/[^a-z0-9'\s]/g, ' ').replace(/\s+/g, ' ').trim(); }
-function speechMatches(transcripts: string[], target: string): boolean {
-    const g = normSpeech(target);
-    const gw = g.split(' ').filter(Boolean);
-    if (!gw.length) return true;
-    for (const tr of transcripts) {
-        const t = normSpeech(tr);
-        if (!t) continue;
-        if (t === g || t.includes(g) || g.includes(t)) return true;
-        const tw = new Set(t.split(' '));
-        const hit = gw.filter((w) => tw.has(w)).length;
-        if (hit / gw.length >= 0.6) return true; // dijo la mayoría de las palabras objetivo
-    }
-    return false;
+// Descriptor corto del ejercicio para "Explain My Answer".
+function exQuestion(ex: Exercise): string {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const e = ex as any;
+    if (e.type === 'reading_passage') return 'una pregunta de comprensión de lectura';
+    return e.prompt || e.question || e.instruction || e.audio || e.say || (e.target ? `¿Quién dijo "${e.target}"?` : '') || 'el ejercicio';
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getSR = (): any => (typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null);
 
 // ───────────────────────── shared UI ─────────────────────────
 function Footer({ label, disabled, onClick }: { label: string; disabled?: boolean; onClick: () => void }) {
@@ -54,18 +43,47 @@ function Footer({ label, disabled, onClick }: { label: string; disabled?: boolea
     );
 }
 
-function FeedbackBar({ correct, correctText, onContinue, isLast }: { correct: boolean; correctText?: string; onContinue: () => void; isLast: boolean }) {
+function FeedbackBar({ correct, correctText, onContinue, isLast, question }: { correct: boolean; correctText?: string; onContinue: () => void; isLast: boolean; question?: string }) {
+    const [msgs, setMsgs] = useState<{ role: 'user' | 'tutor'; text: string }[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const ask = async (followup?: string) => {
+        setLoading(true); setOpen(true);
+        const base = followup ? [...msgs, { role: 'user' as const, text: followup }] : msgs;
+        if (followup) setMsgs(base);
+        try {
+            const r = await fetch('/api/explain', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: question || 'el ejercicio', correctAnswer: correctText || '', messages: base }) });
+            const d = await r.json();
+            setMsgs((m) => [...(followup ? base : m), { role: 'tutor', text: r.ok ? d.reply : 'No pude explicarlo ahora.' }]);
+        } catch { setMsgs((m) => [...m, { role: 'tutor', text: 'No pude explicarlo ahora.' }]); }
+        setLoading(false);
+    };
     return (
-        <div className={`fixed bottom-0 inset-x-0 z-40 ${correct ? 'bg-[#d7ffb8]' : 'bg-[#ffdfe0]'} border-t-2 ${correct ? 'border-[#88e04f]' : 'border-red-300'} px-4 py-5 animate-in slide-in-from-bottom-4`}>
-            <div className="max-w-xl mx-auto flex items-center gap-4">
-                <Mascot mood={correct ? 'happy' : 'sad'} className="w-16 h-16 shrink-0" />
-                <div className="flex-1 min-w-0">
-                    <p className={`text-lg font-black ${correct ? 'text-[#4a8a1f]' : 'text-red-600'}`}>{correct ? '¡Muy bien!' : 'Casi…'}</p>
-                    {!correct && correctText && <p className="text-sm font-bold text-red-600/90 truncate">Respuesta: {correctText}</p>}
+        <div className={`fixed bottom-0 inset-x-0 z-40 ${correct ? 'bg-[#d7ffb8]' : 'bg-[#ffdfe0]'} border-t-2 ${correct ? 'border-[#88e04f]' : 'border-red-300'} px-4 py-4 animate-in slide-in-from-bottom-4`}>
+            <div className="max-w-xl mx-auto">
+                <div className="flex items-center gap-4">
+                    <Mascot mood={correct ? 'happy' : 'sad'} className="w-14 h-14 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                        <p className={`text-lg font-black ${correct ? 'text-[#4a8a1f]' : 'text-red-600'}`}>{correct ? '¡Muy bien!' : 'Casi…'}</p>
+                        {!correct && correctText && <p className="text-sm font-bold text-red-600/90 truncate">Respuesta: {correctText}</p>}
+                    </div>
+                    {!correct && !open && <button onClick={() => ask()} className="shrink-0 px-3 py-2 rounded-xl bg-white/70 text-red-600 font-black text-xs active:scale-95">¿Por qué?</button>}
+                    <button onClick={onContinue} className={`shrink-0 px-6 py-3 rounded-2xl font-black uppercase tracking-wide text-white active:scale-95 ${correct ? 'bg-[#58a700] shadow-[0_4px_0_#4a8a1f]' : 'bg-red-500 shadow-[0_4px_0_#c43d3d]'}`}>
+                        {isLast ? 'Terminar' : 'Continuar'}
+                    </button>
                 </div>
-                <button onClick={onContinue} className={`shrink-0 px-6 py-3 rounded-2xl font-black uppercase tracking-wide text-white active:scale-95 ${correct ? 'bg-[#58a700] shadow-[0_4px_0_#4a8a1f]' : 'bg-red-500 shadow-[0_4px_0_#c43d3d]'}`}>
-                    {isLast ? 'Terminar' : 'Continuar'}
-                </button>
+                {open && (
+                    <div className="mt-3 bg-white/85 rounded-2xl p-3 max-h-40 overflow-y-auto">
+                        {msgs.filter((m) => m.role === 'tutor').map((m, i) => <p key={i} className="text-sm font-medium text-gray-800 mb-1">{m.text}</p>)}
+                        {loading && <Loader2 className="w-4 h-4 animate-spin text-gray-400" />}
+                        {!loading && (
+                            <div className="flex gap-2 mt-1">
+                                <button onClick={() => ask('Dame otro ejemplo')} className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">Otro ejemplo</button>
+                                <button onClick={() => ask('Explícalo más simple')} className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">Más simple</button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -419,40 +437,69 @@ function ListenBuild({ ex, frozen, onDone }: RProps) {
 }
 
 function Conversation({ ex, frozen, onDone }: RProps) {
-    const e = ex as { instruction?: string; scenario: string; objective: string; starter: string; minTurns?: number };
+    const e = ex as { instruction?: string; scenario: string; objective: string; starter: string; minTurns?: number; mode?: 'text' | 'voice'; persona?: string };
+    const voice = e.mode === 'voice';
     const minTurns = e.minTurns ?? 3;
     const [messages, setMessages] = useState<Array<{ role: 'user' | 'npc'; text: string }>>([{ role: 'npc', text: e.starter }]);
     const [input, setInput] = useState(''); const [busy, setBusy] = useState(false);
+    const [listening, setListening] = useState(false);
     const turns = messages.filter((m) => m.role === 'user').length;
     const endRef = useRef<HTMLDivElement>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recRef = useRef<any>(null);
+    const hasSR = !!getSR();
     useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
-    useEffect(() => { const t = setTimeout(() => speak(e.starter), 400); return () => clearTimeout(t); }, []); // auto-reproduce el saludo del NPC al entrar
-    const send = async () => {
-        const text = input.trim(); if (!text || busy) return;
+    useEffect(() => { const t = setTimeout(() => speak(e.starter, voice ? 'apicultor' : 'narrator'), 400); return () => clearTimeout(t); }, []); // auto-reproduce el saludo
+    const send = async (textArg?: string) => {
+        const text = (textArg ?? input).trim(); if (!text || busy) return;
         const next = [...messages, { role: 'user' as const, text }]; setMessages(next); setInput(''); setBusy(true);
-        try { const r = await fetch('/api/lesson-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scenario: e.scenario, objective: e.objective, messages: next }) }); const d = await r.json(); setMessages((m) => [...m, { role: 'npc', text: r.ok ? d.reply : 'Try again.' }]); } catch { setMessages((m) => [...m, { role: 'npc', text: 'Try again.' }]); }
+        try {
+            const r = await fetch('/api/lesson-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scenario: e.scenario, objective: e.objective, messages: next }) });
+            const d = await r.json(); const reply = r.ok ? d.reply : 'Try again.';
+            setMessages((m) => [...m, { role: 'npc', text: reply }]);
+            if (voice) speak(reply, 'apicultor'); // auto-reproduce la respuesta hablada
+        } catch { setMessages((m) => [...m, { role: 'npc', text: 'Try again.' }]); }
         setBusy(false);
+    };
+    const startVoice = () => {
+        const SR = getSR(); if (!SR || busy) return;
+        const rec = new SR(); recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1; rec.continuous = false;
+        setListening(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rec.onresult = (ev: any) => { const t = ev.results?.[0]?.[0]?.transcript || ''; setListening(false); if (t) send(t); };
+        rec.onerror = () => setListening(false); rec.onend = () => setListening(false);
+        rec.start();
     };
     return (
         <>
-            <ExHeader text={e.instruction || 'Conversa con el personaje'} />
+            <ExHeader text={e.instruction || (voice ? 'Habla con el personaje' : 'Conversa con el personaje')} />
             <div className="bg-amber-50 border border-amber-100 rounded-2xl p-3 text-sm mb-3"><span className="font-black text-amber-800">Meta: </span><span className="text-amber-700 font-medium">{e.objective}</span></div>
             <div className="border border-gray-100 rounded-3xl p-3 flex flex-col gap-2 min-h-[300px]">
                 {messages.map((m, i) => (
                     <div key={i} className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        {m.role === 'npc' && <Mascot character="apicultor" mood="happy" className="w-9 h-9 shrink-0" />}
+                        {m.role === 'npc' && <Mascot character="apicultor" mood={busy && i === messages.length - 1 ? 'curious' : 'happy'} className="w-9 h-9 shrink-0" />}
                         <div className={`max-w-[78%] px-3 py-2 rounded-2xl text-sm font-medium flex items-start gap-1.5 ${m.role === 'user' ? 'bg-[#632EB0] text-white' : 'bg-gray-100 text-gray-800'}`}>
-                            {m.role === 'npc' && <Volume2 className="w-4 h-4 mt-0.5 shrink-0 text-[#632EB0] cursor-pointer" onClick={() => speak(m.text)} />}<span>{m.text}</span>
+                            {m.role === 'npc' && <Volume2 className="w-4 h-4 mt-0.5 shrink-0 text-[#632EB0] cursor-pointer" onClick={() => speak(m.text, voice ? 'apicultor' : 'narrator')} />}<span>{m.text}</span>
                         </div>
                     </div>
                 ))}
-                {busy && <Loader2 className="w-4 h-4 animate-spin text-gray-400" />}<div ref={endRef} />
+                {busy && <div className="flex items-center gap-2 text-gray-400"><Mascot character="apicultor" mood="curious" className="w-7 h-7" /><Loader2 className="w-4 h-4 animate-spin" /></div>}<div ref={endRef} />
             </div>
-            <div className="flex gap-2 mt-3">
-                <input value={input} disabled={frozen} onChange={(ev) => setInput(ev.target.value)} onKeyDown={(ev) => ev.key === 'Enter' && send()} placeholder="Escribe en inglés…" className="flex-1 border-2 border-gray-200 focus:border-[#632EB0] rounded-2xl px-4 py-3 outline-none" />
-                <button onClick={send} disabled={busy} className="bg-[#632EB0] text-white px-5 rounded-2xl disabled:opacity-50"><Send className="w-5 h-5" /></button>
-            </div>
-            <Footer label={turns >= minTurns ? 'Terminar' : `Escribe ${minTurns - turns} más`} disabled={turns < minTurns} onClick={() => onDone({ correct: true })} />
+            {voice && hasSR ? (
+                <div className="flex flex-col items-center gap-2 mt-4">
+                    <button onClick={startVoice} disabled={busy || frozen}
+                        className={`w-20 h-20 rounded-full flex items-center justify-center text-white ${listening ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0]'} disabled:opacity-50`}>
+                        {busy ? <Loader2 className="w-8 h-8 animate-spin" /> : <Mic className="w-8 h-8" />}
+                    </button>
+                    <p className="text-xs font-bold text-gray-500">{listening ? 'Escuchando… habla en inglés' : busy ? 'El personaje piensa…' : 'Toca y habla'}</p>
+                </div>
+            ) : (
+                <div className="flex gap-2 mt-3">
+                    <input value={input} disabled={frozen} onChange={(ev) => setInput(ev.target.value)} onKeyDown={(ev) => ev.key === 'Enter' && send()} placeholder="Escribe en inglés…" className="flex-1 border-2 border-gray-200 focus:border-[#632EB0] rounded-2xl px-4 py-3 outline-none" />
+                    <button onClick={() => send()} disabled={busy} className="bg-[#632EB0] text-white px-5 rounded-2xl disabled:opacity-50"><Send className="w-5 h-5" /></button>
+                </div>
+            )}
+            <Footer label={turns >= minTurns ? 'Terminar' : `${voice ? 'Habla' : 'Escribe'} ${minTurns - turns} más`} disabled={turns < minTurns} onClick={() => onDone({ correct: true })} />
         </>
     );
 }
@@ -637,6 +684,64 @@ function ReadingPassage({ ex, onDone }: RProps) {
     );
 }
 
+function MatchMadness({ ex, onDone }: RProps) {
+    const e = ex as { instruction?: string; pool: { en: string; es: string }[]; seconds?: number };
+    const SECONDS = e.seconds ?? 60;
+    const deck = useRef(shuffle(e.pool.map((p, i) => ({ id: i, en: p.en, es: p.es })))).current;
+    const total = deck.length;
+    const VISIBLE = Math.min(5, total);
+    const [left, setLeft] = useState(() => deck.slice(0, VISIBLE).map((d) => ({ id: d.id, t: d.en })));
+    const [right, setRight] = useState(() => shuffle(deck.slice(0, VISIBLE).map((d) => ({ id: d.id, t: d.es }))));
+    const [cursor, setCursor] = useState(VISIBLE);
+    const [selL, setSelL] = useState<number | null>(null);
+    const [bad, setBad] = useState<number | null>(null);
+    const [cleared, setCleared] = useState(0);
+    const [combo, setCombo] = useState(0);
+    const [time, setTime] = useState(SECONDS);
+    const clearedRef = useRef(0);
+    const doneRef = useRef(false);
+    const finish = (ok: boolean) => { if (doneRef.current) return; doneRef.current = true; setTimeout(() => onDone({ correct: ok, correctText: `${clearedRef.current}/${total}` }), 250); };
+    useEffect(() => {
+        const iv = setInterval(() => setTime((t) => { if (t <= 1) { clearInterval(iv); finish(clearedRef.current >= Math.ceil(total * 0.6)); return 0; } return t - 1; }), 1000);
+        return () => clearInterval(iv);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    const tapLeft = (id: number) => { const d = deck.find((x) => x.id === id); if (d) speak(d.en); setSelL(id); };
+    const tapRight = (id: number) => {
+        if (selL === null || doneRef.current) return;
+        if (selL === id) {
+            const nl = left.filter((x) => x.id !== id); const nr = right.filter((x) => x.id !== id);
+            if (cursor < total) { const d = deck[cursor]; nl.push({ id: d.id, t: d.en }); nr.splice(Math.floor(Math.random() * (nr.length + 1)), 0, { id: d.id, t: d.es }); setCursor(cursor + 1); }
+            setLeft(nl); setRight(nr); setSelL(null);
+            setCombo((c) => c + 1);
+            clearedRef.current += 1; setCleared(clearedRef.current);
+            if (clearedRef.current >= total) finish(true);
+        } else { setBad(id); setCombo(0); setTimeout(() => setBad(null), 350); setSelL(null); }
+    };
+    return (
+        <>
+            <ExHeader text={e.instruction || 'Empareja contra reloj'} />
+            <div className="flex items-center justify-between mb-4 px-1">
+                <span className="text-sm font-black text-gray-500">✅ {cleared}/{total}</span>
+                {combo >= 2 && <span className="text-sm font-black text-orange-500 animate-pulse">🔥 x{combo}</span>}
+                <span className={`text-sm font-black tabular-nums ${time <= 10 ? 'text-red-500' : 'text-gray-700'}`}>⏱ {time}s</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                    {left.map((l) => (
+                        <button key={l.id} onClick={() => tapLeft(l.id)} className={`w-full p-3 rounded-2xl border-2 font-black transition-all ${selL === l.id ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>{l.t}</button>
+                    ))}
+                </div>
+                <div className="space-y-2">
+                    {right.map((r) => (
+                        <button key={r.id} onClick={() => tapRight(r.id)} className={`w-full p-3 rounded-2xl border-2 font-black transition-all ${bad === r.id ? 'border-red-400 bg-red-50 text-red-600 animate-pulse' : 'border-gray-200 text-gray-800'}`}>{r.t}</button>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+}
+
 function Renderer(props: RProps) {
     switch (props.ex.type) {
         case 'text_mc': return <ChoiceMC {...props} />;
@@ -655,6 +760,7 @@ function Renderer(props: RProps) {
         case 'tap_pairs_audio': return <TapPairsAudio {...props} />;
         case 'minimal_pairs': return <MinimalPairs {...props} />;
         case 'reading_passage': return <ReadingPassage {...props} />;
+        case 'match_madness': return <MatchMadness {...props} />;
         case 'conversation': return <Conversation {...props} />;
         default: return null;
     }
@@ -785,7 +891,7 @@ export default function LeccionPage() {
                 </CharacterCtx.Provider>
             </div>
 
-            {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} />}
+            {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} question={ex ? exQuestion(ex) : undefined} />}
         </div>
     );
 }
