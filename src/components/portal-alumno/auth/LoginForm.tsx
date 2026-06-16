@@ -65,7 +65,8 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
             return { message: 'Por favor, confirma tu correo electrónico.', field: 'email' };
         }
         if (msg.includes('User not found')) {
-            return { message: 'Usuario no encontrado.', field: 'email' };
+            // No revelar si el usuario existe (anti-enumeración): mismo mensaje que credenciales inválidas.
+            return { message: 'Email o contraseña incorrectos.', field: 'email' };
         }
         return { message: 'Error al iniciar sesión. Inténtalo de nuevo.', field: 'general' };
     };

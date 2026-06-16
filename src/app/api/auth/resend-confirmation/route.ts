@@ -31,6 +31,15 @@ export async function POST(request: NextRequest) {
     }
 
     const supabaseAdmin = createAdminClient();
+    // Rate-limit anti email-bombing (por IP y por correo).
+    const ip = (request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown').trim();
+    const [{ data: rlIp }, { data: rlEmail }] = await Promise.all([
+        supabaseAdmin.rpc('check_rate_limit', { p_key: `resend:ip:${ip}`, p_max: 15, p_window: 600 }),
+        supabaseAdmin.rpc('check_rate_limit', { p_key: `resend:email:${email.toLowerCase()}`, p_max: 4, p_window: 900 }),
+    ]);
+    if (rlIp === false || rlEmail === false) {
+        return NextResponse.json({ error: 'Demasiados intentos. Espera unos minutos.' }, { status: 429 });
+    }
     const origin = getSiteUrl();
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
