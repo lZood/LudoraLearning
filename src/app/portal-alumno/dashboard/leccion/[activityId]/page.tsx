@@ -760,6 +760,129 @@ function MatchMadness({ ex, onDone }: RProps) {
     );
 }
 
+// Chat guiado estilo Instagram: el NPC escribe y tú eliges entre 3 respuestas (1 correcta).
+function DialogueChat({ ex, onDone }: RProps) {
+    const e = ex as { instruction?: string; persona?: string; turns: { npc: string; options: { text: string; correct: boolean }[] }[] };
+    const turnsArr = e.turns || [];
+    const [ti, setTi] = useState(0);
+    const [thread, setThread] = useState<{ role: 'npc' | 'user'; text: string }[]>(() => (turnsArr[0] ? [{ role: 'npc', text: turnsArr[0].npc }] : []));
+    const [wrong, setWrong] = useState<number | null>(null);
+    const [done, setDone] = useState(false);
+    const endRef = useRef<HTMLDivElement>(null);
+    useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [thread]);
+    useEffect(() => { const t = setTimeout(() => speak(turnsArr[0]?.npc || '', 'apicultor'), 400); return () => clearTimeout(t); }, []);
+    const turn = turnsArr[ti];
+    const pick = (oi: number) => {
+        if (done || !turn) return;
+        const opt = turn.options[oi];
+        if (!opt.correct) { setWrong(oi); playSfx('wrong'); setTimeout(() => setWrong(null), 600); return; }
+        const nextTi = ti + 1;
+        const nextThread: { role: 'npc' | 'user'; text: string }[] = [...thread, { role: 'user', text: opt.text }];
+        if (turnsArr[nextTi]) { nextThread.push({ role: 'npc', text: turnsArr[nextTi].npc }); setThread(nextThread); setTi(nextTi); setTimeout(() => speak(turnsArr[nextTi].npc, 'apicultor'), 300); }
+        else { setThread(nextThread); setDone(true); playSfx('correct'); setTimeout(() => onDone({ correct: true, correctText: '¡Buena conversación!' }), 700); }
+    };
+    return (
+        <div className="-mx-4 -mt-2">
+            <div className="flex items-center gap-3 px-4 py-2.5 border-b border-gray-100">
+                <Mascot character="apicultor" mood="happy" className="w-10 h-10" />
+                <div className="flex flex-col leading-tight">
+                    <span className="font-black text-gray-900 text-sm">{e.persona || 'Aldeano'}</span>
+                    <span className="text-[11px] text-green-500 font-bold">Activo ahora</span>
+                </div>
+            </div>
+            <div className="px-4 py-4 flex flex-col gap-2.5 min-h-[300px] bg-gradient-to-b from-white to-gray-50/40">
+                {thread.map((m, i) => (
+                    <div key={i} className={`flex items-end gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        {m.role === 'npc' && <Mascot character="apicultor" mood="happy" className="w-7 h-7 shrink-0 mb-1" />}
+                        <div className={`max-w-[76%] px-4 py-2.5 text-[15px] font-medium leading-snug flex items-center gap-2 ${m.role === 'user' ? 'bg-[#3797f0] text-white rounded-[20px] rounded-br-md' : 'bg-gray-100 text-gray-900 rounded-[20px] rounded-bl-md'}`}>
+                            {m.role === 'npc' && <Volume2 className="w-4 h-4 shrink-0 opacity-60 cursor-pointer" onClick={() => speak(m.text, 'apicultor')} />}<span>{m.text}</span>
+                        </div>
+                    </div>
+                ))}
+                <div ref={endRef} />
+            </div>
+            {!done && turn && (
+                <div className="px-4 pb-4 flex flex-col gap-2 border-t border-gray-100 pt-3">
+                    <p className="text-[11px] font-black text-gray-400 uppercase tracking-wide">Elige tu respuesta:</p>
+                    {turn.options.map((o, i) => (
+                        <button key={i} onClick={() => pick(i)} className={`w-full text-left px-4 py-3.5 rounded-2xl border-2 font-bold transition-all ${wrong === i ? 'border-red-400 bg-red-50 text-red-600 animate-pulse' : 'border-gray-200 hover:border-[#3797f0] active:scale-[0.99] text-gray-800'}`}>{o.text}</button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+// Conversación por VOZ tipo "llamada": avatar grande, captions, push-to-talk; el NPC responde por voz.
+function CallConversation({ ex, onDone }: RProps) {
+    const e = ex as { instruction?: string; scenario: string; objective: string; starter: string; persona?: string; minTurns?: number; maxTurns?: number };
+    const maxTurns = e.maxTurns ?? e.minTurns ?? 4;
+    const [phase, setPhase] = useState<'speaking' | 'listening' | 'thinking' | 'idle'>('idle');
+    const [caption, setCaption] = useState('');
+    const [youSaid, setYouSaid] = useState('');
+    const [turns, setTurns] = useState(0);
+    const [history, setHistory] = useState<{ role: 'user' | 'npc'; text: string }[]>([{ role: 'npc', text: e.starter }]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const recRef = useRef<any>(null);
+    const hasSR = !!getSR();
+    useEffect(() => { const t = setTimeout(() => { setCaption(e.starter); setPhase('speaking'); speak(e.starter, 'apicultor'); setTimeout(() => setPhase('idle'), 1400); }, 400); return () => clearTimeout(t); }, []);
+    useEffect(() => () => { try { recRef.current?.abort?.(); } catch { /* noop */ } }, []);
+
+    const reply = async (text: string) => {
+        setPhase('thinking');
+        const next: { role: 'user' | 'npc'; text: string }[] = [...history, { role: 'user', text }];
+        setHistory(next);
+        try {
+            const r = await fetch('/api/lesson-chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scenario: e.scenario, objective: e.objective, messages: next }) });
+            const d = await r.json(); const rep = r.ok ? d.reply : 'Sorry, can you say it again?';
+            setHistory((m) => [...m, { role: 'npc', text: rep }]); setCaption(rep); setPhase('speaking'); speak(rep, 'apicultor');
+            setTurns((t) => t + 1);
+            setTimeout(() => setPhase('idle'), Math.min(6000, 1200 + rep.length * 55));
+        } catch { setCaption('…'); setPhase('idle'); }
+    };
+    const listen = () => {
+        if (!hasSR || phase === 'thinking' || phase === 'listening') return;
+        try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+        try { recRef.current?.abort?.(); } catch { /* noop */ }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let rec: any; try { rec = new (getSR())(); } catch { return; }
+        recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = true; rec.maxAlternatives = 1; rec.continuous = false;
+        setYouSaid(''); setPhase('listening');
+        let finalT = '';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rec.onresult = (ev: any) => { let interim = ''; for (let i = ev.resultIndex ?? 0; i < ev.results.length; i++) { const r = ev.results[i]; if (r.isFinal) finalT += r[0].transcript; else interim += r[0].transcript; } setYouSaid(finalT || interim); };
+        rec.onerror = () => setPhase('idle');
+        rec.onend = () => { if (finalT.trim()) reply(finalT.trim()); else setPhase('idle'); };
+        try { rec.start(); } catch { setPhase('idle'); }
+    };
+    const ended = turns >= maxTurns;
+    return (
+        <div className="flex flex-col items-center text-center -mt-1">
+            <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">📞 Llamada · {e.persona || 'Aldeano'}</p>
+            <p className="text-[11px] font-bold text-amber-600 mb-2">{e.objective}</p>
+            <div className="relative my-5">
+                <div className={`absolute inset-[-12px] rounded-full ${phase === 'listening' ? 'bg-red-200/50 animate-ping' : phase === 'speaking' ? 'bg-cyan-200/60 animate-pulse' : ''}`} />
+                <Mascot character="apicultor" mood={phase === 'thinking' ? 'curious' : 'happy'} className="w-36 h-36 relative" />
+            </div>
+            <p className="text-sm font-bold text-gray-500 mb-1">{phase === 'listening' ? 'Te escucho… habla' : phase === 'thinking' ? 'Pensando…' : phase === 'speaking' ? 'Hablando…' : 'Toca el micrófono y habla'}</p>
+            <div className="min-h-[52px] px-4">
+                {caption && <p className="text-[15px] font-medium text-gray-800 flex items-center justify-center gap-2"><Volume2 className="w-4 h-4 text-[#06b6d4] cursor-pointer" onClick={() => speak(caption, 'apicultor')} />{caption}</p>}
+                {youSaid && <p className="text-[13px] font-bold text-[#3797f0] mt-1">Tú: {youSaid}</p>}
+            </div>
+            <div className="flex items-center gap-4 mt-5">
+                {!ended ? (
+                    <button onClick={listen} disabled={phase === 'thinking' || phase === 'listening'}
+                        className={`w-20 h-20 rounded-full flex items-center justify-center text-white ${phase === 'listening' ? 'bg-red-500 animate-pulse' : 'bg-[#10b981]'} disabled:opacity-50`}>
+                        {phase === 'thinking' ? <Loader2 className="w-8 h-8 animate-spin" /> : <Mic className="w-8 h-8" />}
+                    </button>
+                ) : <p className="text-base font-black text-[#4a8a1f]">¡Buena llamada! 🎉</p>}
+            </div>
+            <button onClick={() => { try { recRef.current?.abort?.(); } catch { /* noop */ } onDone({ correct: turns > 0, correctText: '¡Buena llamada!', skipped: turns === 0 }); }} className="mt-6 text-xs font-bold text-gray-400 underline">{ended ? 'Terminar' : 'Colgar'}</button>
+            {!hasSR && <p className="text-xs text-gray-400 mt-2">Para la llamada usa Chrome, Edge o Safari.</p>}
+        </div>
+    );
+}
+
 function Renderer(props: RProps) {
     switch (props.ex.type) {
         case 'text_mc': return <ChoiceMC {...props} />;
@@ -779,7 +902,8 @@ function Renderer(props: RProps) {
         case 'minimal_pairs': return <MinimalPairs {...props} />;
         case 'reading_passage': return <ReadingPassage {...props} />;
         case 'match_madness': return <MatchMadness {...props} />;
-        case 'conversation': return <Conversation {...props} />;
+        case 'dialogue': return <DialogueChat {...props} />;
+        case 'conversation': return (props.ex as { mode?: string }).mode === 'voice' ? <CallConversation {...props} /> : <Conversation {...props} />;
         default: return null;
     }
 }

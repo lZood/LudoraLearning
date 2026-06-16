@@ -121,6 +121,13 @@ export interface ExConversation {      // Conversación con NPC IA (chat de text
     maxTurns?: number;
 }
 
+export interface ExDialogue {          // Chat guiado estilo Instagram: cada turno del NPC con 3 respuestas (1 correcta)
+    type: 'dialogue';
+    instruction?: string;
+    persona?: string;                  // nombre del personaje (ej. "Aldeano Alex")
+    turns: { npc: string; options: { text: string; correct: boolean }[] }[];
+}
+
 // --- Lectura interactiva (reading_passage) ---
 export type ReadingQuestion =
     | { kind: 'cloze'; gapId: number; prompt?: string; options: string[]; correct: number }
@@ -149,7 +156,7 @@ export type Exercise =
     | ExTextMC | ExAudioMC | ExWhoSaidIt | ExListenMissingWord | ExTapPairsAudio
     | ExMatchPairs | ExMultiSelect | ExWordBank | ExFillBlank | ExFreeText
     | ExSpeak | ExSpeakRepeat | ExSpeakAnswer | ExMinimalPairs | ExListenBuild
-    | ExConversation | ExReadingPassage | ExMatchMadness;
+    | ExConversation | ExReadingPassage | ExMatchMadness | ExDialogue;
 
 export interface LessonContent {
     kind: 'lesson';
@@ -175,5 +182,5 @@ export const SKILL_EXERCISE_WHITELIST: Record<Skill, Exercise['type'][]> = {
     writing:       ['word_bank', 'fill_blank', 'free_text'],
     speaking:      ['speak', 'speak_repeat', 'speak_answer'],
     pronunciation: ['multi_select', 'speak', 'minimal_pairs'],
-    conversation:  ['conversation'],
+    conversation:  ['conversation', 'dialogue'],
 };

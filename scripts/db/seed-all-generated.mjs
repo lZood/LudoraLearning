@@ -104,6 +104,15 @@ function validateExercise(e) {
     case 'conversation':
       if (!isStr(e.scenario) || !isStr(e.objective) || !isStr(e.starter)) return 'conversation campos';
       return null;
+    case 'dialogue': {
+      if (!Array.isArray(e.turns) || e.turns.length < 1) return 'dialogue.turns';
+      for (const t of e.turns) {
+        if (!isStr(t.npc)) return 'dialogue.turn.npc';
+        if (!Array.isArray(t.options) || t.options.length < 2 || !t.options.every((o) => o && isStr(o.text) && typeof o.correct === 'boolean')) return 'dialogue.turn.options';
+        if (!t.options.some((o) => o.correct)) return 'dialogue.turn sin correcta';
+      }
+      return null;
+    }
     default:
       return 'tipo desconocido: ' + e.type;
   }
