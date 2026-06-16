@@ -199,7 +199,7 @@ export default function EvaluacionPage() {
             <Mascot character="apicultor" mood="happy" className="w-32 h-32" />
             <div>
                 <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Tu nivel</p>
-                <h1 className="text-3xl font-black text-[#632EB0]">Banda {r.band}</h1>
+                <h1 className="text-3xl font-black text-[#632EB0]">Nivel {r.band}</h1>
                 <p className="text-lg font-black text-gray-900">{r.bandTitle}</p>
             </div>
             <p className="text-gray-600 font-medium max-w-sm">{frase(r.band)}</p>
@@ -216,7 +216,6 @@ export default function EvaluacionPage() {
                             <span className="text-xs font-bold text-gray-400 w-8">{pct}%</span>
                         </div>
                     ))}
-                    <p className="text-[11px] text-gray-400 mt-1">CEFR aproximado: {r.cefr}</p>
                 </div>
             )}
         </Shell>

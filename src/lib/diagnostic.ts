@@ -51,7 +51,7 @@ export function gradeItem(type: string, content: Content, raw: unknown): boolean
             return false; // no calificable de forma segura aquí (no se usan en la diagnóstica)
         case 'speak':
         case 'speak_repeat':
-            return typeof raw === 'string' && textMatch(raw, content.say || '');
+            return typeof raw === 'string' && !!content.say && textMatch(raw, content.say);
         case 'speak_answer':
             return typeof raw === 'string' && Array.isArray(content.accept) && content.accept.some((a: string) => textMatch(raw, a));
         default:
@@ -124,25 +124,41 @@ export function placementDone(theta0: number, graded: { difficulty: number; corr
 // la reproducción/TTS; un atacante que lea la respuesta de red puede derivar la respuesta. El
 // cierre completo requiere pre-renderizar el audio y servir un audioUrl opaco (follow-up).
 function shuffle<T>(a: T[]): T[] { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
+const strOrText = (o: Content) => (typeof o === 'string' ? o : o?.text);
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export function sanitizeContent(type: string, content: Content): Content {
     const src = content || {};
     const out: Content = { instruction: src.instruction };
     const opts = Array.isArray(src.options) ? src.options : [];
     switch (type) {
         case 'text_mc':
-            out.prompt = src.prompt; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+            out.prompt = src.prompt; out.options = opts.map(strOrText); break;
         case 'audio_mc':
-        case 'listen_missing_word':
+            // prompt = la PREGUNTA (se muestra); options = traducciones en español (NO se hablan).
+            out.audio = src.audio; out.prompt = src.prompt; out.options = opts.map(strOrText); break;
         case 'minimal_pairs':
-            out.audio = src.audio; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+            out.audio = src.audio; out.options = opts.map(strOrText); break;
+        case 'listen_missing_word': {
+            out.audio = src.audio; out.options = opts.map(strOrText);
+            // Cloze para mostrar en pantalla: la oración con la palabra correcta en BLANCO (no revela).
+            const ans = strOrText(opts[src.correct]);
+            if (typeof src.audio === 'string' && ans) {
+                out.display = src.audio.replace(new RegExp('\\b' + escapeRe(String(ans)) + '\\b', 'i'), '_____');
+            }
+            break;
+        }
         case 'fill_blank':
-            out.before = src.before; out.after = src.after; out.options = opts.map((o: Content) => (typeof o === 'string' ? o : o?.text)); break;
+            out.before = src.before; out.after = src.after; out.options = opts.map(strOrText); break;
         case 'multi_select':
-            out.options = opts.map((o: Content) => ({ text: o?.text })); break;
+            out.prompt = src.prompt; out.options = opts.map((o: Content) => ({ text: o?.text })); break;
         case 'word_bank':
             out.prompt = src.prompt; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
         case 'listen_build':
             out.prompt = src.prompt; out.audio = src.audio; out.tiles = shuffle(Array.isArray(src.answer) ? src.answer : []); break;
+        case 'speak':
+        case 'speak_repeat':
+            // Leer en voz alta el texto mostrado (`say`); se verifica por similitud en el navegador.
+            out.say = src.say; break;
         default:
             break; // tipo no contemplado: solo instruction (falla cerrado)
     }

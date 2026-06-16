@@ -31,18 +31,22 @@ export async function POST(req: NextRequest) {
             graded.push({ difficulty: it.difficulty as number, correct: gradeItem(it.type as string, it.content, a.raw) });
         }
 
+        // Resultado del ÚLTIMO ítem respondido, para mostrar feedback (no revela respuestas previas).
+        const lastCorrect = graded.length ? graded[graded.length - 1].correct : null;
+
         if (graded.length && placementDone(theta0, graded)) {
-            return NextResponse.json({ done: true, count: graded.length });
+            return NextResponse.json({ done: true, count: graded.length, lastCorrect });
         }
 
         const theta = estimateTheta(theta0, graded);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const next = pickNext(items as any[], theta, used, graded.length);
-        if (!next) return NextResponse.json({ done: true, count: graded.length });
+        if (!next) return NextResponse.json({ done: true, count: graded.length, lastCorrect });
 
         return NextResponse.json({
             done: false,
             count: graded.length,
+            lastCorrect,
             item: { id: next.id, skill: next.skill, type: next.type, content: sanitizeContent(next.type, next.content) },
         });
     } catch (e) {
