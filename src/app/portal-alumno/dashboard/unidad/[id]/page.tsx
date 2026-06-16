@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2 } from 'lucide-react';
+import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
@@ -18,7 +18,20 @@ const TYPE_META: Record<string, { icon: React.ElementType; subtitle: string; isF
   final:    { icon: Award, subtitle: 'Final de unidad', isFinal: true },
 };
 
-type Act = { id: string; type: string; title: string; xp_reward: number; completed: boolean };
+const SKILL_META: Record<string, { icon: React.ElementType; subtitle: string }> = {
+  listening: { icon: Headphones, subtitle: 'Listening' },
+  reading: { icon: BookOpen, subtitle: 'Reading' },
+  writing: { icon: PenTool, subtitle: 'Writing' },
+  speaking: { icon: Mic, subtitle: 'Speaking' },
+  pronunciation: { icon: Volume2, subtitle: 'Pronunciation' },
+};
+
+type Act = { id: string; type: string; skill?: string | null; title: string; xp_reward: number; completed: boolean };
+
+const metaFor = (a: Act) => (a.skill && SKILL_META[a.skill]) || TYPE_META[a.type] || TYPE_META.theory;
+const hrefFor = (a: Act, unitExt: string) => a.type === 'lesson'
+  ? `/portal-alumno/dashboard/leccion/${a.id}`
+  : `/portal-alumno/dashboard/unidad/${unitExt}/actividad/${a.id}`;
 
 export default function UnitViewPage() {
   const params = useParams();
@@ -58,7 +71,7 @@ export default function UnitViewPage() {
 
       const { data: acts } = await supabase
         .from('activities')
-        .select('id, type, title, xp_reward, order_index')
+        .select('id, type, skill, title, xp_reward, order_index')
         .eq('unit_id', unit.id)
         .order('order_index');
 
@@ -75,6 +88,7 @@ export default function UnitViewPage() {
       const mapped: Act[] = (acts ?? []).map((a) => ({
         id: a.id as string,
         type: a.type as string,
+        skill: (a.skill as string) ?? null,
         title: a.title as string,
         xp_reward: (a.xp_reward as number) ?? 10,
         completed: progressIds.has(a.id as string),
@@ -155,7 +169,7 @@ export default function UnitViewPage() {
               {allDone ? (
                 <button disabled className="w-full bg-gray-100 text-gray-400 font-semibold py-3 rounded-2xl">Completada ✓</button>
               ) : currentActivity ? (
-                <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${currentActivity.id}`} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 rounded-2xl transition-colors active:scale-95 shadow-lg shadow-purple-500/10 text-center block">
+                <Link href={hrefFor(currentActivity, id)} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 rounded-2xl transition-colors active:scale-95 shadow-lg shadow-purple-500/10 text-center block">
                   Empezar
                 </Link>
               ) : null}
@@ -166,7 +180,7 @@ export default function UnitViewPage() {
         <div className="w-full flex-1 relative flex flex-col pt-4 md:pt-[100px] mb-32 z-10 px-8 sm:px-0">
           <div className="flex flex-col items-center justify-start w-full gap-8">
             {activities.map((activity, index) => {
-              const meta = TYPE_META[activity.type] ?? TYPE_META.theory;
+              const meta = metaFor(activity);
               const ActIcon = meta.icon;
               const isCompleted = activity.completed;
               const isActive = index === currentActivityIndex;
@@ -192,7 +206,7 @@ export default function UnitViewPage() {
                         </div>
                       </div>
                     ) : (
-                      <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${activity.id}`} className="relative flex items-center justify-center flex-shrink-0">
+                      <Link href={hrefFor(activity, id)} className="relative flex items-center justify-center flex-shrink-0">
                         {isActive && <div className="absolute inset-[-8px] border-2 border-[#632EB0]/10 rounded-full z-0 animate-pulse"></div>}
                         <div className={`w-14 h-14 md:w-[68px] md:h-[68px] rounded-full flex items-center justify-center relative z-10 transition-all border-b-4 ${
                           isCompleted ? 'bg-[#88e04f] border-[#6dc536]' : 'bg-[#632EB0] border-[#4E248B]'
@@ -222,7 +236,7 @@ export default function UnitViewPage() {
           <div className="w-full max-w-[1200px] flex md:justify-end justify-center px-4 sm:px-6">
             <div className="bg-white/95 backdrop-blur-xl border border-gray-100 rounded-[2rem] p-4 shadow-[0_8px_40px_rgba(0,0,0,0.15)] pointer-events-auto flex flex-col items-center justify-center gap-3 w-full max-w-[350px] mr-0 md:mr-16 lg:mr-24">
               <h3 className="text-black font-bold text-[15px] text-center">{currentActivity.title}</h3>
-              <Link href={`/portal-alumno/dashboard/unidad/${id}/actividad/${currentActivity.id}`} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 px-8 rounded-2xl text-[15px] transition-colors text-center block">
+              <Link href={hrefFor(currentActivity, id)} className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-semibold py-3 px-8 rounded-2xl text-[15px] transition-colors text-center block">
                 Empezar
               </Link>
             </div>
