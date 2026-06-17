@@ -78,7 +78,9 @@ export default function LeaderboardsPage() {
     const leagueName = me?.league_name ?? ranking[0]?.league_name ?? chest?.league_name ?? 'Madera';
     const currentTier = Math.max(0, LEAGUES.findIndex((l) => l.name === leagueName));
     const leagueColor = LEAGUES[currentTier]?.color ?? '#8B5E3C';
-    const activeCount = ranking.length;
+    // Conteo REAL de activos de la liga (get_village_chest.members = points>0), no ranking.length
+    // (topado a 60 por get_leaderboard) → la "zona de riesgo" coincide con la que aplica el servidor.
+    const activeCount = chest?.members ?? ranking.length;
     const demotionEnabled = !NO_DEMOTE_LEAGUES.includes(leagueName) && activeCount >= MIN_ACTIVE_FOR_DEMOTION;
     const demoteThreshold = demotionEnabled ? activeCount - DEMOTE_COUNT + 1 : Infinity;
 

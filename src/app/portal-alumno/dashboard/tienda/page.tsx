@@ -149,8 +149,10 @@ export default function TiendaPage() {
 
                 const profileP = user
                     ? supabase
+                        // OJO: current_league_id NO es columna de users (vive en user_gamification);
+                        // pedirla rompía TODO el select y los chips "Equipado" nunca aparecían.
                         .from('users')
-                        .select('current_league_id, equipped_frame, equipped_title, equipped_name_color, equipped_skin')
+                        .select('equipped_frame, equipped_title, equipped_name_color, equipped_skin')
                         .eq('id', user.id)
                         .maybeSingle()
                     : Promise.resolve({ data: null });

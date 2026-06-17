@@ -46,6 +46,21 @@ type CosmeticRow = {
 const DEFAULT_SKIN = 'Steve';
 const DEFAULT_TITLE = 'Aventurero Maestro';
 
+// Cuenta regresiva hasta el cierre semanal (domingo 23:59 local), igual criterio que /leaderboards.
+// Antes el badge mostraba "2d 14h" hardcodeado. Se evalúa en cada render (no es un ticker en vivo).
+function weeklyCountdown(): string {
+    const now = new Date();
+    const end = new Date(now);
+    end.setDate(end.getDate() + ((7 - end.getDay()) % 7)); // próximo domingo (0 si hoy es domingo)
+    end.setHours(23, 59, 59, 999);
+    if (end.getTime() <= now.getTime()) end.setDate(end.getDate() + 7);
+    const ms = end.getTime() - now.getTime();
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    return d > 0 ? `${d}d ${h}h` : `${h}h ${m}m`;
+}
+
 // Etiqueta legible por tipo de cosmético (para agrupar la sección "Mis cosméticos").
 const TYPE_LABEL: Record<string, string> = {
     skin: 'Skin',
@@ -71,7 +86,7 @@ export default function PerfilPage() {
     const [activeTab, setActiveTab] = useState<TabType>('cuenta');
     const hapticRef = useRef<HapticHandle>(null);
     const [userData, setUserData] = useState({ name: 'Cargando…', isPremium: false, renewalDate: 'Cargando...' });
-    const [stats, setStats] = useState({ streak: 0, xp: 0, coins: 0, level: '—' });
+    const [stats, setStats] = useState({ streak: 0, xp: 0, coins: 0, level: '—', shields: 0 });
     const [ranking, setRanking] = useState<RankRow[]>([]);
     // Cosméticos: lo equipado (para pintar el perfil) y el inventario (para la sección "Mis cosméticos").
     const [equipped, setEquipped] = useState<Equipped>({ skin: DEFAULT_SKIN, frame: null, title: null, nameColor: null });
@@ -116,7 +131,7 @@ export default function PerfilPage() {
             const [profileR, subR, gR, lbR] = await Promise.all([
                 supabase.from('users').select('full_name, english_level, equipped_skin, equipped_frame, equipped_title, equipped_name_color').eq('id', user.id).maybeSingle(),
                 supabase.from('subscriptions').select('status, current_period_end').eq('user_id', user.id).in('status', ['active', 'trialing']).maybeSingle(),
-                supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak').eq('user_id', user.id).maybeSingle(),
+                supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak, league_shields').eq('user_id', user.id).maybeSingle(),
                 supabase.rpc('get_leaderboard'),
             ]);
             if (!active) return;
@@ -131,6 +146,7 @@ export default function PerfilPage() {
                 xp: g?.xp_total ?? 0,
                 coins: g?.coins ?? 0,
                 level: profile?.english_level || `Nv ${g?.level_number ?? 1}`,
+                shields: (g as { league_shields?: number } | null)?.league_shields ?? 0,
             });
             setEquipped({
                 skin: profile?.equipped_skin || DEFAULT_SKIN,
@@ -265,7 +281,18 @@ export default function PerfilPage() {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className="absolute -bottom-1 -right-1 z-20"><div className="bg-yellow-400 p-2.5 rounded-2xl border-4 border-white"><ShieldCheck className="w-6 h-6 text-[#5e4171]" /></div></div>
+                                            {/* Escudos de Obsidiana REALES (antes era decorativo fijo). Absorben un descenso de liga. */}
+                                            <div
+                                                className="absolute -bottom-1 -right-1 z-20"
+                                                title={stats.shields > 0 ? `${stats.shields} escudo(s) de Obsidiana — absorben un descenso de liga` : 'Sin escudos — consíguelos en la tienda para proteger tu liga'}
+                                            >
+                                                <div className={`relative p-2.5 rounded-2xl border-4 border-white ${stats.shields > 0 ? 'bg-[#632EB0]' : 'bg-gray-300'}`}>
+                                                    <ShieldCheck className={`w-6 h-6 ${stats.shields > 0 ? 'text-white' : 'text-gray-500'}`} />
+                                                    {stats.shields > 0 && (
+                                                        <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-[#88e04f] text-[#1f3d12] text-[11px] font-black flex items-center justify-center border-2 border-white">{stats.shields}</span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="mt-8 text-center space-y-1">
                                             {/* El COLOR del nombre usa equipped_name_color. */}
@@ -380,8 +407,8 @@ export default function PerfilPage() {
                                     {/* RANKING */}
                                     <div className="bg-white rounded-[3.5rem] p-10 border border-gray-100 shadow-sm">
                                         <div className="flex items-center justify-between mb-8">
-                                            <h3 className="text-2xl font-black text-gray-900 tracking-tighter">Rankin Semanal</h3>
-                                            <div className="px-4 py-2 bg-gray-50 rounded-full font-black text-[11px] text-gray-400">2d 14h</div>
+                                            <h3 className="text-2xl font-black text-gray-900 tracking-tighter">Ranking Semanal</h3>
+                                            <div className="px-4 py-2 bg-gray-50 rounded-full font-black text-[11px] text-gray-400">{weeklyCountdown()}</div>
                                         </div>
                                         <div className="space-y-2">
                                             {ranking.length === 0 && (
