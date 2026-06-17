@@ -37,7 +37,7 @@ export const GAMES: Record<GameId, GameDef> = {
         id: 'cueva',
         title: 'Expedición a la Cueva',
         tagline: 'Cava profundo y mina gemas con cada acierto',
-        types: ['text_mc', 'audio_mc', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select', 'word_bank', 'listen_build'],
+        types: ['text_mc', 'audio_mc', 'listen_missing_word', 'minimal_pairs', 'fill_blank', 'multi_select'],
         count: 15,
         xpPerCorrect: 3,
         accent: '#632EB0',

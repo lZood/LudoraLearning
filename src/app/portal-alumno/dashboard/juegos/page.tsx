@@ -10,7 +10,7 @@ type Card = { id: string; title: string; tagline: string; icon: React.ReactNode;
 const CARDS: Card[] = [
     { id: 'crafteo', title: 'Mesa de Crafteo', tagline: 'Craftea oraciones con bloques de palabras', icon: <Hammer className="w-7 h-7" />, accent: '#8B5E3C', href: '/portal-alumno/dashboard/juegos/crafteo' },
     { id: 'aldea', title: 'Defiende la Aldea', tagline: 'Derrota a los mobs respondiendo a tiempo', icon: <Swords className="w-7 h-7" />, accent: '#3FA34D', href: '/portal-alumno/dashboard/juegos/aldea' },
-    { id: 'cueva', title: 'Expedición a la Cueva', tagline: 'Cava profundo y mina gemas con cada acierto', icon: <Pickaxe className="w-7 h-7" />, accent: '#632EB0', soon: true },
+    { id: 'cueva', title: 'Expedición a la Cueva', tagline: 'Cava profundo y mina gemas con cada acierto', icon: <Pickaxe className="w-7 h-7" />, accent: '#632EB0', href: '/portal-alumno/dashboard/juegos/cueva' },
 ];
 
 export default function JuegosHub() {
@@ -46,6 +46,12 @@ export default function JuegosHub() {
                         );
                         return c.href ? <Link key={c.id} href={c.href}>{inner}</Link> : <div key={c.id}>{inner}</div>;
                     })}
+                </div>
+
+                <div className="mt-6 text-center">
+                    <Link href="/portal-alumno/dashboard/juegos/tester" className="text-[11px] font-black text-gray-300 hover:text-gray-500 uppercase tracking-widest">
+                        Modo desarrollo
+                    </Link>
                 </div>
             </div>
         </div>

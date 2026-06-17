@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Hammer, X, Loader2, RotateCcw, Volume2, Star, Coins, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Mascot from '@/components/lesson/Mascot';
@@ -11,11 +10,11 @@ import { playAudio, loadAudioManifest, stopAudio, playSfx } from '@/lib/lessonAu
 const say = (t: string) => playAudio(t, 'narrator');
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Item = { id: string; type: string; content: any };
-type Result = { correct: number; total: number; xpEarned: number; coinsEarned: number; capReached: boolean };
+type Result = { correct: number; total: number; xpEarned: number; coinsEarned: number; capReached: boolean; practice?: boolean };
 type Step = 'loading' | 'error' | 'playing' | 'finishing' | 'result';
 
 export default function CrafteoGame() {
-    const router = useRouter();
+    const [dev] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === '1');
     const [step, setStep] = useState<Step>('loading');
     const [items, setItems] = useState<Item[]>([]);
     const [idx, setIdx] = useState(0);
@@ -71,7 +70,7 @@ export default function CrafteoGame() {
         setStep('finishing');
         const answers = items.map((it) => ({ id: it.id, raw: answersRef.current[it.id] ?? [] }));
         try {
-            const r = await fetch('/api/games/finish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ game: 'crafteo', answers }) });
+            const r = await fetch('/api/games/finish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ game: 'crafteo', answers, practice: dev }) });
             const d = await r.json();
             if (r.ok) { setResult(d); setStep('result'); } else { setStep('error'); }
         } catch { setStep('error'); }
@@ -107,7 +106,8 @@ export default function CrafteoGame() {
                     <div className="bg-[#2a1d15] border border-amber-500/20 rounded-2xl px-6 py-3 flex flex-col items-center"><Star className="w-5 h-5 text-blue-300 mb-1" /><span className="text-2xl font-black text-amber-100">+{result.xpEarned}</span><span className="text-[10px] font-black text-amber-200/50 uppercase">XP</span></div>
                     <div className="bg-[#2a1d15] border border-amber-500/20 rounded-2xl px-6 py-3 flex flex-col items-center"><Coins className="w-5 h-5 text-amber-300 mb-1" /><span className="text-2xl font-black text-amber-100">+{result.coinsEarned}</span><span className="text-[10px] font-black text-amber-200/50 uppercase">Monedas</span></div>
                 </div>
-                {result.capReached && <p className="text-[11px] text-amber-200/50 font-bold max-w-xs">Llegaste al tope de XP por juegos de hoy, ¡pero puedes seguir practicando!</p>}
+                {result.practice && <p className="text-[11px] text-amber-300 font-black uppercase tracking-widest">Modo dev · sin recompensa</p>}
+                {result.capReached && !result.practice && <p className="text-[11px] text-amber-200/50 font-bold max-w-xs">Llegaste al tope de XP por juegos de hoy, ¡pero puedes seguir practicando!</p>}
                 <div className="flex flex-col gap-2 w-full max-w-xs mt-2">
                     <button onClick={() => void load()} className="bg-amber-400 text-[#1d1410] font-black py-3.5 rounded-2xl active:scale-95">Jugar otra vez</button>
                     <Link href="/portal-alumno/dashboard/juegos" className="text-amber-200/70 font-bold py-2">Volver a juegos</Link>

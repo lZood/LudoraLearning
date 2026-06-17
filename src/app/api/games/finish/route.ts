@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
         const gameId = body.game;
         if (!isGameId(gameId)) return NextResponse.json({ error: 'Juego inválido' }, { status: 400 });
         const game = GAMES[gameId];
+        const practice = body.practice === true; // modo dev: califica pero NO otorga recompensa
         const answers: { id: string; raw: unknown }[] = Array.isArray(body.answers) ? body.answers.slice(0, 50) : [];
         if (!answers.length) return NextResponse.json({ error: 'Sin respuestas' }, { status: 400 });
 
@@ -40,6 +41,11 @@ export async function POST(req: NextRequest) {
         const perfect = correct === total && total > 0;
         let xp = correct * game.xpPerCorrect;
         let coins = Math.floor(correct / 2) + (perfect ? 3 : 0);
+
+        // Modo dev/práctica: devuelve el resultado pero NO otorga recompensa (no toca stats reales).
+        if (practice) {
+            return NextResponse.json({ correct, total, results, xpEarned: 0, coinsEarned: 0, capReached: false, practice: true });
+        }
 
         // Tope diario de XP por minijuegos (suma de activity_log con source 'game:%' de hoy).
         const today = new Date().toISOString().slice(0, 10);
