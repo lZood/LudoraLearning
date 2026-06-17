@@ -19,9 +19,20 @@ function isoMonday(ref: Date): string {
 // está concedida a service_role. Es idempotente: reintentos no duplican efectos.
 export async function POST(req: NextRequest) {
     try {
-        const secret = process.env.CRON_SECRET;
+        const admin = createAdminClient();
+
+        // El secreto compartido vive en la BD (app_config.cron_secret) para sobrevivir
+        // redeploys sin depender del panel de deploy; con fallback a la variable de entorno.
+        let secret = process.env.CRON_SECRET ?? null;
+        const { data: cfg } = await admin
+            .from('app_config')
+            .select('value')
+            .eq('key', 'cron_secret')
+            .maybeSingle();
+        if (cfg?.value) secret = cfg.value;
+
         if (!secret) {
-            console.error('[cron/close-week] Falta CRON_SECRET en el entorno');
+            console.error('[cron/close-week] Falta el secreto (app_config.cron_secret / CRON_SECRET)');
             return NextResponse.json({ error: 'Cron not configured' }, { status: 500 });
         }
 
@@ -34,7 +45,6 @@ export async function POST(req: NextRequest) {
         const lastWeekRef = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         const pWeekStart = isoMonday(lastWeekRef);
 
-        const admin = createAdminClient();
         const { error } = await admin.rpc('close_week', { p_week_start: pWeekStart });
 
         if (error) {
