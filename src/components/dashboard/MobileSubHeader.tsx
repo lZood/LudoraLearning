@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Zap, Newspaper, BookOpen, Video, GraduationCap, Calendar } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
+import { useGamification } from '@/lib/useGamification';
 
 function DashboardLogo() {
     return (
@@ -40,6 +41,7 @@ interface MobileSubHeaderProps {
 export default function MobileSubHeader({ hideNav = false }: MobileSubHeaderProps) {
   const pathname = usePathname();
   const hapticRef = useRef<HapticHandle>(null);
+  const g = useGamification(); // XP, racha, monedas reales
 
   const triggerHaptic = () => {
     hapticRef.current?.trigger();
@@ -59,18 +61,18 @@ export default function MobileSubHeader({ hideNav = false }: MobileSubHeaderProp
           <div className="flex justify-start">
             <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 border border-blue-100 rounded-full text-blue-600 font-black text-[9px]">
                 <Star className="w-2.5 h-2.5 fill-blue-500" />
-                <span>150 XP</span>
+                <span>{(g?.xp ?? 0).toLocaleString('es-MX')} XP</span>
             </div>
           </div>
-          
-          <div className="flex justify-center">
+
+          <Link href="/portal-alumno/dashboard" className="flex justify-center" aria-label="Inicio">
             <DashboardLogo />
-          </div>
+          </Link>
 
           <div className="flex justify-end">
             <div className="flex items-center gap-1 px-2 py-1 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-black text-[9px]">
                 <Zap className="w-2.5 h-2.5 fill-yellow-500" />
-                <span>1</span>
+                <span>{g?.streak ?? 0}</span>
             </div>
           </div>
       </div>

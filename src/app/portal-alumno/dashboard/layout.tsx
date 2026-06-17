@@ -29,6 +29,8 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
 import MobileNavBar from "@/components/dashboard/MobileNavBar";
+import { useGamification } from "@/lib/useGamification";
+import { Coins } from "lucide-react";
 
 // Main links shown in top nav directly
 const MAIN_LINKS = [
@@ -100,7 +102,7 @@ export default function DashboardLayout({
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean | null>(null);
-    const [streak, setStreak] = useState<number>(0);
+    const g = useGamification(); // XP, monedas, racha reales
 
     useEffect(() => {
         let isMounted = true;
@@ -128,15 +130,6 @@ export default function DashboardLayout({
                 if (isMounted) {
                     setHasActiveSubscription(!!subData);
                 }
-
-                // Racha real (gamificación)
-                const { data: gdata } = await supabase
-                    .from('user_gamification')
-                    .select('current_streak')
-                    .eq('user_id', session.user.id)
-                    .maybeSingle();
-                if (isMounted && gdata) setStreak(gdata.current_streak ?? 0);
-
             } catch (err) {
                 console.error("Error verifying access:", err);
                 if (isMounted) setHasActiveSubscription(false);
@@ -259,10 +252,20 @@ export default function DashboardLayout({
                                     <span>Pagar Membresía</span>
                                 </Link>
                             )}
+                            {/* XP */}
+                            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 font-extrabold text-sm">
+                                <Star className="w-4 h-4 fill-blue-500" />
+                                <span>{(g?.xp ?? 0).toLocaleString('es-MX')}</span>
+                            </div>
+                            {/* Coins */}
+                            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-full text-amber-600 font-extrabold text-sm">
+                                <Coins className="w-4 h-4" />
+                                <span>{g?.coins ?? 0}</span>
+                            </div>
                             {/* Streak Counter */}
                             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-extrabold text-sm">
                                 <Zap className="w-4 h-4 fill-yellow-500" />
-                                <span>{streak}</span>
+                                <span>{g?.streak ?? 0}</span>
                             </div>
 
                             {/* Profile Menu Trigger */}
