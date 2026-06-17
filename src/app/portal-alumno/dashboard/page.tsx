@@ -31,17 +31,14 @@ export default async function DashboardIndex() {
 
     const today = new Date().toISOString().slice(0, 10);
 
-    // 3. En paralelo: suscripción, gamificación, XP de hoy, unidades completadas, última unidad.
-    const [subsRes, gamiRes, todayRes, doneRes, lastRes] = await Promise.all([
+    // 3. En paralelo: suscripción, gamificación, XP de hoy, TODAS las unidades (en orden) y el
+    //    progreso del alumno (para calcular "continuar" y unidades completadas correctamente).
+    const [subsRes, gamiRes, todayRes, unitsRes, progRes] = await Promise.all([
         supabase.from('subscriptions').select('status').eq('user_id', user.id).in('status', ['active', 'trialing']),
         supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak').eq('user_id', user.id).maybeSingle(),
         supabase.from('activity_log').select('xp_earned').eq('user_id', user.id).eq('activity_date', today),
-        supabase.from('user_progress').select('unit_id').eq('user_id', user.id).eq('status', 'completed'),
-        supabase.from('user_progress')
-            .select('progress_pct, last_accessed_at, unit:units!user_progress_unit_id_fkey(external_id, title)')
-            .eq('user_id', user.id)
-            .order('last_accessed_at', { ascending: false, nullsFirst: false })
-            .limit(1).maybeSingle(),
+        supabase.from('units').select('id, external_id, title, order_index').order('order_index'),
+        supabase.from('user_progress').select('unit_id, progress_pct, status, last_accessed_at').eq('user_id', user.id),
     ]);
 
     const isPremium = !!(subsRes.data && subsRes.data.length > 0);
@@ -52,6 +49,27 @@ export default async function DashboardIndex() {
     const bandaTitle = bandaNumber === '1' ? 'Iniciación Inmersiva' : bandaNumber === '2' ? 'Básico Funcional' : 'Aventurero Independiente';
     const firstName = (userData.full_name as string | null)?.trim().split(/\s+/)[0] || user.email?.split('@')[0] || 'Aventurero';
 
+    // ── "Continuar": retoma una unidad EN PROGRESO; si no, avanza a la siguiente SIN completar ──
+    type UnitRow = { id: string; external_id: string; title: string; order_index: number };
+    type ProgRow = { unit_id: string; progress_pct: number | null; status: string | null; last_accessed_at: string | null };
+    const units = (unitsRes.data ?? []) as UnitRow[];
+    const prog = (progRes.data ?? []) as ProgRow[];
+    const progByUnit = new Map(prog.map((p) => [p.unit_id, p]));
+    const isDone = (p?: ProgRow) => !!p && (p.status === 'completed' || (p.progress_pct ?? 0) >= 100);
+    const completedIds = new Set(units.filter((u) => isDone(progByUnit.get(u.id))).map((u) => u.id));
+
+    // 1) la más reciente EN PROGRESO (no completada) -> retomar donde quedó
+    const inProgress = prog
+        .filter((p) => !isDone(p) && p.last_accessed_at)
+        .sort((a, b) => (b.last_accessed_at || '').localeCompare(a.last_accessed_at || ''));
+    let contUnit: UnitRow | undefined = inProgress.length ? units.find((u) => u.id === inProgress[0].unit_id) : undefined;
+    // 2) si no hay nada en progreso, la PRIMERA unidad sin completar (la siguiente del curso)
+    if (!contUnit) contUnit = units.find((u) => !completedIds.has(u.id)) || units[units.length - 1];
+
+    const lastUnit = contUnit
+        ? { id: contUnit.external_id, title: contUnit.title, progress: progByUnit.get(contUnit.id)?.progress_pct ?? 0 }
+        : { id: 'u1-1', title: 'Bienvenido', progress: 0 };
+
     const stats: DashboardStats = {
         name: firstName,
         xp: gami?.xp_total ?? 0,
@@ -59,19 +77,8 @@ export default async function DashboardIndex() {
         coins: gami?.coins ?? 0,
         streak: gami?.current_streak ?? 0,
         todayXp,
-        unitsCompleted: (doneRes.data ?? []).length,
+        unitsCompleted: completedIds.size,
     };
-
-    // Unidad para "continuar": la última accedida; si no, la primera del curso.
-    const luRaw = lastRes.data?.unit as { external_id?: string; title?: string } | { external_id?: string; title?: string }[] | null;
-    const luObj = Array.isArray(luRaw) ? luRaw[0] : luRaw;
-    let lastUnit: { id: string; title: string; progress: number };
-    if (luObj?.external_id) {
-        lastUnit = { id: luObj.external_id, title: luObj.title ?? 'Unidad', progress: (lastRes.data?.progress_pct as number) ?? 0 };
-    } else {
-        const { data: firstUnit } = await supabase.from('units').select('external_id, title').eq('external_id', 'u1-1').maybeSingle();
-        lastUnit = { id: firstUnit?.external_id ?? 'u1-1', title: firstUnit?.title ?? 'Bienvenido', progress: 0 };
-    }
 
     return (
         <div className="w-full">
