@@ -30,15 +30,16 @@ function run(cmd, stdin) {
 }
 
 const RUNNER = `#!/bin/sh
-# Cierre semanal del ranking de Ludora. Lo invoca cron cada lunes (06:00 UTC).
-# Cierra la semana que acaba de terminar (close_week calcula el lunes -7d). Idempotente.
+# Cierre semanal del ranking de Ludora. Lo invoca cron a diario (06:00 UTC).
+# El endpoint llama close_due_weeks(): cierra TODAS las semanas pasadas no cerradas
+# (catch-up idempotente), así un lunes perdido se recupera en la siguiente corrida.
 SECRET=$(cat /root/.ludora_cron_secret)
 echo "[$(date -u +%FT%TZ)] close-week ->"
 curl -fsS -X POST -H "x-cron-secret: $SECRET" https://ludoralearning.com/api/cron/close-week
 echo ""
 `;
 
-const CRON_LINE = '0 6 * * 1 /usr/local/bin/ludora-close-week.sh >> /var/log/ludora-close-week.log 2>&1';
+const CRON_LINE = '0 6 * * * /usr/local/bin/ludora-close-week.sh >> /var/log/ludora-close-week.log 2>&1';
 
 conn
   .on('ready', async () => {

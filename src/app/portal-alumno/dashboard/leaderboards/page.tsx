@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Clock, ArrowUp, ArrowDown, Lock, Box, Shield } from "lucide-react";
+import { Clock, ArrowUp, ArrowDown, Lock, Box, Shield, Users } from "lucide-react";
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import { createClient } from '@/utils/supabase/client';
 import { neueMachina } from '@/lib/brandFonts';
@@ -17,8 +18,8 @@ type VillageChest = { current: number; target: number; reached: boolean; league_
 
 // Las 7 ligas minerales (orden + color) — para la fila de insignias de progresión (estilo Duolingo).
 const LEAGUES = [
-    { name: 'Madera', color: '#8B5E3C' }, { name: 'Piedra', color: '#9ca3af' }, { name: 'Hierro', color: '#cbd2d9' },
-    { name: 'Oro', color: '#f59e0b' }, { name: 'Esmeralda', color: '#10b981' }, { name: 'Diamante', color: '#22d3ee' }, { name: 'Netherite', color: '#5b4a63' },
+    { name: 'Madera', color: '#8B5E3C' }, { name: 'Piedra', color: '#9ca3af' }, { name: 'Hierro', color: '#e5e7eb' },
+    { name: 'Oro', color: '#f59e0b' }, { name: 'Esmeralda', color: '#10b981' }, { name: 'Diamante', color: '#22d3ee' }, { name: 'Netherite', color: '#4b3a52' },
 ];
 const PROMOTE_COUNT = 10;
 const DEMOTE_COUNT = 5;
@@ -142,6 +143,10 @@ export default function LeaderboardsPage() {
                                 <span className="text-[12px] font-black text-[#632EB0] tabular-nums">{shields}</span>
                             </div>
                         )}
+                        <Link href="/portal-alumno/dashboard/amigos" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-black/10 rounded-full active:scale-95 transition-transform" title="Amigos">
+                            <Users className="w-3.5 h-3.5 text-[#632EB0]" />
+                            <span className="text-[12px] font-black text-[#632EB0]">Amigos</span>
+                        </Link>
                     </div>
                     <p className="mt-2.5 text-[13px] font-bold text-[#1a1a1a]/45">
                         {NO_DEMOTE_LEAGUES.includes(leagueName) ? `Top ${PROMOTE_COUNT} asciende · en Madera nadie baja` : `Haz tu meta de ${WEEKLY_FLOOR} XP y conservas tu liga · top ${PROMOTE_COUNT} asciende`}
