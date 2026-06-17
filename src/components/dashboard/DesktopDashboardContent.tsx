@@ -4,9 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Zap, Play, Star, GraduationCap, BookOpen, Flame, Coins, CheckCircle2 } from 'lucide-react';
+import { Zap, Play, Star, GraduationCap, BookOpen, Flame, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { xpToNextLevel, levelProgressPct } from '@/lib/useGamification';
 import type { DashboardStats } from '@/app/portal-alumno/dashboard/page';
 
 interface DesktopDashboardContentProps {
@@ -84,29 +83,9 @@ export default function DesktopDashboardContent({ bandaNumber, bandaTitle, lastU
             </motion.div>
           </motion.div>
 
-          {/* DERECHA: nivel + monedas + unidades (real) */}
-          <motion.div variants={itemVariants} className="hidden xl:flex flex-col items-center gap-5 w-56 order-3">
-            <div className="bg-white/70 backdrop-blur-xl border border-white p-5 rounded-[2.5rem] shadow-xl shadow-black/[0.03] w-full">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Nivel {stats.level}</span>
-                <span className="text-[9px] font-bold text-gray-400">{xpToNextLevel(stats.xp)} XP →</span>
-              </div>
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
-                <div className="h-full bg-[#88e04f] rounded-full" style={{ width: `${levelProgressPct(stats.xp)}%` }} />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="bg-amber-50 border border-amber-100 rounded-2xl py-2.5 flex flex-col items-center gap-0.5">
-                  <Coins className="w-4 h-4 text-amber-500" />
-                  <span className="text-sm font-black text-gray-900">{stats.coins.toLocaleString('es-MX')}</span>
-                  <span className="text-[8px] font-black text-gray-400 uppercase">Monedas</span>
-                </div>
-                <div className="bg-green-50 border border-green-100 rounded-2xl py-2.5 flex flex-col items-center gap-0.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#58a700]" />
-                  <span className="text-sm font-black text-gray-900">{stats.unitsCompleted}</span>
-                  <span className="text-[8px] font-black text-gray-400 uppercase">Unidades</span>
-                </div>
-              </div>
-            </div>
+          {/* DERECHA: unidades completadas (real) */}
+          <motion.div variants={itemVariants} className="hidden xl:flex flex-col items-center gap-5 w-52 order-3">
+            <SideStat icon={<CheckCircle2 className="w-6 h-6 text-[#58a700]" />} tint="bg-green-50 border-green-100" label="Unidades" value={`${stats.unitsCompleted}`} />
           </motion.div>
         </div>
 

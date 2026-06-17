@@ -6,7 +6,6 @@ import { createPortal } from 'react-dom';
 import { Zap, Play, Flame, CheckCircle2, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import MobileSubHeader from './MobileSubHeader';
-import { xpToNextLevel, levelProgressPct } from '@/lib/useGamification';
 import type { DashboardStats } from '@/app/portal-alumno/dashboard/page';
 
 interface MobileDashboardContentProps {
@@ -40,17 +39,6 @@ export default function MobileDashboardContent({ bandaNumber, bandaTitle, lastUn
           <Stat icon={<Flame className="w-5 h-5 text-orange-500" />} value={stats.streak} label="Racha" tint="bg-orange-50" />
           <Stat icon={<Zap className="w-5 h-5 text-blue-500" />} value={stats.todayXp} label="XP hoy" tint="bg-blue-50" />
           <Stat icon={<CheckCircle2 className="w-5 h-5 text-[#58a700]" />} value={stats.unitsCompleted} label="Unidades" tint="bg-green-50" />
-        </div>
-
-        {/* Progreso al siguiente nivel */}
-        <div className="bg-[#F8F9FB] rounded-2xl p-4 border border-gray-100/60">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-black text-gray-700">Nivel {stats.level}</span>
-            <span className="text-[11px] font-bold text-gray-400">{xpToNextLevel(stats.xp)} XP para el Nivel {stats.level + 1}</span>
-          </div>
-          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-[#88e04f] rounded-full" initial={{ width: 0 }} animate={{ width: `${levelProgressPct(stats.xp)}%` }} transition={{ type: 'spring', stiffness: 120, damping: 20 }} />
-          </div>
         </div>
 
         {/* Continuar unidad */}

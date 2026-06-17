@@ -30,7 +30,6 @@ import { useRouter } from "next/navigation";
 import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
 import MobileNavBar from "@/components/dashboard/MobileNavBar";
 import { useGamification } from "@/lib/useGamification";
-import { Coins } from "lucide-react";
 
 // Main links shown in top nav directly
 const MAIN_LINKS = [
@@ -174,6 +173,10 @@ export default function DashboardLayout({
 
     return (
         <div className="flex flex-col min-h-screen bg-[#ffffff] font-sans text-gray-900 border-none">
+            {/* Cierra los menús desplegables al hacer clic fuera de ellos */}
+            {(isProfileMenuOpen || isMoreMenuOpen) && (
+                <div className="fixed inset-0 z-30" onClick={() => { setIsProfileMenuOpen(false); setIsMoreMenuOpen(false); }} />
+            )}
             {/* TOP NAVIGATION BAR (Desktop Only) */}
             <header className="hidden md:block sticky top-0 z-40 w-full bg-white border-b border-gray-200 shadow-sm transition-all">
                 <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -256,11 +259,6 @@ export default function DashboardLayout({
                             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 font-extrabold text-sm">
                                 <Star className="w-4 h-4 fill-blue-500" />
                                 <span>{(g?.xp ?? 0).toLocaleString('es-MX')}</span>
-                            </div>
-                            {/* Coins */}
-                            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-full text-amber-600 font-extrabold text-sm">
-                                <Coins className="w-4 h-4" />
-                                <span>{g?.coins ?? 0}</span>
                             </div>
                             {/* Streak Counter */}
                             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-yellow-50 border border-yellow-200 rounded-full text-yellow-600 font-extrabold text-sm">
