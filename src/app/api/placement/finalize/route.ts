@@ -65,8 +65,8 @@ export async function POST(req: NextRequest) {
                 evaluation_history: graded,
             });
             if (evErr) console.error('[placement/finalize] evaluations.insert', evErr.message);
-            // XP por completar (como el alumno, no admin: grant_progress usa auth.uid()).
-            supabase.rpc('grant_progress', { p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
+            // XP por completar (autoritativo server-side: grant_progress_for con el user id validado).
+            admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
         } else {
             const m = /(\d+)/.exec(existing?.english_level || '');
             if (m) { finalBand = Math.max(1, Math.min(8, parseInt(m[1], 10))); finalCefr = bandToCefr(finalBand); finalLevel = `Banda ${finalBand}`; }

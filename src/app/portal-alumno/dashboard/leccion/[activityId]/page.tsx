@@ -998,8 +998,9 @@ export default function LeccionPage() {
         setSaving(true);
         try {
             await supabase.from('user_activity_progress').upsert({ user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1, score: Math.round((correctCount / exercises.length) * 100), last_index: exercises.length }, { onConflict: 'user_id,activity_id' });
-            // Solo otorga XP la PRIMERA vez (evita farmear repitiendo una lección ya completada).
-            if (!alreadyCompletedRef.current) await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
+            // El XP lo otorga el servidor de forma autoritativa (deriva xp_reward de la BD y paga
+            // una sola vez por actividad). El cliente ya NO puede conceder XP por su cuenta.
+            await fetch('/api/lessons/complete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ activityId }) }).catch(() => {});
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
             const { data: doneRows } = await supabase.from('user_activity_progress').select('activity_id').eq('user_id', userId).in('activity_id', ids).not('completed_at', 'is', null);

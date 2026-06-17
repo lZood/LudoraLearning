@@ -60,7 +60,9 @@ export default function ActivityPlayerPage() {
                 { user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1 },
                 { onConflict: 'user_id,activity_id' }
             );
-            if (!alreadyCompletedRef.current) await supabase.rpc('grant_progress', { p_xp: xp, p_coins: 0, p_source: 'leccion' });
+            // El XP lo otorga el servidor de forma autoritativa (deriva xp_reward de la BD y paga
+            // una sola vez por actividad). El cliente ya NO puede conceder XP por su cuenta.
+            await fetch('/api/lessons/complete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ activityId }) }).catch(() => {});
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
             const total = ids.length || 1;

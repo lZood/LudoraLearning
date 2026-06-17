@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
         const { data: done } = await admin.from('activity_log').select('id').eq('user_id', user.id).eq('activity_date', today).eq('source', source).limit(1);
         if (done && done.length) return NextResponse.json({ xpEarned: 0, coinsEarned: 0, already: true });
 
-        await supabase.rpc('grant_progress', { p_xp: adv.reward.xp, p_coins: adv.reward.coins, p_source: source }).then(() => {}, () => {});
+        // Autoritativo server-side: grant_progress_for con el user id validado (admin/service_role).
+        await admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: adv.reward.xp, p_coins: adv.reward.coins, p_source: source }).then(() => {}, () => {});
         return NextResponse.json({ xpEarned: adv.reward.xp, coinsEarned: adv.reward.coins, already: false });
     } catch (e) {
         console.error('[adventures/complete]', e instanceof Error ? e.message : e);

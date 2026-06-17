@@ -59,8 +59,9 @@ export async function POST(req: NextRequest) {
         if (xp <= 0) coins = 0; // alcanzado el tope: no más recompensa hoy (pero puede seguir jugando)
 
         if (xp > 0 || coins > 0) {
-            // Como el alumno (grant_progress usa auth.uid()): suma XP/monedas + racha + leaderboard.
-            await supabase.rpc('grant_progress', { p_xp: xp, p_coins: coins, p_source: `game:${game.id}` }).then(() => {}, () => {});
+            // Autoritativo server-side: grant_progress_for con el user id validado (admin/service_role).
+            // El cliente NO puede otorgar XP/monedas por su cuenta.
+            await admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: xp, p_coins: coins, p_source: `game:${game.id}` }).then(() => {}, () => {});
         }
 
         return NextResponse.json({ correct, total, results, xpEarned: xp, coinsEarned: coins, capReached });
