@@ -27,6 +27,7 @@ import {
     Loader2,
     X,
     AlertTriangle,
+    ShieldCheck,
 } from 'lucide-react';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
@@ -73,9 +74,16 @@ const TIER_NAME: Record<number, string> = {
     7: 'Netherite',
 };
 
+// Escudo de Obsidiana: consumible anti-descenso (espejo de buy_shield()).
+const SHIELD_COST = 200;
+const SHIELD_MAX = 2;
+
 // Traduce los RAISE del RPC a mensajes accionables y amables.
 function humanizeError(raw: string | undefined): string {
     const m = (raw ?? '').toLowerCase();
+    if (m.includes('shield_max') || m.includes('max')) {
+        return `Ya tienes el máximo de escudos (${SHIELD_MAX}). ¡Úsalos manteniendo tu liga!`;
+    }
     if (m.includes('insufficient') || m.includes('saldo') || m.includes('coins')) {
         return 'No tienes suficientes monedas. ¡Completa lecciones para ganar más!';
     }
@@ -101,6 +109,10 @@ export default function TiendaPage() {
     const [equipped, setEquipped] = useState<Set<string>>(new Set()); // cosméticos actualmente equipados
     const [action, setAction] = useState<ActionState>(null);
     const [toast, setToast] = useState<Toast>(null);
+
+    // Escudos de Obsidiana que el alumno ya posee (consumibles anti-descenso).
+    const [shields, setShields] = useState(0);
+    const [buyingShield, setBuyingShield] = useState(false);
 
     // Saldo: el real del hook, pero con override optimista tras una compra (el hook cachea a nivel módulo).
     const [coinsOverride, setCoinsOverride] = useState<number | null>(null);
@@ -154,10 +166,12 @@ export default function TiendaPage() {
                 if (user) {
                     const { data: gd } = await supabase
                         .from('user_gamification')
-                        .select('current_league_id')
+                        .select('current_league_id, league_shields')
                         .eq('user_id', user.id)
                         .maybeSingle();
-                    const leagueId = (gd as { current_league_id: string | null } | null)?.current_league_id ?? null;
+                    const gRow = gd as { current_league_id: string | null; league_shields: number | null } | null;
+                    if (active) setShields(gRow?.league_shields ?? 0);
+                    const leagueId = gRow?.current_league_id ?? null;
                     if (active && leagueId) {
                         const { data: lg } = await supabase
                             .from('leagues')
@@ -258,6 +272,38 @@ export default function TiendaPage() {
         }
     };
 
+    // Comprar un Escudo de Obsidiana: RPC buy_shield (sumidero de monedas, máx 2).
+    const handleBuyShield = async () => {
+        if (buyingShield || action) return;
+        triggerHaptic();
+        if (shields >= SHIELD_MAX) {
+            setToast({ kind: 'err', msg: `Ya tienes el máximo de escudos (${SHIELD_MAX}).` });
+            return;
+        }
+        if (coins < SHIELD_COST) {
+            setToast({ kind: 'err', msg: 'No tienes suficientes monedas. ¡Completa lecciones para ganar más!' });
+            return;
+        }
+        setBuyingShield(true);
+        try {
+            const { data, error } = await supabase.rpc('buy_shield');
+            if (error) {
+                setToast({ kind: 'err', msg: humanizeError(error.message) });
+                return;
+            }
+            // buy_shield devuelve la fila user_gamification (saldo + escudos nuevos).
+            const row = data as { coins?: number; league_shields?: number } | null;
+            if (typeof row?.coins === 'number') setCoinsOverride(row.coins);
+            else setCoinsOverride(coins - SHIELD_COST);
+            setShields(typeof row?.league_shields === 'number' ? row.league_shields : shields + 1);
+            setToast({ kind: 'ok', msg: '¡Conseguiste un Escudo de Obsidiana! Absorberá un descenso de liga.' });
+        } catch (e) {
+            setToast({ kind: 'err', msg: humanizeError(e instanceof Error ? e.message : undefined) });
+        } finally {
+            setBuyingShield(false);
+        }
+    };
+
     if (!mounted) return null;
 
     return (
@@ -319,6 +365,80 @@ export default function TiendaPage() {
                         <span className="text-[10px] font-black uppercase tracking-widest text-yellow-500/80">Monedas</span>
                     </div>
                 </div>
+
+                {/* 1.5 ESCUDO DE OBSIDIANA — consumible destacado anti-descenso */}
+                {!loading && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mt-8 md:mt-10 relative overflow-hidden rounded-[2rem] border-2 border-[#3a2a5c] bg-gradient-to-br from-[#1e1530] via-[#2a1d44] to-[#3a2a5c] p-5 md:p-6 shadow-xl shadow-purple-900/20"
+                    >
+                        {/* Textura sutil de bloques (obsidiana) */}
+                        <div
+                            className="absolute inset-0 opacity-[0.07] pointer-events-none"
+                            style={{
+                                backgroundImage:
+                                    'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+                                backgroundSize: '22px 22px',
+                            }}
+                        />
+                        <div className="relative flex items-center gap-4 md:gap-5">
+                            {/* Icono escudo */}
+                            <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[1.4rem] bg-gradient-to-br from-[#7c4dff] to-[#632EB0] flex items-center justify-center shadow-lg shadow-purple-900/40 border-2 border-[#9d7bff]/40">
+                                <ShieldCheck className="w-9 h-9 md:w-11 md:h-11 text-white" strokeWidth={2.5} />
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    <h3 className="text-lg md:text-xl font-black text-white tracking-tight leading-none">
+                                        Escudo de Obsidiana
+                                    </h3>
+                                    {/* Escudos poseídos: pips X/2 */}
+                                    <span className="inline-flex items-center gap-1">
+                                        {Array.from({ length: SHIELD_MAX }).map((_, i) => (
+                                            <ShieldCheck
+                                                key={i}
+                                                className={`w-3.5 h-3.5 ${i < shields ? 'text-[#a586ff]' : 'text-white/20'}`}
+                                                fill={i < shields ? 'currentColor' : 'none'}
+                                                strokeWidth={2.5}
+                                            />
+                                        ))}
+                                    </span>
+                                </div>
+                                <p className="mt-1.5 text-[12px] md:text-[13px] font-bold text-purple-200/80 leading-snug">
+                                    Absorbe un descenso de liga. Si una semana no llegas a tu meta, tu escudo te
+                                    protege y mantienes tu liga. Máx. {SHIELD_MAX}.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Acción de compra */}
+                        <button
+                            onClick={handleBuyShield}
+                            disabled={buyingShield || shields >= SHIELD_MAX || coins < SHIELD_COST}
+                            className={`relative mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-[13px] font-black uppercase tracking-wide transition-all active:scale-[0.98] disabled:active:scale-100 ${
+                                shields >= SHIELD_MAX
+                                    ? 'bg-white/10 text-purple-200/60 cursor-default'
+                                    : coins < SHIELD_COST
+                                      ? 'bg-white/10 text-purple-200/40 cursor-not-allowed'
+                                      : 'bg-[#88e04f] text-[#1e1530] hover:bg-[#7ad043] shadow-lg shadow-green-900/30'
+                            }`}
+                        >
+                            {buyingShield ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : shields >= SHIELD_MAX ? (
+                                <>
+                                    <Check className="w-4 h-4" strokeWidth={3} /> Tienes el máximo
+                                </>
+                            ) : (
+                                <>
+                                    <Coins className="w-4 h-4" fill="currentColor" />
+                                    {SHIELD_COST.toLocaleString('es-MX')} · Comprar escudo
+                                </>
+                            )}
+                        </button>
+                    </motion.div>
+                )}
 
                 {/* 2. GRID DE PRODUCTOS */}
                 <div className="mt-10 md:mt-14">

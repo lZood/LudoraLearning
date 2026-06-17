@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Clock, ArrowUp, ArrowDown, Lock, Box } from "lucide-react";
+import { Clock, ArrowUp, ArrowDown, Lock, Box, Shield } from "lucide-react";
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import { createClient } from '@/utils/supabase/client';
 import { neueMachina } from '@/lib/brandFonts';
@@ -24,6 +24,8 @@ const PROMOTE_COUNT = 10;
 const DEMOTE_COUNT = 5;
 const MIN_ACTIVE_FOR_DEMOTION = 15;
 const NO_DEMOTE_LEAGUES = ['Madera'];
+const WEEKLY_FLOOR = 50;     // meta semanal: alcánzala y NO desciendes (solo bajan los inactivos)
+const XP_PER_LESSON = 20;    // referencia para el mensaje "≈N lecciones"
 
 function nextSundayDeadline(now: Date): Date {
     const d = new Date(now);
@@ -44,6 +46,7 @@ export default function LeaderboardsPage() {
     const [loading, setLoading] = useState(true);
     const [ranking, setRanking] = useState<LeaderboardRow[]>([]);
     const [chest, setChest] = useState<VillageChest | null>(null);
+    const [shields, setShields] = useState(0);
     const [now, setNow] = useState<Date>(() => new Date());
 
     useEffect(() => {
@@ -51,12 +54,18 @@ export default function LeaderboardsPage() {
         (async () => {
             setMounted(true);
             const supabase = createClient();
-            const [lbRes, chestRes] = await Promise.all([supabase.rpc('get_leaderboard'), supabase.rpc('get_village_chest')]);
+            const { data: { user } } = await supabase.auth.getUser();
+            const [lbRes, chestRes, gRes] = await Promise.all([
+                supabase.rpc('get_leaderboard'),
+                supabase.rpc('get_village_chest'),
+                user ? supabase.from('user_gamification').select('league_shields').eq('user_id', user.id).maybeSingle() : Promise.resolve({ data: null }),
+            ]);
             if (!active) return;
             const rows = (lbRes.data as LeaderboardRow[] | null) ?? [];
             rows.sort((a, b) => a.rank - b.rank);
             setRanking(rows);
             setChest((chestRes.data as VillageChest[] | null)?.[0] ?? null);
+            setShields((gRes.data as { league_shields?: number } | null)?.league_shields ?? 0);
             setLoading(false);
         })();
         return () => { active = false; };
@@ -78,18 +87,19 @@ export default function LeaderboardsPage() {
     const chestReached = chest?.reached ?? chestCurrent >= chestTarget;
     const chestMembers = chest?.members ?? activeCount;
 
+    // Mensaje primario = META SEMANAL (asegura tu liga). Solo bajan los inactivos del fondo.
     const myMsg = useMemo(() => {
         if (!me) return null;
-        if (me.rank > PROMOTE_COUNT) {
-            const cut = ranking.find((r) => r.rank === PROMOTE_COUNT);
-            if (cut) { const n = Math.max(0, cut.points - me.points + 1); return { tone: 'climb' as const, text: n > 0 ? `Te faltan ${n} XP para la zona de ascenso` : '¡A un paso del ascenso!' }; }
+        if (me.points < WEEKLY_FLOOR) {
+            const need = WEEKLY_FLOOR - me.points;
+            const lessons = Math.max(1, Math.ceil(need / XP_PER_LESSON));
+            return { tone: 'danger' as const, text: `Asegura tu liga: te faltan ${need} XP (≈${lessons} ${lessons === 1 ? 'lección' : 'lecciones'}) esta semana.` };
         }
-        if (demotionEnabled && me.rank >= demoteThreshold) {
-            const safe = ranking.find((r) => r.rank === demoteThreshold - 1);
-            if (safe) { const n = Math.max(0, safe.points - me.points + 1); return { tone: 'danger' as const, text: `Gana ${n} XP para salir de la zona de descenso` }; }
-        }
-        return { tone: 'safe' as const, text: me.rank <= PROMOTE_COUNT ? '¡Estás en zona de ascenso! Mantente arriba' : '¡Vas bien! Sigue sumando XP' };
-    }, [me, ranking, demotionEnabled, demoteThreshold]);
+        if (me.rank <= PROMOTE_COUNT) return { tone: 'safe' as const, text: '¡Liga asegurada y en zona de ascenso! Mantente arriba 🔥' };
+        const cut = ranking.find((r) => r.rank === PROMOTE_COUNT);
+        if (cut && cut.points > me.points) return { tone: 'climb' as const, text: `¡Liga asegurada! Te faltan ${cut.points - me.points + 1} XP para ascender.` };
+        return { tone: 'safe' as const, text: '¡Liga asegurada esta semana! Sigue sumando para ascender.' };
+    }, [me, ranking]);
 
     if (!mounted) return null;
 
@@ -121,12 +131,20 @@ export default function LeaderboardsPage() {
                 {/* ── TÍTULO + TIMER ── */}
                 <div className="mt-5 text-center">
                     <h1 className={`text-3xl md:text-4xl uppercase leading-none text-[#1a1a1a] ${neueMachina.className}`}>Liga de {leagueName}</h1>
-                    <div className="mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#ffedcc] rounded-full">
-                        <Clock className="w-3.5 h-3.5 text-[#c47d12]" />
-                        <span className="text-[12px] font-black text-[#c47d12] tabular-nums">Termina en {countdown}</span>
+                    <div className="mt-3 flex items-center justify-center gap-2">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#ffedcc] rounded-full">
+                            <Clock className="w-3.5 h-3.5 text-[#c47d12]" />
+                            <span className="text-[12px] font-black text-[#c47d12] tabular-nums">Termina en {countdown}</span>
+                        </div>
+                        {shields > 0 && (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#ede9fe] rounded-full" title="Escudos de Obsidiana: absorben un descenso">
+                                <Shield className="w-3.5 h-3.5 text-[#632EB0]" fill="currentColor" />
+                                <span className="text-[12px] font-black text-[#632EB0] tabular-nums">{shields}</span>
+                            </div>
+                        )}
                     </div>
                     <p className="mt-2.5 text-[13px] font-bold text-[#1a1a1a]/45">
-                        {NO_DEMOTE_LEAGUES.includes(leagueName) ? `Los ${PROMOTE_COUNT} mejores ascienden de liga` : demotionEnabled ? `Top ${PROMOTE_COUNT} asciende · últimos ${DEMOTE_COUNT} descienden` : `Los ${PROMOTE_COUNT} mejores ascienden`}
+                        {NO_DEMOTE_LEAGUES.includes(leagueName) ? `Top ${PROMOTE_COUNT} asciende · en Madera nadie baja` : `Haz tu meta de ${WEEKLY_FLOOR} XP y conservas tu liga · top ${PROMOTE_COUNT} asciende`}
                     </p>
                 </div>
 
@@ -160,7 +178,8 @@ export default function LeaderboardsPage() {
                     {!loading && ranking.map((row) => {
                         const rank = row.rank;
                         const inPromo = rank <= PROMOTE_COUNT;
-                        const inDemote = demotionEnabled && rank >= demoteThreshold;
+                        // En riesgo SOLO si está en el fondo Y no alcanzó la meta semanal (inactivo).
+                        const atRisk = demotionEnabled && rank >= demoteThreshold && row.points < WEEKLY_FLOOR;
                         const nameColor = row.equipped_name_color || (row.is_me ? '#632EB0' : '#1a1a1a');
                         const ringColor = row.equipped_frame || (rank <= 3 ? ['#eab308', '#9ca3af', '#cd7f32'][rank - 1] : 'transparent');
                         const avatarName = firstName(row.full_name);
@@ -168,8 +187,8 @@ export default function LeaderboardsPage() {
                             <React.Fragment key={row.user_id}>
                                 {rank === 1 && <Zone color="#58a700" up text="Zona de Ascenso" />}
                                 {rank === PROMOTE_COUNT + 1 && <div className="h-px bg-black/5 mx-4" />}
-                                {demotionEnabled && rank === demoteThreshold && <Zone color="#ef4444" text="Zona de Descenso" />}
-                                <div className={`flex items-center gap-3 px-3.5 py-2.5 ${row.is_me ? 'bg-[#eafbe0]' : inPromo ? 'bg-[#88e04f]/[0.06]' : inDemote ? 'bg-red-500/[0.04]' : ''}`}>
+                                {demotionEnabled && rank === demoteThreshold && <Zone color="#ef4444" text="Zona de Riesgo (haz tu meta)" />}
+                                <div className={`flex items-center gap-3 px-3.5 py-2.5 ${row.is_me ? 'bg-[#eafbe0]' : inPromo ? 'bg-[#88e04f]/[0.06]' : atRisk ? 'bg-red-500/[0.05]' : ''}`}>
                                     <span className="w-6 text-center font-black text-base tabular-nums shrink-0" style={{ color: rank === 1 ? '#eab308' : rank === 2 ? '#9ca3af' : rank === 3 ? '#cd7f32' : '#bdb6a6' }}>{rank}</span>
                                     <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 bg-[#f5f1e4]" style={ringColor !== 'transparent' ? { boxShadow: `0 0 0 3px ${ringColor}` } : undefined}>
                                         <img src={`https://minotar.net/avatar/${encodeURIComponent(avatarName)}/40.png`} alt={avatarName} className="w-full h-full" />
