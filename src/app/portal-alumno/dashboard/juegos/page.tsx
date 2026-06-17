@@ -2,15 +2,15 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Hammer, Swords, Pickaxe, Lock, ChevronRight, Gamepad2 } from 'lucide-react';
+import { Hammer, Swords, Pickaxe, ChevronRight, Gamepad2, MapPin, Star } from 'lucide-react';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 
-type Card = { id: string; title: string; tagline: string; icon: React.ReactNode; accent: string; href?: string; soon?: boolean };
+type Mini = { id: string; title: string; tagline: string; icon: React.ReactNode; accent: string; href: string };
 
-const CARDS: Card[] = [
-    { id: 'crafteo', title: 'Mesa de Crafteo', tagline: 'Craftea oraciones con bloques de palabras', icon: <Hammer className="w-7 h-7" />, accent: '#8B5E3C', href: '/portal-alumno/dashboard/juegos/crafteo' },
-    { id: 'aldea', title: 'Defiende la Aldea', tagline: 'Derrota a los mobs respondiendo a tiempo', icon: <Swords className="w-7 h-7" />, accent: '#3FA34D', href: '/portal-alumno/dashboard/juegos/aldea' },
-    { id: 'cueva', title: 'Expedición a la Cueva', tagline: 'Cava profundo y mina gemas con cada acierto', icon: <Pickaxe className="w-7 h-7" />, accent: '#632EB0', href: '/portal-alumno/dashboard/juegos/cueva' },
+const PRACTICE: Mini[] = [
+    { id: 'crafteo', title: 'Mesa de Crafteo', tagline: 'Arma oraciones con bloques', icon: <Hammer className="w-6 h-6" />, accent: '#8B5E3C', href: '/portal-alumno/dashboard/juegos/crafteo' },
+    { id: 'aldea', title: 'Defiende la Aldea', tagline: 'Responde a tiempo', icon: <Swords className="w-6 h-6" />, accent: '#3FA34D', href: '/portal-alumno/dashboard/juegos/aldea' },
+    { id: 'cueva', title: 'Expedición a la Cueva', tagline: 'Mina con cada acierto', icon: <Pickaxe className="w-6 h-6" />, accent: '#632EB0', href: '/portal-alumno/dashboard/juegos/cueva' },
 ];
 
 export default function JuegosHub() {
@@ -28,24 +28,35 @@ export default function JuegosHub() {
                     </div>
                 </div>
 
+                {/* Aventura destacada */}
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Aventura</p>
+                <Link href="/portal-alumno/dashboard/juegos/aventura/cofre-perdido" className="block mb-7">
+                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#7ec850] to-[#3b7a1e] p-5 shadow-xl active:scale-[0.99] transition-all">
+                        <div className="absolute -right-4 -top-4 text-7xl opacity-30 select-none">🗺️</div>
+                        <div className="relative">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-white/90 uppercase tracking-widest bg-black/20 px-2.5 py-1 rounded-full"><Star className="w-3 h-3 fill-white" /> Nueva</span>
+                            <h2 className="text-2xl font-black text-white mt-3 drop-shadow">El Cofre Perdido</h2>
+                            <p className="text-white/90 font-bold text-sm mt-1 max-w-[78%]">Camina por la aldea, habla con los personajes y resuelve el acertijo para encontrar la llave.</p>
+                            <span className="inline-flex items-center gap-2 mt-4 bg-white text-[#3b7a1e] font-black px-5 py-2.5 rounded-2xl text-sm"><MapPin className="w-4 h-4" /> Jugar aventura</span>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Práctica rápida */}
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Práctica rápida</p>
                 <div className="grid gap-3">
-                    {CARDS.map((c) => {
-                        const inner = (
-                            <div className={`relative flex items-center gap-4 p-4 rounded-3xl border-2 transition-all ${c.soon ? 'border-gray-100 bg-gray-50 opacity-80' : 'border-gray-100 bg-white hover:border-[#632EB0]/40 active:scale-[0.99] shadow-sm'}`}>
-                                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shrink-0" style={{ backgroundColor: c.accent }}>
-                                    {c.icon}
-                                </div>
+                    {PRACTICE.map((c) => (
+                        <Link key={c.id} href={c.href}>
+                            <div className="flex items-center gap-4 p-4 rounded-3xl border-2 border-gray-100 bg-white hover:border-[#632EB0]/40 active:scale-[0.99] shadow-sm transition-all">
+                                <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shrink-0" style={{ backgroundColor: c.accent }}>{c.icon}</div>
                                 <div className="flex-1 min-w-0">
                                     <p className="font-black text-gray-900">{c.title}</p>
                                     <p className="text-xs font-bold text-gray-400">{c.tagline}</p>
                                 </div>
-                                {c.soon
-                                    ? <span className="inline-flex items-center gap-1 text-[10px] font-black text-gray-400 uppercase tracking-wide bg-gray-100 px-2.5 py-1 rounded-full shrink-0"><Lock className="w-3 h-3" /> Pronto</span>
-                                    : <ChevronRight className="w-6 h-6 text-gray-300 shrink-0" />}
+                                <ChevronRight className="w-6 h-6 text-gray-300 shrink-0" />
                             </div>
-                        );
-                        return c.href ? <Link key={c.id} href={c.href}>{inner}</Link> : <div key={c.id}>{inner}</div>;
-                    })}
+                        </Link>
+                    ))}
                 </div>
 
                 <div className="mt-6 text-center">

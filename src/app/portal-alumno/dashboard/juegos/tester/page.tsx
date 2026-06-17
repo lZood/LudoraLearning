@@ -46,6 +46,12 @@ export default function JuegosTester() {
                     En modo práctica el juego califica igual pero NO otorga XP ni monedas (no afecta tus estadísticas reales).
                 </p>
 
+                <div className="mb-3">
+                    <Link href="/portal-alumno/dashboard/juegos/aventura/cofre-perdido" className="inline-flex items-center gap-2 bg-[#3b7a1e] text-white font-black px-4 py-2.5 rounded-2xl active:scale-95">
+                        <Play className="w-4 h-4 fill-white" /> Aventura: El Cofre Perdido
+                    </Link>
+                </div>
+
                 <div className="grid gap-3">
                     {GAMES.map((g) => (
                         <div key={g.id} className="border-2 border-gray-100 rounded-3xl p-4">
