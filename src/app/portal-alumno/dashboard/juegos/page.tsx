@@ -9,7 +9,7 @@ type Card = { id: string; title: string; tagline: string; icon: React.ReactNode;
 
 const CARDS: Card[] = [
     { id: 'crafteo', title: 'Mesa de Crafteo', tagline: 'Craftea oraciones con bloques de palabras', icon: <Hammer className="w-7 h-7" />, accent: '#8B5E3C', href: '/portal-alumno/dashboard/juegos/crafteo' },
-    { id: 'aldea', title: 'Defiende la Aldea', tagline: 'Derrota a los mobs respondiendo a tiempo', icon: <Swords className="w-7 h-7" />, accent: '#3FA34D', soon: true },
+    { id: 'aldea', title: 'Defiende la Aldea', tagline: 'Derrota a los mobs respondiendo a tiempo', icon: <Swords className="w-7 h-7" />, accent: '#3FA34D', href: '/portal-alumno/dashboard/juegos/aldea' },
     { id: 'cueva', title: 'Expedición a la Cueva', tagline: 'Cava profundo y mina gemas con cada acierto', icon: <Pickaxe className="w-7 h-7" />, accent: '#632EB0', soon: true },
 ];
 
