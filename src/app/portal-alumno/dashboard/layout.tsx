@@ -23,7 +23,9 @@ import {
     Zap,
     MoreHorizontal,
     Star,
-    Gamepad2
+    Gamepad2,
+    ShoppingBag,
+    Users
 } from "lucide-react";
 
 import { createClient } from "@/utils/supabase/client";
@@ -42,6 +44,8 @@ const MAIN_LINKS = [
 
 // Links grouped into a "Más" dropdown on desktop
 const MORE_LINKS = [
+    { name: "Amigos", href: "/portal-alumno/dashboard/amigos", icon: Users },
+    { name: "Tienda", href: "/portal-alumno/dashboard/tienda", icon: ShoppingBag },
     { name: "Noticias", href: "/portal-alumno/dashboard/noticias", icon: Newspaper },
     { name: "Materiales", href: "/portal-alumno/dashboard/materiales", icon: BookOpen },
     { name: "Letras", href: "/portal-alumno/dashboard/letras", icon: Type },

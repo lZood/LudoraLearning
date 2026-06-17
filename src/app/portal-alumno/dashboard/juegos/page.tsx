@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Hammer, Swords, Pickaxe, ChevronRight, Gamepad2, MapPin, Star } from 'lucide-react';
+import { Hammer, Swords, Pickaxe, ChevronRight, Gamepad2, MapPin, Star, ShoppingBag, Coins } from 'lucide-react';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 
 type Mini = { id: string; title: string; tagline: string; icon: React.ReactNode; accent: string; href: string };
@@ -38,6 +38,20 @@ export default function JuegosHub() {
                             <h2 className="text-2xl font-black text-white mt-3 drop-shadow">El Cofre Perdido</h2>
                             <p className="text-white/90 font-bold text-sm mt-1 max-w-[78%]">Camina por la aldea, habla con los personajes y resuelve el acertijo para encontrar la llave.</p>
                             <span className="inline-flex items-center gap-2 mt-4 bg-white text-[#3b7a1e] font-black px-5 py-2.5 rounded-2xl text-sm"><MapPin className="w-4 h-4" /> Jugar aventura</span>
+                        </div>
+                    </div>
+                </Link>
+
+                {/* Tienda: gasta tus monedas en cosméticos */}
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Tienda</p>
+                <Link href="/portal-alumno/dashboard/tienda" className="block mb-7">
+                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#632EB0] to-[#4a2186] p-5 shadow-xl active:scale-[0.99] transition-all">
+                        <div className="absolute -right-3 -top-3 text-7xl opacity-25 select-none">🛒</div>
+                        <div className="relative">
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-white/90 uppercase tracking-widest bg-black/20 px-2.5 py-1 rounded-full"><Coins className="w-3 h-3 fill-white" /> Cosméticos</span>
+                            <h2 className="text-2xl font-black text-white mt-3 drop-shadow">Tienda de la Aldea</h2>
+                            <p className="text-white/90 font-bold text-sm mt-1 max-w-[78%]">Gasta tus monedas en marcos, títulos y colores para presumir tu perfil.</p>
+                            <span className="inline-flex items-center gap-2 mt-4 bg-white text-[#632EB0] font-black px-5 py-2.5 rounded-2xl text-sm"><ShoppingBag className="w-4 h-4" /> Ir a la tienda</span>
                         </div>
                     </div>
                 </Link>
