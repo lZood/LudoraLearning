@@ -56,8 +56,9 @@ function diagStrings(type, content) {
   const out = [];
   const push = (s) => { if (s && typeof s === 'string' && s.trim()) out.push(s.trim()); };
   if (content.audio) push(content.audio);
-  if (type === 'listen_missing_word' || type === 'minimal_pairs') (content.options || []).forEach((o) => push(typeof o === 'string' ? o : o?.text));
+  if (type === 'listen_missing_word' || type === 'minimal_pairs' || type === 'multi_select') (content.options || []).forEach((o) => push(typeof o === 'string' ? o : o?.text));
   if (type === 'word_bank' || type === 'listen_build') (content.answer || []).forEach(push);
+  if (type === 'text_mc' && content.prompt) push(content.prompt); // enunciado en inglés (tocar para oír)
   if (type === 'speak' || type === 'speak_repeat') push(content.say);
   return out;
 }

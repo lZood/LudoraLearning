@@ -50,8 +50,12 @@ export function gradeItem(type: string, content: Content, raw: unknown): boolean
         case 'tap_pairs_audio':
             return false; // no calificable de forma segura aquí (no se usan en la diagnóstica)
         case 'speak':
-        case 'speak_repeat':
-            return typeof raw === 'string' && !!content.say && textMatch(raw, content.say);
+        case 'speak_repeat': {
+            // raw puede ser un string o un array de alternativas del reconocedor: acierta si CUALQUIERA coincide.
+            if (!content.say) return false;
+            const alts = Array.isArray(raw) ? raw : (typeof raw === 'string' ? [raw] : []);
+            return alts.some((a) => typeof a === 'string' && textMatch(a, content.say));
+        }
         case 'speak_answer':
             return typeof raw === 'string' && Array.isArray(content.accept) && content.accept.some((a: string) => textMatch(raw, a));
         default:

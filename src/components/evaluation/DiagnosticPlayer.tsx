@@ -52,7 +52,8 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }
     function autoPlay(it: Item | null) {
         if (autoPlayTimer.current) clearTimeout(autoPlayTimer.current);
-        if (it && AUDIO_TYPES.includes(it.type) && (it.content?.audioUrl || it.content?.audio)) autoPlayTimer.current = setTimeout(() => playPrompt(it.content), 350);
+        // 500ms: da tiempo a que el ruteo de audio se estabilice (tras soltar el micrófono, Bluetooth/altavoz).
+        if (it && AUDIO_TYPES.includes(it.type) && (it.content?.audioUrl || it.content?.audio)) autoPlayTimer.current = setTimeout(() => playPrompt(it.content), 500);
     }
     async function start() {
         setLoading(true); setError(false); stopAudio();
@@ -103,6 +104,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }
     const e = item.content;
     const frozen = feedback !== null;
+    const isSpeak = item.type === 'speak' || item.type === 'speak_repeat'; // auto-comprueba: sin barra "Comprobar"
     const canSubmit = raw !== null && !(Array.isArray(raw) && raw.length === 0) && !(typeof raw === 'string' && raw.trim() === '');
     const optClass = (i: number) => {
         const selected = raw === i;
@@ -147,8 +149,12 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                         <p className="text-2xl font-black text-gray-900 mb-6 leading-relaxed">{e.display}</p>
                     )}
 
-                    {/* text_mc: enunciado a traducir */}
-                    {item.type === 'text_mc' && e.prompt && <p className="text-2xl font-black text-gray-900 mb-6">{e.prompt}</p>}
+                    {/* text_mc: enunciado a traducir (tócalo para oírlo en inglés) */}
+                    {item.type === 'text_mc' && e.prompt && (
+                        <button onClick={() => say(e.prompt)} className="text-left text-2xl font-black text-gray-900 mb-6 inline-flex items-start gap-2 active:opacity-70">
+                            <Volume2 className="w-6 h-6 text-[#632EB0] shrink-0 mt-1.5" /> <span>{e.prompt}</span>
+                        </button>
+                    )}
 
                     {/* fill_blank: oración con hueco interactivo */}
                     {item.type === 'fill_blank' && (
@@ -180,9 +186,9 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                                 const sel = Array.isArray(raw) && (raw as number[]).includes(i);
                                 return (
                                     <motion.button key={i} whileTap={frozen ? undefined : { scale: 0.97 }} disabled={frozen}
-                                        onClick={() => { const cur = Array.isArray(raw) ? (raw as number[]) : []; setRaw(sel ? cur.filter((x) => x !== i) : [...cur, i]); }}
-                                        className={`p-4 rounded-2xl border-2 font-black flex items-center justify-between transition-colors ${sel ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>
-                                        {o.text} {sel && <Check className="w-4 h-4" />}
+                                        onClick={() => { say(o.text); const cur = Array.isArray(raw) ? (raw as number[]) : []; setRaw(sel ? cur.filter((x) => x !== i) : [...cur, i]); }}
+                                        className={`p-4 rounded-2xl border-2 font-black flex items-center justify-between gap-2 transition-colors ${sel ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800'}`}>
+                                        <span className="inline-flex items-center gap-1.5"><Volume2 className="w-3.5 h-3.5 text-gray-300" /> {o.text}</span> {sel && <Check className="w-4 h-4 shrink-0" />}
                                     </motion.button>
                                 );
                             })}
@@ -194,14 +200,15 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                         <TileBuilder key={item.id} item={item} frozen={frozen} onChange={setRaw} />
                     )}
 
-                    {/* speak / speak_repeat: leer en voz alta, verificado por el navegador (sin IA) */}
-                    {(item.type === 'speak' || item.type === 'speak_repeat') && (
-                        <SpeakCard key={item.id} text={e.say || ''} frozen={frozen} value={typeof raw === 'string' ? raw : ''} onResult={(t) => setRaw(t)} onSkip={() => submit('')} />
+                    {/* speak / speak_repeat: leer en voz alta, verificado por el navegador (sin IA), auto-comprueba */}
+                    {isSpeak && (
+                        <SpeakCard key={item.id} text={e.say || ''} frozen={frozen} onResult={(alts) => submit(alts)} onSkip={() => submit('')} />
                     )}
                 </motion.div>
             </AnimatePresence>
 
-            {/* Barra inferior: feedback o "Comprobar" (centrada) */}
+            {/* Barra inferior: feedback o "Comprobar" (centrada). En speaking no hay barra: auto-comprueba. */}
+            {(feedback || !isSpeak) && (
             <div className="fixed bottom-0 inset-x-0 z-20">
                 <AnimatePresence mode="wait">
                     {feedback ? (
@@ -231,6 +238,7 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
                     )}
                 </AnimatePresence>
             </div>
+            )}
         </div>
     );
 }
@@ -255,28 +263,46 @@ function TileBuilder({ item, frozen, onChange }: { item: Item; frozen: boolean; 
     );
 }
 
-// Ítem de HABLA: muestra la frase en inglés, deja oírla, y la verifica con el reconocimiento
-// de voz del navegador (sin IA). El transcript se envía como `raw` y el servidor lo califica.
-function SpeakCard({ text, frozen, value, onResult, onSkip }: { text: string; frozen: boolean; value: string; onResult: (t: string) => void; onSkip: () => void }) {
+// Ítem de HABLA: muestra la frase en inglés, deja oírla, y la verifica con el reconocimiento de
+// voz del navegador (sin IA). Captura varias ALTERNATIVAS (mejor detección), LIBERA el micrófono
+// de inmediato (para que Bluetooth/altavoz vuelvan a calidad normal) y AUTO-COMPRUEBA tras 1.3s
+// (con ventana para volver a grabar). onResult recibe las alternativas; el servidor acierta si
+// cualquiera coincide.
+function SpeakCard({ text, frozen, onResult, onSkip }: { text: string; frozen: boolean; onResult: (alts: string[]) => void; onSkip: () => void }) {
     const [listening, setListening] = useState(false);
-    const [hint, setHint] = useState(''); // mic denegado / no se escuchó
-    const listeningRef = useRef(false); // guard síncrono (no depende del estado)
+    const [said, setSaid] = useState('');
+    const [hint, setHint] = useState('');
+    const listeningRef = useRef(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const recRef = useRef<any>(null);
-    useEffect(() => () => { try { recRef.current?.abort?.(); } catch { /* noop */ } }, []);
+    const submitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // Apaga y suelta el micrófono YA (no esperar a onend): evita que Bluetooth quede en modo
+    // llamada (baja calidad) y que iOS rutee el audio al auricular en vez de la bocina.
+    const release = () => { try { recRef.current?.abort?.(); } catch { /* noop */ } recRef.current = null; };
+    useEffect(() => () => { release(); if (submitTimer.current) clearTimeout(submitTimer.current); }, []);
     const start = () => {
         const SR = getSR(); if (!SR || listeningRef.current || frozen) return;
-        try { recRef.current?.abort?.(); } catch { /* noop */ } // aborta un reconocedor previo (reentrancia)
-        setHint('');
-        const rec = new SR(); recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1; rec.continuous = false;
+        if (submitTimer.current) clearTimeout(submitTimer.current); // re-grabar: cancela el auto-comprobar pendiente
+        release(); setHint(''); setSaid('');
+        const rec = new SR(); recRef.current = rec; rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 3; rec.continuous = false;
         let got = false;
         listeningRef.current = true; setListening(true);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        rec.onresult = (ev: any) => { const t = ev.results?.[0]?.[0]?.transcript || ''; got = !!t; listeningRef.current = false; setListening(false); if (t) onResult(t); };
+        rec.onresult = (ev: any) => {
+            const res = ev.results?.[0];
+            const alts: string[] = [];
+            if (res) for (let i = 0; i < res.length; i++) { const t = res[i]?.transcript?.trim(); if (t) alts.push(t); }
+            got = alts.length > 0;
+            listeningRef.current = false; setListening(false); release();
+            if (alts.length) {
+                setSaid(alts[0]);
+                submitTimer.current = setTimeout(() => onResult(alts), 1300); // auto-comprueba (toca el mic para repetir antes)
+            }
+        };
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        rec.onerror = (ev: any) => { listeningRef.current = false; setListening(false); setHint(ev?.error === 'not-allowed' || ev?.error === 'service-not-allowed' ? 'No pudimos usar el micrófono. Revisa los permisos o usa «No puedo hablar ahora».' : 'Hubo un problema, intenta de nuevo.'); };
-        rec.onend = () => { listeningRef.current = false; setListening(false); if (!got && !value) setHint((h) => h || 'No te escuché. Intenta de nuevo, más cerca del micrófono.'); };
-        try { rec.start(); } catch { listeningRef.current = false; setListening(false); }
+        rec.onerror = (ev: any) => { listeningRef.current = false; setListening(false); release(); setHint(ev?.error === 'not-allowed' || ev?.error === 'service-not-allowed' ? 'No pudimos usar el micrófono. Revisa los permisos o usa «No puedo hablar ahora».' : 'Hubo un problema, intenta de nuevo.'); };
+        rec.onend = () => { listeningRef.current = false; setListening(false); if (!got && !said) setHint((h) => h || 'No te escuché. Intenta de nuevo, más cerca del micrófono.'); };
+        try { rec.start(); } catch { listeningRef.current = false; setListening(false); release(); }
     };
     return (
         <div className="flex flex-col items-center gap-5 text-center pt-2">
@@ -286,9 +312,9 @@ function SpeakCard({ text, frozen, value, onResult, onSkip }: { text: string; fr
                 className={`w-24 h-24 rounded-full flex items-center justify-center text-white shadow-lg disabled:opacity-60 ${listening ? 'bg-red-500 animate-pulse' : 'bg-[#632EB0] active:scale-95'}`}>
                 <Mic className="w-10 h-10" />
             </button>
-            <p className="text-xs font-bold text-gray-500">{listening ? 'Escuchando… habla en inglés' : value ? 'Toca para repetir' : 'Toca y lee la frase en voz alta'}</p>
+            <p className="text-xs font-bold text-gray-500">{listening ? 'Escuchando… habla en inglés' : said ? 'Comprobando… toca el micrófono para repetir' : 'Toca y lee la frase en voz alta'}</p>
             {hint && <p className="text-xs font-bold text-red-500 max-w-xs">{hint}</p>}
-            {value && <p className="text-sm text-gray-600">Dijiste: <span className="font-bold">«{value}»</span></p>}
+            {said && <p className="text-sm text-gray-600">Dijiste: <span className="font-bold">«{said}»</span></p>}
             {!frozen && <button onClick={onSkip} className="text-xs font-bold text-gray-400 underline">No puedo hablar ahora</button>}
         </div>
     );
