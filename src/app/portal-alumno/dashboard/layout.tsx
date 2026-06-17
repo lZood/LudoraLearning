@@ -22,7 +22,8 @@ import {
     X,
     Zap,
     MoreHorizontal,
-    Star
+    Star,
+    Gamepad2
 } from "lucide-react";
 
 import { createClient } from "@/utils/supabase/client";
@@ -35,6 +36,7 @@ import { useGamification } from "@/lib/useGamification";
 const MAIN_LINKS = [
     { name: "Inicio", href: "/portal-alumno/dashboard", icon: Home },
     { name: "Cursos", href: "/portal-alumno/dashboard/cursos", icon: GraduationCap },
+    { name: "Juegos", href: "/portal-alumno/dashboard/juegos", icon: Gamepad2 },
     { name: "Ranking", href: "/portal-alumno/dashboard/leaderboards", icon: Trophy },
 ];
 

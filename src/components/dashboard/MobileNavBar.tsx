@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, GraduationCap, User } from 'lucide-react';
+import { Home, GraduationCap, User, Gamepad2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HapticTrigger, { HapticHandle } from '@/components/ui/HapticTrigger';
 
@@ -39,7 +39,8 @@ export default function MobileNavBar() {
   // donde estorba con el botón "Comprobar" y el header propio de la lección.
   if (
     pathname.includes('/portal-alumno/dashboard/unidad') ||
-    pathname.includes('/portal-alumno/dashboard/leccion')
+    pathname.includes('/portal-alumno/dashboard/leccion') ||
+    pathname.includes('/portal-alumno/dashboard/juegos/') // dentro de un juego (pantalla completa), no en el hub
   ) {
     return null;
   }
@@ -68,7 +69,7 @@ export default function MobileNavBar() {
                   <Link
                     href="/portal-alumno/dashboard"
                     onClick={triggerHaptic}
-                    className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                    className={`flex flex-col items-center justify-center w-1/4 py-2 px-1 transition-colors rounded-3xl ${
                       isHomeActive ? 'text-[#632EB0] bg-purple-50' : 'text-gray-400 hover:text-[#632EB0]'
                     }`}
                   >
@@ -82,7 +83,7 @@ export default function MobileNavBar() {
               <Link
                 href="/portal-alumno/dashboard/cursos"
                 onClick={triggerHaptic}
-                className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                className={`flex flex-col items-center justify-center w-1/4 py-2 px-1 transition-colors rounded-3xl ${
                   pathname.startsWith('/portal-alumno/dashboard/cursos') ? 'text-[#632EB0] bg-purple-50 shadow-sm' : 'text-gray-400 hover:text-[#632EB0]'
                 }`}
               >
@@ -90,11 +91,23 @@ export default function MobileNavBar() {
                 <span className="text-[11px] font-bold">Clases</span>
               </Link>
       
+              {/* Juegos Tab */}
+              <Link
+                href="/portal-alumno/dashboard/juegos"
+                onClick={triggerHaptic}
+                className={`flex flex-col items-center justify-center w-1/4 py-2 px-1 transition-colors rounded-3xl ${
+                  pathname.startsWith('/portal-alumno/dashboard/juegos') ? 'text-[#632EB0] bg-purple-50' : 'text-gray-400 hover:text-[#632EB0]'
+                }`}
+              >
+                <Gamepad2 className="w-6 h-6 mb-1.5" strokeWidth={pathname.startsWith('/portal-alumno/dashboard/juegos') ? 2.5 : 2} />
+                <span className="text-[11px] font-bold">Juegos</span>
+              </Link>
+
               {/* Tú (Perfil) Tab */}
               <Link
                 href="/portal-alumno/dashboard/perfil"
                 onClick={triggerHaptic}
-                className={`flex flex-col items-center justify-center w-1/3 py-2 px-1 transition-colors rounded-3xl ${
+                className={`flex flex-col items-center justify-center w-1/4 py-2 px-1 transition-colors rounded-3xl ${
                   pathname === '/portal-alumno/dashboard/perfil' ? 'text-[#632EB0] bg-purple-50' : 'text-gray-400 hover:text-[#632EB0]'
                 }`}
               >
