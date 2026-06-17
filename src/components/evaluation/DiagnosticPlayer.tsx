@@ -5,7 +5,7 @@ import { Volume2, Loader2, Check, RotateCcw, X, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Mascot from '@/components/lesson/Mascot';
 import { playAudio, playUrl, loadAudioManifest, stopAudio, playSfx } from '@/lib/lessonAudio';
-import { getSR } from '@/lib/speech';
+import { getSR, speechSupported } from '@/lib/speech';
 
 const say = (t: string) => playAudio(t, 'narrator'); // siempre inglés con voz narradora
 // Reproduce el prompt de audio: URL opaca pre-generada si existe (no expone el texto), si no, TTS.
@@ -45,8 +45,9 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     }, []);
 
     async function callNext() {
-        // caps.speech: el servidor solo sirve ítems de habla si el navegador soporta reconocimiento de voz.
-        const r = await fetch('/api/placement/next', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theta0, history: historyRef.current, caps: { speech: !!getSR() } }) });
+        // caps.speech: el servidor solo sirve ítems de habla si el navegador hace reconocimiento de voz
+        // CONFIABLE (excluye iOS, donde el micrófono no se libera y la transcripción es mala).
+        const r = await fetch('/api/placement/next', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theta0, history: historyRef.current, caps: { speech: speechSupported() } }) });
         if (!r.ok) throw new Error('http ' + r.status);
         return r.json();
     }

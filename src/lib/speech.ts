@@ -36,3 +36,16 @@ export function speechMatches(transcripts: string[], target: string): boolean {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getSR = (): any => (typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null);
+
+// iOS (todos los navegadores usan WebKit). Su SpeechRecognition existe pero es poco fiable
+// (transcribe basura) y NO libera el micrófono al terminar, lo que degrada el audio posterior
+// (rutea al auricular, baja la calidad por Bluetooth). Por eso ahí desactivamos el habla.
+export function isIOS(): boolean {
+    if (typeof navigator === 'undefined') return false;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+}
+
+// ¿Se puede hacer reconocimiento de voz CONFIABLE? (existe la API y NO es iOS).
+export function speechSupported(): boolean {
+    return !!getSR() && !isIOS();
+}
