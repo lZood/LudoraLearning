@@ -11,11 +11,10 @@ import { useAdventureEngine } from '@/hooks/useAdventureEngine';
 import Adventure2DBoard from '@/components/adventure/Adventure2DBoard';
 import CanvasFallbackBoundary from '@/components/three/CanvasFallbackBoundary';
 
-// El motor 3D (WebGL) se carga solo en cliente y solo en esta página (lazy).
-const VoxelAdventureCanvas = dynamic(() => import('@/components/three/VoxelAdventureCanvas'), {
-    ssr: false,
-    loading: () => <div className="flex-1 flex items-center justify-center"><Loader2 className="w-8 h-8 text-white/70 animate-spin" /></div>,
-});
+// Los renderers 3D (WebGL) se cargan solo en cliente y solo en esta página (lazy).
+const loading3D = () => <div className="flex-1 flex items-center justify-center"><Loader2 className="w-8 h-8 text-white/70 animate-spin" /></div>;
+const DuolingoAdventureCanvas = dynamic(() => import('@/components/three/DuolingoAdventureCanvas'), { ssr: false, loading: loading3D });
+const VoxelAdventureCanvas = dynamic(() => import('@/components/three/VoxelAdventureCanvas'), { ssr: false, loading: loading3D });
 
 function webglAvailable(): boolean {
     try {
@@ -36,7 +35,11 @@ export default function AventuraPage() {
 
     // Decisión 3D vs 2D solo tras montar en cliente (evita SSR de WebGL e hidratación).
     const [render3D, setRender3D] = useState<boolean | null>(null);
-    useEffect(() => { setRender3D(webglAvailable()); }, []);
+    const [useVoxel, setUseVoxel] = useState(false); // ?renderer=voxel para ver el estilo Minecraft anterior
+    useEffect(() => {
+        setRender3D(webglAvailable());
+        try { setUseVoxel(new URLSearchParams(window.location.search).get('renderer') === 'voxel'); } catch { /* noop */ }
+    }, []);
 
     if (!adv || step === 'missing') {
         return (
@@ -81,6 +84,7 @@ export default function AventuraPage() {
     // ── Mapa (playing) ──
     const cluesLeft = A.npcs.length - talked.size;
     const boardProps = { A, pos, talked, keyFound, goTo, talkTo, interact };
+    const Canvas3D = useVoxel ? VoxelAdventureCanvas : DuolingoAdventureCanvas;
     return (
         // Pantalla completa (altura definida) → el canvas 3D llena toda la vista en PC y móvil.
         <div className="fixed inset-0 z-50 bg-[#3b7a1e] flex flex-col">
@@ -98,7 +102,7 @@ export default function AventuraPage() {
                 <div className="flex-1 flex items-center justify-center"><Loader2 className="w-8 h-8 text-white/70 animate-spin" /></div>
             ) : render3D ? (
                 <CanvasFallbackBoundary fallback={<Adventure2DBoard {...boardProps} />}>
-                    <VoxelAdventureCanvas A={A} pos={pos} talked={talked} keyFound={keyFound} chestOpen={chestOpen} onTile={goTo} onNpc={talkTo} onInteract={interact} />
+                    <Canvas3D A={A} pos={pos} talked={talked} keyFound={keyFound} chestOpen={chestOpen} onTile={goTo} onNpc={talkTo} onInteract={interact} />
                 </CanvasFallbackBoundary>
             ) : (
                 <Adventure2DBoard {...boardProps} />
