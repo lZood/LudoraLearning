@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Hammer, Swords, Pickaxe, ChevronRight, Gamepad2, MapPin, Star, ShoppingBag, Coins } from 'lucide-react';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
+import { listAdventures } from '@/lib/adventures';
 
 type Mini = { id: string; title: string; tagline: string; icon: React.ReactNode; accent: string; href: string };
 
@@ -28,19 +29,25 @@ export default function JuegosHub() {
                     </div>
                 </div>
 
-                {/* Aventura destacada */}
-                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Aventura</p>
-                <Link href="/portal-alumno/dashboard/juegos/aventura/cofre-perdido" className="block mb-7">
-                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#7ec850] to-[#3b7a1e] p-5 shadow-xl active:scale-[0.99] transition-all">
-                        <div className="absolute -right-4 -top-4 text-7xl opacity-30 select-none">🗺️</div>
-                        <div className="relative">
-                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-white/90 uppercase tracking-widest bg-black/20 px-2.5 py-1 rounded-full"><Star className="w-3 h-3 fill-white" /> Nueva</span>
-                            <h2 className="text-2xl font-black text-white mt-3 drop-shadow">El Cofre Perdido</h2>
-                            <p className="text-white/90 font-bold text-sm mt-1 max-w-[78%]">Camina por la aldea, habla con los personajes y resuelve el acertijo para encontrar la llave.</p>
-                            <span className="inline-flex items-center gap-2 mt-4 bg-white text-[#3b7a1e] font-black px-5 py-2.5 rounded-2xl text-sm"><MapPin className="w-4 h-4" /> Jugar aventura</span>
-                        </div>
-                    </div>
-                </Link>
+                {/* Aventuras */}
+                <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Aventuras 3D</p>
+                <div className="grid gap-3 mb-7">
+                    {listAdventures().map((a, i) => (
+                        <Link key={a.id} href={`/portal-alumno/dashboard/juegos/aventura/${a.id}`} className="block">
+                            <div className="relative overflow-hidden rounded-[2rem] p-5 shadow-xl active:scale-[0.99] transition-all" style={{ background: `linear-gradient(135deg, ${a.accent}, rgba(0,0,0,0.38))` }}>
+                                <div className="absolute -right-4 -top-4 text-7xl opacity-30 select-none">{a.emoji}</div>
+                                <div className="relative">
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-black text-white/90 uppercase tracking-widest bg-black/20 px-2.5 py-1 rounded-full">
+                                        {i === 0 ? <><Star className="w-3 h-3 fill-white" /> Empieza aquí</> : <><MapPin className="w-3 h-3" /> Aventura</>}
+                                    </span>
+                                    <h2 className="text-2xl font-black text-white mt-3 drop-shadow">{a.title}</h2>
+                                    <p className="text-white/90 font-bold text-sm mt-1 max-w-[78%]">{a.tagline}</p>
+                                    <span className="inline-flex items-center gap-2 mt-4 bg-white font-black px-5 py-2.5 rounded-2xl text-sm" style={{ color: a.accent }}><MapPin className="w-4 h-4" /> Jugar</span>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
 
                 {/* Tienda: gasta tus monedas en cosméticos */}
                 <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Tienda</p>

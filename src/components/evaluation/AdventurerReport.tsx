@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
 import {
   Sparkles,
@@ -48,7 +49,7 @@ const BAND_META: Record<number, { title: string; gradient: string; ring: string;
 
 const CATEGORY_META: Record<
   QuestionCategory,
-  { icon: React.ElementType; tone: string; bar: string; bg: string; label: string }
+  { icon: LucideIcon; tone: string; bar: string; bg: string; label: string }
 > = {
   'Gramática y Vocabulario': { icon: BookOpen, tone: 'text-[#632EB0]', bar: 'from-[#632EB0] to-purple-400', bg: 'bg-purple-50', label: 'Gramática' },
   'Comprensión Auditiva': { icon: Headphones, tone: 'text-blue-600', bar: 'from-blue-500 to-blue-400', bg: 'bg-blue-50', label: 'Escucha' },

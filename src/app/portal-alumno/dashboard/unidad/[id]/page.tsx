@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2, MessagesSquare } from 'lucide-react';
+import { ArrowLeft, FileText, Gamepad2, Headphones, ClipboardCheck, MessageSquare, Award, Check, Layers, Loader2, BookOpen, PenTool, Mic, Volume2, MessagesSquare, type LucideIcon } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import MobileSubHeader from '@/components/dashboard/MobileSubHeader';
 import { createClient } from '@/utils/supabase/client';
 
-const TYPE_META: Record<string, { icon: React.ElementType; subtitle: string; isFinal?: boolean }> = {
+const TYPE_META: Record<string, { icon: LucideIcon; subtitle: string; isFinal?: boolean }> = {
   theory:   { icon: FileText, subtitle: 'Teoría' },
   exercise: { icon: Gamepad2, subtitle: 'Práctica' },
   audio:    { icon: Headphones, subtitle: 'Listening' },
@@ -18,7 +18,7 @@ const TYPE_META: Record<string, { icon: React.ElementType; subtitle: string; isF
   final:    { icon: Award, subtitle: 'Final de unidad', isFinal: true },
 };
 
-const SKILL_META: Record<string, { icon: React.ElementType; subtitle: string }> = {
+const SKILL_META: Record<string, { icon: LucideIcon; subtitle: string }> = {
   listening: { icon: Headphones, subtitle: 'Listening' },
   reading: { icon: BookOpen, subtitle: 'Reading' },
   writing: { icon: PenTool, subtitle: 'Writing' },

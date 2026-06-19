@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Mic,
@@ -30,7 +31,7 @@ const CATEGORIES: QuestionCategory[] = [
   'Identificación Visual',
 ];
 
-const CATEGORY_META: Record<QuestionCategory, { short: string; icon: React.ElementType; color: string; bg: string }> = {
+const CATEGORY_META: Record<QuestionCategory, { short: string; icon: LucideIcon; color: string; bg: string }> = {
   'Gramática y Vocabulario': { short: 'Gramática', icon: BookOpen, color: 'text-[#632EB0]', bg: 'bg-purple-50' },
   'Comprensión Auditiva': { short: 'Escucha', icon: Headphones, color: 'text-blue-600', bg: 'bg-blue-50' },
   'Producción Escrita': { short: 'Escritura', icon: PenTool, color: 'text-amber-600', bg: 'bg-amber-50' },

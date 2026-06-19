@@ -2,7 +2,7 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import PrintButton from '@/components/dashboard/PrintButton';
-import { Flame, Zap, Trophy, Star, GraduationCap, Sparkles } from 'lucide-react';
+import { Flame, Zap, Trophy, Star, GraduationCap, Sparkles, type LucideIcon } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,7 @@ export default async function ReportePage() {
     const catLevels = (evalRow?.category_levels ?? {}) as Record<string, string>;
     const achievements = (ach ?? []) as Array<{ unlocked_at: string; achievement: { name?: string; description?: string } | null }>;
 
-    const stat = (label: string, val: string | number, Icon: React.ElementType, color: string) => (
+    const stat = (label: string, val: string | number, Icon: LucideIcon, color: string) => (
         <div className="border border-gray-200 rounded-2xl p-4 flex flex-col items-center gap-1 print:break-inside-avoid">
             <Icon className={`w-5 h-5 ${color}`} />
             <span className="text-2xl font-black text-gray-900">{val}</span>

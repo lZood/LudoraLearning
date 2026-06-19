@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Users, Clock, Trophy, Heart } from "lucide-react";
+import { Users, Clock, Trophy, Heart, type LucideIcon } from "lucide-react";
 
 interface StatItem {
-    icon: React.ElementType;
+    icon: LucideIcon;
     value: number;
     suffix: string;
     label: string;

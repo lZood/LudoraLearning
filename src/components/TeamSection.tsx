@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { GraduationCap, Code, Gamepad2, Palette, Wrench } from "lucide-react";
+import { GraduationCap, Code, Gamepad2, Palette, Wrench, type LucideIcon } from "lucide-react";
 
 interface TeamMember {
     name: string;
@@ -12,7 +12,7 @@ interface TeamMember {
     accentColor: string;
     accentBg: string; // Used as arbitrary tailwind class like bg-[#...]
     shadowColor: string;
-    icon: React.ElementType;
+    icon: LucideIcon;
     featured?: boolean;
 }
 
