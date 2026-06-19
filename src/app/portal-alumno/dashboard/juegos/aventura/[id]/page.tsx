@@ -82,7 +82,8 @@ export default function AventuraPage() {
     const cluesLeft = A.npcs.length - talked.size;
     const boardProps = { A, pos, talked, keyFound, goTo, talkTo, interact };
     return (
-        <div className="min-h-screen bg-[#3b7a1e] flex flex-col">
+        // Pantalla completa (altura definida) → el canvas 3D llena toda la vista en PC y móvil.
+        <div className="fixed inset-0 z-50 bg-[#3b7a1e] flex flex-col">
             {/* HUD */}
             <div className="sticky top-0 z-20 bg-[#2f5f18] px-4 py-3 flex items-center gap-3">
                 <Link href="/portal-alumno/dashboard/juegos" className="p-1 text-white/70 hover:text-white"><X className="w-6 h-6" /></Link>

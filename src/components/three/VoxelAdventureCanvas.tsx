@@ -32,7 +32,7 @@ export default function VoxelAdventureCanvas({ A, pos, talked, keyFound, chestOp
         <div className="flex-1 w-full" style={{ minHeight: 0 }}>
             <Canvas
                 dpr={dpr}
-                camera={{ position: [cx, span * 1.3, cz + span * 1.25], fov: 42, near: 0.1, far: 300 }}
+                camera={{ position: [cx, span * 0.95, cz + span * 0.95], fov: 46, near: 0.1, far: 300 }}
                 gl={{ antialias: true, powerPreference: 'high-performance' }}
                 onCreated={({ camera }) => camera.lookAt(cx, 0, cz)}
                 style={{ width: '100%', height: '100%' }}
