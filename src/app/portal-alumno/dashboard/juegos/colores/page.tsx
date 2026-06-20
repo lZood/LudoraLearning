@@ -16,18 +16,24 @@ const ColorsFindScene = dynamic(() => import('@/components/three/ColorsFindScene
 type Round = { say: string; es: string; word: string; listen?: boolean; objects: ColorObj[]; answer: string };
 
 const ROUNDS: Round[] = [
+    // 1) Rojo → manzana (vs diamante, lingote de oro, bloque verde)
     { say: 'Find the red one.', es: 'Toca el rojo', word: 'Red', answer: 'a', objects: [
-        { id: 'a', shape: 'apple', color: '#e23b3b' }, { id: 'b', shape: 'ball', color: '#3b78e2' }, { id: 'c', shape: 'star', color: '#f2c83a' }, { id: 'd', shape: 'block', color: '#3bb24a' }] },
+        { id: 'a', shape: 'apple', color: '#e23b3b' }, { id: 'b', shape: 'gem', color: '#39d3e0' }, { id: 'c', shape: 'ingot', color: '#f5c542' }, { id: 'd', shape: 'block', color: '#6fbf4a' }] },
+    // 2) Azul → gema azul (lapislázuli) vs cerdo, oro, calabaza
     { say: 'Find the blue one.', es: 'Toca el azul', word: 'Blue', answer: 'b', objects: [
-        { id: 'a', shape: 'flower', color: '#ec4faf' }, { id: 'b', shape: 'ball', color: '#3b78e2' }, { id: 'c', shape: 'balloon', color: '#e23b3b' }, { id: 'd', shape: 'block', color: '#3bb24a' }] },
-    { say: 'Find the yellow one.', es: 'Toca el amarillo', word: 'Yellow', answer: 'c', objects: [
-        { id: 'a', shape: 'apple', color: '#e23b3b' }, { id: 'b', shape: 'ball', color: '#3b78e2' }, { id: 'c', shape: 'star', color: '#f2c83a' }, { id: 'd', shape: 'flower', color: '#8b5cf6' }] },
+        { id: 'a', shape: 'pig', color: '#e88aa0' }, { id: 'b', shape: 'gem', color: '#3b78e2' }, { id: 'c', shape: 'ingot', color: '#f5c542' }, { id: 'd', shape: 'pumpkin', color: '#f5871f' }] },
+    // 3) Dorado/amarillo → lingote de oro
+    { say: 'Find the gold one.', es: 'Toca el dorado', word: 'Gold', answer: 'c', objects: [
+        { id: 'a', shape: 'apple', color: '#e23b3b' }, { id: 'b', shape: 'gem', color: '#39d3e0' }, { id: 'c', shape: 'ingot', color: '#f5c542' }, { id: 'd', shape: 'pig', color: '#e88aa0' }] },
+    // 4) Color + objeto → manzana verde (distractores: manzana roja, gema verde)
     { say: 'Find the green apple.', es: 'Toca la manzana verde', word: 'Green apple', answer: 'a', objects: [
-        { id: 'a', shape: 'apple', color: '#3bb24a' }, { id: 'b', shape: 'apple', color: '#e23b3b' }, { id: 'c', shape: 'ball', color: '#3bb24a' }, { id: 'd', shape: 'star', color: '#f2c83a' }] },
-    { say: 'Find the red balloon.', es: 'Toca el globo rojo', word: 'Red balloon', answer: 'a', objects: [
-        { id: 'a', shape: 'balloon', color: '#e23b3b' }, { id: 'b', shape: 'balloon', color: '#3b78e2' }, { id: 'c', shape: 'ball', color: '#e23b3b' }, { id: 'd', shape: 'star', color: '#e23b3b' }] },
-    { say: 'Purple.', es: 'Escucha y toca', word: 'Purple', listen: true, answer: 'a', objects: [
-        { id: 'a', shape: 'flower', color: '#8b5cf6' }, { id: 'b', shape: 'ball', color: '#f5871f' }, { id: 'c', shape: 'block', color: '#ec4faf' }, { id: 'd', shape: 'star', color: '#3bb24a' }] },
+        { id: 'a', shape: 'apple', color: '#5bbf3a' }, { id: 'b', shape: 'apple', color: '#e23b3b' }, { id: 'c', shape: 'gem', color: '#3ecb6a' }, { id: 'd', shape: 'block', color: '#5bbf3a' }] },
+    // 5) Rosa → cerdo
+    { say: 'Find the pink one.', es: 'Toca el rosa', word: 'Pink', answer: 'a', objects: [
+        { id: 'a', shape: 'pig', color: '#e88aa0' }, { id: 'b', shape: 'gem', color: '#39d3e0' }, { id: 'c', shape: 'block', color: '#8a5a3b' }, { id: 'd', shape: 'ingot', color: '#f5c542' }] },
+    // 6) (escucha) Naranja → calabaza
+    { say: 'Orange.', es: 'Escucha y toca', word: 'Orange', listen: true, answer: 'a', objects: [
+        { id: 'a', shape: 'pumpkin', color: '#f5871f' }, { id: 'b', shape: 'gem', color: '#9b5cf0' }, { id: 'c', shape: 'apple', color: '#e23b3b' }, { id: 'd', shape: 'block', color: '#3b78e2' }] },
 ];
 
 export default function ColoresActivity() {

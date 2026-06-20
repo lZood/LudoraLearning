@@ -30,42 +30,57 @@ function starGeo(): THREE.ExtrudeGeometry {
 }
 
 function Shape({ shape, color }: { shape: string; color: string }) {
-    const mat = <meshStandardMaterial color={color} roughness={0.4} metalness={0.05} />;
     switch (shape) {
-        case 'apple':
+        case 'apple':   // manzana (recoloreable: roja, dorada, verde…)
             return (
                 <group>
-                    <mesh position={[0, 0.42, 0]} scale={[1, 0.92, 1]}><sphereGeometry args={[0.42, 28, 22]} />{mat}</mesh>
+                    <mesh position={[0, 0.42, 0]} scale={[1, 0.92, 1]}><sphereGeometry args={[0.42, 28, 22]} /><meshStandardMaterial color={color} roughness={0.38} /></mesh>
                     <mesh position={[0.04, 0.82, 0]} rotation={[0, 0, 0.2]}><cylinderGeometry args={[0.03, 0.03, 0.18, 8]} /><meshStandardMaterial color="#7a5230" roughness={0.7} /></mesh>
                     <mesh position={[0.16, 0.84, 0.02]} rotation={[0.3, 0, -0.5]} scale={[1, 0.5, 0.6]}><sphereGeometry args={[0.1, 12, 10]} /><meshStandardMaterial color="#5fb257" roughness={0.5} /></mesh>
                 </group>
             );
-        case 'star':
-            return <mesh geometry={starGeo()} position={[0, 0.55, 0]}>{mat}</mesh>;
-        case 'balloon':
+        case 'gem':   // gema/diamante (octaedro facetado, brillante): diamante/esmeralda/lapis/amatista por color
+            return (
+                <mesh position={[0, 0.55, 0]} scale={[0.78, 1.05, 0.78]}>
+                    <octahedronGeometry args={[0.5, 0]} />
+                    <meshStandardMaterial color={color} roughness={0.12} metalness={0.2} flatShading />
+                </mesh>
+            );
+        case 'ingot':   // lingote metálico (oro/hierro)
+            return (
+                <group position={[0, 0.2, 0]}>
+                    <mesh><boxGeometry args={[0.7, 0.24, 0.42]} /><meshStandardMaterial color={color} roughness={0.28} metalness={0.3} /></mesh>
+                    <mesh position={[0, 0.15, 0]}><boxGeometry args={[0.56, 0.08, 0.3]} /><meshStandardMaterial color={color} roughness={0.28} metalness={0.3} /></mesh>
+                </group>
+            );
+        case 'pig':   // cerdo blocky estilo Minecraft (mira hacia la cámara)
             return (
                 <group>
-                    <mesh position={[0, 0.72, 0]} scale={[0.92, 1.08, 0.92]}><sphereGeometry args={[0.4, 26, 20]} />{mat}</mesh>
-                    <mesh position={[0, 0.32, 0]}><cylinderGeometry args={[0.012, 0.012, 0.5, 6]} /><meshStandardMaterial color="#b9b9c4" roughness={0.8} /></mesh>
-                    <mesh position={[0, 0.5, 0]}><coneGeometry args={[0.05, 0.08, 8]} /><meshStandardMaterial color={color} roughness={0.4} /></mesh>
+                    <mesh position={[0, 0.42, -0.05]}><boxGeometry args={[0.5, 0.42, 0.66]} /><meshStandardMaterial color={color} roughness={0.6} /></mesh>
+                    <mesh position={[0, 0.5, 0.42]}><boxGeometry args={[0.42, 0.42, 0.34]} /><meshStandardMaterial color={color} roughness={0.6} /></mesh>
+                    <mesh position={[0, 0.46, 0.6]}><boxGeometry args={[0.2, 0.16, 0.08]} /><meshStandardMaterial color="#d76b86" roughness={0.6} /></mesh>
+                    <mesh position={[-0.05, 0.46, 0.64]}><boxGeometry args={[0.05, 0.05, 0.02]} /><meshStandardMaterial color="#5a2330" /></mesh>
+                    <mesh position={[0.05, 0.46, 0.64]}><boxGeometry args={[0.05, 0.05, 0.02]} /><meshStandardMaterial color="#5a2330" /></mesh>
+                    <mesh position={[-0.13, 0.66, 0.46]}><boxGeometry args={[0.1, 0.1, 0.06]} /><meshStandardMaterial color={color} roughness={0.6} /></mesh>
+                    <mesh position={[0.13, 0.66, 0.46]}><boxGeometry args={[0.1, 0.1, 0.06]} /><meshStandardMaterial color={color} roughness={0.6} /></mesh>
+                    {([[-0.16, -0.12], [0.16, -0.12], [-0.16, 0.18], [0.16, 0.18]] as [number, number][]).map(([x, z], i) => (
+                        <mesh key={i} position={[x, 0.1, z]}><boxGeometry args={[0.14, 0.2, 0.14]} /><meshStandardMaterial color={color} roughness={0.6} /></mesh>
+                    ))}
+                </group>
+            );
+        case 'pumpkin':   // calabaza (jack-o'-lantern)
+            return (
+                <group position={[0, 0.42, 0]}>
+                    <mesh scale={[1, 0.85, 1]}><sphereGeometry args={[0.46, 22, 18]} /><meshStandardMaterial color={color} roughness={0.55} /></mesh>
+                    <mesh position={[0, 0.42, 0]}><cylinderGeometry args={[0.06, 0.08, 0.14, 8]} /><meshStandardMaterial color="#5fb257" roughness={0.6} /></mesh>
+                    <mesh position={[-0.14, 0.04, 0.4]} rotation={[0, 0, 0.6]}><boxGeometry args={[0.13, 0.1, 0.04]} /><meshStandardMaterial color="#3a2410" /></mesh>
+                    <mesh position={[0.14, 0.04, 0.4]} rotation={[0, 0, -0.6]}><boxGeometry args={[0.13, 0.1, 0.04]} /><meshStandardMaterial color="#3a2410" /></mesh>
+                    <mesh position={[0, -0.14, 0.42]}><boxGeometry args={[0.26, 0.07, 0.04]} /><meshStandardMaterial color="#3a2410" /></mesh>
                 </group>
             );
         case 'block':
-            return <RoundedBox args={[0.74, 0.74, 0.74]} radius={0.12} smoothness={4} position={[0, 0.4, 0]}>{mat}</RoundedBox>;
-        case 'flower':
-            return (
-                <group position={[0, 0.5, 0]}>
-                    {[0, 1, 2, 3, 4].map((i) => {
-                        const a = (i / 5) * Math.PI * 2;
-                        return <mesh key={i} position={[Math.cos(a) * 0.26, 0, Math.sin(a) * 0.26]} scale={[0.24, 0.12, 0.24]}><sphereGeometry args={[1, 14, 12]} />{<meshStandardMaterial color={color} roughness={0.45} />}</mesh>;
-                    })}
-                    <mesh><sphereGeometry args={[0.16, 16, 14]} /><meshStandardMaterial color="#ffd23f" roughness={0.4} /></mesh>
-                    <mesh position={[0, -0.4, 0]}><cylinderGeometry args={[0.04, 0.04, 0.5, 8]} /><meshStandardMaterial color="#5fb257" roughness={0.6} /></mesh>
-                </group>
-            );
-        case 'ball':
-        default:
-            return <mesh position={[0, 0.44, 0]}><sphereGeometry args={[0.44, 30, 24]} />{mat}</mesh>;
+        default:   // bloque tipo Minecraft (recoloreable)
+            return <RoundedBox args={[0.72, 0.72, 0.72]} radius={0.05} smoothness={3} position={[0, 0.4, 0]}><meshStandardMaterial color={color} roughness={0.55} /></RoundedBox>;
     }
 }
 
@@ -134,16 +149,16 @@ export default function ColorsFindScene({ objects, status, picked, onPick, disab
             gl={{ antialias: true, powerPreference: 'high-performance' }}
             style={{ width: '100%', height: '100%' }}
         >
-            <color attach="background" args={['#eef1ff']} />
-            <ambientLight intensity={0.85} />
-            <hemisphereLight args={['#ffffff', '#e7e0ff', 0.5]} />
-            <directionalLight position={[3, 6, 4]} intensity={0.9} />
-            {/* piso suave + sombra de contacto que aterriza los objetos */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-                <circleGeometry args={[6, 48]} />
-                <meshStandardMaterial color="#f6f4ff" roughness={1} />
-            </mesh>
-            <ContactShadows position={[0, 0.01, 0]} scale={8} blur={2.4} opacity={0.28} far={4} resolution={256} />
+            <color attach="background" args={['#cdeafe']} />
+            <ambientLight intensity={0.8} />
+            <hemisphereLight args={['#ffffff', '#cfe9b5', 0.45]} />
+            <directionalLight position={[3, 6, 4]} intensity={1.0} />
+            <directionalLight position={[-4, 3, -2]} intensity={0.25} />
+            {/* losa tipo "arenisca" (neutra → los colores resaltan) + sombra de contacto */}
+            <RoundedBox args={[7, 0.6, 7]} radius={0.12} smoothness={3} position={[0, -0.32, 0]}>
+                <meshStandardMaterial color="#e8ddc0" roughness={0.95} />
+            </RoundedBox>
+            <ContactShadows position={[0, 0.01, 0]} scale={8} blur={2.4} opacity={0.3} far={4} resolution={256} />
             {layout.map(({ o, pos }) => (
                 <ColorObject key={o.id} obj={o} position={pos} status={status} picked={picked} onPick={onPick} disabled={disabled} />
             ))}
