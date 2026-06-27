@@ -86,7 +86,7 @@ export default function CourseMap({ levels }: { levels: MapLevel[] }) {
   return (
     <>
       {/* Mobile Top Levels Navigation/Tracker */}
-      <div className="lg:hidden sticky top-[52px] z-40 bg-white/95 backdrop-blur-xl border-b border-gray-100 pt-1 pb-2 px-4 shadow-sm w-full mx-auto">
+      <div data-tour="ruta" className="lg:hidden sticky top-[52px] z-40 bg-white/95 backdrop-blur-xl border-b border-gray-100 pt-1 pb-2 px-4 shadow-sm w-full mx-auto">
         <div className="flex overflow-x-auto gap-4 snap-x pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {levels.map((level, idx) => {
             const Icon = iconFromName(level.units[0]?.icon);

@@ -203,7 +203,7 @@ export default function CalendarioPage() {
             <div className="flex flex-col gap-6 px-4 pt-6 max-w-7xl mx-auto w-full">
 
                 {/* 1. WALLET CARD (Premium Hero) */}
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#632EB0] to-[#4E248B] rounded-[2.5rem] p-6 shadow-xl shadow-purple-200">
+                <div data-tour="reunion" className="relative overflow-hidden bg-gradient-to-br from-[#632EB0] to-[#4E248B] rounded-[2.5rem] p-6 shadow-xl shadow-purple-200">
                     <div className="relative z-10 flex items-center justify-between">
                         <div className="flex flex-col gap-1">
                             <span className="text-purple-200 text-xs font-black uppercase tracking-widest">Tus Monedas Ludora</span>

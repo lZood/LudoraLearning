@@ -53,7 +53,7 @@ export default async function ReportePage() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-8">
+            <div data-tour="progreso" className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-8">
                 {stat('Banda', evalRow?.calculated_band ?? '—', Star, 'text-[#632EB0]')}
                 {stat('XP', (gam?.xp_total ?? 0).toLocaleString(), Zap, 'text-yellow-500')}
                 {stat('Racha', gam?.current_streak ?? 0, Flame, 'text-orange-500')}

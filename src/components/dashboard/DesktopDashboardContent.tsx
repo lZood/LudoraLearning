@@ -66,7 +66,7 @@ export default function DesktopDashboardContent({ bandaNumber, bandaTitle, lastU
                     transition={{ duration: 1.8, ease: 'circOut', delay: 0.5 } as any} className="text-[#632EB0]" />
                 </svg>
               </div>
-              <Link href={`/portal-alumno/dashboard/unidad/${lastUnit.id}`}>
+              <Link href={`/portal-alumno/dashboard/unidad/${lastUnit.id}`} data-tour="continuar">
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 400, damping: 15 } as any}
                   className="w-48 h-48 md:w-64 md:h-64 bg-white rounded-full shadow-[0_30px_60px_rgba(99,46,176,0.1)] border-4 border-white flex items-center justify-center relative z-10 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent pointer-events-none" />

@@ -347,7 +347,7 @@ export default function TiendaPage() {
 
             <div className="w-full max-w-4xl mx-auto px-4 md:px-8">
                 {/* 1. CABECERA: título + saldo de monedas */}
-                <div className="pt-8 md:pt-14 flex flex-col items-center text-center gap-5">
+                <div data-tour="tienda" className="pt-8 md:pt-14 flex flex-col items-center text-center gap-5">
                     <div className="w-16 h-16 rounded-[1.8rem] bg-gradient-to-br from-[#632EB0] to-[#4a2186] flex items-center justify-center shadow-lg shadow-purple-200">
                         <ShoppingBag className="w-8 h-8 text-white" />
                     </div>

@@ -132,7 +132,7 @@ export default function LeaderboardsPage() {
                 </div>
 
                 {/* ── TÍTULO + TIMER ── */}
-                <div className="mt-5 text-center">
+                <div data-tour="liga" className="mt-5 text-center">
                     <h1 className={`text-3xl md:text-4xl uppercase leading-none text-[#1a1a1a] ${neueMachina.className}`}>Liga de {leagueName}</h1>
                     <div className="mt-3 flex items-center justify-center gap-2">
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#ffedcc] rounded-full">

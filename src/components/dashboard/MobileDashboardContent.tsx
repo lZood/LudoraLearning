@@ -67,7 +67,7 @@ export default function MobileDashboardContent({ bandaNumber, bandaTitle, lastUn
         {mounted && createPortal(
           <div className="fixed bottom-[95px] left-0 right-0 z-[990] pointer-events-none px-4 flex justify-center w-full md:hidden">
             <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-full max-w-[400px] pointer-events-auto">
-              <Link href={`/portal-alumno/dashboard/unidad/${lastUnit.id}`}
+              <Link href={`/portal-alumno/dashboard/unidad/${lastUnit.id}`} data-tour="continuar"
                 className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-black py-4 rounded-2xl text-[15px] transition-all active:scale-[0.98] shadow-[0_8px_30px_rgba(99,46,176,0.35)] flex items-center justify-center gap-2">
                 <Play className="w-5 h-5 fill-white" /> Continuar Unidad
               </Link>

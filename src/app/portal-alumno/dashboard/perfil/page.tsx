@@ -447,9 +447,15 @@ export default function PerfilPage() {
                                     <p className="text-gray-400 font-bold mb-8">Configura tu experiencia en Ludora.</p>
                                     <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center"><Settings className="w-10 h-10 text-gray-300" /></div>
                                     <button
+                                        onClick={() => router.push('/portal-alumno/dashboard?tour=1')}
+                                        className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-purple-50 text-[#632EB0] font-black hover:bg-purple-100 transition-all"
+                                    >
+                                        <Sparkles className="w-5 h-5" /> Volver a ver la guía
+                                    </button>
+                                    <button
                                         onClick={handleLogout}
                                         disabled={loggingOut}
-                                        className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-red-50 text-red-600 font-black hover:bg-red-100 transition-all disabled:opacity-50"
+                                        className="mt-4 inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-red-50 text-red-600 font-black hover:bg-red-100 transition-all disabled:opacity-50"
                                     >
                                         <LogOut className="w-5 h-5" /> {loggingOut ? 'Cerrando sesión…' : 'Cerrar sesión'}
                                     </button>

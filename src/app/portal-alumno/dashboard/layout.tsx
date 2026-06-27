@@ -33,6 +33,9 @@ import { useRouter } from "next/navigation";
 import CheckoutPrompt from "@/components/dashboard/CheckoutPrompt";
 import MobileNavBar from "@/components/dashboard/MobileNavBar";
 import { useGamification } from "@/lib/useGamification";
+import OnboardingProvider from "@/components/onboarding/OnboardingProvider";
+import OnboardingSpotlight from "@/components/onboarding/OnboardingSpotlight";
+import TourErrorBoundary from "@/components/onboarding/TourErrorBoundary";
 
 // Main links shown in top nav directly
 const MAIN_LINKS = [
@@ -161,23 +164,26 @@ export default function DashboardLayout({
         router.refresh();
     };
 
-    if (isLoading) {
-        return (
+    const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "Estudiante";
+
+    // Unsubscribed users are allowed to enter the dashboard, but content will be limited
+    const isUnsubscribed = hasActiveSubscription === false;
+
+    // El OnboardingProvider envuelve TODO el árbol (incluida la pantalla de carga) para que
+    // el estado del tour sea inmune al early-return de isLoading y persista al navegar entre
+    // rutas hermanas del dashboard.
+    // ⚠️ No mover las rutas del portal a PageTransition/AnimatePresence: ese opt-out
+    //    (ver PageTransition.tsx) es lo que evita el remount del provider al cambiar de ruta.
+    return (
+        <OnboardingProvider userId={user?.id}>
+        {isLoading ? (
             <div className="flex min-h-screen bg-[#ffffff] items-center justify-center">
                 <div className="flex flex-col items-center gap-4">
                     <Loader2 className="w-10 h-10 text-[#632EB0] animate-spin" />
                     <p className="text-gray-500 font-medium tracking-wide">Cargando tu experiencia...</p>
                 </div>
             </div>
-        );
-    }
-
-    const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || "Estudiante";
-
-    // Unsubscribed users are allowed to enter the dashboard, but content will be limited
-    const isUnsubscribed = hasActiveSubscription === false;
-
-    return (
+        ) : (
         <div className="flex flex-col min-h-screen bg-[#ffffff] font-sans text-gray-900 border-none">
             {/* Cierra los menús desplegables al hacer clic fuera de ellos */}
             {(isProfileMenuOpen || isMoreMenuOpen) && (
@@ -340,7 +346,12 @@ export default function DashboardLayout({
 
             {/* FLOATING BOTTOM BAR (MOBILE ONLY) - VIA REACT PORTAL */}
             <MobileNavBar />
-            
+
         </div>
+        )}
+            <TourErrorBoundary>
+                <OnboardingSpotlight />
+            </TourErrorBoundary>
+        </OnboardingProvider>
     );
 }

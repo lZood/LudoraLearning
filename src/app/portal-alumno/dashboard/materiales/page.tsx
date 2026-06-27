@@ -220,8 +220,8 @@ export default function MaterialesPage() {
                         </p>
                     </div>
                 ) : (
-                    sections.map((section) => (
-                    <div key={section.key} className="flex flex-col gap-8">
+                    sections.map((section, idx) => (
+                    <div key={section.key} data-tour={idx === 0 ? 'materiales' : undefined} className="flex flex-col gap-8">
                         {/* Title Section (Desktop Enhanced) */}
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-50 pb-6">
                             <div className="flex items-center gap-4">

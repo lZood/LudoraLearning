@@ -61,7 +61,7 @@ export default async function CursosPage() {
             <MobileSubHeader hideNav={true} />
 
             {/* Desktop Header */}
-            <div className="hidden md:flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 p-8 max-w-7xl mx-auto w-full">
+            <div data-tour="ruta" className="hidden md:flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 p-8 max-w-7xl mx-auto w-full">
                 <div className="flex items-center gap-4">
                     <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center">
                         <GraduationCap className="w-8 h-8 text-[#632EB0]" />
