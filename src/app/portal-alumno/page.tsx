@@ -112,13 +112,13 @@ export default function PortalAlumnoPage() {
                     )}
                 </AnimatePresence>
 
-                {/* Mobile Overlay for Verification */}
+                {/* Mobile Overlay for Verification — NO descarta al tocar fuera (evita perder el código
+                    por un toque accidental); se sale con la X o "Usar otro correo". */}
                 {mode === 'verification' && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="fixed inset-0 bg-black/20 z-40 lg:hidden"
-                        onClick={handleCloseVerification}
                     />
                 )}
             </div>

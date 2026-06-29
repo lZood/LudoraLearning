@@ -13,6 +13,7 @@ const VERIFY_ERROR_MESSAGES: Record<string, string> = {
     verify_expired: 'El enlace de confirmación expiró. Regístrate o pide un nuevo código.',
     verify_failed: 'No pudimos confirmar tu correo. Solicita un nuevo enlace.',
     verify_missing_params: 'El enlace de confirmación no es válido.',
+    oauth_failed: 'No pudimos completar el inicio con Google. Inténtalo de nuevo o usa tu correo.',
 };
 
 export default function LoginForm({ onSwitch }: LoginFormProps) {
@@ -22,6 +23,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
     const [error, setError] = useState<{ message: string; field: 'email' | 'password' | 'general' | null }>({ message: '', field: null });
     const [notice, setNotice] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const router = useRouter();
     const supabase = createClient();
 
@@ -48,13 +50,14 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
         if (typeof window === 'undefined') return;
         const params = new URLSearchParams(window.location.search);
         const errCode = params.get('error');
-        if (errCode && VERIFY_ERROR_MESSAGES[errCode]) {
+        if (!errCode) return;
+        if (VERIFY_ERROR_MESSAGES[errCode]) {
             setError({ message: VERIFY_ERROR_MESSAGES[errCode], field: 'general' });
-            // Limpia el querystring para que no quede pegado al recargar.
-            const url = new URL(window.location.href);
-            url.searchParams.delete('error');
-            window.history.replaceState({}, '', url.toString());
         }
+        // Limpia SIEMPRE el querystring (incluso un ?error= desconocido) para que no quede pegado al recargar.
+        const url = new URL(window.location.href);
+        url.searchParams.delete('error');
+        window.history.replaceState({}, '', url.toString());
     }, []);
 
     const getLoginError = (msg: string): { message: string; field: 'email' | 'password' | 'general' } => {
@@ -106,13 +109,15 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
 
     const handleGoogleSignIn = async () => {
         setError({ message: '', field: null });
+        setIsGoogleLoading(true);
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
             },
         });
-        if (googleError) setError({ message: googleError.message, field: 'general' });
+        // Si falla no hubo redirección: liberamos el botón (en éxito navegamos fuera).
+        if (googleError) { setError({ message: googleError.message, field: 'general' }); setIsGoogleLoading(false); }
     };
 
     return (
@@ -249,7 +254,7 @@ export default function LoginForm({ onSwitch }: LoginFormProps) {
 
             {/* BOTÓN DE GOOGLE — única alternativa */}
             <div className="flex justify-center">
-                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" />
+                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" loading={isGoogleLoading} />
             </div>
         </div>
     );

@@ -32,6 +32,13 @@ export default function EmailVerificationView({ email, password, onClose }: Emai
         return () => clearInterval(interval);
     }, []);
 
+    // Autofocus en la primera casilla al abrir (abre el teclado numérico de inmediato).
+    // Pequeño delay para esperar a que termine la animación de entrada del panel.
+    useEffect(() => {
+        const t = setTimeout(() => document.getElementById('otp-0')?.focus(), 60);
+        return () => clearTimeout(t);
+    }, []);
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -151,9 +158,13 @@ export default function EmailVerificationView({ email, password, onClose }: Emai
             </div>
 
             <h2 className="text-2xl font-black text-[#1a1a1a] mb-2 uppercase tracking-tight">Verificación requerida</h2>
-            <p className="text-sm text-gray-500 font-medium mb-8">
+            <p className="text-sm text-gray-500 font-medium mb-2">
                 Ingresa el código de 6 dígitos enviado a <span className="text-[#1a1a1a] font-bold">{email}</span>
             </p>
+            {/* Salida del flujo (también en desktop, donde no hay X): permite corregir el correo. */}
+            <button onClick={onClose} className="mb-8 text-xs font-bold text-gray-400 hover:text-[#1a1a1a] underline underline-offset-2 transition-colors">
+                ¿Correo equivocado? Usar otro
+            </button>
 
             {/* Illustration */}
             <div className="mb-8 w-40 h-40 bg-blue-50 rounded-full flex items-center justify-center relative">
@@ -224,12 +235,12 @@ export default function EmailVerificationView({ email, password, onClose }: Emai
                 {isResending
                     ? 'Reenviando…'
                     : timer > 0
-                        ? `Reenviar código en (${formatTime(timer)})`
+                        ? `Reenviar código en ${formatTime(timer)}`
                         : 'Reenviar código ahora'}
             </button>
 
             <div className="text-sm font-medium text-gray-500">
-                ¿No puedes acceder a tu cuenta? <button className="text-[#0F5451] font-bold hover:underline">Contactar soporte</button>
+                ¿No puedes acceder a tu cuenta? <a href="/contacto" target="_blank" rel="noopener noreferrer" className="text-[#0F5451] font-bold hover:underline">Contactar soporte</a>
             </div>
         </div>
     );

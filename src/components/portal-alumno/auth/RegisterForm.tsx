@@ -18,6 +18,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<{ message: string; field: 'name' | 'email' | 'phone' | 'password' | 'general' | null }>({ message: '', field: null });
     const [isLoading, setIsLoading] = useState(false);
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
     const supabase = createClient();
 
     const handleSignUp = async (e: React.FormEvent) => {
@@ -68,13 +69,15 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
 
     const handleGoogleSignIn = async () => {
         setError({ message: '', field: null });
+        setIsGoogleLoading(true);
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: `${window.location.origin}/auth/callback?next=/portal-alumno/evaluacion`,
             },
         });
-        if (googleError) setError({ message: googleError.message, field: 'general' });
+        // Si falla no hubo redirección: liberamos el botón (en éxito navegamos fuera).
+        if (googleError) { setError({ message: googleError.message, field: 'general' }); setIsGoogleLoading(false); }
     };
 
     return (
@@ -124,7 +127,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                         required
                     />
                     {error.field === 'name' && (
-                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
@@ -148,7 +151,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                         required
                     />
                     {error.field === 'email' && (
-                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
@@ -186,7 +189,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                         />
                     </div>
                     {error.field === 'phone' && (
-                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
@@ -219,7 +222,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
                         </button>
                     </div>
                     {error.field === 'password' && (
-                        <p className="text-[10px] font-bold text-red-500 uppercase tracking-tight ml-1">
+                        <p className="text-xs font-bold text-red-500 ml-1">
                             {error.message}
                         </p>
                     )}
@@ -250,7 +253,7 @@ export default function RegisterForm({ onSwitch, onSuccess }: RegisterFormProps)
 
             {/* BOTÓN DE GOOGLE — única alternativa */}
             <div className="flex justify-center">
-                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" />
+                <GoogleAuthButton onClick={handleGoogleSignIn} label="Continuar con Google" loading={isGoogleLoading} />
             </div>
         </div>
     );

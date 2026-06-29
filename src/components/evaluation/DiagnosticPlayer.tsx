@@ -35,7 +35,6 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
     const stagedRef = useRef<Staged | null>(null);
     const inFlight = useRef(false);                                   // guard síncrono anti doble-submit
     const autoPlayTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const APPROX = 10;
 
     useEffect(() => {
         loadAudioManifest();
@@ -101,7 +100,13 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
         );
     }
     if (loading || !item) {
-        return <div className="min-h-screen bg-white flex items-center justify-center"><Loader2 className="w-8 h-8 text-[#632EB0] animate-spin" /></div>;
+        return (
+            <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4 text-center px-6">
+                <Mascot character="apicultor" mood="happy" className="w-24 h-24" />
+                <p className="text-base font-black text-gray-900">Preparando tu primera pregunta…</p>
+                <Loader2 className="w-6 h-6 text-[#632EB0] animate-spin" />
+            </div>
+        );
     }
     const e = item.content;
     const frozen = feedback !== null;
@@ -112,13 +117,16 @@ export default function DiagnosticPlayer({ theta0, onFinish }: { theta0: number;
         if (frozen && selected) return feedback!.correct ? 'border-[#58a700] bg-[#d7ffb8] text-[#3a6b00]' : 'border-red-400 bg-red-50 text-red-600';
         return selected ? 'border-[#632EB0] bg-purple-50 text-[#632EB0]' : 'border-gray-200 text-gray-800';
     };
+    // Progreso "suave": curva asintótica que SIEMPRE avanza un poco con cada pregunta
+    // (antes Math.min(95, count/10*100) se clavaba al 95% en corridas largas y parecía atascado).
+    const progressPct = Math.min(98, Math.round((1 - Math.exp(-count / 6)) * 100));
 
     return (
         <div className="min-h-screen bg-white pb-32 flex flex-col">
             {/* Barra de progreso */}
             <div className="sticky top-0 z-10 bg-white px-4 py-3 flex items-center gap-3">
-                <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow={count} aria-valuemin={0} aria-valuemax={APPROX}>
-                    <motion.div className="h-full bg-[#88e04f] rounded-full" animate={{ width: `${Math.min(95, Math.round((count / APPROX) * 100))}%` }} transition={{ type: 'spring', stiffness: 120, damping: 20 }} />
+                <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
+                    <motion.div className="h-full bg-[#88e04f] rounded-full" animate={{ width: `${progressPct}%` }} transition={{ type: 'spring', stiffness: 120, damping: 20 }} />
                 </div>
                 <span className="text-xs font-black text-gray-400 tabular-nums" aria-live="polite">Pregunta {count + 1}</span>
             </div>

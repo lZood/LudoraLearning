@@ -115,21 +115,21 @@ export default function EvaluacionPage() {
 
     if (step === 'welcome') {
         return (
-            <Shell>
+            <Shell key={step}>
                 <Mascot character="apicultor" mood="happy" className="w-32 h-32" />
                 <div>
                     <h1 className="text-3xl font-black text-gray-900">¡Hola, aventurero!</h1>
                     <p className="text-gray-500 font-bold mt-2 max-w-sm">Vamos a jugar un poco para encontrar tu nivel perfecto. Sin exámenes aburridos, lo prometo.</p>
                 </div>
                 <Cta onClick={() => setStep('objective')}>Empezar <ArrowRight className="w-5 h-5" /></Cta>
-                <p className="text-xs font-bold text-gray-400">Toma unos 3 minutos · No necesitas cuenta para empezar</p>
+                <p className="text-xs font-bold text-gray-400">Unos 5–10 minutos · Se adapta a ti · No necesitas cuenta para empezar</p>
             </Shell>
         );
     }
 
     if (step === 'objective') {
         return (
-            <Shell>
+            <Shell key={step}>
                 <Sparkles className="w-10 h-10 text-[#632EB0]" />
                 <div>
                     <h1 className="text-2xl font-black text-gray-900">¿Para qué quieres el inglés?</h1>
@@ -154,7 +154,7 @@ export default function EvaluacionPage() {
 
     if (step === 'placement') {
         return (
-            <Shell>
+            <Shell key={step}>
                 <Mascot character="apicultor" mood="curious" className="w-24 h-24" />
                 <div>
                     <h1 className="text-2xl font-black text-gray-900">¿Cuánto inglés sabes?</h1>
@@ -175,7 +175,7 @@ export default function EvaluacionPage() {
 
     if (step === 'finalizeError') {
         return (
-            <Shell>
+            <Shell key={step}>
                 <Mascot character="apicultor" mood="sad" className="w-24 h-24" />
                 <div>
                     <h1 className="text-xl font-black text-gray-900">No pudimos guardar tu nivel</h1>
@@ -192,7 +192,7 @@ export default function EvaluacionPage() {
 
     if (step === 'gate') {
         return (
-            <Shell>
+            <Shell key={step}>
                 <Mascot character="apicultor" mood="happy" className="w-28 h-28 animate-bounce" />
                 <div>
                     <h1 className="text-2xl font-black text-gray-900">¡Terminaste! 🎉</h1>
@@ -212,7 +212,7 @@ export default function EvaluacionPage() {
     const r = result!;
     const reward = (r.xpGained ?? 0) > 0 || (r.coinsGained ?? 0) > 0;
     return (
-        <Shell>
+        <Shell key={step}>
             <motion.div
                 variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.1 } } }}
                 initial="hidden"
@@ -292,7 +292,17 @@ function ResultConfetti() {
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
-    return <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 text-center gap-6">{children}</div>;
+    // Entrada suave en cada paso (con key={step} en cada uso fuerza el remonte → re-anima).
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="min-h-screen bg-white flex flex-col items-center justify-center px-6 text-center gap-6"
+        >
+            {children}
+        </motion.div>
+    );
 }
 function Cta({ children, onClick, loading }: { children: React.ReactNode; onClick: () => void; loading?: boolean }) {
     return (
