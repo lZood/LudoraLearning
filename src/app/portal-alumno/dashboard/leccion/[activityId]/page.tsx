@@ -947,6 +947,10 @@ export default function LeccionPage() {
     const [saving, setSaving] = useState(false);
     const alreadyCompletedRef = useRef(false); // si ya estaba completada, no se vuelve a otorgar XP
     const finishingRef = useRef(false);         // evita que finish() corra dos veces (doble-toque -> XP duplicado)
+    // F2 (solo v2): telemetría por intento que alimenta el motor de dominio en /api/lessons/complete.
+    const attemptsRef = useRef<Array<Record<string, unknown>>>([]);
+    const exStartRef = useRef<number>(0);   // inicio del ejercicio actual (para response_ms)
+    const hintUsedRef = useRef(false);      // antorcha usada en el ejercicio actual
 
     useEffect(() => {
         loadAudioManifest();
@@ -968,6 +972,7 @@ export default function LeccionPage() {
             setExercises(content.exercises);
             alreadyCompletedRef.current = false;
             finishingRef.current = false;
+            attemptsRef.current = []; // reinicia la telemetría de la lección
             // v2: paso "Presenta" (ejemplos primero) + HUD Minecraft. v1 (sin contentVersion) intacto.
             const cv: 1 | 2 = content.contentVersion === 2 ? 2 : 1;
             setContentVersion(cv);
@@ -993,11 +998,29 @@ export default function LeccionPage() {
 
     // Detiene el audio del ejercicio anterior al avanzar o al salir de la lección.
     useEffect(() => () => stopAudio(), [idx]);
+    // F2: marca de inicio del ejercicio (para response_ms) y reset de la antorcha al cambiar de ejercicio/fase.
+    useEffect(() => { exStartRef.current = Date.now(); hintUsedRef.current = false; }, [idx, phase]);
 
     const onDone = (r: Result) => {
         setResult(r);
         if (!r.skipped) playSfx(r.correct ? 'correct' : 'wrong');
         if (r.correct) { setCorrectCount((c) => c + 1); if (contentVersion === 2) setCelebrateN((n) => n + 1); }
+        // F2: registra el intento (solo v2) para el motor de dominio (se envía en lote al finalizar).
+        if (contentVersion === 2) {
+            const cur = exercises[idx];
+            const m = (cur as Exercise & { meta?: { conceptId?: string; difficulty?: number; isReview?: boolean } } | undefined)?.meta;
+            attemptsRef.current.push({
+                concept_id: m?.conceptId ?? null,
+                correct: !!r.correct,
+                difficulty: m?.difficulty ?? null,
+                response_ms: exStartRef.current ? Date.now() - exStartRef.current : null,
+                hint_used: hintUsedRef.current,
+                skipped: !!r.skipped,
+                is_review: !!m?.isReview,
+                exercise_type: cur?.type,
+                exercise_idx: idx,
+            });
+        }
     };
     const onContinue = async () => {
         if (idx + 1 >= exercises.length) { await finish(); return; }
@@ -1021,7 +1044,7 @@ export default function LeccionPage() {
             await supabase.from('user_activity_progress').upsert({ user_id: userId, activity_id: activityId, completed_at: new Date().toISOString(), attempts: 1, score: Math.round((correctCount / exercises.length) * 100), last_index: exercises.length }, { onConflict: 'user_id,activity_id' });
             // El XP lo otorga el servidor de forma autoritativa (deriva xp_reward de la BD y paga
             // una sola vez por actividad). El cliente ya NO puede conceder XP por su cuenta.
-            await fetch('/api/lessons/complete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ activityId }) }).catch(() => {});
+            await fetch('/api/lessons/complete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ activityId, attempts: contentVersion === 2 ? attemptsRef.current : undefined }) }).catch(() => {});
             const { data: acts } = await supabase.from('activities').select('id').eq('unit_id', unitId);
             const ids = (acts ?? []).map((a) => a.id as string);
             const { data: doneRows } = await supabase.from('user_activity_progress').select('activity_id').eq('user_id', userId).in('activity_id', ids).not('completed_at', 'is', null);
@@ -1098,7 +1121,7 @@ export default function LeccionPage() {
                     <Renderer key={idx} ex={ex} frozen={result !== null} onDone={onDone} />
                 </CharacterCtx.Provider>
                 {contentVersion === 2 && !result && exMeta?.hint && (
-                    <div className="mt-5"><HintTorch hint={exMeta.hint} free character={charForSkill(skill)} /></div>
+                    <div className="mt-5"><HintTorch onRequestHint={() => { hintUsedRef.current = true; return exMeta?.hint ?? ''; }} free character={charForSkill(skill)} /></div>
                 )}
             </div>
 

@@ -17,18 +17,36 @@ export async function POST(req: NextRequest) {
         const body = await req.json().catch(() => ({}));
         const activityId = typeof body.activityId === 'string' ? body.activityId : null;
         if (!activityId) return NextResponse.json({ error: 'activityId requerido' }, { status: 400 });
+        // F2: telemetría de intentos (solo la envía el player v2). Si no viene, comportamiento v1 idéntico.
+        const attempts = Array.isArray(body.attempts) ? body.attempts.slice(0, 60) : null;
 
         const admin = createAdminClient();
         const { data: rlOk } = await admin.rpc('check_rate_limit', { p_key: `lesson:${user.id}`, p_max: 60, p_window: 600 });
         if (rlOk === false) return NextResponse.json({ error: 'Demasiadas solicitudes.' }, { status: 429 });
 
+        // F2 — un solo camino de escritura del dominio: telemetría + Elo/HLR por concepto.
+        // service_role-only; degrada a no-op si no hay conceptos resolubles (v1 nunca llega aquí).
+        let enchantments: unknown[] = [];
+        if (attempts && attempts.length) {
+            const { data: am, error: amErr } = await admin.rpc('apply_lesson_attempts', { p_user: user.id, p_activity: activityId, p_attempts: attempts });
+            if (amErr) console.error('[lessons/complete] apply_lesson_attempts', amErr.message);
+            else { const out = am as { enchantments?: unknown[] } | null; enchantments = Array.isArray(out?.enchantments) ? out!.enchantments! : []; }
+        }
+
+        // XP de Esfuerzo (autoritativo, idempotente por actividad — igual que hoy).
         const { data, error } = await admin.rpc('complete_lesson', { p_user_id: user.id, p_activity_id: activityId });
         if (error) {
             console.error('[lessons/complete]', error.message);
             return NextResponse.json({ error: 'No se pudo completar la lección.' }, { status: 400 });
         }
         const row = Array.isArray(data) ? data[0] : data;
-        return NextResponse.json({ xpEarned: row?.xp_earned ?? 0, already: row?.already_done ?? false });
+
+        // F2: desbloqueo de ruta (salvaguarda: nunca re-bloquea; no-op si no hay prereqs => como hoy).
+        if (attempts && attempts.length) {
+            admin.rpc('unlock_next_units', { p_user: user.id }).then(() => {}, () => {});
+        }
+
+        return NextResponse.json({ xpEarned: row?.xp_earned ?? 0, already: row?.already_done ?? false, enchantments });
     } catch (e) {
         console.error('[lessons/complete]', e instanceof Error ? e.message : e);
         return NextResponse.json({ error: 'Error' }, { status: 500 });

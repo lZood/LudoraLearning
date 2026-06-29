@@ -71,6 +71,9 @@ export async function POST(req: NextRequest) {
             if (evErr) console.error('[placement/finalize] evaluations.insert', evErr.message);
             // XP por completar (autoritativo server-side: grant_progress_for con el user id validado).
             admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: PLACEMENT_XP, p_coins: PLACEMENT_COINS, p_source: 'placement' }).then(() => {}, () => {});
+            // F2: siembra el PRIOR de dominio por concepto desde la diagnóstica (cold start del motor adaptativo).
+            // Idempotente; la diagnóstica deja de ser un evento muerto y alimenta la adaptación continua.
+            admin.rpc('backfill_mastery_from_diagnostic', { p_user: user.id }).then(() => {}, () => {});
         } else {
             const m = /(\d+)/.exec(existing?.english_level || '');
             if (m) { finalBand = Math.max(1, Math.min(8, parseInt(m[1], 10))); finalCefr = bandToCefr(finalBand); finalLevel = `Banda ${finalBand}`; }
