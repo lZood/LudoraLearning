@@ -8,6 +8,10 @@ export const dynamic = 'force-dynamic';
 // Calcula la ubicación de nivel SERVER-SIDE (el cliente nunca escribe english_level):
 // re-califica las respuestas crudas contra el banco, estima theta (Elo anclado a dificultad),
 // mapea a Banda y persiste users.english_level + evaluations. Se llama tras el registro.
+// Recompensa por completar el placement (debe coincidir con grant_progress_for de abajo).
+const PLACEMENT_XP = 50;
+const PLACEMENT_COINS = 20;
+
 export async function POST(req: NextRequest) {
     try {
         const supabase = await createClient();
@@ -66,14 +70,17 @@ export async function POST(req: NextRequest) {
             });
             if (evErr) console.error('[placement/finalize] evaluations.insert', evErr.message);
             // XP por completar (autoritativo server-side: grant_progress_for con el user id validado).
-            admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: 50, p_coins: 20, p_source: 'placement' }).then(() => {}, () => {});
+            admin.rpc('grant_progress_for', { p_user_id: user.id, p_xp: PLACEMENT_XP, p_coins: PLACEMENT_COINS, p_source: 'placement' }).then(() => {}, () => {});
         } else {
             const m = /(\d+)/.exec(existing?.english_level || '');
             if (m) { finalBand = Math.max(1, Math.min(8, parseInt(m[1], 10))); finalCefr = bandToCefr(finalBand); finalLevel = `Banda ${finalBand}`; }
         }
 
         const skills = Object.fromEntries(Object.entries(perSkill).map(([s, v]) => [s, Math.round((v.c / Math.max(1, v.n)) * 100)]));
-        return NextResponse.json({ band: finalBand, bandTitle: bandTitle(finalBand), cefr: finalCefr, englishLevel: finalLevel, perSkill: skills });
+        // La recompensa solo se otorga la primera vez; reflejamos lo realmente ganado para celebrarlo en la UI.
+        const xpGained = firstTime ? PLACEMENT_XP : 0;
+        const coinsGained = firstTime ? PLACEMENT_COINS : 0;
+        return NextResponse.json({ band: finalBand, bandTitle: bandTitle(finalBand), cefr: finalCefr, englishLevel: finalLevel, perSkill: skills, xpGained, coinsGained });
     } catch (e) {
         console.error('[placement/finalize]', e instanceof Error ? e.message : e);
         return NextResponse.json({ error: 'Error' }, { status: 500 });

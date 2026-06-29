@@ -20,6 +20,9 @@ export default function MobileDashboardContent({ bandaNumber, bandaTitle, lastUn
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
+  // Recién llegado (acaba de hacer la diagnóstica): aún no completó ni empezó ninguna unidad.
+  const isFirstTime = stats.unitsCompleted === 0 && lastUnit.progress === 0;
+
   return (
     <div className="flex flex-col gap-4 pb-48">
       <MobileSubHeader />
@@ -44,7 +47,7 @@ export default function MobileDashboardContent({ bandaNumber, bandaTitle, lastUn
         {/* Continuar unidad */}
         <div className="flex flex-col items-center text-center gap-3 py-1">
           <div className="flex flex-col gap-0.5">
-            <span className="text-[#632EB0] font-black text-[10px] uppercase tracking-[0.2em]">Continúa donde quedaste</span>
+            <span className="text-[#632EB0] font-black text-[10px] uppercase tracking-[0.2em]">{isFirstTime ? 'Empieza tu aventura' : 'Continúa donde quedaste'}</span>
             <h2 className="text-xl font-black text-gray-900 tracking-tight">{lastUnit.title}</h2>
           </div>
           <div className="relative w-full aspect-square max-w-[200px] max-h-[28vh] flex items-center justify-center">
@@ -69,7 +72,7 @@ export default function MobileDashboardContent({ bandaNumber, bandaTitle, lastUn
             <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-full max-w-[400px] pointer-events-auto">
               <Link href={`/portal-alumno/dashboard/unidad/${lastUnit.id}`} data-tour="continuar"
                 className="w-full bg-[#632EB0] hover:bg-[#522594] text-white font-black py-4 rounded-2xl text-[15px] transition-all active:scale-[0.98] shadow-[0_8px_30px_rgba(99,46,176,0.35)] flex items-center justify-center gap-2">
-                <Play className="w-5 h-5 fill-white" /> Continuar Unidad
+                <Play className="w-5 h-5 fill-white" /> {isFirstTime ? 'Empezar mi primera unidad' : 'Continuar Unidad'}
               </Link>
             </motion.div>
           </div>,

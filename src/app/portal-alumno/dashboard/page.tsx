@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import MobileDashboardContent from "@/components/dashboard/MobileDashboardContent";
 import DesktopDashboardContent from "@/components/dashboard/DesktopDashboardContent";
+import { bandTitle } from "@/lib/diagnostic";
 
 export type DashboardStats = {
     name: string;
@@ -46,7 +47,8 @@ export default async function DashboardIndex() {
     const todayXp = (todayRes.data ?? []).reduce((s, r) => s + ((r.xp_earned as number) ?? 0), 0);
 
     const bandaNumber = userData.english_level.replace('Banda ', '');
-    const bandaTitle = bandaNumber === '1' ? 'Iniciación Inmersiva' : bandaNumber === '2' ? 'Básico Funcional' : 'Aventurero Independiente';
+    // Fuente única de verdad del título de banda (igual que la pantalla de resultado de la diagnóstica).
+    const bandaTitle = bandTitle(parseInt(bandaNumber, 10) || 1);
     const firstName = (userData.full_name as string | null)?.trim().split(/\s+/)[0] || user.email?.split('@')[0] || 'Aventurero';
 
     // ── "Continuar": retoma una unidad EN PROGRESO; si no, avanza a la siguiente SIN completar ──

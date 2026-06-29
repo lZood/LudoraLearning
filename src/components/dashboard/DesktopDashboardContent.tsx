@@ -23,6 +23,9 @@ export default function DesktopDashboardContent({ bandaNumber, bandaTitle, lastU
   const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } } };
   const itemVariants = { hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 24 } as any } };
 
+  // Recién llegado (acaba de hacer la diagnóstica): aún no completó ni empezó ninguna unidad.
+  const isFirstTime = stats.unitsCompleted === 0 && lastUnit.progress === 0;
+
   if (!mounted) return <div className="min-h-[80vh]" />;
 
   return (
@@ -43,7 +46,9 @@ export default function DesktopDashboardContent({ bandaNumber, bandaTitle, lastU
             {lastUnit.title}
           </h1>
           <p className="text-gray-500 font-medium text-base md:text-lg leading-relaxed max-w-xl mx-auto">
-            Continúa donde lo dejaste y sigue sumando XP en tu aventura.
+            {isFirstTime
+              ? 'Tu primera unidad te espera. ¡Empieza tu aventura y suma tus primeros XP!'
+              : 'Continúa donde lo dejaste y sigue sumando XP en tu aventura.'}
           </p>
         </motion.div>
 
@@ -78,7 +83,7 @@ export default function DesktopDashboardContent({ bandaNumber, bandaTitle, lastU
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-80 md:h-80 bg-purple-400/5 blur-[60px] rounded-full group-hover:bg-purple-400/20 transition-all duration-1000" />
             </div>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-6 md:mt-10 flex flex-col items-center gap-2">
-              <p className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Pulsa para continuar · {lastUnit.progress}%</p>
+              <p className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">{isFirstTime ? 'Pulsa para empezar' : `Pulsa para continuar · ${lastUnit.progress}%`}</p>
               <div className="w-px h-6 md:h-8 bg-gradient-to-b from-purple-200 to-transparent" />
             </motion.div>
           </motion.div>
