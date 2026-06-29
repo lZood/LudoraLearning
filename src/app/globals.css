@@ -270,3 +270,41 @@
   /* Anula las microanimaciones del mundo Minecraft para accesibilidad. */
   [class*="mc-anim-"] { animation: none !important; }
 }
+
+/* --- T1.4: microcelebraciones para Celebrate y HintTorch (additive) --- */
+
+/* Celebrate: estallido de partículas al "romper el bloque" (acierto).
+   Cada partícula usa variables --dx/--dy (px) para volar en distintas direcciones. */
+@keyframes mc-burst {
+  0%   { transform: translate(0, 0) scale(1);    opacity: 1; }
+  100% { transform: translate(var(--dx, 0), var(--dy, -24px)) scale(0.3); opacity: 0; }
+}
+
+/* Celebrate: destello breve del bloque que encaja (flash de confirmación). */
+@keyframes mc-flash {
+  0%   { filter: brightness(1);    transform: scale(1); }
+  35%  { filter: brightness(1.85); transform: scale(1.14); }
+  100% { filter: brightness(1);    transform: scale(1); }
+}
+
+/* HintTorch: parpadeo de la llama de la antorcha encendida (pista). */
+@keyframes mc-torch-flicker {
+  0%, 100% { opacity: 1;    transform: scaleY(1)    translateY(0); }
+  25%      { opacity: 0.82; transform: scaleY(1.12) translateY(-1px); }
+  50%      { opacity: 0.95; transform: scaleY(0.94) translateY(0.5px); }
+  75%      { opacity: 0.78; transform: scaleY(1.06) translateY(-0.5px); }
+}
+
+/* HintTorch: halo cálido que pulsa alrededor de la antorcha al encenderse. */
+@keyframes mc-torch-glow {
+  0%, 100% { box-shadow: 0 0 6px 1px var(--mc-torch, #ffb547); }
+  50%      { box-shadow: 0 0 16px 5px var(--mc-torch, #ffb547); }
+}
+
+/* Fallo: "bloque que resiste" — pequeño golpe seco hacia abajo y reasiento (block_thud). */
+@keyframes mc-thud {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(4px) scaleY(0.94); }
+  60%  { transform: translateY(-2px) scaleY(1.03); }
+  100% { transform: translateY(0) scaleY(1); }
+}

@@ -2,6 +2,8 @@
 // Cada personaje tiene UNA voz fija: usa el MP3 pre-generado (ElevenLabs) de ese personaje
 // y, si no existe, cae a TTS del navegador diferenciando el personaje por tono/voz.
 
+import { SFX_FILES, SFX_VOLUME, sfxUrl, type SfxKey } from '@/lib/minecraft/sfx';
+
 const SUPA = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const BASE = SUPA ? `${SUPA}/storage/v1/object/public/lesson-audio` : '';
 const MANIFEST_URL = BASE ? `${BASE}/manifest.json` : '';
@@ -155,12 +157,35 @@ export function stopAudio() {
     try { if (current) current.pause(); } catch { /* noop */ }
 }
 
-// Efectos de sonido (acierto/error/completado). Silencioso si el archivo no existe.
-export function playSfx(name: 'correct' | 'wrong' | 'complete') {
+// Nombres "clásicos" de sfx (servidos desde el bucket de Supabase lesson-audio/sfx).
+export type SfxName = 'correct' | 'wrong' | 'complete';
+
+// Efectos de sonido. Acepta los nombres clásicos (correct/wrong/complete, mp3 en Supabase)
+// y las claves Minecraft de @/lib/minecraft/sfx (block_break/block_place/block_thud/
+// chest_open/level_up, ogg en /public/audios/sounds-effect). Silencioso si no hay archivo.
+// IMPORTANTE: no rompe las llamadas existentes del player (playSfx('correct'|'wrong'|'complete')).
+export function playSfx(name: SfxName | SfxKey) {
+    // Si la clave pertenece a la biblia Minecraft, la reproducimos desde /public.
+    if (name in SFX_FILES) { playMcSfx(name as SfxKey); return; }
     if (!BASE) return;
     try {
         const a = new Audio(`${BASE}/sfx/${name}.mp3`);
         a.volume = name === 'complete' ? 0.7 : 0.45;
+        a.play().catch(() => {});
+    } catch {
+        /* noop */
+    }
+}
+
+// Reproduce un efecto de sonido Minecraft por su clave estable (@/lib/minecraft/sfx).
+// Usa SFX_FILES/sfxUrl (rutas en /public/audios/sounds-effect) y SFX_VOLUME para el nivel.
+// Si la clave no tiene archivo (sfxUrl null), queda en silencio sin romper nada.
+export function playMcSfx(key: SfxKey) {
+    const url = sfxUrl(key);
+    if (!url) return;
+    try {
+        const a = new Audio(url);
+        a.volume = SFX_VOLUME[key] ?? 0.5;
         a.play().catch(() => {});
     } catch {
         /* noop */

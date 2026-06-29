@@ -6,9 +6,14 @@ import { useParams, useRouter } from 'next/navigation';
 import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
+import PresentStep from '@/components/lesson/PresentStep';
+import LessonHud from '@/components/lesson/LessonHud';
+import PhaseRibbon from '@/components/lesson/PhaseRibbon';
+import HintTorch from '@/components/lesson/HintTorch';
+import Celebrate from '@/components/lesson/Celebrate';
 import { playAudio, playSfx, loadAudioManifest, setDefaultVoice, stopAudio } from '@/lib/lessonAudio';
 import { speechMatches, getSR } from '@/lib/speech';
-import type { LessonContent, Exercise } from '@/lib/lessonContent';
+import type { LessonContent, Exercise, PresentStep as PresentStepData } from '@/lib/lessonContent';
 
 type Result = { correct: boolean; correctText?: string; skipped?: boolean };
 type Character = 'granjerita' | 'apicultor';
@@ -930,6 +935,11 @@ export default function LeccionPage() {
     const [xp, setXp] = useState(10);
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [skill, setSkill] = useState<string>('');
+    // v2 ("Aprende Crafteando"): gateado por contentVersion; v1 (sin contentVersion) = idéntico a hoy.
+    const [contentVersion, setContentVersion] = useState<1 | 2>(1);
+    const [present, setPresent] = useState<PresentStepData | null>(null);
+    const [phase, setPhase] = useState<'present' | 'practice'>('practice');
+    const [celebrateN, setCelebrateN] = useState(0);
     const [idx, setIdx] = useState(0);
     const [result, setResult] = useState<Result | null>(null);
     const [correctCount, setCorrectCount] = useState(0);
@@ -956,10 +966,14 @@ export default function LeccionPage() {
             setSkill(content.skill ?? '');
             setDefaultVoice(charForSkill(content.skill)); // todo el audio de la lección usa la voz del personaje dueño
             setExercises(content.exercises);
-            setIdx(0); // reinicia por si se reutiliza la instancia al cambiar de lección
             alreadyCompletedRef.current = false;
             finishingRef.current = false;
+            // v2: paso "Presenta" (ejemplos primero) + HUD Minecraft. v1 (sin contentVersion) intacto.
+            const cv: 1 | 2 = content.contentVersion === 2 ? 2 : 1;
+            setContentVersion(cv);
+            setPresent(cv === 2 ? (content.present ?? null) : null);
             // Retomar donde se quedó (si la lección no está completada).
+            let startIdx = 0;
             if (user) {
                 const { data: prog } = await supabase
                     .from('user_activity_progress')
@@ -967,8 +981,11 @@ export default function LeccionPage() {
                     .eq('user_id', user.id).eq('activity_id', activityId).maybeSingle();
                 alreadyCompletedRef.current = !!prog?.completed_at;
                 const li = (prog?.last_index as number) ?? 0;
-                if (prog && !prog.completed_at && li > 0 && li < content.exercises.length) setIdx(li);
+                if (prog && !prog.completed_at && li > 0 && li < content.exercises.length) startIdx = li;
             }
+            setIdx(startIdx); // reinicia/retoma según progreso
+            // Empieza por "Presenta" solo si es v2, hay paso present y NO se está retomando a mitad.
+            setPhase(cv === 2 && content.present && startIdx === 0 ? 'present' : 'practice');
             setLoading(false);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -977,7 +994,11 @@ export default function LeccionPage() {
     // Detiene el audio del ejercicio anterior al avanzar o al salir de la lección.
     useEffect(() => () => stopAudio(), [idx]);
 
-    const onDone = (r: Result) => { setResult(r); if (!r.skipped) playSfx(r.correct ? 'correct' : 'wrong'); if (r.correct) setCorrectCount((c) => c + 1); };
+    const onDone = (r: Result) => {
+        setResult(r);
+        if (!r.skipped) playSfx(r.correct ? 'correct' : 'wrong');
+        if (r.correct) { setCorrectCount((c) => c + 1); if (contentVersion === 2) setCelebrateN((n) => n + 1); }
+    };
     const onContinue = async () => {
         if (idx + 1 >= exercises.length) { await finish(); return; }
         const next = idx + 1;
@@ -1021,10 +1042,12 @@ export default function LeccionPage() {
 
     if (finished) {
         const pct = Math.round((correctCount / exercises.length) * 100);
+        const v2 = contentVersion === 2;
         return (
-            <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-5 px-6 text-center">
+            <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-5 px-6 text-center relative overflow-hidden">
+                {v2 && <Celebrate trigger={celebrateN + 1} intensity={2} />}
                 <Mascot mood="happy" className="w-40 h-40" />
-                <h2 className="text-3xl font-black text-gray-900">¡Lección completada!</h2>
+                <h2 className="text-3xl font-black text-gray-900">{v2 ? '¡Cofre abierto! 🎉' : '¡Lección completada!'}</h2>
                 <div className="flex gap-3">
                     <div className="border-2 border-yellow-200 rounded-2xl px-5 py-3"><p className="text-2xl font-black text-yellow-500">+{xp}</p><p className="text-[10px] font-black text-gray-400 uppercase">XP</p></div>
                     <div className="border-2 border-green-200 rounded-2xl px-5 py-3"><p className="text-2xl font-black text-[#58a700]">{pct}%</p><p className="text-[10px] font-black text-gray-400 uppercase">Aciertos</p></div>
@@ -1036,24 +1059,47 @@ export default function LeccionPage() {
         );
     }
 
+    // v2: fase "Presenta" (ejemplos primero) antes de los ejercicios.
+    if (contentVersion === 2 && phase === 'present' && present) {
+        return <PresentStep present={present} skill={skill} onContinue={() => setPhase('practice')} />;
+    }
+
     const ex = exercises[idx];
     if (!ex) return <div className="min-h-screen bg-white" />; // evita crash si idx queda fuera de rango
+    const exMeta = (ex as Exercise & { meta?: { section?: 'recognize' | 'produce' | 'apply'; hint?: string } }).meta;
     return (
         <div className="min-h-screen bg-white pb-28">
-            {/* top bar */}
-            <div className="sticky top-0 z-20 bg-white px-4 py-3 flex items-center gap-3">
-                <Link href={unitExt ? `/portal-alumno/dashboard/unidad/${unitExt}` : '/portal-alumno/dashboard/cursos'} className="p-1 text-gray-400 hover:text-gray-700"><X className="w-7 h-7" /></Link>
-                <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
-                    {/* Se llena al RESPONDER cada ejercicio (incluye el actual si ya hay resultado) -> llega a 100% en el último. */}
-                    <div className="h-full bg-[#88e04f] rounded-full transition-all duration-300" style={{ width: `${((idx + (result ? 1 : 0)) / exercises.length) * 100}%` }} />
+            {/* top bar — v2: HUD Minecraft (bloques/bioma/esmeraldas); v1: barra clásica (intacta). */}
+            {contentVersion === 2 ? (
+                <div className="sticky top-0 z-20 bg-white">
+                    <LessonHud
+                        index={idx + (result ? 1 : 0)}
+                        total={exercises.length}
+                        phaseSection={exMeta?.section}
+                        livesEnabled={false}
+                        onExit={() => router.push(unitExt ? `/portal-alumno/dashboard/unidad/${unitExt}` : '/portal-alumno/dashboard/cursos')}
+                    />
                 </div>
-                <span className="text-xs font-black text-gray-400 tabular-nums">{idx + 1}/{exercises.length}</span>
-            </div>
+            ) : (
+                <div className="sticky top-0 z-20 bg-white px-4 py-3 flex items-center gap-3">
+                    <Link href={unitExt ? `/portal-alumno/dashboard/unidad/${unitExt}` : '/portal-alumno/dashboard/cursos'} className="p-1 text-gray-400 hover:text-gray-700"><X className="w-7 h-7" /></Link>
+                    <div className="flex-1 h-4 bg-gray-100 rounded-full overflow-hidden">
+                        {/* Se llena al RESPONDER cada ejercicio (incluye el actual si ya hay resultado) -> llega a 100% en el último. */}
+                        <div className="h-full bg-[#88e04f] rounded-full transition-all duration-300" style={{ width: `${((idx + (result ? 1 : 0)) / exercises.length) * 100}%` }} />
+                    </div>
+                    <span className="text-xs font-black text-gray-400 tabular-nums">{idx + 1}/{exercises.length}</span>
+                </div>
+            )}
 
-            <div className="max-w-xl mx-auto px-4 py-6">
+            <div className="max-w-xl mx-auto px-4 py-6 relative">
+                {contentVersion === 2 && exMeta?.section && <PhaseRibbon section={exMeta.section} className="mb-4" />}
+                {contentVersion === 2 && <Celebrate trigger={celebrateN} />}
                 <CharacterCtx.Provider value={charForSkill(skill)}>
                     <Renderer key={idx} ex={ex} frozen={result !== null} onDone={onDone} />
                 </CharacterCtx.Provider>
+                {contentVersion === 2 && !result && exMeta?.hint && (
+                    <div className="mt-5"><HintTorch hint={exMeta.hint} free character={charForSkill(skill)} /></div>
+                )}
             </div>
 
             {result && <FeedbackBar correct={result.correct} correctText={result.correctText} onContinue={onContinue} isLast={idx + 1 >= exercises.length} question={ex ? exQuestion(ex) : undefined} skipped={result.skipped} />}
