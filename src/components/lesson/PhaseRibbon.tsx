@@ -3,9 +3,9 @@
 // Cinta que indica el MOMENTO de la lección (liberación gradual) — Minecraft (T1.2).
 // Autocontenida y demo-able con props mock.
 //
-//  recognize → "TE MUESTRO"  (madera,   dureza 1)
-//  produce   → "PRACTICAS"   (piedra,   dureza 2)
-//  apply     → "LO APLICAS"  (diamante, dureza 3)
+//  recognize → "RECONOCE"  (madera,   dureza 1)  — identificar el patrón
+//  produce   → "CRAFTEA"   (piedra,   dureza 2)  — producir con apoyo
+//  apply     → "APLICA"    (diamante, dureza 3)  — usar en contexto nuevo
 //
 // El color y la "dureza" del bloque crecen con la fase (paralelo a LessonHud).
 
@@ -26,9 +26,9 @@ interface PhaseStyle {
 }
 
 const PHASES: Record<LessonSection, PhaseStyle> = {
-    recognize: { label: 'TE MUESTRO', color: 'var(--mc-wood)', edge: 'var(--mc-wood-d)', hardness: 1, icon: '🪵' },
-    produce: { label: 'PRACTICAS', color: 'var(--mc-stone)', edge: 'var(--mc-stone-d)', hardness: 2, icon: '🪨' },
-    apply: { label: 'LO APLICAS', color: 'var(--mc-diamond)', edge: 'var(--mc-diamond-d)', hardness: 3, icon: '💎' },
+    recognize: { label: 'RECONOCE', color: 'var(--mc-wood)', edge: 'var(--mc-wood-d)', hardness: 1, icon: '🪵' },
+    produce: { label: 'CRAFTEA', color: 'var(--mc-stone)', edge: 'var(--mc-stone-d)', hardness: 2, icon: '🪨' },
+    apply: { label: 'APLICA', color: 'var(--mc-diamond)', edge: 'var(--mc-diamond-d)', hardness: 3, icon: '💎' },
 };
 
 // Dureza -> grosor del bisel (px). Más dureza = bloque más "macizo".
