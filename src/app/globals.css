@@ -185,3 +185,88 @@
     @apply font-sans;
   }
 }
+
+/* ============================================================================
+   TEMATIZACIÓN MINECRAFT — tokens --mc-* (ADITIVO, no toca nada de lo anterior)
+   Biblia estética del Pilar 5: paleta de biomas/bloques con identidad propia
+   (inspirada, sin assets/nombres de Mojang). Reusa los morados/verde de marca.
+   Consumido por src/lib/minecraft/* y los componentes de lección.
+   ========================================================================== */
+:root {
+  /* --- Marca (anclas reutilizadas para que el mundo combine con Ludora) --- */
+  --mc-brand-green: #8ED462;     /* verde Ludora (acierto / "encaja") */
+  --mc-brand-green-d: #63b066;
+  --mc-brand-purple: #7c4dff;    /* morado Ludora (encantamiento / acento) */
+  --mc-brand-purple-d: #5a2ea6;
+
+  /* --- Bloques / materiales (alineados con scripts/3d/gen-textures.mjs) --- */
+  --mc-grass: #86d07a;           --mc-grass-d: #63b066;   --mc-grass-l: #abe89b;
+  --mc-dirt: #c39a6b;            --mc-dirt-d: #a87c4f;    --mc-dirt-l: #d8b78c;
+  --mc-stone: #c3c6cf;           --mc-stone-d: #a4a7b2;   --mc-stone-l: #dee1e7;
+  --mc-sand: #ecdcad;            --mc-sand-d: #d9c68d;    --mc-sand-l: #f6eccc;
+  --mc-wood: #c8a172;            --mc-wood-d: #a07c4f;    --mc-wood-l: #ddbd92;
+  --mc-plank: #d2a878;           --mc-plank-d: #b1864f;   --mc-plank-l: #e3c298;
+  --mc-leaves: #6fc06a;          --mc-leaves-d: #4d9b50;  --mc-leaves-l: #8ed885;
+  --mc-water: #9ed7ea;           --mc-water-d: #7fc3da;   --mc-water-l: #c4ecf6;
+  --mc-snow: #eef4fb;            --mc-snow-d: #cdd8e6;    --mc-snow-l: #ffffff;
+  --mc-obsidian: #2a2440;        --mc-obsidian-d: #19142b; --mc-obsidian-l: #4a3f6e;
+  --mc-nether: #5a2230;          --mc-nether-d: #3d1620;  --mc-nether-l: #8a3a4c;
+
+  /* --- Menas / minerales (dureza del bloque = dificultad 1→5) --- */
+  --mc-coal: #3a3d44;            --mc-coal-d: #24262b;
+  --mc-iron: #d8c3a8;            --mc-iron-d: #b39875;    --mc-iron-l: #ece0cf;
+  --mc-gold: #e8c14f;            --mc-gold-d: #bf9531;    --mc-gold-l: #f6da80;
+  --mc-emerald: #2ecc71;         --mc-emerald-d: #1f9d57; --mc-emerald-l: #6ee2a0;
+  --mc-diamond: #5ad7e0;         --mc-diamond-d: #36b3bd; --mc-diamond-l: #a6f0f5;
+  --mc-redstone: #d6473c;        --mc-redstone-d: #a83229;
+
+  /* --- Semánticos del aprendizaje --- */
+  --mc-correct: var(--mc-brand-green);   /* "¡Encaja!" */
+  --mc-correct-d: var(--mc-brand-green-d);
+  --mc-wrong: #e08a5a;                    /* bloque que resiste (cálido, no punitivo) */
+  --mc-wrong-d: #c06a3c;
+  --mc-enchant: var(--mc-brand-purple);  /* orbes de encantamiento */
+  --mc-enchant-glow: #b69bff;
+  --mc-xp: #7ed957;                       /* orbes de XP */
+  --mc-torch: #ffb547;                    /* pista / antorcha encendida */
+  --mc-chest: #b5793b;                    /* recompensa (cofre) */
+
+  /* --- Biomas (color guía del mapa por banda 1→8) --- */
+  --mc-biome-pradera: #86d07a;   /* Banda 1 (A1) */
+  --mc-biome-bosque: #4d9b50;    /* Banda 2 */
+  --mc-biome-aldea: #c9a36a;     /* Banda 3 (A2) */
+  --mc-biome-colinas: #9fae7a;   /* Banda 4 */
+  --mc-biome-cuevas: #7a7f8c;    /* Banda 5 (B1) */
+  --mc-biome-ribera: #6fb6c9;    /* Banda 6 */
+  --mc-biome-tundra: #cdd8e6;    /* Banda 7 */
+  --mc-biome-portal: #5a2230;    /* Banda 8 (B2 · Nether) */
+}
+
+/* Microcelebraciones (respetar prefers-reduced-motion en los componentes) */
+@keyframes mc-pop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes mc-place {
+  0%   { transform: translateY(-28%) scale(0.9); opacity: 0; }
+  70%  { transform: translateY(6%) scale(1.04); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes mc-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes mc-enchant-rise {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateY(-36px) scale(1.1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Anula las microanimaciones del mundo Minecraft para accesibilidad. */
+  [class*="mc-anim-"] { animation: none !important; }
+}

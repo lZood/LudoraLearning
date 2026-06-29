@@ -42,3 +42,4 @@ yarn-error.log*
 next-env.d.ts
 alter_table.ts
 migrate.js
+docs/.obsidian/

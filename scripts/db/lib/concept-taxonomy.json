@@ -1,0 +1,51 @@
+{
+  "_comment": "Catálogo CERRADO de conceptos atómicos (menas/minerales del mundo) para Banda 1 · Unidad 1 (CEFR A1, bioma 'pradera'). Agrupado por destreza. Los conceptos por defecto (cefr, biome_key, band) viven en 'defaults' y se aplican a cada concepto al sembrar; cada entrada lleva además {slug, kind, label, difficulty, mc_block_key}. 'kind' ∈ {lemma|pattern|rule|phoneme|function} (CHECK de migración 0028). 'difficulty' en escala diagnostic_items (1.0–6.0); Banda 1 acotada a 1.0–2.0. Los slugs son estables (no renombrar): el JSONB de las lecciones referencia conceptos por slug.",
+  "band": 1,
+  "unit": 1,
+  "defaults": {
+    "cefr": "A1",
+    "biome_key": "pradera"
+  },
+  "skills": {
+    "conversation": [
+      { "slug": "func.greetings.hello", "kind": "function", "label": "Saludar: hello / hi", "difficulty": 1.0, "mc_block_key": "grass" },
+      { "slug": "func.greetings.goodbye", "kind": "function", "label": "Despedirse: goodbye / bye", "difficulty": 1.1, "mc_block_key": "grass" },
+      { "slug": "func.greetings.how_are_you", "kind": "function", "label": "Preguntar cómo estás: how are you?", "difficulty": 1.3, "mc_block_key": "dirt" },
+      { "slug": "func.greetings.my_name_is", "kind": "function", "label": "Presentarse: my name is…", "difficulty": 1.4, "mc_block_key": "dirt" },
+      { "slug": "func.courtesy.please_thanks", "kind": "function", "label": "Cortesía: please / thank you", "difficulty": 1.2, "mc_block_key": "grass" }
+    ],
+    "reading": [
+      { "slug": "vocab.colors.red", "kind": "lemma", "label": "Color: red (rojo)", "difficulty": 1.1, "mc_block_key": "redstone" },
+      { "slug": "vocab.colors.blue", "kind": "lemma", "label": "Color: blue (azul)", "difficulty": 1.1, "mc_block_key": "water" },
+      { "slug": "vocab.colors.green", "kind": "lemma", "label": "Color: green (verde)", "difficulty": 1.1, "mc_block_key": "emerald" },
+      { "slug": "vocab.colors.yellow", "kind": "lemma", "label": "Color: yellow (amarillo)", "difficulty": 1.2, "mc_block_key": "gold" },
+      { "slug": "grammar.articles.a_an", "kind": "rule", "label": "Artículo indefinido: a / an", "difficulty": 1.8, "mc_block_key": "stone" },
+      { "slug": "grammar.articles.the", "kind": "rule", "label": "Artículo definido: the", "difficulty": 1.7, "mc_block_key": "stone" }
+    ],
+    "listening": [
+      { "slug": "vocab.numbers.one", "kind": "lemma", "label": "Número: one (uno)", "difficulty": 1.0, "mc_block_key": "iron" },
+      { "slug": "vocab.numbers.two", "kind": "lemma", "label": "Número: two (dos)", "difficulty": 1.0, "mc_block_key": "iron" },
+      { "slug": "vocab.numbers.three", "kind": "lemma", "label": "Número: three (tres)", "difficulty": 1.1, "mc_block_key": "iron" },
+      { "slug": "vocab.numbers.four_five", "kind": "lemma", "label": "Números: four / five (cuatro / cinco)", "difficulty": 1.3, "mc_block_key": "iron" },
+      { "slug": "vocab.numbers.six_ten", "kind": "lemma", "label": "Números: six–ten (seis a diez)", "difficulty": 1.5, "mc_block_key": "gold" }
+    ],
+    "writing": [
+      { "slug": "vocab.family.mother", "kind": "lemma", "label": "Familia: mother (madre)", "difficulty": 1.3, "mc_block_key": "plank" },
+      { "slug": "vocab.family.father", "kind": "lemma", "label": "Familia: father (padre)", "difficulty": 1.3, "mc_block_key": "plank" },
+      { "slug": "vocab.family.brother_sister", "kind": "lemma", "label": "Familia: brother / sister (hermano / hermana)", "difficulty": 1.5, "mc_block_key": "plank" },
+      { "slug": "grammar.to_be.am", "kind": "pattern", "label": "Verbo to be: I am", "difficulty": 1.6, "mc_block_key": "wood" },
+      { "slug": "grammar.to_be.is", "kind": "pattern", "label": "Verbo to be: he/she/it is", "difficulty": 1.7, "mc_block_key": "wood" },
+      { "slug": "grammar.to_be.are", "kind": "pattern", "label": "Verbo to be: you/we/they are", "difficulty": 1.8, "mc_block_key": "wood" }
+    ],
+    "speaking": [
+      { "slug": "vocab.food.bread", "kind": "lemma", "label": "Comida: bread (pan)", "difficulty": 1.2, "mc_block_key": "sand" },
+      { "slug": "vocab.food.water", "kind": "lemma", "label": "Comida: water (agua)", "difficulty": 1.1, "mc_block_key": "water" },
+      { "slug": "vocab.food.apple", "kind": "lemma", "label": "Comida: apple (manzana)", "difficulty": 1.2, "mc_block_key": "leaves" },
+      { "slug": "vocab.food.milk", "kind": "lemma", "label": "Comida: milk (leche)", "difficulty": 1.2, "mc_block_key": "snow" }
+    ],
+    "pronunciation": [
+      { "slug": "phoneme.th.voiceless", "kind": "phoneme", "label": "Sonido /θ/ (th de 'three')", "difficulty": 1.9, "mc_block_key": "diamond" },
+      { "slug": "phoneme.short_i", "kind": "phoneme", "label": "Vocal corta /ɪ/ (i de 'it')", "difficulty": 1.6, "mc_block_key": "coal" }
+    ]
+  }
+}

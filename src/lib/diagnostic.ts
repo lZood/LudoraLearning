@@ -63,15 +63,28 @@ export function gradeItem(type: string, content: Content, raw: unknown): boolean
     }
 }
 
+// Paso unitario del Elo/IRT-lite (REUTILIZABLE por el motor de dominio
+// `src/lib/mastery.ts`, plan §3.4). Núcleo compartido:
+//   p = 1 / (1 + 10^((difficulty - theta) / 1)); theta += k * ((correct?1:0) - p); clamp(1,6)
+// Por defecto k = max(0.15, 0.4 * 0.9^attempts) — la escala de aprendizaje del plan
+// (acertar ítems al límite de tu nivel mueve más; baja con la experiencia).
+// `kOverride` permite a `estimateTheta` conservar EXACTAMENTE su propio calendario de
+// k (0.7 con decaimiento 0.92 y piso 0.25) sin alterar su salida histórica.
+export function eloStep(theta: number, difficulty: number, correct: boolean, attempts: number, kOverride?: number): number {
+    const k = typeof kOverride === 'number' ? kOverride : Math.max(0.15, 0.4 * Math.pow(0.9, attempts));
+    const p = 1 / (1 + Math.pow(10, (difficulty - theta) / 1.0));
+    return clamp(theta + k * ((correct ? 1 : 0) - p), 1, 6);
+}
+
 // Estimación de habilidad estilo Elo/IRT-lite anclada a la dificultad de cada ítem:
 // acertar ítems DIFÍCILES sube mucho; acertar fáciles casi no mueve (no se puede inflar
 // respondiendo solo ítems fáciles). theta0 = autoubicación inicial.
+// Reusa `eloStep` con su PROPIO calendario de k (kOverride) => salida idéntica a antes.
 export function estimateTheta(theta0: number, graded: { difficulty: number; correct: boolean }[]): number {
     let theta = clamp(theta0, 1, 6);
     let k = 0.7;
     for (const g of graded) {
-        const p = 1 / (1 + Math.pow(10, (g.difficulty - theta) / 1.0));
-        theta = clamp(theta + k * ((g.correct ? 1 : 0) - p), 1, 6);
+        theta = eloStep(theta, g.difficulty, g.correct, 0, k);
         k = Math.max(0.25, k * 0.92);
     }
     return theta;
