@@ -38,6 +38,8 @@ const args = process.argv.slice(2);
 const DRY = args.includes('--dry');
 const SFX_ONLY = args.includes('--sfx-only');
 const ALL = args.includes('--all');
+// --v2: lee coalesce(content_v2, content) y SOLO lecciones con content_v2 (piloto v2 gateado).
+const V2 = args.includes('--v2');
 const prefixes = args.filter((a) => /^u\d+-$/.test(a));
 const PREFIXES = prefixes.length ? prefixes : ['u1-', 'u2-'];
 
@@ -81,6 +83,9 @@ async function pool(items, n, fn) {
 
 // Cada destreza tiene un personaje dueño -> su voz. (Debe coincidir con charForSkill del player.)
 const charOf = (skill) => (skill === 'reading' || skill === 'writing' || skill === 'simple') ? 'granjerita' : 'apicultor';
+// Voz del PASO PRESENT (v2): el player usa charForSkill (characters.ts) = apicultor para
+// oído/voz, granjerita para el resto. Difiere de charOf en 'conversation' (granjerita).
+const presentChar = (skill) => (skill === 'listening' || skill === 'speaking' || skill === 'pronunciation') ? 'apicultor' : 'granjerita';
 // "Who said it": los 4 aldeanos alternan personaje (debe coincidir con NPC_STYLE del player).
 const NPC_AUDIO = ['granjerita', 'apicultor', 'granjerita', 'apicultor'];
 
@@ -88,6 +93,15 @@ const NPC_AUDIO = ['granjerita', 'apicultor', 'granjerita', 'apicultor'];
 function extract(content) {
   const tasks = [];
   const ch = charOf(content.skill);
+  // Paso "Te muestro" (v2): cada ingrediente suena su `en` con la voz del dueño
+  // (charForSkill del player). Inocuo en v1 (no hay present).
+  if (content.present && Array.isArray(content.present.items)) {
+    const pch = presentChar(content.skill);
+    for (const it of content.present.items) {
+      const t = it.en || it.headline;
+      if (t) tasks.push([it.audioRole || pch, t]);
+    }
+  }
   for (const e of content.exercises || []) {
     if (e.type === 'audio_mc' && e.audio) tasks.push([ch, e.audio]);
     else if (e.type === 'listen_build' && e.audio) tasks.push([ch, e.audio]);
@@ -130,13 +144,20 @@ c.on('error', () => {});
 await c.connect();
 
 if (!SFX_ONLY) {
-  const where = ALL ? '' : 'where ' + PREFIXES.map((_, i) => `u.external_id like $${i + 1}`).join(' or ');
-  const params = ALL ? [] : PREFIXES.map((p) => p + '%');
+  // Construye el WHERE de forma compositiva: tipo lección + (prefijos de unidad) + (solo v2).
+  const conds = ["a.type='lesson'"];
+  const params = [];
+  if (!ALL) {
+    const ors = PREFIXES.map((p) => { params.push(p + '%'); return `u.external_id like $${params.length}`; });
+    conds.push('(' + ors.join(' or ') + ')');
+  }
+  if (V2) conds.push('a.content_v2 is not null');
+  const col = V2 ? 'coalesce(a.content_v2, a.content) as content' : 'a.content';
   const rows = (await c.query(
-    `select a.content from public.activities a join public.units u on u.id=a.unit_id ${where ? where : ''} ${where ? 'and' : 'where'} a.type='lesson'`,
+    `select ${col} from public.activities a join public.units u on u.id=a.unit_id where ${conds.join(' and ')}`,
     params
   )).rows;
-  console.log(`Lecciones: ${rows.length} (${ALL ? 'todas' : PREFIXES.join(', ')})`);
+  console.log(`Lecciones: ${rows.length} (${ALL ? 'todas' : PREFIXES.join(', ')}${V2 ? ' · solo v2' : ''})`);
 
   // dedupe (role|text)
   const seen = new Map();
