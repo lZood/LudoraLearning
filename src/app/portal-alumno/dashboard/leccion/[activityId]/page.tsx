@@ -969,7 +969,6 @@ export default function LeccionPage() {
             setXp((act.xp_reward as number) ?? 10);
             setSkill(content.skill ?? '');
             setDefaultVoice(charForSkill(content.skill)); // todo el audio de la lección usa la voz del personaje dueño
-            setExercises(content.exercises);
             alreadyCompletedRef.current = false;
             finishingRef.current = false;
             attemptsRef.current = []; // reinicia la telemetría de la lección
@@ -977,6 +976,40 @@ export default function LeccionPage() {
             const cv: 1 | 2 = content.contentVersion === 2 ? 2 : 1;
             setContentVersion(cv);
             setPresent(cv === 2 ? (content.present ?? null) : null);
+            // F3: orden ADAPTATIVO de los ejercicios (solo v2). El servidor (/api/lessons/plan)
+            // decide la secuencia recognize→produce→apply "al límite" + repasos due intercalados
+            // según el dominio del alumno. Degrada al ORDEN NATURAL si falla o es v1 (== hoy).
+            let ordered: Exercise[] = content.exercises;
+            if (cv === 2) {
+                try {
+                    const res = await fetch('/api/lessons/plan', {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ activityId }),
+                    });
+                    if (res.ok) {
+                        const plan = await res.json() as { order?: number[]; reviewIdx?: number[] };
+                        const order = Array.isArray(plan.order) ? plan.order : [];
+                        if (order.length === content.exercises.length) {
+                            const reviewSet = new Set(Array.isArray(plan.reviewIdx) ? plan.reviewIdx : []);
+                            const remapped = order
+                                .map((i) => {
+                                    const base = content.exercises[i];
+                                    if (!base) return base;
+                                    // Marca el repaso en la envoltura meta (telemetría is_review + UI), sin mutar el original.
+                                    if (reviewSet.has(i)) {
+                                        const m = (base as Exercise & { meta?: Record<string, unknown> }).meta ?? {};
+                                        return { ...base, meta: { ...m, isReview: true } } as Exercise;
+                                    }
+                                    return base;
+                                })
+                                .filter(Boolean) as Exercise[];
+                            // Salvaguarda: solo adopta el plan si es una permutación COMPLETA.
+                            if (remapped.length === content.exercises.length) ordered = remapped;
+                        }
+                    }
+                } catch { /* degrada a orden natural */ }
+            }
+            setExercises(ordered);
             // Retomar donde se quedó (si la lección no está completada).
             let startIdx = 0;
             if (user) {
@@ -1089,7 +1122,7 @@ export default function LeccionPage() {
 
     const ex = exercises[idx];
     if (!ex) return <div className="min-h-screen bg-white" />; // evita crash si idx queda fuera de rango
-    const exMeta = (ex as Exercise & { meta?: { section?: 'recognize' | 'produce' | 'apply'; hint?: string } }).meta;
+    const exMeta = (ex as Exercise & { meta?: { section?: 'recognize' | 'produce' | 'apply'; hint?: string; isReview?: boolean } }).meta;
     return (
         <div className="min-h-screen bg-white pb-28">
             {/* top bar — v2: HUD Minecraft (bloques/bioma/esmeraldas); v1: barra clásica (intacta). */}
@@ -1116,6 +1149,11 @@ export default function LeccionPage() {
 
             <div className="max-w-xl mx-auto px-4 py-6 relative">
                 {contentVersion === 2 && exMeta?.section && <PhaseRibbon section={exMeta.section} className="mb-4" />}
+                {contentVersion === 2 && exMeta?.isReview && (
+                    <div className="mb-4 inline-flex items-center gap-1.5 text-xs font-black text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full">
+                        🧭 Repaso · refuerza tu mina
+                    </div>
+                )}
                 {contentVersion === 2 && <Celebrate trigger={celebrateN} />}
                 <CharacterCtx.Provider value={charForSkill(skill)}>
                     <Renderer key={idx} ex={ex} frozen={result !== null} onDone={onDone} />
