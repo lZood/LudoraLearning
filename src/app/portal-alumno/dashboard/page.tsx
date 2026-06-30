@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import MobileDashboardContent from "@/components/dashboard/MobileDashboardContent";
 import DesktopDashboardContent from "@/components/dashboard/DesktopDashboardContent";
+import GamificationPanel from "@/components/dashboard/GamificationPanel";
 import { bandTitle } from "@/lib/diagnostic";
 
 export type DashboardStats = {
@@ -11,6 +12,7 @@ export type DashboardStats = {
     level: number;       // nivel de gamificación (XP), distinto de la banda de inglés
     coins: number;
     streak: number;
+    streakFreezes: number; // Antorchas de Respaldo (user_gamification.streak_freezes)
     todayXp: number;
     unitsCompleted: number;
 };
@@ -36,7 +38,7 @@ export default async function DashboardIndex() {
     //    progreso del alumno (para calcular "continuar" y unidades completadas correctamente).
     const [subsRes, gamiRes, todayRes, unitsRes, progRes] = await Promise.all([
         supabase.from('subscriptions').select('status').eq('user_id', user.id).in('status', ['active', 'trialing']),
-        supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak').eq('user_id', user.id).maybeSingle(),
+        supabase.from('user_gamification').select('xp_total, level_number, coins, current_streak, streak_freezes').eq('user_id', user.id).maybeSingle(),
         supabase.from('activity_log').select('xp_earned').eq('user_id', user.id).eq('activity_date', today),
         supabase.from('units').select('id, external_id, title, order_index').order('order_index'),
         supabase.from('user_progress').select('unit_id, progress_pct, status, last_accessed_at').eq('user_id', user.id),
@@ -78,6 +80,7 @@ export default async function DashboardIndex() {
         level: gami?.level_number ?? 1,
         coins: gami?.coins ?? 0,
         streak: gami?.current_streak ?? 0,
+        streakFreezes: gami?.streak_freezes ?? 0,
         todayXp,
         unitsCompleted: completedIds.size,
     };
@@ -89,6 +92,12 @@ export default async function DashboardIndex() {
             </div>
             <div className="hidden md:flex flex-col w-full max-w-7xl mx-auto">
                 <DesktopDashboardContent bandaNumber={bandaNumber} bandaTitle={bandaTitle} isPremium={isPremium} lastUnit={lastUnit} stats={stats} />
+            </div>
+
+            {/* F5 — "Tu aldea": Contratos del Aldeano + Racha de antorchas. Debajo del hero,
+                en el flujo scrollable; pb amplio en móvil para librar el botón flotante + nav. */}
+            <div className="w-full max-w-3xl mx-auto px-4 -mt-2 md:mt-0 pb-44 md:pb-16">
+                <GamificationPanel streak={stats.streak} streakFreezes={stats.streakFreezes} coins={stats.coins} todayDone={stats.todayXp > 0} />
             </div>
         </div>
     );
