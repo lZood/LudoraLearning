@@ -69,6 +69,16 @@ const ICON_TO_STRUCTURE: Record<string, StructureKey> = {
     Zap: 'mina',
     Star: 'faro',
     Trophy: 'portal',
+    // Alias de nombres lucide nuevos (units.icon usa el set moderno).
+    CirclePlus: 'granja',
+    CircleQuestionMark: 'pozo',
+    CircleHelp: 'pozo',
+    CircleAlert: 'torre',
+    CircleCheck: 'granja',
+    MessageCircleQuestion: 'mercado',
+    MessagesSquare: 'mercado',
+    Map: 'faro',
+    MapPinned: 'faro',
 };
 
 // Palabras clave del título (respaldo cuando el icono no es concluyente).

@@ -75,6 +75,10 @@ const ICON_TO_STRUCTURE = {
   CheckCircle: 'granja', Lightbulb: 'torre', FileText: 'pozo', Users: 'mercado',
   TrendingUp: 'torre', Flag: 'faro', Rocket: 'portal', Brain: 'pozo', Zap: 'mina',
   Star: 'faro', Trophy: 'portal',
+  // Alias de nombres lucide nuevos (sync con src/lib/minecraft/structures.ts).
+  CirclePlus: 'granja', CircleQuestionMark: 'pozo', CircleHelp: 'pozo',
+  CircleAlert: 'torre', CircleCheck: 'granja', MessageCircleQuestion: 'mercado',
+  MessagesSquare: 'mercado', Map: 'faro', MapPinned: 'faro',
 };
 const TITLE_KEYWORDS = [
   [/granj|farm|cosech|comida|food|animal/i, 'granja'],
