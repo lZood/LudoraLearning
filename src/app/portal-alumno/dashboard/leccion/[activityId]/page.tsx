@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { X, Loader2, Volume2, Mic, Send, Check } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import Mascot from '@/components/lesson/Mascot';
@@ -924,7 +924,11 @@ function Renderer(props: RProps) {
 export default function LeccionPage() {
     const params = useParams();
     const router = useRouter();
+    const searchParams = useSearchParams();
     const activityId = params.activityId as string;
+    // Preview GATEADO del contenido v2 (F6/F7): ?v2=1 renderiza activities.content_v2 sin
+    // activarlo para nadie más. Tráfico normal (sin el flag) sigue 100% v1. Quitar en el cutover.
+    const previewV2 = searchParams.get('v2') === '1';
     const supabase = createClient();
 
     const [loading, setLoading] = useState(true);
@@ -959,9 +963,11 @@ export default function LeccionPage() {
             setUserId(user?.id ?? null);
             const { data: act } = await supabase
                 .from('activities')
-                .select('id, xp_reward, content, unit_id, unit:units!activities_unit_id_fkey(external_id)')
+                .select('id, xp_reward, content, content_v2, unit_id, unit:units!activities_unit_id_fkey(external_id)')
                 .eq('id', activityId).maybeSingle();
-            const content = act?.content as LessonContent | undefined;
+            // Preview ?v2=1: usa content_v2 si existe; si no, cae al content live (degradación segura).
+            const contentV2 = act?.content_v2 as LessonContent | undefined;
+            const content = (previewV2 && contentV2 ? contentV2 : act?.content) as LessonContent | undefined;
             const unit = (Array.isArray(act?.unit) ? act?.unit[0] : act?.unit) as { external_id?: string } | undefined;
             if (!act || content?.kind !== 'lesson' || !Array.isArray(content.exercises) || !content.exercises.length) { setMissing(true); setLoading(false); return; }
             setUnitId(act.unit_id as string);
