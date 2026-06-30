@@ -33,6 +33,17 @@ export async function POST(req: NextRequest) {
             else { const out = am as { enchantments?: unknown[] } | null; enchantments = Array.isArray(out?.enchantments) ? out!.enchantments! : []; }
         }
 
+        // F5 — paso 2 de la orquestación (0032): XP de ENCANTAMIENTO por cruces de banda
+        // REALES de este lote. Idempotente por el ledger concept_mastery_grants (sin doble
+        // pago), avanza el Contrato del Aldeano "extrae_mineral_nuevo". No-op si no hubo
+        // cruces (=> v1 y lecciones sin dominio nuevo solo pagan XP de Esfuerzo abajo).
+        let masteryXp = 0;
+        if (enchantments.length) {
+            const { data: gr, error: grErr } = await admin.rpc('grant_mastery_rewards', { p_user: user.id, p_events: enchantments });
+            if (grErr) console.error('[lessons/complete] grant_mastery_rewards', grErr.message);
+            else { const out = gr as { masteryXp?: number } | null; masteryXp = typeof out?.masteryXp === 'number' ? out.masteryXp : 0; }
+        }
+
         // XP de Esfuerzo (autoritativo, idempotente por actividad — igual que hoy).
         const { data, error } = await admin.rpc('complete_lesson', { p_user_id: user.id, p_activity_id: activityId });
         if (error) {
@@ -46,7 +57,7 @@ export async function POST(req: NextRequest) {
             admin.rpc('unlock_next_units', { p_user: user.id }).then(() => {}, () => {});
         }
 
-        return NextResponse.json({ xpEarned: row?.xp_earned ?? 0, already: row?.already_done ?? false, enchantments });
+        return NextResponse.json({ xpEarned: row?.xp_earned ?? 0, already: row?.already_done ?? false, enchantments, masteryXp });
     } catch (e) {
         console.error('[lessons/complete]', e instanceof Error ? e.message : e);
         return NextResponse.json({ error: 'Error' }, { status: 500 });
